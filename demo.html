@@ -1,17 +1,9 @@
 <!DOCTYPE html>
-<<<<<<< HEAD
 <html lang="en" data-color-scheme="system" data-theme="selenized_light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MVPA.css – Component Showcase</title>
-=======
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MVPA.css – Whimsical Animations Showcase</title>
->>>>>>> 96ace98 (✨ Add whimsical animations to mvpa.css framework)
 
   <!-- Settings & Variables -->
   <link rel="stylesheet" href="css/0_settings/0_colors.css">
@@ -23,10 +15,6 @@
   <link rel="stylesheet" href="css/1_base/2_tables.css">
   <link rel="stylesheet" href="css/1_base/3_forms.css">
   <link rel="stylesheet" href="css/1_base/4_details.css">
-<<<<<<< HEAD
-=======
-  <link rel="stylesheet" href="css/1_base/5_animations.css">
->>>>>>> 96ace98 (✨ Add whimsical animations to mvpa.css framework)
 
   <!-- Layout -->
   <link rel="stylesheet" href="css/2_layout/0_header.css">
@@ -45,7 +33,10 @@
   <!-- Themes -->
   <link rel="stylesheet" href="css/4_themes/0_themes.css">
 
-<<<<<<< HEAD
+  <!-- Animations & Utilities -->
+  <link rel="stylesheet" href="css/1_base/5_animations.css">
+  <link rel="stylesheet" href="css/5_utilities/0_turbo-transitions.css">
+
   <style>
     /* Demo-specific styles */
     .theme-switcher {
@@ -92,65 +83,12 @@
       table {
         font-size: 0.9rem;
       }
-=======
-  <!-- Turbo Transitions & Utilities -->
-  <link rel="stylesheet" href="css/5_utilities/0_turbo-transitions.css">
-
-  <style>
-    /* Demo-specific styles */
-    body {
-      padding-block: 2rem;
-    }
-
-    .demo-section {
-      margin-block: 3rem;
-      padding-block: 2rem;
-      border-block-end: 2px solid var(--color-bg-darker);
-    }
-
-    .demo-section h2 {
-      margin-block-start: 0;
-    }
-
-    .demo-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: var(--block-space);
-      margin-block: var(--block-space);
-    }
-
-    .demo-box {
-      padding: var(--block-space);
-      background-color: var(--color-bg-lighter);
-      border-radius: var(--radius);
-      border: 1px solid var(--color-bg-darker);
-    }
-
-    .button-demo {
-      display: flex;
-      gap: var(--inline-space);
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .form-demo {
-      max-inline-size: 300px;
-    }
-
-    .table-demo {
-      margin-block: var(--block-space);
-    }
-
-    table tr:nth-child(odd) {
-      background-color: var(--color-bg-lighter);
->>>>>>> 96ace98 (✨ Add whimsical animations to mvpa.css framework)
     }
   </style>
 </head>
 <body>
 
 <header>
-<<<<<<< HEAD
   <nav>
     <h1>MVPA.css Showcase</h1>
     <ul>
@@ -165,17 +103,13 @@
       <li><a href="#articles">Articles</a></li>
       <li><a href="#colors">Colors</a></li>
       <li><a href="#details">Details</a></li>
+      <li><a href="#animations">Animations</a></li>
     </ul>
   </nav>
-=======
-  <h1>MVPA.css – Whimsical Animations</h1>
-  <p>Delightful micro-interactions inspired by Josh W Comeau</p>
->>>>>>> 96ace98 (✨ Add whimsical animations to mvpa.css framework)
 </header>
 
 <main>
 
-<<<<<<< HEAD
   <!-- Introduction Section -->
   <section id="introduction">
     <h2>Welcome to MVPA.css</h2>
@@ -824,40 +758,35 @@ console.log(greet('World'));</code></pre>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
-=======
-  <!-- Buttons Section -->
-  <section id="buttons" class="demo-section">
-    <h2>Button Boop Animation</h2>
-    <p>Hover over buttons to see the boop animation – they spring up with a playful bounce!</p>
-    <div class="button-demo">
+  </section>
+
+  <!-- Animations Section -->
+  <section id="animations">
+    <h2>Whimsical Animations</h2>
+    <p>MVPA.css includes delightful micro-interactions inspired by Josh W Comeau's animation principles. All animations respect the <code>prefers-reduced-motion</code> preference.</p>
+
+    <h3>Button Boop Animation</h3>
+    <p>Hover over these buttons to see the boop animation – they spring up with a playful bounce!</p>
+    <p>
       <button>Primary Button</button>
       <button>Secondary Button</button>
       <button>Hover me →</button>
-    </div>
-  </section>
+    </p>
 
-  <!-- Links Section -->
-  <section id="links" class="demo-section">
-    <h2>Link Underline Wiggle</h2>
-    <p>Hover over <a href="#">this link</a> to see the underline wiggle animation – it adds playfulness without affecting readability.</p>
-  </section>
+    <h3>Link Underline Wiggle</h3>
+    <p>Hover over <a href="#">this link</a> to see the underline wiggle animation that adds playfulness without affecting readability.</p>
 
-  <!-- Forms Section -->
-  <section id="forms" class="demo-section">
-    <h2>Form Input Focus Pulse</h2>
-    <p>Focus on the input field below to see a subtle pulse glow animation.</p>
-    <div class="form-demo">
-      <label for="demo-input">Try clicking here:</label>
-      <input type="text" id="demo-input" placeholder="Focus me for the animation">
+    <h3>Form Input Focus Pulse</h3>
+    <p>Focus on the input field below to see a subtle pulse glow animation:</p>
+    <form style="max-inline-size: 300px;">
+      <label for="demo-focus">Try clicking here:</label>
+      <input type="text" id="demo-focus" placeholder="Focus me for the animation">
       <small>A subtle glow expands when focused</small>
-    </div>
-  </section>
+    </form>
 
-  <!-- Checkboxes Section -->
-  <section id="checkboxes" class="demo-section">
-    <h2>Checkbox Pop Animation</h2>
-    <p>Check the boxes below to see the satisfying pop animation!</p>
-    <div class="demo-grid">
+    <h3>Checkbox Pop Animation</h3>
+    <p>Check these boxes to see the satisfying pop animation:</p>
+    <form style="display: flex; gap: 2rem; flex-wrap: wrap;">
       <label>
         <input type="checkbox"> First option
       </label>
@@ -867,115 +796,87 @@ console.log(greet('World'));</code></pre>
       <label>
         <input type="checkbox"> Third option
       </label>
-    </div>
-  </section>
+    </form>
 
-  <!-- Details/Summary Section -->
-  <section id="details" class="demo-section">
-    <h2>Details Expand Animation</h2>
-    <p>Click the details below to see the smooth expand animation:</p>
+    <h3>Details Expand Animation</h3>
+    <p>Click the details below to see the smooth expand animation with fade:</p>
     <details>
       <summary>What makes animations delightful?</summary>
       <p>Great animations respond to user intent, are subtle enough not to distract, and make interactions feel intentional. They should never delay functionality – the action happens immediately, the animation is just the cherry on top.</p>
     </details>
     <details>
       <summary>How do these animations perform?</summary>
-      <p>All animations in mvpa.css only animate <code>transform</code> and <code>opacity</code>, which are GPU-accelerated for smooth 60fps performance. This ensures the animations delight without slowing down your app.</p>
+      <p>All animations in MVPA.css only animate <code>transform</code> and <code>opacity</code>, which are GPU-accelerated for smooth 60fps performance. This ensures the animations delight without slowing down your app.</p>
     </details>
-  </section>
 
-  <!-- Flash Messages Section -->
-  <section id="flash" class="demo-section">
-    <h2>Flash Messages</h2>
-    <p>Here's an example flash message with the slide-in animation:</p>
-    <div role="alert" style="background-color: var(--color-success, #4ade80); color: white; padding: var(--block-space); border-radius: var(--radius);">
+    <h3>Flash Messages with Slide-In</h3>
+    <p>Example flash message with the slide-in animation:</p>
+    <section role="alert" style="background-color: var(--color-success); color: white; padding: var(--block-space); border-radius: 0.5rem; margin-block: var(--block-space);">
       ✓ Success! The message slides in from the top with a gentle bounce.
-    </div>
-  </section>
+    </section>
 
-  <!-- Tables Section -->
-  <section id="tables" class="demo-section">
-    <h2>Table Animations</h2>
-    <p>Table rows fade in with a staggered effect. Hover over rows to see the subtle lift animation.</p>
-    <div class="table-demo">
-      <table>
-        <thead>
-          <tr>
-            <th>Feature</th>
-            <th>Animation Type</th>
-            <th>Duration</th>
-            <th>Easing</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Button hover</td>
-            <td>Scale boop</td>
-            <td>350ms</td>
-            <td>Spring</td>
-          </tr>
-          <tr>
-            <td>Input focus</td>
-            <td>Pulse glow</td>
-            <td>500ms</td>
-            <td>Ease-out</td>
-          </tr>
-          <tr>
-            <td>Checkbox check</td>
-            <td>Pop scale</td>
-            <td>200ms</td>
-            <td>Ease-out</td>
-          </tr>
-          <tr>
-            <td>Details expand</td>
-            <td>Fade + slide</td>
-            <td>350ms</td>
-            <td>Ease-out</td>
-          </tr>
-          <tr>
-            <td>Flash message</td>
-            <td>Slide + bounce</td>
-            <td>500ms</td>
-            <td>Spring</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+    <h3>Table Row Animations</h3>
+    <p>Table rows fade in with a staggered effect. Hover over rows to see the subtle lift animation:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Animation Type</th>
+          <th>Duration</th>
+          <th>Easing</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Button hover</td>
+          <td>Scale boop</td>
+          <td>350ms</td>
+          <td>Spring</td>
+        </tr>
+        <tr>
+          <td>Input focus</td>
+          <td>Pulse glow</td>
+          <td>500ms</td>
+          <td>Ease-out</td>
+        </tr>
+        <tr>
+          <td>Checkbox check</td>
+          <td>Pop scale</td>
+          <td>200ms</td>
+          <td>Ease-out</td>
+        </tr>
+        <tr>
+          <td>Details expand</td>
+          <td>Fade + slide</td>
+          <td>350ms</td>
+          <td>Ease-out</td>
+        </tr>
+        <tr>
+          <td>Flash message</td>
+          <td>Slide + bounce</td>
+          <td>500ms</td>
+          <td>Spring</td>
+        </tr>
+      </tbody>
+    </table>
 
-  <!-- Accessibility Section -->
-  <section id="accessibility" class="demo-section">
-    <h2>Accessibility</h2>
-    <p>
-      All animations respect the <code>prefers-reduced-motion</code> preference.
-      Users who prefer reduced motion will see interactions without animations,
-      but functionality remains completely intact.
-    </p>
-    <p>
-      To test this on macOS: System Settings → Accessibility → Display → Reduce motion
-    </p>
-  </section>
+    <h3>Accessibility & Reduced Motion</h3>
+    <p>All animations respect the <code>prefers-reduced-motion</code> preference. Users who prefer reduced motion will see interactions without animations, but functionality remains completely intact.</p>
+    <p><strong>To test on macOS:</strong> System Settings → Accessibility → Display → Reduce motion</p>
 
-  <!-- Turbo Integration Section -->
-  <section id="turbo" class="demo-section">
-    <h2>Turbo Integration</h2>
-    <p>
-      When using this with Turbo Streams and Stimulus, elements added via Turbo
-      automatically get the appropriate animations:
-    </p>
+    <h3>Turbo Integration</h3>
+    <p>When using this with Turbo Streams and Stimulus, elements added via Turbo automatically get the appropriate animations:</p>
     <ul>
       <li><code>data-turbo-stream-transition="slide-in"</code> – Slides in from right</li>
       <li><code>data-turbo-stream-transition="highlight"</code> – Highlights with a flash</li>
       <li><code>data-turbo-stream-transition="fade-out"</code> – Fades out before removal</li>
     </ul>
->>>>>>> 96ace98 (✨ Add whimsical animations to mvpa.css framework)
   </section>
 
 </main>
 
 <footer>
-<<<<<<< HEAD
-  <p>&copy; 2024 MVPA.css – A personal CSS framework for building web applications with semantic HTML5</p>
+  <p>&copy; 2025 MVPA.css – A personal CSS framework for building web applications with semantic HTML5 and whimsical animations</p>
   <p>
     <a href="#top">Back to top</a>
   </p>
@@ -1015,10 +916,5 @@ console.log('Available themes: selenized_light, selenized_dark, white, black');
 console.log('Available color schemes: system, light, dark');
 </script>
 
-=======
-  <p>&copy; 2025 MVPA.css – Delightful, semantic CSS with whimsical animations</p>
-</footer>
-
->>>>>>> 96ace98 (✨ Add whimsical animations to mvpa.css framework)
 </body>
 </html>

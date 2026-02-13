@@ -8,15 +8,14 @@ pre-commit:
       glob: "*"
       run: |
         SHA=$(git rev-parse --short HEAD)
-        cat > lib/mvpa/css/version.rb << VERSIONEOF
-        module Mvpa
-          module Css
-            VERSION = "$SHA"
-          end
-        end
-        VERSIONEOF
+        VERSION="0.1.0-git.${SHA}"
+        echo "module Mvpa" > lib/mvpa/css/version.rb
+        echo "  module Css" >> lib/mvpa/css/version.rb
+        echo "    VERSION = \"$VERSION\"" >> lib/mvpa/css/version.rb
+        echo "  end" >> lib/mvpa/css/version.rb
+        echo "end" >> lib/mvpa/css/version.rb
         git add lib/mvpa/css/version.rb
-        echo "✅ Gem version will be: $SHA"
+        echo "✅ Gem version will be $VERSION"
       fail_text: Failed to update gem version file
 
 pre-push:

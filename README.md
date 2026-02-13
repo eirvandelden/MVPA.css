@@ -21,6 +21,40 @@ The framework follows **SMACSS (Scalable and Modular Architecture for CSS)** pri
 
 ## Installation
 
+### For Rails Applications (Ruby Gem)
+
+Install MVPA.css directly from GitHub using Bundler:
+
+Add to your `Gemfile`:
+
+```ruby
+gem "mvpa-css", github: "eirvandelden/mvpa.css"
+```
+
+Then run:
+
+```bash
+bundle install
+```
+
+Import in your stylesheet manifest (`app/assets/stylesheets/application.css`):
+
+```css
+@import "mvpa/mvpa";
+```
+
+Set theme attributes on your HTML element in your layout template:
+
+```erb
+<html data-color-scheme="system" data-theme="selenized_light">
+  <!-- content -->
+</html>
+```
+
+### Standalone Usage
+
+If you prefer to use MVPA.css without Rails:
+
 ### Import the CSS
 
 Add these imports to your HTML in the correct order:

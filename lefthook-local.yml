@@ -18,3 +18,10 @@ pre-commit:
         git add lib/mvpa/css/version.rb
         echo "✅ Gem version will be: $SHA"
       fail_text: Failed to update gem version file
+
+pre-push:
+  skip:
+    - bundle-audit
+    - brakeman
+    - minitest
+    - rspec

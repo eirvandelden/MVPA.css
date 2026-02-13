@@ -38,13 +38,13 @@
   /* Input: Focus pulse with expanding glow */
   @keyframes input-focus-pulse {
     0% {
-      box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+      box-shadow: 0 0 0 0 oklch(from var(--color-primary) l c h / 0.7);
     }
     70% {
-      box-shadow: 0 0 0 12px rgba(59, 130, 246, 0);
+      box-shadow: 0 0 0 12px oklch(from var(--color-primary) l c h / 0);
     }
     100% {
-      box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+      box-shadow: 0 0 0 0 oklch(from var(--color-primary) l c h / 0);
     }
   }
 
@@ -111,15 +111,13 @@
     }
   }
 
-  /* Table Row: Fade-in with slight upward movement */
+  /* Table Row: Fade-in */
   @keyframes table-row-fade-in {
     from {
       opacity: 0;
-      transform: translateY(8px);
     }
     to {
       opacity: 1;
-      transform: translateY(0);
     }
   }
 
@@ -206,7 +204,7 @@
      ===================================================== */
 
   /* Buttons: Boop on hover */
-  button:hover {
+  button:not(:disabled):hover {
     animation: button-boop var(--animation-duration) var(--animation-spring);
     transform: scale(var(--animation-scale-medium));
   }

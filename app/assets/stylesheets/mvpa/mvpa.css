@@ -1,21 +1,1324 @@
-/* MVPA.css - Import all framework styles in order */
-@import "0_settings/0_colors.css";
-@import "0_settings/1_variables.css";
-@import "1_base/0_reset.css";
-@import "1_base/1_typography.css";
-@import "1_base/2_tables.css";
-@import "1_base/3_forms.css";
-@import "1_base/4_details.css";
-@import "1_base/5_animations.css";
-@import "2_layout/0_header.css";
-@import "2_layout/1_main.css";
-@import "2_layout/2_footer.css";
-@import "3_components/0_flash.css";
-@import "3_components/1_errors.css";
-@import "3_components/2_buttons.css";
-@import "3_components/3_progress.css";
-@import "3_components/4_definition_list.css";
-@import "3_components/5_article.css";
-@import "3_components/6_mark.css";
-@import "4_themes/0_themes.css";
-@import "5_utilities/0_turbo-transitions.css";
+/*
+ * OKLCH Color Definitions
+ * Based on Selenized color scheme
+ * https://github.com/jan-warchol/selenized/blob/master/the-values.md
+ *
+ * Uses prefers-color-scheme for automatic light/dark switching
+ * User can override with data-theme attribute
+ */
+
+/* ============================================
+   Light themes (default)
+   ============================================ */
+
+/* Selenized Light - default light theme */
+:root {
+  --lch-bg-lightest: 96% 0.04 85;
+  --lch-bg-lighter: 94% 0.04 85;
+  --lch-bg: 92% 0.04 85;
+  --lch-bg-darker: 87% 0.04 85;
+  --lch-bg-darkest: 82% 0.04 85;
+
+  --lch-fg-darkest: 28% 0.02 85;
+  --lch-fg-darker: 35% 0.02 85;
+  --lch-fg: 42% 0.02 85;
+  --lch-fg-lighter: 52% 0.02 85;
+  --lch-fg-lightest: 62% 0.02 85;
+
+  --lch-red: 50% 0.19 20;
+  --lch-green: 50% 0.13 140;
+  --lch-yellow: 60% 0.14 85;
+  --lch-blue: 50% 0.13 250;
+  --lch-magenta: 50% 0.15 330;
+  --lch-cyan: 50% 0.12 200;
+  --lch-orange: 55% 0.16 50;
+  --lch-violet: 50% 0.14 290;
+}
+
+/* White theme - explicit override */
+[data-theme="white"] {
+  --lch-bg-lightest: 100% 0 0;
+  --lch-bg-lighter: 98% 0 0;
+  --lch-bg: 96% 0 0;
+  --lch-bg-darker: 94% 0 0;
+  --lch-bg-darkest: 92% 0 0;
+
+  --lch-fg-darkest: 20% 0 0;
+  --lch-fg-darker: 30% 0 0;
+  --lch-fg: 40% 0 0;
+  --lch-fg-lighter: 50% 0 0;
+  --lch-fg-lightest: 60% 0 0;
+
+  --lch-red: 50% 0.19 20;
+  --lch-green: 50% 0.13 140;
+  --lch-yellow: 60% 0.14 85;
+  --lch-blue: 50% 0.13 250;
+  --lch-magenta: 50% 0.15 330;
+  --lch-cyan: 50% 0.12 200;
+  --lch-orange: 55% 0.16 50;
+  --lch-violet: 50% 0.14 290;
+}
+
+/* Selenized Light - explicit override */
+[data-theme="selenized_light"] {
+  --lch-bg-lightest: 96% 0.04 85;
+  --lch-bg-lighter: 94% 0.04 85;
+  --lch-bg: 92% 0.04 85;
+  --lch-bg-darker: 87% 0.04 85;
+  --lch-bg-darkest: 82% 0.04 85;
+
+  --lch-fg-darkest: 28% 0.02 85;
+  --lch-fg-darker: 35% 0.02 85;
+  --lch-fg: 42% 0.02 85;
+  --lch-fg-lighter: 52% 0.02 85;
+  --lch-fg-lightest: 62% 0.02 85;
+
+  --lch-red: 50% 0.19 20;
+  --lch-green: 50% 0.13 140;
+  --lch-yellow: 60% 0.14 85;
+  --lch-blue: 50% 0.13 250;
+  --lch-magenta: 50% 0.15 330;
+  --lch-cyan: 50% 0.12 200;
+  --lch-orange: 55% 0.16 50;
+  --lch-violet: 50% 0.14 290;
+}
+
+/* ============================================
+   Dark themes (via prefers-color-scheme)
+   ============================================ */
+
+/* Selenized Dark - default dark theme */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --lch-bg-lightest: 22% 0.02 85;
+    --lch-bg-lighter: 20% 0.02 85;
+    --lch-bg: 18% 0.02 85;
+    --lch-bg-darker: 16% 0.02 85;
+    --lch-bg-darkest: 14% 0.02 85;
+
+    --lch-fg-darkest: 85% 0.02 85;
+    --lch-fg-darker: 75% 0.02 85;
+    --lch-fg: 65% 0.02 85;
+    --lch-fg-lighter: 55% 0.02 85;
+    --lch-fg-lightest: 45% 0.02 85;
+
+    --lch-red: 60% 0.19 20;
+    --lch-green: 60% 0.13 140;
+    --lch-yellow: 70% 0.14 85;
+    --lch-blue: 60% 0.13 250;
+    --lch-magenta: 60% 0.15 330;
+    --lch-cyan: 60% 0.12 200;
+    --lch-orange: 65% 0.16 50;
+    --lch-violet: 60% 0.14 290;
+  }
+}
+
+/* Black theme - explicit override */
+[data-theme="black"] {
+  --lch-bg-lightest: 20% 0 0;
+  --lch-bg-lighter: 18% 0 0;
+  --lch-bg: 16% 0 0;
+  --lch-bg-darker: 14% 0 0;
+  --lch-bg-darkest: 12% 0 0;
+
+  --lch-fg-darkest: 95% 0 0;
+  --lch-fg-darker: 85% 0 0;
+  --lch-fg: 75% 0 0;
+  --lch-fg-lighter: 65% 0 0;
+  --lch-fg-lightest: 55% 0 0;
+
+  --lch-red: 60% 0.19 20;
+  --lch-green: 60% 0.13 140;
+  --lch-yellow: 70% 0.14 85;
+  --lch-blue: 60% 0.13 250;
+  --lch-magenta: 60% 0.15 330;
+  --lch-cyan: 60% 0.12 200;
+  --lch-orange: 65% 0.16 50;
+  --lch-violet: 60% 0.14 290;
+}
+
+/* Selenized Dark - explicit override */
+[data-theme="selenized_dark"] {
+  --lch-bg-lightest: 22% 0.02 85;
+  --lch-bg-lighter: 20% 0.02 85;
+  --lch-bg: 18% 0.02 85;
+  --lch-bg-darker: 16% 0.02 85;
+  --lch-bg-darkest: 14% 0.02 85;
+
+  --lch-fg-darkest: 85% 0.02 85;
+  --lch-fg-darker: 75% 0.02 85;
+  --lch-fg: 65% 0.02 85;
+  --lch-fg-lighter: 55% 0.02 85;
+  --lch-fg-lightest: 45% 0.02 85;
+
+  --lch-red: 60% 0.19 20;
+  --lch-green: 60% 0.13 140;
+  --lch-yellow: 70% 0.14 85;
+  --lch-blue: 60% 0.13 250;
+  --lch-magenta: 60% 0.15 330;
+  --lch-cyan: 60% 0.12 200;
+  --lch-orange: 65% 0.16 50;
+  --lch-violet: 60% 0.14 290;
+}
+
+/* ============================================
+   Convert OKLCH to colors
+   ============================================ */
+
+:root {
+  --color-bg-lightest: oklch(var(--lch-bg-lightest));
+  --color-bg-lighter: oklch(var(--lch-bg-lighter));
+  --color-bg: oklch(var(--lch-bg));
+  --color-bg-darker: oklch(var(--lch-bg-darker));
+  --color-bg-darkest: oklch(var(--lch-bg-darkest));
+
+  --color-fg-darkest: oklch(var(--lch-fg-darkest));
+  --color-fg-darker: oklch(var(--lch-fg-darker));
+  --color-fg: oklch(var(--lch-fg));
+  --color-fg-lighter: oklch(var(--lch-fg-lighter));
+  --color-fg-lightest: oklch(var(--lch-fg-lightest));
+
+  --color-red: oklch(var(--lch-red));
+  --color-green: oklch(var(--lch-green));
+  --color-yellow: oklch(var(--lch-yellow));
+  --color-blue: oklch(var(--lch-blue));
+  --color-magenta: oklch(var(--lch-magenta));
+  --color-cyan: oklch(var(--lch-cyan));
+  --color-orange: oklch(var(--lch-orange));
+  --color-violet: oklch(var(--lch-violet));
+
+  /* Semantic color mappings */
+  --color-primary: var(--color-blue);
+  --color-success: var(--color-green);
+  --color-danger: var(--color-red);
+  --color-warning: var(--color-yellow);
+  --color-info: var(--color-cyan);
+}
+/*
+ * CSS Custom Properties
+ * 37signals spacing system: 1ch × 1rem base
+ */
+
+:root {
+  /* Spacing system - consistent 1ch × 1rem base */
+  --inline-space: 1ch;
+  --inline-space-half: 0.5ch;
+  --inline-space-double: 2ch;
+  --inline-space-triple: 3ch;
+  --inline-space-quad: 4ch;
+
+  --block-space: 1rem;
+  --block-space-half: 0.5rem;
+  --block-space-double: 2rem;
+  --block-space-triple: 3rem;
+  --block-space-quad: 4rem;
+
+  /* Typography scale */
+  --text-xx-small: 0.65rem;
+  --text-x-small: 0.75rem;
+  --text-small: 0.85rem;
+  --text-normal: 1rem;
+  --text-medium: 1.1rem;
+  --text-large: 1.5rem;
+  --text-x-large: 2rem;
+  --text-xx-large: 2.5rem;
+
+  /* Line heights */
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-loose: 1.8;
+
+  /* Border radius */
+  --radius-small: 0.25rem;
+  --radius: 0.5rem;
+  --radius-large: 1rem;
+
+  /* Transitions */
+  --transition-fast: 150ms ease-in-out;
+  --transition: 250ms ease-in-out;
+  --transition-slow: 400ms ease-in-out;
+
+  /* Animation durations */
+  --animation-duration-fast: 200ms;
+  --animation-duration: 350ms;
+  --animation-duration-slow: 500ms;
+
+  /* Easing functions */
+  --animation-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* Spring overshoot */
+  --animation-ease-out: cubic-bezier(0.33, 1, 0.68, 1); /* Smooth ease-out */
+
+  /* Animation scales */
+  --animation-scale-small: 1.02;
+  --animation-scale-medium: 1.05;
+  --animation-scale-large: 1.08;
+
+  /* Animation distances */
+  --animation-distance-small: 4px;
+  --animation-distance-medium: 8px;
+  --animation-distance-large: 16px;
+
+  /* Z-index stack */
+  --z-base: 1;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-modal: 1000;
+  --z-notification: 1100;
+
+  /* Max widths */
+  --max-width-text: 65ch;
+  --max-width-content: 80ch;
+  --max-width-wide: 1200px;
+}
+/*
+ * CSS Reset
+ * Minimal reset for consistent cross-browser behavior
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  font-size: 100%;
+  line-height: var(--line-height-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 87.5%;
+  }
+}
+
+body {
+  padding: 0;
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    "Roboto",
+    sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+}
+
+img,
+svg {
+  max-inline-size: 100%;
+  block-size: auto;
+  display: block;
+}
+/*
+ * Typography
+ * Headings, paragraphs, and text elements
+ */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-block-start: var(--block-space-double);
+  margin-block-end: var(--block-space);
+  line-height: var(--line-height-tight);
+  color: var(--color-fg-darkest);
+}
+
+h1 {
+  font-size: var(--text-xx-large);
+}
+h2 {
+  font-size: var(--text-x-large);
+}
+h3 {
+  font-size: var(--text-large);
+}
+h4 {
+  font-size: var(--text-medium);
+}
+h5 {
+  font-size: var(--text-normal);
+}
+h6 {
+  font-size: var(--text-small);
+}
+
+p {
+  margin-block: var(--block-space);
+  max-inline-size: var(--max-width-text);
+}
+
+a {
+  color: var(--color-primary);
+  text-underline-offset: 0.2em;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-blue);
+}
+
+a:visited {
+  color: var(--color-violet);
+}
+
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-small);
+}
+
+ul,
+ol {
+  padding-inline-start: var(--inline-space-double);
+  margin-block: var(--block-space);
+}
+
+li {
+  margin-block: var(--block-space-half);
+}
+
+code,
+kbd,
+samp,
+pre {
+  font-family: "SF Mono", "Monaco", "Consolas", monospace;
+  font-size: 0.9em;
+}
+
+code,
+kbd,
+samp {
+  padding: 0.125em 0.25em;
+  background-color: var(--color-bg-darker);
+  border-radius: var(--radius-small);
+}
+
+pre {
+  padding: var(--block-space);
+  background-color: var(--color-bg-darker);
+  border-radius: var(--radius);
+  overflow-x: auto;
+}
+
+pre code {
+  padding: 0;
+  background: none;
+}
+
+hr {
+  border: none;
+  border-block-start: 1px solid var(--color-bg-darker);
+  margin-block: var(--block-space-double);
+}
+
+blockquote {
+  margin-inline-start: var(--inline-space-double);
+  padding-inline-start: var(--inline-space);
+  border-inline-start: 4px solid var(--color-bg-darker);
+  color: var(--color-fg-lighter);
+}
+/*
+ * Tables
+ * Semantic table styling
+ */
+
+table {
+  inline-size: 100%;
+  border-collapse: collapse;
+  margin-block: var(--block-space);
+}
+
+th,
+td {
+  padding: var(--block-space-half) var(--inline-space);
+  text-align: start;
+  border-block-end: 1px solid var(--color-bg-darker);
+}
+
+th {
+  font-weight: 600;
+  background-color: var(--color-bg-lighter);
+  color: var(--color-fg-darkest);
+}
+/*
+ * Forms
+ * Classless form element styling
+ */
+
+form {
+  max-inline-size: var(--max-width-content);
+}
+
+fieldset {
+  border: 1px solid var(--color-bg-darker);
+  border-radius: var(--radius);
+  padding: var(--block-space);
+  margin-block: var(--block-space);
+}
+
+legend {
+  padding-inline: var(--inline-space-half);
+  font-weight: 600;
+  color: var(--color-fg-darker);
+}
+
+label {
+  display: block;
+  margin-block-end: var(--block-space-half);
+  font-weight: 500;
+  color: var(--color-fg-darker);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="url"],
+input[type="tel"],
+input[type="number"],
+input[type="search"],
+input[type="date"],
+input[type="datetime-local"],
+input[type="month"],
+input[type="week"],
+input[type="time"],
+textarea,
+select {
+  inline-size: 100%;
+  padding-block: 0.5em;
+  padding-inline: 0.75em;
+  font-size: 1rem;
+  font-family: inherit;
+  line-height: var(--line-height-normal);
+  background-color: var(--color-bg-lightest);
+  color: var(--color-fg);
+  border: 1px solid var(--color-bg-darker);
+  border-radius: var(--radius);
+  transition: border-color var(--transition-fast);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="url"]:focus,
+input[type="tel"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+input[type="date"]:focus,
+input[type="datetime-local"]:focus,
+input[type="month"]:focus,
+input[type="week"]:focus,
+input[type="time"]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+textarea {
+  min-block-size: 8em;
+  resize: vertical;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  inline-size: 1.125em;
+  block-size: 1.125em;
+  margin-inline-end: var(--inline-space-half);
+  vertical-align: middle;
+}
+
+button,
+input[type="submit"],
+input[type="button"],
+input[type="reset"] {
+  --button-bg: var(--color-primary);
+  --button-fg: var(--color-bg-lightest);
+
+  display: inline-block;
+  padding-block: 0.5em;
+  padding-inline: 1.5em;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: inherit;
+  line-height: var(--line-height-normal);
+  text-decoration: none;
+  background-color: var(--button-bg);
+  color: var(--button-fg);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: filter var(--transition-fast);
+}
+
+button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+input[type="reset"]:hover {
+  filter: brightness(1.1);
+}
+
+button:active,
+input[type="submit"]:active,
+input[type="button"]:active,
+input[type="reset"]:active {
+  filter: brightness(0.95);
+}
+
+button:disabled,
+input[type="submit"]:disabled,
+input[type="button"]:disabled,
+input[type="reset"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+input:invalid,
+textarea:invalid,
+select:invalid {
+  border-color: var(--color-danger);
+}
+
+small {
+  display: block;
+  margin-block-start: var(--block-space-half);
+  color: var(--color-fg-lighter);
+  font-size: var(--text-small);
+}
+
+form > * + * {
+  margin-block-start: var(--block-space);
+}
+/*
+ * Details/Summary
+ * Disclosure widget styling
+ */
+
+details {
+  margin-block: var(--block-space);
+}
+
+summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--color-fg-darker);
+}
+
+summary:hover {
+  color: var(--color-fg-darkest);
+}
+/*
+ * Animations
+ * Whimsical micro-interactions for interactive elements
+ * Inspired by Josh W Comeau's animation principles
+ */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* =====================================================
+     Keyframe Definitions
+     ===================================================== */
+
+  /* Button: Boop animation with spring overshoot */
+  @keyframes button-boop {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(var(--animation-scale-large));
+    }
+    100% {
+      transform: scale(var(--animation-scale-medium));
+    }
+  }
+
+  /* Link: Underline wiggle animation */
+  @keyframes link-underline-wiggle {
+    0% {
+      transform: scaleX(0);
+    }
+    60% {
+      transform: scaleX(1.05);
+    }
+    100% {
+      transform: scaleX(1);
+    }
+  }
+
+  /* Input: Focus pulse with expanding glow */
+  @keyframes input-focus-pulse {
+    0% {
+      box-shadow: 0 0 0 0 oklch(from var(--color-primary) l c h / 0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 12px oklch(from var(--color-primary) l c h / 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 oklch(from var(--color-primary) l c h / 0);
+    }
+  }
+
+  /* Details: Content expand with fade */
+  @keyframes details-expand {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Flash: Message slide-in from top with bounce */
+  @keyframes flash-enter {
+    0% {
+      opacity: 0;
+      transform: translateY(-100%);
+    }
+    70% {
+      opacity: 1;
+      transform: translateY(8px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Checkbox/Radio: Pop animation on check */
+  @keyframes checkbox-pop {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.3);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  /* Focus: Outline expand from small to full size */
+  @keyframes focus-ring-draw {
+    from {
+      outline-width: 1px;
+      outline-offset: 0;
+    }
+    to {
+      outline-width: 2px;
+      outline-offset: 2px;
+    }
+  }
+
+  /* Progress: Shimmer for indeterminate state */
+  @keyframes progress-shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  /* Table Row: Fade-in */
+  @keyframes table-row-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Table Cell: Highlight pulse for updated cells */
+  @keyframes table-cell-highlight {
+    0% {
+      background-color: oklch(0.95 0.08 85); /* Soft yellow */
+    }
+    100% {
+      background-color: transparent;
+    }
+  }
+
+  /* Turbo: Slide in from right */
+  @keyframes turbo-slide-in-right {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* Turbo: Slide in from top */
+  @keyframes turbo-slide-in-top {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Turbo: Slide in from bottom */
+  @keyframes turbo-slide-in-bottom {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Turbo: Fade out with scale down */
+  @keyframes turbo-fade-out {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+  }
+
+  /* Turbo: Highlight update flash */
+  @keyframes turbo-highlight-update {
+    0% {
+      background-color: oklch(0.95 0.05 85); /* Soft yellow */
+    }
+    100% {
+      background-color: transparent;
+    }
+  }
+
+  /* Sort Arrow: Spin animation */
+  @keyframes sort-arrow-bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-2px);
+    }
+  }
+
+  /* =====================================================
+     Animation Applications
+     ===================================================== */
+
+  /* Buttons: Boop on hover */
+  button:not(:disabled):hover {
+    animation: button-boop var(--animation-duration) var(--animation-spring);
+    transform: scale(var(--animation-scale-medium));
+  }
+
+  button:focus-visible {
+    animation: focus-ring-draw var(--animation-duration-fast) ease-out forwards;
+  }
+
+  /* Links: Underline wiggle on hover */
+  a:not([class]) {
+    position: relative;
+  }
+
+  a:not([class])::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--animation-duration) ease-out;
+  }
+
+  a:not([class]):hover::after {
+    animation: link-underline-wiggle var(--animation-duration) var(--animation-spring);
+    transform: scaleX(1);
+  }
+
+  /* Form Inputs: Focus pulse glow */
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    animation: input-focus-pulse var(--animation-duration-slow) ease-out;
+  }
+
+  /* Details/Summary: Expand animation */
+  details[open] > :not(summary) {
+    animation: details-expand var(--animation-duration) var(--animation-ease-out);
+  }
+
+  /* Summary Arrow: Rotate on toggle */
+  details > summary {
+    cursor: pointer;
+  }
+
+  details > summary::marker {
+    animation: sort-arrow-bounce var(--animation-duration) var(--animation-spring);
+  }
+
+  /* Checkboxes: Pop on check */
+  input[type="checkbox"],
+  input[type="radio"] {
+    animation: none;
+  }
+
+  input[type="checkbox"]:checked,
+  input[type="radio"]:checked {
+    animation: checkbox-pop var(--animation-duration-fast) ease-out;
+  }
+
+  /* Flash Messages: Slide in with bounce */
+  [role="alert"],
+  [role="status"] {
+    animation: flash-enter var(--animation-duration-slow) var(--animation-spring);
+  }
+
+  /* Progress Bar: Shimmer for indeterminate */
+  progress:not([value]) {
+    background: linear-gradient(
+      90deg,
+      var(--color-bg-lighter) 25%,
+      var(--color-bg) 50%,
+      var(--color-bg-lighter) 75%
+    );
+    background-size: 200% 100%;
+    animation: progress-shimmer 1.5s ease-in-out infinite;
+  }
+
+  /* Table Rows: Fade-in with stagger */
+  tbody tr {
+    animation: table-row-fade-in var(--animation-duration) var(--animation-ease-out) backwards;
+  }
+
+  /* Staggered row delays */
+  tbody tr:nth-child(1) { animation-delay: 0ms; }
+  tbody tr:nth-child(2) { animation-delay: 40ms; }
+  tbody tr:nth-child(3) { animation-delay: 80ms; }
+  tbody tr:nth-child(4) { animation-delay: 120ms; }
+  tbody tr:nth-child(5) { animation-delay: 160ms; }
+  tbody tr:nth-child(n+6) { animation-delay: 200ms; }
+
+  /* Table Row: Hover effect */
+  tbody tr {
+    transition: background-color 150ms ease-out, transform 150ms ease-out;
+  }
+
+  tbody tr:hover {
+    transform: scale(1.002);
+  }
+
+  /* Table Header: Sortable indicator animation */
+  th[data-sort-direction="asc"]::after,
+  th[data-sort-direction="desc"]::after {
+    animation: sort-arrow-bounce var(--animation-duration) var(--animation-spring);
+  }
+
+  /* Turbo Stream: Append/Prepend animations */
+  [data-turbo-stream-transition="slide-in"] {
+    animation: turbo-slide-in-right var(--animation-duration) var(--animation-spring);
+  }
+
+  [data-turbo-stream-transition="slide-in-top"] {
+    animation: turbo-slide-in-top var(--animation-duration) var(--animation-spring);
+  }
+
+  [data-turbo-stream-transition="slide-in-bottom"] {
+    animation: turbo-slide-in-bottom var(--animation-duration) var(--animation-spring);
+  }
+
+  /* Turbo Stream: Update highlight */
+  [data-turbo-stream-transition="highlight"],
+  [data-updated] {
+    animation: turbo-highlight-update 800ms ease-out;
+  }
+
+  /* Turbo Stream: Fade out for removal */
+  [data-turbo-stream-transition="fade-out"] {
+    animation: turbo-fade-out var(--animation-duration) ease-out forwards;
+  }
+
+  /* Utility classes for Stimulus controllers */
+  .animating-in {
+    animation: turbo-slide-in-right var(--animation-duration) var(--animation-spring);
+  }
+
+  .animating-out {
+    animation: turbo-fade-out var(--animation-duration) ease-out forwards;
+  }
+
+  .highlight-update {
+    animation: turbo-highlight-update 800ms ease-out;
+  }
+}
+
+/* Accessibility: Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+/*
+ * Header
+ * Site header and navigation
+ */
+
+header {
+  max-inline-size: var(--max-width-wide);
+  margin-inline: auto;
+  padding-inline: var(--inline-space-double);
+  padding-block: var(--block-space);
+}
+
+header nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--inline-space-double);
+  align-items: center;
+}
+
+header nav a {
+  text-decoration: none;
+  font-weight: 500;
+}
+
+header nav a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  header {
+    padding-inline: var(--inline-space);
+  }
+}
+/*
+ * Main
+ * Main content area
+ */
+
+main {
+  max-inline-size: var(--max-width-wide);
+  margin-inline: auto;
+  padding-inline: var(--inline-space-double);
+  padding-block: var(--block-space);
+  min-block-size: 70vh;
+}
+
+@media (max-width: 768px) {
+  main {
+    padding-inline: var(--inline-space);
+  }
+}
+/*
+ * Footer
+ * Site footer
+ */
+
+footer {
+  max-inline-size: var(--max-width-wide);
+  margin-inline: auto;
+  padding-inline: var(--inline-space-double);
+  margin-block-start: var(--block-space-quad);
+  padding-block-start: var(--block-space);
+  border-block-start: 1px solid var(--color-bg-darker);
+  color: var(--color-fg-lighter);
+}
+
+@media (max-width: 768px) {
+  footer {
+    padding-inline: var(--inline-space);
+  }
+}
+/*
+ * Flash Messages
+ * Status and alert notifications using ARIA roles
+ */
+
+[role="status"],
+[role="alert"] {
+  padding: var(--block-space);
+  border-radius: var(--radius);
+  margin-block-end: var(--block-space);
+}
+
+[role="status"] {
+  background-color: var(--color-success);
+  color: var(--color-bg-lightest);
+}
+
+[role="alert"] {
+  background-color: var(--color-danger);
+  color: var(--color-bg-lightest);
+}
+/*
+ * Error Messages
+ * Form validation errors in aside elements
+ */
+
+aside[role="alert"] {
+  padding: var(--block-space);
+  background-color: oklch(from var(--color-danger) l c h / 0.1);
+  border: 1px solid var(--color-danger);
+  border-radius: var(--radius);
+  margin-block-end: var(--block-space);
+  color: var(--color-fg);
+}
+
+aside[role="alert"] h2 {
+  margin-block-start: 0;
+  color: var(--color-danger);
+}
+
+aside[role="alert"] ul {
+  margin-block-end: 0;
+}
+/*
+ * Button Variants
+ * Minimal classes for button color variants
+ */
+
+.button-success {
+  --button-bg: var(--color-success);
+}
+
+.button-danger {
+  --button-bg: var(--color-danger);
+}
+
+.button-warning {
+  --button-bg: var(--color-warning);
+}
+
+.button-secondary {
+  --button-bg: var(--color-bg-darker);
+  --button-fg: var(--color-fg);
+}
+/*
+ * Progress Bar
+ * Native progress element styling
+ */
+
+progress {
+  inline-size: 100%;
+  block-size: 1.5em;
+  border: none;
+  border-radius: var(--radius);
+  background-color: var(--color-bg-darker);
+}
+
+progress::-webkit-progress-bar {
+  background-color: var(--color-bg-darker);
+  border-radius: var(--radius);
+}
+
+progress::-webkit-progress-value {
+  background-color: var(--color-primary);
+  border-radius: var(--radius);
+}
+
+progress::-moz-progress-bar {
+  background-color: var(--color-primary);
+  border-radius: var(--radius);
+}
+/*
+ * Definition Lists
+ * Grid-based layout for dl/dt/dd
+ */
+
+dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--block-space-half) var(--inline-space-double);
+}
+
+dt {
+  font-weight: 600;
+  color: var(--color-fg-darker);
+}
+
+dd {
+  margin: 0;
+}
+/*
+ * Article
+ * Content block styling
+ */
+
+article {
+  padding: var(--block-space);
+  background-color: var(--color-bg-lighter);
+  border: 1px solid var(--color-bg-darker);
+  border-radius: var(--radius);
+  margin-block-end: var(--block-space);
+}
+/*
+ * Mark/Highlight
+ * Text highlighting
+ */
+
+mark {
+  background-color: var(--color-yellow);
+  padding-inline: 0.25em;
+  border-radius: var(--radius-small);
+}
+/*
+ * Theme Switching Logic
+ * Listens to user preferences and system color scheme
+ */
+
+/*
+ * Theme application priority:
+ * 1. User's explicit light/dark theme choice
+ * 2. User's color scheme preference (system/light/dark)
+ * 3. System preference (prefers-color-scheme)
+ * 4. Default to Selenized Light
+ */
+
+/* Apply light theme by default */
+html {
+  color-scheme: light;
+}
+
+/* Apply dark theme when system prefers dark */
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
+
+/* User explicitly chose light mode */
+html[data-color-scheme="light"] {
+  color-scheme: light;
+}
+
+/* User explicitly chose dark mode */
+html[data-color-scheme="dark"] {
+  color-scheme: dark;
+}
+
+/* System preference respected (no explicit user choice) */
+html[data-color-scheme="system"] {
+  color-scheme: light dark;
+}
+
+/*
+ * Theme attributes set via JavaScript based on user model:
+ * - data-color-scheme: "system" | "light" | "dark"
+ * - light-theme: "white" | "selenized_light"
+ * - dark-theme: "black" | "selenized_dark"
+ */
+/*
+ * Turbo Transitions & View Transitions API
+ * Utilities for smooth page transitions and Turbo Stream animations
+ */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* =====================================================
+     View Transitions API (Turbo Drive)
+     ===================================================== */
+
+  /* Enable View Transitions API for page navigation */
+  @supports (view-transition-name: auto) {
+    @view-transition {
+      navigation: auto;
+    }
+
+    /* Customize duration for view transitions */
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation-duration: 300ms;
+    }
+
+    /* Keep header fixed during page transitions */
+    header {
+      view-transition-name: header;
+    }
+
+    /* Keep footer fixed during page transitions */
+    footer {
+      view-transition-name: footer;
+    }
+
+    /* Allow shared element transitions with data attribute
+     * Note: CSS attr() for view-transition-name is not widely supported.
+     * Use inline styles instead: style="view-transition-name: unique-id;" */
+    /* [data-turbo-transition-id] {
+      view-transition-name: attr(data-turbo-transition-id type(<custom-ident>), none);
+    } */
+  }
+
+  /* =====================================================
+     Turbo Stream Animation Utilities
+     ===================================================== */
+
+  /* Utility classes for Stimulus controllers */
+  .turbo-animating-in {
+    animation: turbo-slide-in-right var(--animation-duration) var(--animation-spring);
+  }
+
+  .turbo-animating-in-top {
+    animation: turbo-slide-in-top var(--animation-duration) var(--animation-spring);
+  }
+
+  .turbo-animating-in-bottom {
+    animation: turbo-slide-in-bottom var(--animation-duration) var(--animation-spring);
+  }
+
+  .turbo-animating-out {
+    animation: turbo-fade-out var(--animation-duration) ease-out forwards;
+  }
+
+  .turbo-highlight {
+    animation: turbo-highlight-update 800ms ease-out;
+  }
+
+  /* =====================================================
+     Turbo Frame Transitions
+     ===================================================== */
+
+  /* Fade in content when Turbo Frame loads */
+  turbo-frame {
+    animation: turbo-slide-in-bottom var(--animation-duration-slow) var(--animation-ease-out);
+  }
+
+  /* Note: Turbo Stream animations should use data attributes on the target elements
+   * (e.g., data-turbo-stream-transition="slide-in") rather than selectors on
+   * <turbo-stream> elements, as the content is moved to the target element. */
+
+  /* =====================================================
+     Loading States
+     ===================================================== */
+
+  /* Skeleton loading animation */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--color-bg-lighter) 25%,
+      var(--color-bg) 50%,
+      var(--color-bg-lighter) 75%
+    );
+    background-size: 200% 100%;
+    animation: progress-shimmer 1.5s ease-in-out infinite;
+  }
+}

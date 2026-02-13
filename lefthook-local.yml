@@ -1,0 +1,27 @@
+# Local lefthook configuration for mvpa.css gem
+# Extends the global lefthook.yml from dotfiles
+
+pre-commit:
+  commands:
+    update-gem-version:
+      priority: 0
+      glob: "*"
+      run: |
+        SHA=$(git rev-parse --short HEAD)
+        cat > lib/mvpa/css/version.rb << VERSIONEOF
+        module Mvpa
+          module Css
+            VERSION = "$SHA"
+          end
+        end
+        VERSIONEOF
+        git add lib/mvpa/css/version.rb
+        echo "✅ Gem version will be: $SHA"
+      fail_text: Failed to update gem version file
+
+pre-push:
+  skip:
+    - bundle-audit
+    - brakeman
+    - minitest
+    - rspec

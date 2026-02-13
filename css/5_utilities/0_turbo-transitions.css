@@ -30,10 +30,12 @@
       view-transition-name: footer;
     }
 
-    /* Allow shared element transitions with data attribute */
-    [data-turbo-transition-id] {
-      view-transition-name: attr(data-turbo-transition-id);
-    }
+    /* Allow shared element transitions with data attribute
+     * Note: CSS attr() for view-transition-name is not widely supported.
+     * Use inline styles instead: style="view-transition-name: unique-id;" */
+    /* [data-turbo-transition-id] {
+      view-transition-name: attr(data-turbo-transition-id type(<custom-ident>), none);
+    } */
   }
 
   /* =====================================================
@@ -70,18 +72,9 @@
     animation: turbo-slide-in-bottom var(--animation-duration-slow) var(--animation-ease-out);
   }
 
-  /* Allow custom animations per frame action */
-  turbo-stream[action="append"] > * {
-    animation: turbo-slide-in-bottom var(--animation-duration) var(--animation-spring);
-  }
-
-  turbo-stream[action="prepend"] > * {
-    animation: turbo-slide-in-top var(--animation-duration) var(--animation-spring);
-  }
-
-  turbo-stream[action="update"] > * {
-    animation: turbo-highlight-update 800ms ease-out;
-  }
+  /* Note: Turbo Stream animations should use data attributes on the target elements
+   * (e.g., data-turbo-stream-transition="slide-in") rather than selectors on
+   * <turbo-stream> elements, as the content is moved to the target element. */
 
   /* =====================================================
      Loading States

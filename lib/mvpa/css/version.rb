@@ -1,5 +1,5 @@
 module Mvpa
   module Css
-    VERSION = "fa6d729"
+    VERSION = "65ad158"
   end
 end

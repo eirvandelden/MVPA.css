@@ -1,6 +1,8 @@
 # Changelog
 
-## [0.1.0] - 2026-02-13
+**Note:** Versions are derived from git short SHAs. Each commit automatically gets a unique version.
+
+## 2026-02-13
 
 ### Added
 - Initial release as Ruby gem
@@ -9,3 +11,4 @@
 - Support for both Sprockets and Propshaft asset pipelines
 - Manifest file (`mvpa.css`) for easy single import
 - MIT License
+- Git SHA-based automatic versioning (no manual version tracking needed)

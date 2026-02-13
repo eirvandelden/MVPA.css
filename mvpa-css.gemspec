@@ -1,6 +1,8 @@
+require_relative "lib/mvpa/css/version"
+
 Gem::Specification.new do |spec|
   spec.name          = "mvpa-css"
-  spec.version       = File.read(File.expand_path("lib/mvpa/css/version.rb")).match(/VERSION = "([^"]+)"/)[1]
+  spec.version       = Mvpa::Css::VERSION
   spec.authors       = ["Etienne van Delden"]
   spec.email         = ["etienne@conductor.build"]
   spec.homepage      = "https://github.com/eirvandelden/mvpa.css"

@@ -1,5 +1,5 @@
 module Mvpa
   module Css
-    VERSION = `git rev-parse --short HEAD`.chomp
+    VERSION = "fa6d729"
   end
 end

@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.license       = "MIT"
 
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
-    Dir["{app,lib}/**/*", "LICENSE", "README.md", "CHANGELOG.md"]
+    Dir["{app,lib}/**/*", "MIT-LICENSE", "README.md", "CHANGELOG.md"]
   end
 
   spec.add_dependency "railties", ">= 6.0"

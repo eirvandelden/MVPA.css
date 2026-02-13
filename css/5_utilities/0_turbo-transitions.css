@@ -1,0 +1,101 @@
+/*
+ * Turbo Transitions & View Transitions API
+ * Utilities for smooth page transitions and Turbo Stream animations
+ */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* =====================================================
+     View Transitions API (Turbo Drive)
+     ===================================================== */
+
+  /* Enable View Transitions API for page navigation */
+  @supports (view-transition-name: auto) {
+    @view-transition {
+      navigation: auto;
+    }
+
+    /* Customize duration for view transitions */
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation-duration: 300ms;
+    }
+
+    /* Keep header fixed during page transitions */
+    header {
+      view-transition-name: header;
+    }
+
+    /* Keep footer fixed during page transitions */
+    footer {
+      view-transition-name: footer;
+    }
+
+    /* Allow shared element transitions with data attribute */
+    [data-turbo-transition-id] {
+      view-transition-name: attr(data-turbo-transition-id);
+    }
+  }
+
+  /* =====================================================
+     Turbo Stream Animation Utilities
+     ===================================================== */
+
+  /* Utility classes for Stimulus controllers */
+  .turbo-animating-in {
+    animation: turbo-slide-in-right var(--animation-duration) var(--animation-spring);
+  }
+
+  .turbo-animating-in-top {
+    animation: turbo-slide-in-top var(--animation-duration) var(--animation-spring);
+  }
+
+  .turbo-animating-in-bottom {
+    animation: turbo-slide-in-bottom var(--animation-duration) var(--animation-spring);
+  }
+
+  .turbo-animating-out {
+    animation: turbo-fade-out var(--animation-duration) ease-out forwards;
+  }
+
+  .turbo-highlight {
+    animation: turbo-highlight-update 800ms ease-out;
+  }
+
+  /* =====================================================
+     Turbo Frame Transitions
+     ===================================================== */
+
+  /* Fade in content when Turbo Frame loads */
+  turbo-frame {
+    animation: turbo-slide-in-bottom var(--animation-duration-slow) var(--animation-ease-out);
+  }
+
+  /* Allow custom animations per frame action */
+  turbo-stream[action="append"] > * {
+    animation: turbo-slide-in-bottom var(--animation-duration) var(--animation-spring);
+  }
+
+  turbo-stream[action="prepend"] > * {
+    animation: turbo-slide-in-top var(--animation-duration) var(--animation-spring);
+  }
+
+  turbo-stream[action="update"] > * {
+    animation: turbo-highlight-update 800ms ease-out;
+  }
+
+  /* =====================================================
+     Loading States
+     ===================================================== */
+
+  /* Skeleton loading animation */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--color-bg-lighter) 25%,
+      var(--color-bg) 50%,
+      var(--color-bg-lighter) 75%
+    );
+    background-size: 200% 100%;
+    animation: progress-shimmer 1.5s ease-in-out infinite;
+  }
+}

@@ -33,6 +33,10 @@
   <!-- Themes -->
   <link rel="stylesheet" href="css/4_themes/0_themes.css">
 
+  <!-- Animations & Utilities -->
+  <link rel="stylesheet" href="css/1_base/5_animations.css">
+  <link rel="stylesheet" href="css/5_utilities/0_turbo-transitions.css">
+
   <style>
     /* Demo-specific styles */
     .theme-switcher {
@@ -99,6 +103,7 @@
       <li><a href="#articles">Articles</a></li>
       <li><a href="#colors">Colors</a></li>
       <li><a href="#details">Details</a></li>
+      <li><a href="#animations">Animations</a></li>
     </ul>
   </nav>
 </header>
@@ -755,10 +760,123 @@ console.log(greet('World'));</code></pre>
     </nav>
   </section>
 
+  <!-- Animations Section -->
+  <section id="animations">
+    <h2>Whimsical Animations</h2>
+    <p>MVPA.css includes delightful micro-interactions inspired by Josh W Comeau's animation principles. All animations respect the <code>prefers-reduced-motion</code> preference.</p>
+
+    <h3>Button Boop Animation</h3>
+    <p>Hover over these buttons to see the boop animation – they spring up with a playful bounce!</p>
+    <p>
+      <button>Primary Button</button>
+      <button>Secondary Button</button>
+      <button>Hover me →</button>
+    </p>
+
+    <h3>Link Underline Wiggle</h3>
+    <p>Hover over <a href="#">this link</a> to see the underline wiggle animation that adds playfulness without affecting readability.</p>
+
+    <h3>Form Input Focus Pulse</h3>
+    <p>Focus on the input field below to see a subtle pulse glow animation:</p>
+    <form style="max-inline-size: 300px;">
+      <label for="demo-focus">Try clicking here:</label>
+      <input type="text" id="demo-focus" placeholder="Focus me for the animation">
+      <small>A subtle glow expands when focused</small>
+    </form>
+
+    <h3>Checkbox Pop Animation</h3>
+    <p>Check these boxes to see the satisfying pop animation:</p>
+    <form style="display: flex; gap: 2rem; flex-wrap: wrap;">
+      <label>
+        <input type="checkbox"> First option
+      </label>
+      <label>
+        <input type="checkbox"> Second option
+      </label>
+      <label>
+        <input type="checkbox"> Third option
+      </label>
+    </form>
+
+    <h3>Details Expand Animation</h3>
+    <p>Click the details below to see the smooth expand animation with fade:</p>
+    <details>
+      <summary>What makes animations delightful?</summary>
+      <p>Great animations respond to user intent, are subtle enough not to distract, and make interactions feel intentional. They should never delay functionality – the action happens immediately, the animation is just the cherry on top.</p>
+    </details>
+    <details>
+      <summary>How do these animations perform?</summary>
+      <p>All animations in MVPA.css only animate <code>transform</code> and <code>opacity</code>, which are GPU-accelerated for smooth 60fps performance. This ensures the animations delight without slowing down your app.</p>
+    </details>
+
+    <h3>Flash Messages with Slide-In</h3>
+    <p>Example flash message with the slide-in animation:</p>
+    <section role="alert" style="background-color: var(--color-success); color: white; padding: var(--block-space); border-radius: 0.5rem; margin-block: var(--block-space);">
+      ✓ Success! The message slides in from the top with a gentle bounce.
+    </section>
+
+    <h3>Table Row Animations</h3>
+    <p>Table rows fade in with a staggered effect. Hover over rows to see the subtle lift animation:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Animation Type</th>
+          <th>Duration</th>
+          <th>Easing</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Button hover</td>
+          <td>Scale boop</td>
+          <td>350ms</td>
+          <td>Spring</td>
+        </tr>
+        <tr>
+          <td>Input focus</td>
+          <td>Pulse glow</td>
+          <td>500ms</td>
+          <td>Ease-out</td>
+        </tr>
+        <tr>
+          <td>Checkbox check</td>
+          <td>Pop scale</td>
+          <td>200ms</td>
+          <td>Ease-out</td>
+        </tr>
+        <tr>
+          <td>Details expand</td>
+          <td>Fade + slide</td>
+          <td>350ms</td>
+          <td>Ease-out</td>
+        </tr>
+        <tr>
+          <td>Flash message</td>
+          <td>Slide + bounce</td>
+          <td>500ms</td>
+          <td>Spring</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Accessibility & Reduced Motion</h3>
+    <p>All animations respect the <code>prefers-reduced-motion</code> preference. Users who prefer reduced motion will see interactions without animations, but functionality remains completely intact.</p>
+    <p><strong>To test on macOS:</strong> System Settings → Accessibility → Display → Reduce motion</p>
+
+    <h3>Turbo Integration</h3>
+    <p>When using this with Turbo Streams and Stimulus, elements added via Turbo automatically get the appropriate animations:</p>
+    <ul>
+      <li><code>data-turbo-stream-transition="slide-in"</code> – Slides in from right</li>
+      <li><code>data-turbo-stream-transition="highlight"</code> – Highlights with a flash</li>
+      <li><code>data-turbo-stream-transition="fade-out"</code> – Fades out before removal</li>
+    </ul>
+  </section>
+
 </main>
 
 <footer>
-  <p>&copy; 2024 MVPA.css – A personal CSS framework for building web applications with semantic HTML5</p>
+  <p>&copy; 2025 MVPA.css – A personal CSS framework for building web applications with semantic HTML5 and whimsical animations</p>
   <p>
     <a href="#top">Back to top</a>
   </p>

@@ -1,3 +1,5 @@
-module Mvpa::Css
-  VERSION = `git rev-parse --short HEAD`.chomp
+module Mvpa
+  module Css
+    VERSION = `git rev-parse --short HEAD`.chomp
+  end
 end

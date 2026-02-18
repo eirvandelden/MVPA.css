@@ -3,6 +3,8 @@
 
 pre-commit:
   commands:
+    rubocop:
+      skip: true
     update-gem-version:
       priority: 0
       glob: "*"

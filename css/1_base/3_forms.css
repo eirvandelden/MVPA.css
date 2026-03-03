@@ -12,6 +12,11 @@ fieldset {
   border-radius: var(--radius);
   padding: var(--block-space);
   margin-block: var(--block-space);
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  column-gap: var(--inline-space-double);
+  row-gap: var(--block-space-half);
+  align-items: baseline;
 }
 
 legend {
@@ -145,4 +150,59 @@ small {
 
 form > * + * {
   margin-block-start: var(--block-space);
+}
+
+/* Side-by-side field layout: label left, control right */
+
+/* legend spans both columns */
+fieldset > legend {
+  grid-column: 1 / -1;
+}
+
+/* Flat layout: label and inputs as direct fieldset children */
+fieldset > label {
+  grid-column: 1;
+  margin-block-end: 0;
+}
+
+fieldset > input[type="text"],
+fieldset > input[type="email"],
+fieldset > input[type="password"],
+fieldset > input[type="url"],
+fieldset > input[type="tel"],
+fieldset > input[type="number"],
+fieldset > input[type="search"],
+fieldset > input[type="date"],
+fieldset > input[type="datetime-local"],
+fieldset > input[type="month"],
+fieldset > input[type="week"],
+fieldset > input[type="time"],
+fieldset > textarea,
+fieldset > select {
+  grid-column: 2;
+}
+
+/* In flat layout, small spans both columns so the next label starts on a new row */
+fieldset > small {
+  grid-column: 1 / -1;
+  margin-block-start: 0;
+}
+
+/* Buttons align to the input column */
+fieldset > button,
+fieldset > input[type="submit"],
+fieldset > input[type="button"],
+fieldset > input[type="reset"] {
+  grid-column: 2;
+  justify-self: start;
+}
+
+@media (max-width: 768px) {
+  fieldset {
+    display: block;
+  }
+
+  fieldset > label {
+    margin-block-end: var(--block-space-half);
+  }
 }

@@ -11,6 +11,16 @@ main {
   min-block-size: 70vh;
 }
 
+/* Desktop: right column in body grid */
+@media (min-width: 769px) {
+  main {
+    grid-column: 2;
+    grid-row: 1;
+    max-inline-size: unset;
+    margin-inline: 0;
+  }
+}
+
 @media (max-width: 768px) {
   main {
     padding-inline: var(--inline-space);

@@ -72,4 +72,8 @@
   --max-width-text: 65ch;
   --max-width-content: 80ch;
   --max-width-wide: 1200px;
+
+  /* Navigation */
+  --nav-width: 240px;
+  --nav-height-mobile: 4rem;
 }

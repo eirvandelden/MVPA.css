@@ -1012,6 +1012,17 @@ header nav a:hover {
     padding-inline: var(--inline-space);
   }
 }
+
+main > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+main > header nav form button {
+  color: var(--color-danger, red);
+  border-color: var(--color-danger, red);
+}
 /*
  * Main
  * Main content area

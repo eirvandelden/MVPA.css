@@ -97,6 +97,7 @@
       <li><a href="#messages">Messages</a></li>
       <li><a href="#forms">Forms</a></li>
       <li><a href="#buttons">Buttons</a></li>
+      <li><a href="#page-header">Page Header</a></li>
       <li><a href="#tables">Tables</a></li>
       <li><a href="#progress">Progress</a></li>
       <li><a href="#lists">Lists</a></li>
@@ -407,6 +408,35 @@ console.log(greet('World'));</code></pre>
         <button type="button">Button</button>
         <a href="#" style="padding: 0.5rem 1ch; background-color: var(--color-primary); color: white; text-decoration: none; border-radius: 0.5rem; display: inline-block;">Link as Button</a>
       </form>
+    </section>
+  </section>
+
+  <!-- Page Header Section -->
+  <section id="page-header">
+    <h2>Page Header</h2>
+
+    <section>
+      <h3>Show page — title with action link</h3>
+      <header>
+        <h1>Item Name</h1>
+        <nav>
+          <a href="#"><b>Edit</b></a>
+        </nav>
+      </header>
+    </section>
+
+    <section>
+      <h3>Edit page — title with show link and danger destroy</h3>
+      <header>
+        <h1>Item Name</h1>
+        <nav>
+          <a href="#"><b>Show</b></a>
+          <form method="post" action="#">
+            <input type="hidden" name="_method" value="delete">
+            <button type="submit">Destroy</button>
+          </form>
+        </nav>
+      </header>
     </section>
   </section>
 

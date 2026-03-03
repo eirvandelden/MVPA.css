@@ -11,7 +11,7 @@ body {
   min-block-size: 100dvh;
 }
 
-header {
+body > header {
   grid-column: 1;
   grid-row: 1 / -1;
   position: sticky;
@@ -28,7 +28,7 @@ header {
     padding-block-end: var(--nav-height-mobile);
   }
 
-  header {
+  body > header {
     position: fixed;
     inset-inline: 0;
     inset-block-start: auto;

@@ -84,6 +84,7 @@ Add these imports to your HTML in the correct order:
 <link rel="stylesheet" href="css/3_components/4_definition_list.css">
 <link rel="stylesheet" href="css/3_components/5_article.css">
 <link rel="stylesheet" href="css/3_components/6_mark.css">
+<link rel="stylesheet" href="css/3_components/7_navigation.css">
 
 <!-- Themes -->
 <link rel="stylesheet" href="css/4_themes/0_themes.css">
@@ -126,7 +127,8 @@ css/
 │   ├── 3_progress.css
 │   ├── 4_definition_list.css
 │   ├── 5_article.css
-│   └── 6_mark.css
+│   ├── 6_mark.css
+│   └── 7_navigation.css
 └── 4_themes/            # Theme switching logic
     └── 0_themes.css
 ```
@@ -194,9 +196,30 @@ All form elements are automatically styled without classes:
 - **Select** – Dropdown menus
 - **Checkboxes & Radios** – Both inline and stacked
 - **Fieldsets** – Group form controls with legend
-- **Labels** – Associated with inputs
-- **Small text** – Helper text and descriptions with `<small>`
+- **Labels** – Associated with inputs, displayed side-by-side with their control on desktop
+- **Small text** – Helper text displayed beneath the control with `<small>`
 - **Invalid state** – Displays red border and error styling
+
+Wrap each label+input pair in a `<section>` inside a `<fieldset>` to get the side-by-side layout:
+
+```html
+<form>
+  <fieldset>
+    <legend>Contact</legend>
+    <section>
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name">
+      <small>As it appears on your ID</small>
+    </section>
+    <section>
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email">
+    </section>
+  </fieldset>
+</form>
+```
+
+On mobile (≤768px) the layout collapses to stacked automatically.
 
 ### Buttons
 
@@ -289,6 +312,87 @@ Disclosure widgets for expandable content:
 
 ```html
 This text is <mark>highlighted</mark>.
+```
+
+### Navigation
+
+App-style navigation sidebar (desktop) and bottom tab bar (mobile), driven entirely by semantic HTML.
+
+#### HTML markup
+
+```html
+<header>
+  <nav>
+    <h1>App Name</h1>
+    <ul>
+      <li><a href="/dashboard" aria-current="page">Dashboard</a></li>
+      <li><a href="/reports">Reports</a></li>
+      <li>
+        <details>
+          <summary>Settings</summary>
+          <ul>
+            <li><a href="/settings/profile">Profile</a></li>
+            <li><a href="/settings/security">Security</a></li>
+          </ul>
+        </details>
+      </li>
+    </ul>
+  </nav>
+</header>
+```
+
+- `aria-current="page"` on the active link highlights it with the primary colour.
+- `<details>`/`<summary>` inside a `<li>` creates a collapsible subnavigation group — no JavaScript required for the basic disclosure behaviour.
+
+#### Behaviour (Stimulus controller)
+
+For two quality-of-life improvements — accordion (closing one submenu when another opens) and auto-closing a submenu after a link inside it is clicked — a Stimulus controller is provided at `app/javascript/controllers/nav_controller.js`.
+
+Wire it up on the `<nav>` element:
+
+```html
+<nav data-controller="nav" data-action="click->nav#click">
+```
+
+#### Rails (importmap-rails)
+
+Pin Stimulus and register the controller in `config/importmap.rb`:
+
+```ruby
+pin "@hotwired/stimulus", to: "https://esm.sh/@hotwired/stimulus"
+pin "controllers/nav_controller", to: "controllers/nav_controller.js"
+```
+
+Then start the Stimulus application and register the controller in `app/javascript/application.js`:
+
+```javascript
+import { Application } from "@hotwired/stimulus"
+import NavController from "controllers/nav_controller"
+
+const application = Application.start()
+application.register("nav", NavController)
+```
+
+#### Standalone / non-Rails
+
+Add an importmap to your HTML `<head>` and bootstrap with a module script:
+
+```html
+<script type="importmap">
+{
+  "imports": {
+    "@hotwired/stimulus": "https://esm.sh/@hotwired/stimulus"
+  }
+}
+</script>
+
+<script type="module">
+  import { Application } from "@hotwired/stimulus"
+  import NavController from "./path/to/nav_controller.js"
+
+  const application = Application.start()
+  application.register("nav", NavController)
+</script>
 ```
 
 ## Design Tokens

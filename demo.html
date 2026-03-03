@@ -6,36 +6,46 @@
   <title>MVPA.css – Component Showcase</title>
 
   <!-- Settings & Variables -->
-  <link rel="stylesheet" href="css/0_settings/0_colors.css">
-  <link rel="stylesheet" href="css/0_settings/1_variables.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/0_settings/0_colors.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/0_settings/1_variables.css">
 
   <!-- Base Styles -->
-  <link rel="stylesheet" href="css/1_base/0_reset.css">
-  <link rel="stylesheet" href="css/1_base/1_typography.css">
-  <link rel="stylesheet" href="css/1_base/2_tables.css">
-  <link rel="stylesheet" href="css/1_base/3_forms.css">
-  <link rel="stylesheet" href="css/1_base/4_details.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/1_base/0_reset.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/1_base/1_typography.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/1_base/2_tables.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/1_base/3_forms.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/1_base/4_details.css">
 
   <!-- Layout -->
-  <link rel="stylesheet" href="css/2_layout/0_header.css">
-  <link rel="stylesheet" href="css/2_layout/1_main.css">
-  <link rel="stylesheet" href="css/2_layout/2_footer.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_layout/0_header.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_layout/1_main.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_layout/2_footer.css">
 
   <!-- Components -->
-  <link rel="stylesheet" href="css/3_components/0_flash.css">
-  <link rel="stylesheet" href="css/3_components/1_errors.css">
-  <link rel="stylesheet" href="css/3_components/2_buttons.css">
-  <link rel="stylesheet" href="css/3_components/3_progress.css">
-  <link rel="stylesheet" href="css/3_components/4_definition_list.css">
-  <link rel="stylesheet" href="css/3_components/5_article.css">
-  <link rel="stylesheet" href="css/3_components/6_mark.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/3_components/0_flash.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/3_components/1_errors.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/3_components/2_buttons.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/3_components/3_progress.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/3_components/4_definition_list.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/3_components/5_article.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/3_components/6_mark.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/3_components/7_navigation.css">
 
   <!-- Themes -->
-  <link rel="stylesheet" href="css/4_themes/0_themes.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/4_themes/0_themes.css">
 
   <!-- Animations & Utilities -->
-  <link rel="stylesheet" href="css/1_base/5_animations.css">
-  <link rel="stylesheet" href="css/5_utilities/0_turbo-transitions.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/1_base/5_animations.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/5_utilities/0_turbo-transitions.css">
+
+  <!-- Importmap -->
+  <script type="importmap">
+  {
+    "imports": {
+      "@hotwired/stimulus": "https://esm.sh/@hotwired/stimulus"
+    }
+  }
+  </script>
 
   <style>
     /* Demo-specific styles */
@@ -51,7 +61,7 @@
       font-size: 0.9rem;
     }
 
-    /* Color swatches displayed as definition lists */
+    /* Color swatches */
     .color-palette {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -77,34 +87,41 @@
       font-size: 0.75rem;
       margin: 0;
     }
-
-    /* Responsive tables */
-    @media (max-width: 768px) {
-      table {
-        font-size: 0.9rem;
-      }
-    }
   </style>
 </head>
 <body>
 
 <header>
-  <nav>
-    <h1>MVPA.css Showcase</h1>
+  <nav data-controller="nav" data-action="click->nav#click">
+    <h1>MVPA.css</h1>
     <ul>
-      <li><a href="#introduction">Introduction</a></li>
-      <li><a href="#typography">Typography</a></li>
-      <li><a href="#messages">Messages</a></li>
-      <li><a href="#forms">Forms</a></li>
-      <li><a href="#buttons">Buttons</a></li>
-      <li><a href="#page-header">Page Header</a></li>
-      <li><a href="#tables">Tables</a></li>
-      <li><a href="#progress">Progress</a></li>
-      <li><a href="#lists">Lists</a></li>
-      <li><a href="#articles">Articles</a></li>
-      <li><a href="#colors">Colors</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#animations">Animations</a></li>
+      <li><a href="#introduction" aria-current="page">🏠 Introduction</a></li>
+      <li><a href="#typography">✍️ Typography</a></li>
+      <li>
+        <details>
+          <summary>🧩 Components</summary>
+          <ul>
+            <li><a href="#messages">💬 Messages</a></li>
+            <li><a href="#forms">📋 Forms</a></li>
+            <li><a href="#buttons">🔘 Buttons</a></li>
+            <li><a href="#page-header">🗂️ Page Header</a></li>
+            <li><a href="#tables">📊 Tables</a></li>
+            <li><a href="#progress">📈 Progress</a></li>
+          </ul>
+        </details>
+      </li>
+      <li>
+        <details>
+          <summary>📚 Content</summary>
+          <ul>
+            <li><a href="#lists">📝 Lists</a></li>
+            <li><a href="#articles">📰 Articles</a></li>
+            <li><a href="#details">🔎 Details</a></li>
+          </ul>
+        </details>
+      </li>
+      <li><a href="#colors">🎨 Colors</a></li>
+      <li><a href="#animations">✨ Animations</a></li>
     </ul>
   </nav>
 </header>
@@ -113,37 +130,27 @@
 
   <!-- Introduction Section -->
   <section id="introduction">
-    <h2>Welcome to MVPA.css</h2>
+    <h2>🏠 Welcome to MVPA.css</h2>
     <p>This page demonstrates all components and features of the MVPA.css framework. The framework uses semantic HTML5 elements and OKLCH colors with automatic dark mode support.</p>
 
-    <p><strong>Theme Switcher:</strong> Use the buttons below to test different themes and color schemes. Your preference will be saved.</p>
-
     <article>
-      <h3>How to test themes</h3>
-      <p>You can change the theme in two ways:</p>
-      <ol>
-        <li>Use the theme switcher buttons above (these persist in localStorage)</li>
-        <li>Open your browser's developer tools (right-click → Inspect) and change the <code>data-theme</code> attribute on the <code>&lt;html&gt;</code> element to test other themes</li>
-      </ol>
-      <p>Available themes: <code>selenized_light</code>, <code>selenized_dark</code>, <code>white</code>, <code>black</code></p>
-      <p>Available color schemes: <code>system</code>, <code>light</code>, <code>dark</code></p>
+      <h3>🎨 How to test themes</h3>
+      <p>Switch themes using the buttons below — your preference is saved to localStorage. Or open DevTools and change the <code>data-theme</code> attribute on <code>&lt;html&gt;</code> directly.</p>
+      <p>Themes: <code>selenized_light</code>, <code>selenized_dark</code>, <code>white</code>, <code>black</code> · Color schemes: <code>system</code>, <code>light</code>, <code>dark</code></p>
     </article>
 
-    <fieldset>
-      <legend>Theme Controls</legend>
-      <section class="theme-switcher">
-        <button onclick="setTheme('selenized_light', 'light')">Selenized Light</button>
-        <button onclick="setTheme('selenized_dark', 'dark')">Selenized Dark</button>
-        <button onclick="setTheme('white', 'light')">Pure White</button>
-        <button onclick="setTheme('black', 'dark')">Pure Black</button>
-        <button onclick="setTheme(null, 'system')">System Preference</button>
-      </section>
-    </fieldset>
+    <p>
+      <button onclick="setTheme('selenized_light', 'light')">🌅 Selenized Light</button>
+      <button onclick="setTheme('selenized_dark', 'dark')">🌙 Selenized Dark</button>
+      <button onclick="setTheme('white', 'light')">⬜ Pure White</button>
+      <button onclick="setTheme('black', 'dark')">⬛ Pure Black</button>
+      <button onclick="setTheme(null, 'system')" class="button-secondary">🖥️ System</button>
+    </p>
   </section>
 
   <!-- Typography Section -->
   <section id="typography">
-    <h2>Typography</h2>
+    <h2>✍️ Typography</h2>
 
     <section>
       <h3>Headings</h3>
@@ -222,7 +229,7 @@ console.log(greet('World'));</code></pre>
 
   <!-- Messages Section -->
   <section id="messages">
-    <h2>Messages & Alerts</h2>
+    <h2>💬 Messages & Alerts</h2>
 
     <h3>Success Message (Flash)</h3>
     <section role="status">
@@ -252,134 +259,113 @@ console.log(greet('World'));</code></pre>
 
   <!-- Forms Section -->
   <section id="forms">
-    <h2>Forms</h2>
+    <h2>📋 Forms</h2>
 
     <form>
       <fieldset>
-        <legend>Contact Form</legend>
+        <legend>✉️ Contact</legend>
 
-        <section>
-          <label for="name">Full Name *</label>
-          <input type="text" id="name" name="name" placeholder="John Doe" required>
-          <small>Your full name as it appears on official documents</small>
-        </section>
+        <label for="name">Full Name *</label>
+        <input type="text" id="name" name="name" placeholder="John Doe" required>
+        <small>Your full name as it appears on official documents</small>
 
-        <section>
-          <label for="email">Email Address *</label>
-          <input type="email" id="email" name="email" placeholder="john@example.com" required>
-        </section>
+        <label for="email">Email Address *</label>
+        <input type="email" id="email" name="email" placeholder="john@example.com" required>
 
-        <section>
-          <label for="phone">Phone Number</label>
-          <input type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000">
-        </section>
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000">
 
-        <section>
-          <label for="website">Website</label>
-          <input type="url" id="website" name="website" placeholder="https://example.com">
-        </section>
+        <label for="website">Website</label>
+        <input type="url" id="website" name="website" placeholder="https://example.com">
 
-        <section>
-          <label for="subject">Subject</label>
-          <input type="text" id="subject" name="subject" placeholder="What's this about?">
-        </section>
+        <label for="subject">Subject</label>
+        <input type="text" id="subject" name="subject" placeholder="What's this about?">
 
-        <section>
-          <label for="message">Message *</label>
-          <textarea id="message" name="message" rows="5" placeholder="Your message here..." required></textarea>
-          <small>Minimum 10 characters</small>
-        </section>
-
-        <section>
-          <label for="category">Category</label>
-          <select id="category" name="category">
-            <option value="">Choose a category...</option>
-            <option value="sales">Sales Inquiry</option>
-            <option value="support">Technical Support</option>
-            <option value="feedback">Feedback</option>
-            <option value="other">Other</option>
-          </select>
-        </section>
-
-        <section>
-          <label for="date">Preferred Contact Date</label>
-          <input type="date" id="date" name="date">
-        </section>
-
-        <section>
-          <label for="time">Preferred Contact Time</label>
-          <input type="time" id="time" name="time">
-        </section>
-
-        <fieldset>
-          <legend>Checkboxes</legend>
-          <label>
-            <input type="checkbox" name="subscribe"> Subscribe to our newsletter
-          </label>
-          <label>
-            <input type="checkbox" name="terms" required> I agree to the terms and conditions
-          </label>
-          <label>
-            <input type="checkbox" name="privacy"> I accept the privacy policy
-          </label>
-        </fieldset>
-
-        <fieldset>
-          <legend>Radio Buttons</legend>
-          <label>
-            <input type="radio" name="priority" value="low"> Low priority
-          </label>
-          <label>
-            <input type="radio" name="priority" value="medium" checked> Medium priority
-          </label>
-          <label>
-            <input type="radio" name="priority" value="high"> High priority
-          </label>
-        </fieldset>
-
-        <section>
-          <label for="color">Favorite Color</label>
-          <input type="color" id="color" name="color" value="#0066cc">
-        </section>
-
-        <section>
-          <label for="number">Quantity (0-100)</label>
-          <input type="number" id="number" name="number" min="0" max="100" value="5">
-        </section>
-
-        <section>
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" placeholder="••••••••">
-          <small>At least 8 characters with numbers and symbols</small>
-        </section>
+        <label for="message">Message *</label>
+        <textarea id="message" name="message" rows="5" placeholder="Your message here..." required></textarea>
+        <small>Minimum 10 characters</small>
       </fieldset>
 
-      <h3>Form Controls</h3>
-      <section>
-        <button type="submit">Submit Form</button>
-        <button type="reset">Clear Form</button>
-        <button type="button">Cancel</button>
-      </section>
+      <fieldset>
+        <legend>⚙️ Preferences</legend>
+
+        <label for="category">Category</label>
+        <select id="category" name="category">
+          <option value="">Choose a category...</option>
+          <option value="sales">Sales Inquiry</option>
+          <option value="support">Technical Support</option>
+          <option value="feedback">Feedback</option>
+          <option value="other">Other</option>
+        </select>
+
+        <label for="date">Preferred Contact Date</label>
+        <input type="date" id="date" name="date">
+
+        <label for="time">Preferred Contact Time</label>
+        <input type="time" id="time" name="time">
+
+        <label for="color">Favorite Color</label>
+        <input type="color" id="color" name="color" value="#0066cc">
+
+        <label for="number">Quantity (0–100)</label>
+        <input type="number" id="number" name="number" min="0" max="100" value="5">
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="••••••••">
+        <small>At least 8 characters with numbers and symbols</small>
+      </fieldset>
+
+      <fieldset>
+        <legend>☑️ Agreements</legend>
+        <label>
+          <input type="checkbox" name="subscribe"> 📧 Subscribe to our newsletter
+        </label>
+        <label>
+          <input type="checkbox" name="terms" required> 📄 I agree to the terms and conditions
+        </label>
+        <label>
+          <input type="checkbox" name="privacy"> 🔒 I accept the privacy policy
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>🎯 Priority</legend>
+        <label>
+          <input type="radio" name="priority" value="low"> 🟢 Low
+        </label>
+        <label>
+          <input type="radio" name="priority" value="medium" checked> 🟡 Medium
+        </label>
+        <label>
+          <input type="radio" name="priority" value="high"> 🔴 High
+        </label>
+      </fieldset>
+
+      <p>
+        <button type="submit">Send Message ✉️</button>
+        <button type="reset" class="button-secondary">🗑️ Clear</button>
+        <button type="button" class="button-secondary">Cancel</button>
+      </p>
     </form>
 
-    <h3>Disabled Form State</h3>
+    <h3>Disabled State</h3>
     <form>
       <fieldset disabled>
-        <legend>Disabled Fieldset Example</legend>
-        <label for="disabled-input">This input is disabled:</label>
+        <legend>🔒 Disabled Fieldset</legend>
+        <label for="disabled-input">Disabled input</label>
         <input type="text" id="disabled-input" placeholder="Cannot be edited">
         <button type="submit">Submit (Disabled)</button>
       </fieldset>
     </form>
 
-    <h3>Invalid Form State</h3>
+    <h3>Invalid State</h3>
     <input type="text" placeholder="Invalid input" style="border: 2px solid var(--color-danger); outline-color: var(--color-danger);">
-    <small style="color: var(--color-danger);">This field is required</small>
+    <small style="color: var(--color-danger);">⚠️ This field is required</small>
   </section>
 
   <!-- Buttons Section -->
   <section id="buttons">
-    <h2>Buttons</h2>
+    <h2>🔘 Buttons</h2>
 
     <section>
       <h3>Button Variants</h3>
@@ -442,7 +428,7 @@ console.log(greet('World'));</code></pre>
 
   <!-- Tables Section -->
   <section id="tables">
-    <h2>Tables</h2>
+    <h2>📊 Tables</h2>
 
     <h3>Basic Table</h3>
     <table>
@@ -525,7 +511,7 @@ console.log(greet('World'));</code></pre>
 
   <!-- Progress Section -->
   <section id="progress">
-    <h2>Progress Bars</h2>
+    <h2>📈 Progress Bars</h2>
 
     <section>
       <h3>Various Completion Levels</h3>
@@ -545,7 +531,7 @@ console.log(greet('World'));</code></pre>
 
   <!-- Lists Section -->
   <section id="lists">
-    <h2>Definition Lists & Details</h2>
+    <h2>📝 Definition Lists & Details</h2>
 
     <h3>Definition List</h3>
     <dl>
@@ -622,7 +608,7 @@ console.log(greet('World'));</code></pre>
 
   <!-- Articles Section -->
   <section id="articles">
-    <h2>Articles</h2>
+    <h2>📰 Articles</h2>
 
     <article>
       <h3>First Article</h3>
@@ -658,7 +644,7 @@ console.log(greet('World'));</code></pre>
 
   <!-- Colors Section -->
   <section id="colors">
-    <h2>Color System</h2>
+    <h2>🎨 Color System</h2>
 
     <h3>Semantic Colors</h3>
     <section class="color-palette">
@@ -753,7 +739,7 @@ console.log(greet('World'));</code></pre>
 
   <!-- Details Section -->
   <section id="details">
-    <h2>Additional Elements</h2>
+    <h2>🔎 Additional Elements</h2>
 
     <h3>Description List (Definition List)</h3>
     <dl>
@@ -792,7 +778,7 @@ console.log(greet('World'));</code></pre>
 
   <!-- Animations Section -->
   <section id="animations">
-    <h2>Whimsical Animations</h2>
+    <h2>✨ Whimsical Animations</h2>
     <p>MVPA.css includes delightful micro-interactions inspired by Josh W Comeau's animation principles. All animations respect the <code>prefers-reduced-motion</code> preference.</p>
 
     <h3>Button Boop Animation</h3>
@@ -906,9 +892,9 @@ console.log(greet('World'));</code></pre>
 </main>
 
 <footer>
-  <p>&copy; 2025 MVPA.css – A personal CSS framework for building web applications with semantic HTML5 and whimsical animations</p>
+  <p>🎨 &copy; 2025 MVPA.css – A minimal, classless CSS framework for beautiful semantic HTML5</p>
   <p>
-    <a href="#top">Back to top</a>
+    <a href="#introduction">↑ Back to top</a>
   </p>
 </footer>
 
@@ -944,6 +930,14 @@ console.log('Current color scheme:', document.documentElement.getAttribute('data
 console.log('To change themes, use: setTheme("white", "light")');
 console.log('Available themes: selenized_light, selenized_dark, white, black');
 console.log('Available color schemes: system, light, dark');
+</script>
+
+<script type="module">
+  import { Application } from "@hotwired/stimulus"
+  import NavController from "./app/javascript/controllers/nav_controller.js"
+
+  const application = Application.start()
+  application.register("nav", NavController)
 </script>
 
 </body>

@@ -268,6 +268,10 @@
   --max-width-text: 65ch;
   --max-width-content: 80ch;
   --max-width-wide: 1200px;
+
+  /* Navigation */
+  --nav-width: 240px;
+  --nav-height-mobile: 4rem;
 }
 /*
  * CSS Reset
@@ -390,7 +394,7 @@ code,
 kbd,
 samp,
 pre {
-  font-family: "SF Mono", "Monaco", "Consolas", monospace;
+  font-family: "MonoLisa", "SF Mono", "Monaco", "Consolas", monospace;
   font-size: 0.9em;
 }
 
@@ -463,6 +467,11 @@ fieldset {
   border-radius: var(--radius);
   padding: var(--block-space);
   margin-block: var(--block-space);
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  column-gap: var(--inline-space-double);
+  row-gap: var(--block-space-half);
+  align-items: baseline;
 }
 
 legend {
@@ -596,6 +605,61 @@ small {
 
 form > * + * {
   margin-block-start: var(--block-space);
+}
+
+/* Side-by-side field layout: label left, control right */
+
+/* legend spans both columns */
+fieldset > legend {
+  grid-column: 1 / -1;
+}
+
+/* Flat layout: label and inputs as direct fieldset children */
+fieldset > label {
+  grid-column: 1;
+  margin-block-end: 0;
+}
+
+fieldset > input[type="text"],
+fieldset > input[type="email"],
+fieldset > input[type="password"],
+fieldset > input[type="url"],
+fieldset > input[type="tel"],
+fieldset > input[type="number"],
+fieldset > input[type="search"],
+fieldset > input[type="date"],
+fieldset > input[type="datetime-local"],
+fieldset > input[type="month"],
+fieldset > input[type="week"],
+fieldset > input[type="time"],
+fieldset > textarea,
+fieldset > select {
+  grid-column: 2;
+}
+
+/* In flat layout, small spans both columns so the next label starts on a new row */
+fieldset > small {
+  grid-column: 1 / -1;
+  margin-block-start: 0;
+}
+
+/* Buttons align to the input column */
+fieldset > button,
+fieldset > input[type="submit"],
+fieldset > input[type="button"],
+fieldset > input[type="reset"] {
+  grid-column: 2;
+  justify-self: start;
+}
+
+@media (max-width: 768px) {
+  fieldset {
+    display: block;
+  }
+
+  fieldset > label {
+    margin-block-end: var(--block-space-half);
+  }
 }
 /*
  * Details/Summary
@@ -981,35 +1045,44 @@ summary:hover {
 }
 /*
  * Header
- * Site header and navigation
+ * App shell: body grid layout and header sidebar positioning.
+ * Navigation appearance lives in 3_components/7_navigation.css
  */
 
-header {
-  max-inline-size: var(--max-width-wide);
-  margin-inline: auto;
-  padding-inline: var(--inline-space-double);
-  padding-block: var(--block-space);
+body {
+  display: grid;
+  grid-template-columns: var(--nav-width) 1fr;
+  grid-template-rows: 1fr auto;
+  min-block-size: 100dvh;
 }
 
-header nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--inline-space-double);
-  align-items: center;
-}
-
-header nav a {
-  text-decoration: none;
-  font-weight: 500;
-}
-
-header nav a:hover {
-  text-decoration: underline;
+body > header {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  position: sticky;
+  top: 0;
+  block-size: 100dvh;
+  overflow-y: auto;
+  border-inline-end: 1px solid var(--color-bg-darker);
+  background-color: var(--color-bg-lighter);
 }
 
 @media (max-width: 768px) {
-  header {
-    padding-inline: var(--inline-space);
+  body {
+    display: block;
+    padding-block-end: var(--nav-height-mobile);
+  }
+
+  body > header {
+    position: fixed;
+    inset-inline: 0;
+    inset-block-start: auto;
+    inset-block-end: 0;
+    block-size: var(--nav-height-mobile);
+    border-inline-end: none;
+    border-block-start: 1px solid var(--color-bg-darker);
+    overflow: visible;
+    z-index: var(--z-sticky);
   }
 }
 
@@ -1036,6 +1109,16 @@ main {
   min-block-size: 70vh;
 }
 
+/* Desktop: right column in body grid */
+@media (min-width: 769px) {
+  main {
+    grid-column: 2;
+    grid-row: 1;
+    max-inline-size: unset;
+    margin-inline: 0;
+  }
+}
+
 @media (max-width: 768px) {
   main {
     padding-inline: var(--inline-space);
@@ -1054,6 +1137,16 @@ footer {
   padding-block-start: var(--block-space);
   border-block-start: 1px solid var(--color-bg-darker);
   color: var(--color-fg-lighter);
+}
+
+/* Desktop: right column, second row in body grid */
+@media (min-width: 769px) {
+  footer {
+    grid-column: 2;
+    grid-row: 2;
+    max-inline-size: unset;
+    margin-inline: 0;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1192,6 +1285,184 @@ mark {
   background-color: var(--color-yellow);
   padding-inline: 0.25em;
   border-radius: var(--radius-small);
+}
+/*
+ * Navigation
+ * App-style navigation tabs.
+ * Desktop: vertical sidebar column. Mobile: horizontal bottom bar.
+ */
+
+/* Override base typography link styles for all nav links */
+header nav a,
+header nav a:hover,
+header nav a:visited {
+  text-decoration: none;
+  color: var(--color-fg);
+}
+
+header nav {
+  display: flex;
+  flex-direction: column;
+  padding: var(--block-space);
+  gap: var(--block-space-half);
+  min-block-size: 100%;
+}
+
+header nav h1,
+header nav h2 {
+  padding: var(--block-space-half) var(--inline-space);
+  margin-block-end: var(--block-space);
+  font-size: var(--text-medium);
+  font-weight: 700;
+}
+
+header nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+header nav ul li > a,
+header nav ul li > details > summary {
+  display: flex;
+  align-items: center;
+  gap: var(--inline-space);
+  padding: var(--block-space-half) var(--inline-space);
+  border-radius: var(--radius);
+  text-decoration: none;
+  font-weight: 500;
+  color: var(--color-fg);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+  cursor: pointer;
+}
+
+header nav ul li > a:hover,
+header nav ul li > details > summary:hover {
+  background-color: color-mix(in oklch, var(--color-bg-lighter), var(--color-fg) 8%);
+  color: var(--color-fg-darker);
+  text-decoration: none;
+}
+
+header nav ul li > a[aria-current="page"] {
+  background-color: var(--color-primary);
+  color: var(--color-bg);
+}
+
+header nav details {
+  margin-block: 0;
+}
+
+header nav details > summary {
+  list-style: none;
+}
+
+header nav details > summary::-webkit-details-marker {
+  display: none;
+}
+
+header nav details > summary::after {
+  content: "›";
+  margin-inline-start: auto;
+  font-size: var(--text-medium);
+  line-height: 1;
+  transition: transform var(--transition-fast);
+}
+
+header nav details[open] > summary::after {
+  transform: rotate(90deg);
+}
+
+header nav details > ul {
+  margin-block-start: 2px;
+  margin-inline-start: var(--inline-space);
+  padding-inline-start: var(--inline-space);
+  border-inline-start: 2px solid var(--color-bg-darkest);
+}
+
+@media (max-width: 768px) {
+  header nav {
+    flex-direction: row;
+    padding: var(--block-space-half) var(--inline-space-half);
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    align-items: center;
+    /* Scroll hint: edge fade appears only when overflow content exists.
+       local = moves with content (covers the shadow at edge);
+       scroll = fixed to element (the shadow itself). */
+    background:
+      linear-gradient(to right, var(--color-bg-lighter), transparent) left  / 3rem 100% no-repeat local,
+      linear-gradient(to left,  var(--color-bg-lighter), transparent) right / 3rem 100% no-repeat local,
+      linear-gradient(to right, var(--color-bg-lighter), transparent) left  / 3rem 100% no-repeat scroll,
+      linear-gradient(to left,  var(--color-bg-lighter), transparent) right / 3rem 100% no-repeat scroll,
+      var(--color-bg-lighter);
+  }
+
+  header nav::-webkit-scrollbar { display: none; }
+
+  header nav h1,
+  header nav h2 { display: none; }
+
+  /* Top-level tab list: horizontal row */
+  header nav > ul {
+    flex-direction: row;
+    gap: var(--inline-space-half);
+    width: 100%;
+  }
+
+  header nav > ul > li {
+    flex: 1;
+    min-inline-size: max-content;
+  }
+
+  /* Tab bar items: squircle style */
+  header nav > ul > li > a,
+  header nav > ul > li > details > summary {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    padding-inline: var(--inline-space-half);
+    border-radius: var(--radius-large);
+    font-size: var(--text-x-small);
+    block-size: calc(var(--nav-height-mobile) - var(--block-space));
+    background-color: var(--color-bg);
+  }
+
+  /* Hide the chevron in the tab bar */
+  header nav details > summary::after { display: none; }
+
+  /* Popup panel: anchored above the bottom bar */
+  header nav details > ul {
+    position: fixed;
+    inset-inline: 0;
+    inset-block-start: auto;
+    inset-block-end: var(--nav-height-mobile);
+    margin: 0;
+    padding: var(--block-space);
+    background-color: var(--color-bg-lighter);
+    border-block-start: 1px solid var(--color-bg-darker);
+    border-inline-start: none;
+    flex-direction: column;
+    gap: var(--block-space-half);
+    max-block-size: 50dvh;
+    overflow-y: auto;
+    z-index: var(--z-dropdown);
+  }
+
+  /* Popup links: restore normal nav link appearance */
+  header nav details > ul li > a {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding: var(--block-space-half) var(--inline-space);
+    border-radius: var(--radius);
+    font-size: var(--text-normal);
+    block-size: auto;
+  }
 }
 /*
  * Theme Switching Logic

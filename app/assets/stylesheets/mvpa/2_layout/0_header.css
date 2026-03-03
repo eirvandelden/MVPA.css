@@ -1,33 +1,42 @@
 /*
  * Header
- * Site header and navigation
+ * App shell: body grid layout and header sidebar positioning.
+ * Navigation appearance lives in 3_components/7_navigation.css
  */
 
-header {
-  max-inline-size: var(--max-width-wide);
-  margin-inline: auto;
-  padding-inline: var(--inline-space-double);
-  padding-block: var(--block-space);
+body {
+  display: grid;
+  grid-template-columns: var(--nav-width) 1fr;
+  grid-template-rows: 1fr auto;
+  min-block-size: 100dvh;
 }
 
-header nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--inline-space-double);
-  align-items: center;
-}
-
-header nav a {
-  text-decoration: none;
-  font-weight: 500;
-}
-
-header nav a:hover {
-  text-decoration: underline;
+body > header {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  position: sticky;
+  top: 0;
+  block-size: 100dvh;
+  overflow-y: auto;
+  border-inline-end: 1px solid var(--color-bg-darker);
+  background-color: var(--color-bg-lighter);
 }
 
 @media (max-width: 768px) {
-  header {
-    padding-inline: var(--inline-space);
+  body {
+    display: block;
+    padding-block-end: var(--nav-height-mobile);
+  }
+
+  body > header {
+    position: fixed;
+    inset-inline: 0;
+    inset-block-start: auto;
+    inset-block-end: 0;
+    block-size: var(--nav-height-mobile);
+    border-inline-end: none;
+    border-block-start: 1px solid var(--color-bg-darker);
+    overflow: visible;
+    z-index: var(--z-sticky);
   }
 }

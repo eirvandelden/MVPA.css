@@ -5,6 +5,10 @@ pre-commit:
   commands:
     rubocop:
       skip: true
+    eslint:
+      skip: true
+    csslint:
+      skip: true
     update-gem-version:
       priority: 0
       glob: "*"

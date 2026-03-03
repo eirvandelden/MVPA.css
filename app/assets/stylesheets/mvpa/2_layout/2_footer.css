@@ -13,6 +13,16 @@ footer {
   color: var(--color-fg-lighter);
 }
 
+/* Desktop: right column, second row in body grid */
+@media (min-width: 769px) {
+  footer {
+    grid-column: 2;
+    grid-row: 2;
+    max-inline-size: unset;
+    margin-inline: 0;
+  }
+}
+
 @media (max-width: 768px) {
   footer {
     padding-inline: var(--inline-space);

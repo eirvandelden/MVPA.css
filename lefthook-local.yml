@@ -9,20 +9,6 @@ pre-commit:
       skip: true
     csslint:
       skip: true
-    update-gem-version:
-      priority: 0
-      glob: "*"
-      run: |
-        SHA=$(git rev-parse --short HEAD)
-        VERSION="${SHA}"
-        echo "module Mvpa" > lib/mvpa/css/version.rb
-        echo "  module Css" >> lib/mvpa/css/version.rb
-        echo "    VERSION = \"$VERSION\"" >> lib/mvpa/css/version.rb
-        echo "  end" >> lib/mvpa/css/version.rb
-        echo "end" >> lib/mvpa/css/version.rb
-        git add lib/mvpa/css/version.rb
-        echo "✅ Gem version will be $VERSION"
-      fail_text: Failed to update gem version file
 
 pre-push:
   skip:

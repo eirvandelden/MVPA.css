@@ -53,41 +53,39 @@ Set theme attributes on your HTML element in your layout template:
 
 ### Standalone Usage
 
-If you prefer to use MVPA.css without Rails:
-
-### Import the CSS
+If you prefer to use MVPA.css without Rails, clone the repo and open `demo.html` directly, or copy the files from `app/assets/stylesheets/mvpa/` into your project.
 
 Add these imports to your HTML in the correct order:
 
 ```html
 <!-- Settings & Variables -->
-<link rel="stylesheet" href="css/0_settings/0_colors.css">
-<link rel="stylesheet" href="css/0_settings/1_variables.css">
+<link rel="stylesheet" href="mvpa/0_settings/0_colors.css">
+<link rel="stylesheet" href="mvpa/0_settings/1_variables.css">
 
 <!-- Base Styles -->
-<link rel="stylesheet" href="css/1_base/0_reset.css">
-<link rel="stylesheet" href="css/1_base/1_typography.css">
-<link rel="stylesheet" href="css/1_base/2_tables.css">
-<link rel="stylesheet" href="css/1_base/3_forms.css">
-<link rel="stylesheet" href="css/1_base/4_details.css">
+<link rel="stylesheet" href="mvpa/1_base/0_reset.css">
+<link rel="stylesheet" href="mvpa/1_base/1_typography.css">
+<link rel="stylesheet" href="mvpa/1_base/2_tables.css">
+<link rel="stylesheet" href="mvpa/1_base/3_forms.css">
+<link rel="stylesheet" href="mvpa/1_base/4_details.css">
 
 <!-- Layout -->
-<link rel="stylesheet" href="css/2_layout/0_header.css">
-<link rel="stylesheet" href="css/2_layout/1_main.css">
-<link rel="stylesheet" href="css/2_layout/2_footer.css">
+<link rel="stylesheet" href="mvpa/2_layout/0_header.css">
+<link rel="stylesheet" href="mvpa/2_layout/1_main.css">
+<link rel="stylesheet" href="mvpa/2_layout/2_footer.css">
 
 <!-- Components -->
-<link rel="stylesheet" href="css/3_components/0_flash.css">
-<link rel="stylesheet" href="css/3_components/1_errors.css">
-<link rel="stylesheet" href="css/3_components/2_buttons.css">
-<link rel="stylesheet" href="css/3_components/3_progress.css">
-<link rel="stylesheet" href="css/3_components/4_definition_list.css">
-<link rel="stylesheet" href="css/3_components/5_article.css">
-<link rel="stylesheet" href="css/3_components/6_mark.css">
-<link rel="stylesheet" href="css/3_components/7_navigation.css">
+<link rel="stylesheet" href="mvpa/3_components/0_flash.css">
+<link rel="stylesheet" href="mvpa/3_components/1_errors.css">
+<link rel="stylesheet" href="mvpa/3_components/2_buttons.css">
+<link rel="stylesheet" href="mvpa/3_components/3_progress.css">
+<link rel="stylesheet" href="mvpa/3_components/4_definition_list.css">
+<link rel="stylesheet" href="mvpa/3_components/5_article.css">
+<link rel="stylesheet" href="mvpa/3_components/6_mark.css">
+<link rel="stylesheet" href="mvpa/3_components/7_navigation.css">
 
 <!-- Themes -->
-<link rel="stylesheet" href="css/4_themes/0_themes.css">
+<link rel="stylesheet" href="mvpa/4_themes/0_themes.css">
 ```
 
 ### Set theme attributes on the HTML element
@@ -103,10 +101,10 @@ Add these imports to your HTML in the correct order:
 
 ## File Structure
 
-The framework follows SMACSS organization with numbered prefixes:
+The framework follows SMACSS organization with numbered prefixes. All CSS lives in `app/assets/stylesheets/mvpa/`:
 
 ```
-css/
+app/assets/stylesheets/mvpa/
 ├── 0_settings/          # Variables and color definitions
 │   ├── 0_colors.css
 │   └── 1_variables.css
@@ -132,6 +130,8 @@ css/
 └── 4_themes/            # Theme switching logic
     └── 0_themes.css
 ```
+
+A flattened `mvpa.css` manifest is also provided for single-import usage (required for Propshaft).
 
 ## Theme System
 
@@ -200,21 +200,17 @@ All form elements are automatically styled without classes:
 - **Small text** – Helper text displayed beneath the control with `<small>`
 - **Invalid state** – Displays red border and error styling
 
-Wrap each label+input pair in a `<section>` inside a `<fieldset>` to get the side-by-side layout:
+Place labels and inputs as direct children of a `<fieldset>` to get the side-by-side layout. All labels in a fieldset share the width of the widest label:
 
 ```html
 <form>
   <fieldset>
     <legend>Contact</legend>
-    <section>
-      <label for="name">Full Name</label>
-      <input type="text" id="name" name="name">
-      <small>As it appears on your ID</small>
-    </section>
-    <section>
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email">
-    </section>
+    <label for="name">Full Name</label>
+    <input type="text" id="name" name="name">
+    <small>As it appears on your ID</small>
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email">
   </fieldset>
 </form>
 ```
@@ -356,11 +352,12 @@ Wire it up on the `<nav>` element:
 
 #### Rails (importmap-rails)
 
-Pin Stimulus and register the controller in `config/importmap.rb`:
+The gem automatically registers `nav_controller.js` via its own `config/importmap.rb`, so no manual pinning is needed.
+
+Pin Stimulus in your app's `config/importmap.rb` if you haven't already:
 
 ```ruby
 pin "@hotwired/stimulus", to: "https://esm.sh/@hotwired/stimulus"
-pin "controllers/nav_controller", to: "controllers/nav_controller.js"
 ```
 
 Then start the Stimulus application and register the controller in `app/javascript/application.js`:

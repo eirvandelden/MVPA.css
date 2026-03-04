@@ -1,6 +1,6 @@
 # Changelog
 
-**Note:** Versions are derived from git short SHAs. Each commit automatically gets a unique version.
+**Note:** This project uses git SHAs instead of semver. Pin to a specific SHA in your Gemfile (`ref: "e4179e9"`). Each GitHub release is tagged with its commit SHA.
 
 ## 2026-03-04
 

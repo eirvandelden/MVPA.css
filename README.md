@@ -23,12 +23,12 @@ The framework follows **SMACSS (Scalable and Modular Architecture for CSS)** pri
 
 ### For Rails Applications (Ruby Gem)
 
-Install MVPA.css directly from GitHub using Bundler:
+Install MVPA.css directly from GitHub using Bundler. This project uses git SHAs instead of semver — pin to a specific commit for reproducible builds. Check the [releases page](https://github.com/eirvandelden/MVPA.css/releases) for the latest SHA.
 
 Add to your `Gemfile`:
 
 ```ruby
-gem "mvpa-css", github: "eirvandelden/mvpa.css"
+gem "mvpa-css", github: "eirvandelden/mvpa.css", ref: "e4179e9"
 ```
 
 Then run:

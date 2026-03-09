@@ -1,193 +1,247 @@
 /*
- * OKLCH Color Definitions
- * Based on Selenized color scheme
- * https://github.com/jan-warchol/selenized/blob/master/the-values.md
+ * Solunized color definitions.
  *
- * Uses prefers-color-scheme for automatic light/dark switching
- * User can override with data-theme attribute
+ * Uses prefers-color-scheme for automatic light/dark switching.
+ * User can override with data-theme attribute.
  */
 
 /* ============================================
-   Light themes (default)
+   Default themes
    ============================================ */
 
-/* Selenized Light - default light theme */
+/* Solunized Light - default light theme */
 :root {
-  --lch-bg-lightest: 96% 0.04 85;
-  --lch-bg-lighter: 94% 0.04 85;
-  --lch-bg: 92% 0.04 85;
-  --lch-bg-darker: 87% 0.04 85;
-  --lch-bg-darkest: 82% 0.04 85;
+  --color-bg-0: oklch(97.94% 0.0045 214.33);
+  --color-bg-1: oklch(93.79% 0.0095 222.06);
+  --color-bg-2: oklch(86.24% 0.0187 218.40);
 
-  --lch-fg-darkest: 28% 0.02 85;
-  --lch-fg-darker: 35% 0.02 85;
-  --lch-fg: 42% 0.02 85;
-  --lch-fg-lighter: 52% 0.02 85;
-  --lch-fg-lightest: 62% 0.02 85;
+  --color-dim-0: oklch(67.43% 0.0369 212.49);
+  --color-fg-0: oklch(46.67% 0.0340 215.53);
+  --color-fg-1: oklch(38.01% 0.0361 220.97);
 
-  --lch-red: 50% 0.19 20;
-  --lch-green: 50% 0.13 140;
-  --lch-yellow: 60% 0.14 85;
-  --lch-blue: 50% 0.13 250;
-  --lch-magenta: 50% 0.15 330;
-  --lch-cyan: 50% 0.12 200;
-  --lch-orange: 55% 0.16 50;
-  --lch-violet: 50% 0.14 290;
+  --color-red: oklch(53.03% 0.1989 26.57);
+  --color-green: oklch(55.37% 0.1666 136.63);
+  --color-yellow: oklch(60.21% 0.1230 89.36);
+  --color-blue: oklch(52.41% 0.1709 254.71);
+  --color-magenta: oklch(57.08% 0.1799 344.66);
+  --color-cyan: oklch(56.45% 0.0984 187.55);
+  --color-orange: oklch(54.51% 0.1416 46.63);
+  --color-violet: oklch(55.00% 0.1524 294.56);
+
+  /* bg scale: bg_0=lightest, bg_1=darker panel, bg_2=darkest border */
+  --color-bg: var(--color-bg-0);
+  --color-bg-lighter: var(--color-bg-0);
+  --color-bg-lightest: var(--color-bg-0);
+  --color-bg-darker: var(--color-bg-1);
+  --color-bg-darkest: var(--color-bg-2);
+
+  /* fg scale: fg_1=darkest/most prominent, fg_0=normal, dim_0=subdued */
+  --color-fg-darkest: var(--color-fg-1);
+  --color-fg-darker: var(--color-fg-1);
+  --color-fg: var(--color-fg-0);
+  --color-fg-lighter: var(--color-dim-0);
+  --color-fg-lightest: var(--color-dim-0);
 }
 
-/* White theme - explicit override */
-[data-theme="white"] {
-  --lch-bg-lightest: 100% 0 0;
-  --lch-bg-lighter: 98% 0 0;
-  --lch-bg: 96% 0 0;
-  --lch-bg-darker: 94% 0 0;
-  --lch-bg-darkest: 92% 0 0;
-
-  --lch-fg-darkest: 20% 0 0;
-  --lch-fg-darker: 30% 0 0;
-  --lch-fg: 40% 0 0;
-  --lch-fg-lighter: 50% 0 0;
-  --lch-fg-lightest: 60% 0 0;
-
-  --lch-red: 50% 0.19 20;
-  --lch-green: 50% 0.13 140;
-  --lch-yellow: 60% 0.14 85;
-  --lch-blue: 50% 0.13 250;
-  --lch-magenta: 50% 0.15 330;
-  --lch-cyan: 50% 0.12 200;
-  --lch-orange: 55% 0.16 50;
-  --lch-violet: 50% 0.14 290;
-}
-
-/* Selenized Light - explicit override */
-[data-theme="selenized_light"] {
-  --lch-bg-lightest: 96% 0.04 85;
-  --lch-bg-lighter: 94% 0.04 85;
-  --lch-bg: 92% 0.04 85;
-  --lch-bg-darker: 87% 0.04 85;
-  --lch-bg-darkest: 82% 0.04 85;
-
-  --lch-fg-darkest: 28% 0.02 85;
-  --lch-fg-darker: 35% 0.02 85;
-  --lch-fg: 42% 0.02 85;
-  --lch-fg-lighter: 52% 0.02 85;
-  --lch-fg-lightest: 62% 0.02 85;
-
-  --lch-red: 50% 0.19 20;
-  --lch-green: 50% 0.13 140;
-  --lch-yellow: 60% 0.14 85;
-  --lch-blue: 50% 0.13 250;
-  --lch-magenta: 50% 0.15 330;
-  --lch-cyan: 50% 0.12 200;
-  --lch-orange: 55% 0.16 50;
-  --lch-violet: 50% 0.14 290;
-}
-
-/* ============================================
-   Dark themes (via prefers-color-scheme)
-   ============================================ */
-
-/* Selenized Dark - default dark theme */
+/* Solunized Dark - default dark theme */
 @media (prefers-color-scheme: dark) {
   :root {
-    --lch-bg-lightest: 22% 0.02 85;
-    --lch-bg-lighter: 20% 0.02 85;
-    --lch-bg: 18% 0.02 85;
-    --lch-bg-darker: 16% 0.02 85;
-    --lch-bg-darkest: 14% 0.02 85;
+    --color-bg-0: oklch(26.88% 0.0496 224.07);
+    --color-bg-1: oklch(32.96% 0.0544 224.30);
+    --color-bg-2: oklch(45.08% 0.0609 222.56);
 
-    --lch-fg-darkest: 85% 0.02 85;
-    --lch-fg-darker: 75% 0.02 85;
-    --lch-fg: 65% 0.02 85;
-    --lch-fg-lighter: 55% 0.02 85;
-    --lch-fg-lightest: 45% 0.02 85;
+    --color-dim-0: oklch(61.07% 0.0521 212.77);
+    --color-fg-0: oklch(77.81% 0.0389 211.14);
+    --color-fg-1: oklch(84.36% 0.0277 211.07);
 
-    --lch-red: 60% 0.19 20;
-    --lch-green: 60% 0.13 140;
-    --lch-yellow: 70% 0.14 85;
-    --lch-blue: 60% 0.13 250;
-    --lch-magenta: 60% 0.15 330;
-    --lch-cyan: 60% 0.12 200;
-    --lch-orange: 65% 0.16 50;
-    --lch-violet: 60% 0.14 290;
+    --color-red: oklch(66.97% 0.1980 26.40);
+    --color-green: oklch(71.36% 0.1764 133.57);
+    --color-yellow: oklch(77.28% 0.1470 90.32);
+    --color-blue: oklch(65.55% 0.1672 255.40);
+    --color-magenta: oklch(72.18% 0.1745 346.53);
+    --color-cyan: oklch(74.59% 0.1149 184.95);
+    --color-orange: oklch(71.22% 0.1467 48.92);
+    --color-violet: oklch(69.35% 0.1458 300.84);
+
+    /* bg scale: bg_0=darkest, bg_1=lighter panel, bg_2=lightest border */
+    --color-bg: var(--color-bg-0);
+    --color-bg-lighter: var(--color-bg-1);
+    --color-bg-lightest: var(--color-bg-2);
+    --color-bg-darker: var(--color-bg-0);
+    --color-bg-darkest: var(--color-bg-0);
+
+    /* fg scale: fg_1=brightest, fg_0=normal, dim_0=subdued */
+    --color-fg-darkest: var(--color-fg-1);
+    --color-fg-darker: var(--color-fg-1);
+    --color-fg: var(--color-fg-0);
+    --color-fg-lighter: var(--color-dim-0);
+    --color-fg-lightest: var(--color-dim-0);
   }
 }
 
-/* Black theme - explicit override */
-[data-theme="black"] {
-  --lch-bg-lightest: 20% 0 0;
-  --lch-bg-lighter: 18% 0 0;
-  --lch-bg: 16% 0 0;
-  --lch-bg-darker: 14% 0 0;
-  --lch-bg-darkest: 12% 0 0;
-
-  --lch-fg-darkest: 95% 0 0;
-  --lch-fg-darker: 85% 0 0;
-  --lch-fg: 75% 0 0;
-  --lch-fg-lighter: 65% 0 0;
-  --lch-fg-lightest: 55% 0 0;
-
-  --lch-red: 60% 0.19 20;
-  --lch-green: 60% 0.13 140;
-  --lch-yellow: 70% 0.14 85;
-  --lch-blue: 60% 0.13 250;
-  --lch-magenta: 60% 0.15 330;
-  --lch-cyan: 60% 0.12 200;
-  --lch-orange: 65% 0.16 50;
-  --lch-violet: 60% 0.14 290;
-}
-
-/* Selenized Dark - explicit override */
-[data-theme="selenized_dark"] {
-  --lch-bg-lightest: 22% 0.02 85;
-  --lch-bg-lighter: 20% 0.02 85;
-  --lch-bg: 18% 0.02 85;
-  --lch-bg-darker: 16% 0.02 85;
-  --lch-bg-darkest: 14% 0.02 85;
-
-  --lch-fg-darkest: 85% 0.02 85;
-  --lch-fg-darker: 75% 0.02 85;
-  --lch-fg: 65% 0.02 85;
-  --lch-fg-lighter: 55% 0.02 85;
-  --lch-fg-lightest: 45% 0.02 85;
-
-  --lch-red: 60% 0.19 20;
-  --lch-green: 60% 0.13 140;
-  --lch-yellow: 70% 0.14 85;
-  --lch-blue: 60% 0.13 250;
-  --lch-magenta: 60% 0.15 330;
-  --lch-cyan: 60% 0.12 200;
-  --lch-orange: 65% 0.16 50;
-  --lch-violet: 60% 0.14 290;
-}
-
 /* ============================================
-   Convert OKLCH to colors
+   Solunized themes — generated by kyiv
    ============================================ */
 
+/* Solunized Light */
+/* Generated by kyiv — do not edit directly */
+
+[data-theme="solunized-light"] {
+  --color-bg-0: oklch(97.94% 0.0045 214.33);
+  --color-bg-1: oklch(93.79% 0.0095 222.06);
+  --color-bg-2: oklch(86.24% 0.0187 218.40);
+
+  --color-dim-0: oklch(67.43% 0.0369 212.49);
+  --color-fg-0: oklch(46.67% 0.0340 215.53);
+  --color-fg-1: oklch(38.01% 0.0361 220.97);
+
+  --color-red: oklch(53.03% 0.1989 26.57);
+  --color-green: oklch(55.37% 0.1666 136.63);
+  --color-yellow: oklch(60.21% 0.1230 89.36);
+  --color-blue: oklch(52.41% 0.1709 254.71);
+  --color-magenta: oklch(57.08% 0.1799 344.66);
+  --color-cyan: oklch(56.45% 0.0984 187.55);
+  --color-orange: oklch(54.51% 0.1416 46.63);
+  --color-violet: oklch(55.00% 0.1524 294.56);
+
+  --color-br-red: oklch(50.26% 0.1905 26.76);
+  --color-br-green: oklch(51.77% 0.1558 136.62);
+  --color-br-yellow: oklch(56.86% 0.1162 88.42);
+  --color-br-blue: oklch(49.75% 0.1700 256.02);
+  --color-br-magenta: oklch(54.28% 0.1769 345.31);
+  --color-br-cyan: oklch(53.13% 0.0924 187.95);
+  --color-br-orange: oklch(51.56% 0.1359 46.54);
+  --color-br-violet: oklch(51.69% 0.1507 293.47);
+}
+
+/* Solunized Dark */
+/* Generated by kyiv — do not edit directly */
+
+[data-theme="solunized-dark"] {
+  --color-bg-0: oklch(26.88% 0.0496 224.07);
+  --color-bg-1: oklch(32.96% 0.0544 224.30);
+  --color-bg-2: oklch(45.08% 0.0609 222.56);
+
+  --color-dim-0: oklch(61.07% 0.0521 212.77);
+  --color-fg-0: oklch(77.81% 0.0389 211.14);
+  --color-fg-1: oklch(84.36% 0.0277 211.07);
+
+  --color-red: oklch(66.97% 0.1980 26.40);
+  --color-green: oklch(71.36% 0.1764 133.57);
+  --color-yellow: oklch(77.28% 0.1470 90.32);
+  --color-blue: oklch(65.55% 0.1672 255.40);
+  --color-magenta: oklch(72.18% 0.1745 346.53);
+  --color-cyan: oklch(74.59% 0.1149 184.95);
+  --color-orange: oklch(71.22% 0.1467 48.92);
+  --color-violet: oklch(69.35% 0.1458 300.84);
+
+  --color-br-red: oklch(70.84% 0.1838 26.63);
+  --color-br-green: oklch(75.70% 0.1767 133.28);
+  --color-br-yellow: oklch(81.66% 0.1498 90.42);
+  --color-br-blue: oklch(69.99% 0.1547 255.01);
+  --color-br-magenta: oklch(76.50% 0.1725 344.74);
+  --color-br-cyan: oklch(79.39% 0.1164 183.93);
+  --color-br-orange: oklch(75.86% 0.1478 50.17);
+  --color-br-violet: oklch(73.83% 0.1454 300.88);
+}
+
+/* Solunized White */
+/* Generated by kyiv — do not edit directly */
+
+[data-theme="solunized-white"] {
+  --color-bg-0: oklch(100.00% 0.0000 89.88);
+  --color-bg-1: oklch(95.64% 0.0079 216.62);
+  --color-bg-2: oklch(88.44% 0.0171 215.47);
+
+  --color-dim-0: oklch(62.06% 0.0398 213.74);
+  --color-fg-0: oklch(40.99% 0.0342 219.00);
+  --color-fg-1: oklch(32.00% 0.0357 222.34);
+
+  --color-red: oklch(53.03% 0.1989 26.57);
+  --color-green: oklch(55.37% 0.1666 136.63);
+  --color-yellow: oklch(60.21% 0.1230 89.36);
+  --color-blue: oklch(52.41% 0.1709 254.71);
+  --color-magenta: oklch(57.08% 0.1799 344.66);
+  --color-cyan: oklch(56.45% 0.0984 187.55);
+  --color-orange: oklch(54.51% 0.1416 46.63);
+  --color-violet: oklch(55.00% 0.1524 294.56);
+
+  --color-br-red: oklch(50.26% 0.1905 26.76);
+  --color-br-green: oklch(51.77% 0.1558 136.62);
+  --color-br-yellow: oklch(56.86% 0.1162 88.42);
+  --color-br-blue: oklch(49.75% 0.1700 256.02);
+  --color-br-magenta: oklch(54.28% 0.1769 345.31);
+  --color-br-cyan: oklch(53.13% 0.0924 187.95);
+  --color-br-orange: oklch(51.56% 0.1359 46.54);
+  --color-br-violet: oklch(51.69% 0.1507 293.47);
+}
+
+/* Solunized Black */
+/* Generated by kyiv — do not edit directly */
+
+[data-theme="solunized-black"] {
+  --color-bg-0: oklch(17.51% 0.0128 214.90);
+  --color-bg-1: oklch(24.01% 0.0251 239.36);
+  --color-bg-2: oklch(33.43% 0.0301 223.81);
+
+  --color-dim-0: oklch(53.38% 0.0338 217.86);
+  --color-fg-0: oklch(75.72% 0.0318 212.09);
+  --color-fg-1: oklch(83.37% 0.0234 210.40);
+
+  --color-red: oklch(66.97% 0.1980 26.40);
+  --color-green: oklch(71.36% 0.1764 133.57);
+  --color-yellow: oklch(77.28% 0.1470 90.32);
+  --color-blue: oklch(65.55% 0.1672 255.40);
+  --color-magenta: oklch(72.18% 0.1745 346.53);
+  --color-cyan: oklch(74.59% 0.1149 184.95);
+  --color-orange: oklch(71.22% 0.1467 48.92);
+  --color-violet: oklch(69.35% 0.1458 300.84);
+
+  --color-br-red: oklch(70.84% 0.1838 26.63);
+  --color-br-green: oklch(75.70% 0.1767 133.28);
+  --color-br-yellow: oklch(81.66% 0.1498 90.42);
+  --color-br-blue: oklch(69.99% 0.1547 255.01);
+  --color-br-magenta: oklch(76.50% 0.1725 344.74);
+  --color-br-cyan: oklch(79.39% 0.1164 183.93);
+  --color-br-orange: oklch(75.86% 0.1478 50.17);
+  --color-br-violet: oklch(73.83% 0.1454 300.88);
+}
+
+/* Map Solunized palette to mvpa.css scale variables */
+
+[data-theme="solunized-dark"],
+[data-theme="solunized-black"] {
+  --color-bg: var(--color-bg-0);
+  --color-bg-lighter: var(--color-bg-1);
+  --color-bg-lightest: var(--color-bg-2);
+  --color-bg-darker: var(--color-bg-0);
+  --color-bg-darkest: var(--color-bg-0);
+
+  --color-fg-darkest: var(--color-fg-1);
+  --color-fg-darker: var(--color-fg-1);
+  --color-fg: var(--color-fg-0);
+  --color-fg-lighter: var(--color-dim-0);
+  --color-fg-lightest: var(--color-dim-0);
+}
+
+[data-theme="solunized-light"],
+[data-theme="solunized-white"] {
+  --color-bg: var(--color-bg-0);
+  --color-bg-lighter: var(--color-bg-0);
+  --color-bg-lightest: var(--color-bg-0);
+  --color-bg-darker: var(--color-bg-1);
+  --color-bg-darkest: var(--color-bg-2);
+
+  --color-fg-darkest: var(--color-fg-1);
+  --color-fg-darker: var(--color-fg-1);
+  --color-fg: var(--color-fg-0);
+  --color-fg-lighter: var(--color-dim-0);
+  --color-fg-lightest: var(--color-dim-0);
+}
+
+/* Semantic color mappings */
+
 :root {
-  --color-bg-lightest: oklch(var(--lch-bg-lightest));
-  --color-bg-lighter: oklch(var(--lch-bg-lighter));
-  --color-bg: oklch(var(--lch-bg));
-  --color-bg-darker: oklch(var(--lch-bg-darker));
-  --color-bg-darkest: oklch(var(--lch-bg-darkest));
-
-  --color-fg-darkest: oklch(var(--lch-fg-darkest));
-  --color-fg-darker: oklch(var(--lch-fg-darker));
-  --color-fg: oklch(var(--lch-fg));
-  --color-fg-lighter: oklch(var(--lch-fg-lighter));
-  --color-fg-lightest: oklch(var(--lch-fg-lightest));
-
-  --color-red: oklch(var(--lch-red));
-  --color-green: oklch(var(--lch-green));
-  --color-yellow: oklch(var(--lch-yellow));
-  --color-blue: oklch(var(--lch-blue));
-  --color-magenta: oklch(var(--lch-magenta));
-  --color-cyan: oklch(var(--lch-cyan));
-  --color-orange: oklch(var(--lch-orange));
-  --color-violet: oklch(var(--lch-violet));
-
-  /* Semantic color mappings */
   --color-primary: var(--color-blue);
   --color-success: var(--color-green);
   --color-danger: var(--color-red);

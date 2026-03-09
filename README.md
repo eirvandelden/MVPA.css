@@ -6,14 +6,14 @@ A personal CSS framework for building web applications with modern, classless se
 
 MVPA.css is built on the principle that **semantic HTML5 elements should look beautiful by default**. Rather than littering code with CSS classes, this framework styles semantic elements directly — `<article>`, `<section>`, `<nav>`, `<aside>`, `<header>`, `<main>`, `<footer>` — creating clean, maintainable markup.
 
-The framework follows **SMACSS (Scalable and Modular Architecture for CSS)** principles, organizing styles into settings, base, layout, components, and themes. It uses **OKLCH color space** for perceptually uniform colors and the **37signals spacing system** (1ch × 1rem base) for consistent rhythm.
+The framework follows **SMACSS (Scalable and Modular Architecture for CSS)** principles, organizing styles into settings, base, layout, components, and themes. It uses **Solunized palettes**, modern CSS color functions, and the **37signals spacing system** (1ch × 1rem base) for consistent rhythm.
 
 ## Features
 
 - **Classless by default** – Semantic HTML5 elements are automatically styled
-- **Four professional themes** – Selenized Light/Dark, Pure White, Pure Black
+- **Four Solunized themes** – Light, Dark, White, and Black variants
 - **Automatic dark mode** – Respects system preferences with manual override capability
-- **OKLCH color space** – Perceptually uniform, modern color handling
+- **Modern CSS color handling** – Semantic tokens with current browser features
 - **Responsive design** – Mobile-first approach with 768px breakpoint
 - **37signals spacing** – Consistent rhythm: 1ch inline, 1rem block
 - **Minimal classes** – Only button variants use classes (`.button-success`, `.button-danger`, `.button-warning`, `.button-secondary`)
@@ -46,7 +46,7 @@ Import in your stylesheet manifest (`app/assets/stylesheets/application.css`):
 Set theme attributes on your HTML element in your layout template:
 
 ```erb
-<html data-color-scheme="system" data-theme="selenized_light">
+<html data-color-scheme="system" data-theme="solunized-light">
   <!-- content -->
 </html>
 ```
@@ -91,13 +91,14 @@ Add these imports to your HTML in the correct order:
 ### Set theme attributes on the HTML element
 
 ```html
-<html data-color-scheme="system" data-theme="selenized_light">
+<html data-color-scheme="system" data-theme="solunized-light">
   <!-- content -->
 </html>
 ```
 
 - `data-color-scheme`: `"system"` (default), `"light"`, or `"dark"`
-- `data-theme`: `"selenized_light"` (default), `"selenized_dark"`, `"white"`, or `"black"`
+- `data-theme`: `"solunized-light"` (default), `"solunized-dark"`, `"solunized-white"`,
+  or `"solunized-black"`
 
 ## File Structure
 
@@ -135,14 +136,14 @@ A flattened `mvpa.css` manifest is also provided for single-import usage (requir
 
 ## Theme System
 
-MVPA.css supports four theme variants with automatic dark mode switching:
+MVPA.css supports four Solunized variants with automatic dark mode switching:
 
 ### Theme Variants
 
-- **Selenized Light** (default light theme) – Based on the Selenized color scheme, warm and pleasant
-- **Selenized Dark** (default dark theme) – Dark counterpart to Selenized Light
-- **Pure White** – Clean, minimal white background
-- **Pure Black** – Maximalist pure black background
+- **Solunized Light** (default light theme) – Hex-based light palette generated from Solunized
+- **Solunized Dark** (default dark theme) – Hex-based dark palette generated from Solunized
+- **Solunized White** – High-key Solunized white variant
+- **Solunized Black** – High-contrast Solunized black variant
 
 ### Setting Themes Programmatically
 
@@ -152,7 +153,7 @@ const currentTheme = document.documentElement.getAttribute('data-theme');
 const colorScheme = document.documentElement.getAttribute('data-color-scheme');
 
 // Switch to a specific theme
-document.documentElement.setAttribute('data-theme', 'white');
+document.documentElement.setAttribute('data-theme', 'solunized-white');
 document.documentElement.setAttribute('data-color-scheme', 'light');
 
 // Respect system preference
@@ -160,10 +161,10 @@ document.documentElement.setAttribute('data-color-scheme', 'system');
 
 // Switch to dark mode
 document.documentElement.setAttribute('data-color-scheme', 'dark');
-document.documentElement.setAttribute('data-theme', 'selenized_dark');
+document.documentElement.setAttribute('data-theme', 'solunized-dark');
 
 // Persist preference to localStorage
-localStorage.setItem('mvpa-theme', 'white');
+localStorage.setItem('mvpa-theme', 'solunized-white');
 localStorage.setItem('mvpa-color-scheme', 'dark');
 ```
 
@@ -490,6 +491,16 @@ MVPA.css requires modern browsers with support for:
 - **CSS custom properties** – Dynamic theming
 - **CSS Grid & Flexbox** – Modern layout
 - **Focus-visible** – Better accessibility
+
+## CSS Linting
+
+Stylelint is configured with browser support checks via `.browserslistrc`.
+
+Run the CSS linter with Yarn:
+
+```bash
+yarn lint:css
+```
 
 ### Minimum versions:
 - Chrome 111+

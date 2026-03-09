@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-color-scheme="system" data-theme="selenized_light">
+<html lang="en" data-color-scheme="system" data-theme="solunized-light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -131,19 +131,19 @@
   <!-- Introduction Section -->
   <section id="introduction">
     <h2>🏠 Welcome to MVPA.css</h2>
-    <p>This page demonstrates all components and features of the MVPA.css framework. The framework uses semantic HTML5 elements and OKLCH colors with automatic dark mode support.</p>
+    <p>This page demonstrates all components and features of the MVPA.css framework. The framework uses semantic HTML5 elements, Solunized palettes, and automatic dark mode support.</p>
 
     <article>
       <h3>🎨 How to test themes</h3>
       <p>Switch themes using the buttons below — your preference is saved to localStorage. Or open DevTools and change the <code>data-theme</code> attribute on <code>&lt;html&gt;</code> directly.</p>
-      <p>Themes: <code>selenized_light</code>, <code>selenized_dark</code>, <code>white</code>, <code>black</code> · Color schemes: <code>system</code>, <code>light</code>, <code>dark</code></p>
+      <p>Themes: <code>solunized-light</code>, <code>solunized-dark</code>, <code>solunized-white</code>, <code>solunized-black</code> · Color schemes: <code>system</code>, <code>light</code>, <code>dark</code></p>
     </article>
 
     <p>
-      <button onclick="setTheme('selenized_light', 'light')">🌅 Selenized Light</button>
-      <button onclick="setTheme('selenized_dark', 'dark')">🌙 Selenized Dark</button>
-      <button onclick="setTheme('white', 'light')">⬜ Pure White</button>
-      <button onclick="setTheme('black', 'dark')">⬛ Pure Black</button>
+      <button onclick="setTheme('solunized-light', 'light')">🌤️ Solunized Light</button>
+      <button onclick="setTheme('solunized-dark', 'dark')">🌌 Solunized Dark</button>
+      <button onclick="setTheme('solunized-white', 'light')">🧊 Solunized White</button>
+      <button onclick="setTheme('solunized-black', 'dark')">🌑 Solunized Black</button>
       <button onclick="setTheme(null, 'system')" class="button-secondary">🖥️ System</button>
     </p>
   </section>
@@ -562,25 +562,25 @@ console.log(greet('World'));</code></pre>
     <details>
       <summary>Installation Instructions</summary>
       <p>Import all 18 CSS files in the correct order, then set the data-theme attribute on the html element.</p>
-      <pre><code>&lt;html data-color-scheme="system" data-theme="selenized_light"&gt;
+      <pre><code>&lt;html data-color-scheme="system" data-theme="solunized-light"&gt;
   &lt;!-- Your content --&gt;
 &lt;/html&gt;</code></pre>
     </details>
 
     <details open>
       <summary>Theme System (Open by Default)</summary>
-      <p>The framework supports four themes with automatic dark mode switching. Use the data-theme attribute to override.</p>
+      <p>The framework supports four Solunized themes with automatic dark mode switching. Use the data-theme attribute to override.</p>
       <ul>
-        <li>Selenized Light (warm, default light theme)</li>
-        <li>Selenized Dark (dark variant with warm accents)</li>
-        <li>Pure White (clean minimal)</li>
-        <li>Pure Black (maximalist)</li>
+        <li>Solunized Light (hex-based light palette)</li>
+        <li>Solunized Dark (hex-based dark palette)</li>
+        <li>Solunized White (high-key Solunized variant)</li>
+        <li>Solunized Black (high-contrast Solunized variant)</li>
       </ul>
     </details>
 
     <details>
       <summary>Color Palette</summary>
-      <p>The framework uses OKLCH color space with Selenized colors. Each theme defines background and foreground shades plus semantic colors (success, danger, warning, info).</p>
+      <p>The framework uses Solunized colors for theme palettes and semantic colors such as success, danger, warning, and info.</p>
       <dl>
         <dt>Background Shades</dt>
         <dd>5 levels: lightest, lighter, base, darker, darkest</dd>
@@ -917,7 +917,7 @@ function setTheme(theme, colorScheme) {
 // Load saved preferences on page load
 document.addEventListener('DOMContentLoaded', function() {
   const savedColorScheme = localStorage.getItem('mvpa-color-scheme') || 'system';
-  const savedTheme = localStorage.getItem('mvpa-theme') || 'selenized_light';
+  const savedTheme = localStorage.getItem('mvpa-theme') || 'solunized-light';
 
   document.documentElement.setAttribute('data-color-scheme', savedColorScheme);
   document.documentElement.setAttribute('data-theme', savedTheme);
@@ -927,8 +927,11 @@ document.addEventListener('DOMContentLoaded', function() {
 console.log('MVPA.css Demo');
 console.log('Current theme:', document.documentElement.getAttribute('data-theme'));
 console.log('Current color scheme:', document.documentElement.getAttribute('data-color-scheme'));
-console.log('To change themes, use: setTheme("white", "light")');
-console.log('Available themes: selenized_light, selenized_dark, white, black');
+console.log('To change themes, use: setTheme("solunized-light", "light")');
+console.log(
+  'Available themes: solunized-light, solunized-dark, ' +
+  'solunized-white, solunized-black'
+);
 console.log('Available color schemes: system, light, dark');
 </script>
 

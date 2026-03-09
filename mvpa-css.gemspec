@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["etienne@conductor.build"]
   spec.homepage      = "https://github.com/eirvandelden/mvpa.css"
   spec.summary       = "MVPA.css - Minimal Viable Product CSS Framework"
-  spec.description   = "A classless CSS framework for semantic HTML5 with Rails/Turbo integration. Includes 4 professional themes, automatic dark mode, OKLCH color space, and 37signals spacing system."
+  spec.description   = "A classless CSS framework for semantic HTML5 with Rails/Turbo integration. Includes 4 Solunized themes, automatic dark mode, modern color handling, and 37signals spacing."
   spec.license       = "osaassy"
 
   spec.files = Dir.chdir(File.expand_path(__dir__)) do

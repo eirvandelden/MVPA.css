@@ -7,8 +7,10 @@ pre-commit:
       skip: true
     eslint:
       skip: true
-    csslint:
-      skip: true
+    stylelint:
+      skip: false
+    browserslist:
+      skip: false
 
 pre-push:
   skip:
@@ -16,3 +18,8 @@ pre-push:
     - brakeman
     - minitest
     - rspec
+  commands:
+    stylelint:
+      skip: false
+    browserslist:
+      skip: false

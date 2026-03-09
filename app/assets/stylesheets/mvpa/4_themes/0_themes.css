@@ -8,7 +8,7 @@
  * 1. User's explicit light/dark theme choice
  * 2. User's color scheme preference (system/light/dark)
  * 3. System preference (prefers-color-scheme)
- * 4. Default to Selenized Light
+ * 4. Default to Solunized Light
  */
 
 /* Apply light theme by default */
@@ -41,6 +41,6 @@ html[data-color-scheme="system"] {
 /*
  * Theme attributes set via JavaScript based on user model:
  * - data-color-scheme: "system" | "light" | "dark"
- * - light-theme: "white" | "selenized_light"
- * - dark-theme: "black" | "selenized_dark"
+ * - light-theme: "solunized-light" | "solunized-white"
+ * - dark-theme: "solunized-dark" | "solunized-black"
  */

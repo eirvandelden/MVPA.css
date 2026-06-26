@@ -1,13 +1,21 @@
 /*
  * Flash Messages
  * Status and alert notifications using ARIA roles
+ *
+ * Fixed-position toast notifications. If the app renders multiple flashes
+ * simultaneously they will overlap — apps that need stacking should wrap
+ * flashes in a container element.
  */
 
 [role="status"],
 [role="alert"] {
+  position: fixed;
+  top: var(--block-space);
+  right: var(--block-space);
+  max-inline-size: min(400px, calc(100vw - 2 * var(--block-space)));
+  z-index: var(--z-notification);
   padding: var(--block-space);
   border-radius: var(--radius);
-  margin-block-end: var(--block-space);
 }
 
 [role="status"] {

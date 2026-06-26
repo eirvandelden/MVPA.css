@@ -59,33 +59,38 @@ Add these imports to your HTML in the correct order:
 
 ```html
 <!-- Settings & Variables -->
-<link rel="stylesheet" href="mvpa/0_settings/0_colors.css">
-<link rel="stylesheet" href="mvpa/0_settings/1_variables.css">
+<link rel="stylesheet" href="mvpa/4_theme/0_colors.css">
+<link rel="stylesheet" href="mvpa/0_base/0_variables.css">
 
 <!-- Base Styles -->
-<link rel="stylesheet" href="mvpa/1_base/0_reset.css">
-<link rel="stylesheet" href="mvpa/1_base/1_typography.css">
-<link rel="stylesheet" href="mvpa/1_base/2_tables.css">
-<link rel="stylesheet" href="mvpa/1_base/3_forms.css">
-<link rel="stylesheet" href="mvpa/1_base/4_details.css">
+<link rel="stylesheet" href="mvpa/0_base/1_reset.css">
+<link rel="stylesheet" href="mvpa/0_base/2_typography.css">
 
 <!-- Layout -->
-<link rel="stylesheet" href="mvpa/2_layout/0_header.css">
-<link rel="stylesheet" href="mvpa/2_layout/1_main.css">
-<link rel="stylesheet" href="mvpa/2_layout/2_footer.css">
+<link rel="stylesheet" href="mvpa/1_layout/0_header.css">
+<link rel="stylesheet" href="mvpa/1_layout/1_main.css">
+<link rel="stylesheet" href="mvpa/1_layout/2_footer.css">
 
 <!-- Components -->
-<link rel="stylesheet" href="mvpa/3_components/0_flash.css">
-<link rel="stylesheet" href="mvpa/3_components/1_errors.css">
-<link rel="stylesheet" href="mvpa/3_components/2_buttons.css">
-<link rel="stylesheet" href="mvpa/3_components/3_progress.css">
-<link rel="stylesheet" href="mvpa/3_components/4_definition_list.css">
-<link rel="stylesheet" href="mvpa/3_components/5_article.css">
-<link rel="stylesheet" href="mvpa/3_components/6_mark.css">
-<link rel="stylesheet" href="mvpa/3_components/7_navigation.css">
+<link rel="stylesheet" href="mvpa/2_modules/0_tables.css">
+<link rel="stylesheet" href="mvpa/2_modules/1_forms.css">
+<link rel="stylesheet" href="mvpa/2_modules/2_details.css">
+<link rel="stylesheet" href="mvpa/2_modules/3_flash.css">
+<link rel="stylesheet" href="mvpa/2_modules/4_errors.css">
+<link rel="stylesheet" href="mvpa/2_modules/5_buttons.css">
+<link rel="stylesheet" href="mvpa/2_modules/6_progress.css">
+<link rel="stylesheet" href="mvpa/2_modules/7_definition_list.css">
+<link rel="stylesheet" href="mvpa/2_modules/8_article.css">
+<link rel="stylesheet" href="mvpa/2_modules/9_mark.css">
+<link rel="stylesheet" href="mvpa/2_modules/10_navigation.css">
 
 <!-- Themes -->
-<link rel="stylesheet" href="mvpa/4_themes/0_themes.css">
+<link rel="stylesheet" href="mvpa/4_theme/1_theme-switching.css">
+<link rel="stylesheet" href="mvpa/4_theme/2_monochrome.css">
+
+<!-- Animations & Utilities -->
+<link rel="stylesheet" href="mvpa/0_base/3_animations.css">
+<link rel="stylesheet" href="mvpa/2_modules/11_turbo-transitions.css">
 ```
 
 ### Set theme attributes on the HTML element
@@ -106,30 +111,32 @@ The framework follows SMACSS organization with numbered prefixes. All CSS lives 
 
 ```
 app/assets/stylesheets/mvpa/
-├── 0_settings/          # Variables and color definitions
-│   ├── 0_colors.css
-│   └── 1_variables.css
-├── 1_base/              # Resets and base element styles
-│   ├── 0_reset.css
-│   ├── 1_typography.css
-│   ├── 2_tables.css
-│   ├── 3_forms.css
-│   └── 4_details.css
-├── 2_layout/            # Page structure (header, main, footer)
+├── 0_base/              # Variables, resets, typography, and animations
+│   ├── 0_variables.css
+│   ├── 1_reset.css
+│   ├── 2_typography.css
+│   └── 3_animations.css
+├── 1_layout/            # Page structure (header, main, footer)
 │   ├── 0_header.css
 │   ├── 1_main.css
 │   └── 2_footer.css
-├── 3_components/        # Reusable components
-│   ├── 0_flash.css
-│   ├── 1_errors.css
-│   ├── 2_buttons.css
-│   ├── 3_progress.css
-│   ├── 4_definition_list.css
-│   ├── 5_article.css
-│   ├── 6_mark.css
-│   └── 7_navigation.css
-└── 4_themes/            # Theme switching logic
-    └── 0_themes.css
+├── 2_modules/           # Reusable modules
+│   ├── 0_tables.css
+│   ├── 1_forms.css
+│   ├── 2_details.css
+│   ├── 3_flash.css
+│   ├── 4_errors.css
+│   ├── 5_buttons.css
+│   ├── 6_progress.css
+│   ├── 7_definition_list.css
+│   ├── 8_article.css
+│   ├── 9_mark.css
+│   ├── 10_navigation.css
+│   └── 11_turbo-transitions.css
+└── 4_theme/             # Colors, theme switching, and monochrome support
+    ├── 0_colors.css
+    ├── 1_theme-switching.css
+    └── 2_monochrome.css
 ```
 
 A flattened `mvpa.css` manifest is also provided for single-import usage (required for Propshaft).
@@ -241,10 +248,12 @@ Semantic table elements are automatically styled:
 ### Messages
 
 #### Flash Messages (Success/Info)
-Use `<section role="status">` for positive feedback:
+Wrap flash messages in a notifications container and use `<aside role="status">` for positive feedback:
 ```html
-<section role="status">
-  <p>Your changes have been saved successfully.</p>
+<section aria-label="Notifications">
+  <aside role="status">
+    <p>Your changes have been saved successfully.</p>
+  </aside>
 </section>
 ```
 

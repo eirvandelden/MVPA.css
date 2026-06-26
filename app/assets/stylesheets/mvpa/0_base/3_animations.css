@@ -269,8 +269,8 @@
   }
 
   /* Flash Messages: Slide in with bounce */
-  [role="alert"],
-  [role="status"] {
+  aside[role="alert"],
+  aside[role="status"] {
     animation: flash-enter var(--animation-duration-slow) var(--animation-spring);
   }
 

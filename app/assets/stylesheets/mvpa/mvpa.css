@@ -505,8 +505,8 @@ blockquote {
   }
 
   /* Flash Messages: Slide in with bounce */
-  [role="alert"],
-  [role="status"] {
+  aside[role="alert"],
+  aside[role="status"] {
     animation: flash-enter var(--animation-duration-slow) var(--animation-spring);
   }
 
@@ -956,8 +956,8 @@ summary:hover {
  * flashes in a container element.
  */
 
-[role="status"],
-[role="alert"] {
+aside[role="status"],
+aside[role="alert"] {
   position: fixed;
   top: var(--block-space);
   right: var(--block-space);
@@ -967,12 +967,12 @@ summary:hover {
   border-radius: var(--radius);
 }
 
-[role="status"] {
+aside[role="status"] {
   background-color: var(--color-success);
   color: var(--color-bg-lightest);
 }
 
-[role="alert"] {
+aside[role="alert"] {
   background-color: var(--color-danger);
   color: var(--color-bg-lightest);
 }

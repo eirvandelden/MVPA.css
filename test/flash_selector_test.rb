@@ -7,6 +7,8 @@ class FlashSelectorTest < Minitest::Test
     assert_includes flash_css, 'aside[role="status"]'
     assert_includes flash_css, 'aside[role="alert"]'
     assert_includes flash_css, "display: grid"
+    assert_includes flash_css, "margin-block-end: 0"
+    assert_includes flash_css, "border: 0"
     assert_equal false, flash_css.include?("[role=\"status\"],\n[role=\"alert\"]")
     assert_equal false, animation_css.include?("[role=\"alert\"],\n  [role=\"status\"]")
   end

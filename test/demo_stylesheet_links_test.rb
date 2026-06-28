@@ -8,6 +8,11 @@ class DemoStylesheetLinksTest < Minitest::Test
     end
   end
 
+  def test_demo_stylesheet_count_matches_links
+    assert_includes demo_html, "#{stylesheet_links.count} files organized in SMACSS structure"
+    assert_includes demo_html, "Import all #{stylesheet_links.count} CSS files in the correct order"
+  end
+
   private
 
   def demo_html

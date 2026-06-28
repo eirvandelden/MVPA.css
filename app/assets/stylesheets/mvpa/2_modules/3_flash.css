@@ -18,7 +18,9 @@ section[aria-label="Notifications"] {
 section[aria-label="Notifications"] > aside[role="status"],
 section[aria-label="Notifications"] > aside[role="alert"] {
   padding: var(--block-space);
+  border: 0;
   border-radius: var(--radius);
+  margin-block-end: 0;
 }
 
 section[aria-label="Notifications"] > aside[role="status"] {

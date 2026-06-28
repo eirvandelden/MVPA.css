@@ -250,7 +250,7 @@ Semantic table elements are automatically styled:
 #### Flash Messages (Success/Info)
 Wrap flash messages in a notifications container and use `<aside role="status">` for positive feedback:
 ```html
-<section aria-label="Notifications">
+<section aria-label="Notifications" data-mvpa-flashes>
   <aside role="status">
     <p>Your changes have been saved successfully.</p>
   </aside>

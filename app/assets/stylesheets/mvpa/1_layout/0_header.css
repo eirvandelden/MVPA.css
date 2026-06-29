@@ -40,3 +40,14 @@ body > header {
     z-index: var(--z-sticky);
   }
 }
+
+main > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+main > header nav form button {
+  color: var(--color-danger, red);
+  border-color: var(--color-danger, red);
+}

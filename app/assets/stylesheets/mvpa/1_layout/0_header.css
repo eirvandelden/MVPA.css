@@ -48,6 +48,6 @@ main > header {
 }
 
 main > header nav form button {
-  color: var(--color-danger, red);
-  border-color: var(--color-danger, red);
+  --button-bg: var(--color-danger, red);
+  --button-fg: var(--color-bg-lightest, white);
 }

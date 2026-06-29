@@ -6,10 +6,12 @@ class PageHeaderComponentTest < Minitest::Test
     assert_includes header_css, "main > header"
     assert_includes header_css, "justify-content: space-between"
     assert_includes header_css, "main > header nav form button"
+    assert_includes header_css, "--button-bg: var(--color-danger, red)"
 
     assert_includes packaged_manifest, "main > header"
     assert_includes packaged_manifest, "justify-content: space-between"
     assert_includes packaged_manifest, "main > header nav form button"
+    assert_includes packaged_manifest, "--button-bg: var(--color-danger, red)"
   end
 
   private

@@ -27,6 +27,6 @@ class MvpaManifestSyncTest < Minitest::Test
   end
 
   def source_colors
-    File.read(File.expand_path("../app/assets/stylesheets/mvpa/0_settings/0_colors.css", __dir__))
+    File.read(File.expand_path("../app/assets/stylesheets/mvpa/4_theme/0_colors.css", __dir__))
   end
 end

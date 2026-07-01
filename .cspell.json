@@ -18,8 +18,13 @@
     "Behaviour",
     "importmap",
     "Flexbox",
+    "browserslistrc",
     "selenized",
     "squircle",
-    "squircles"
+    "squircles",
+    "autorun",
+    "stylesheet",
+    "solunized",
+    "Solunized"
   ]
 }

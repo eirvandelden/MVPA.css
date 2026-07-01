@@ -1,7 +1,7 @@
 /*
  * Header
  * App shell: body grid layout and header sidebar positioning.
- * Navigation appearance lives in 3_components/7_navigation.css
+ * Navigation appearance lives in 2_modules/10_navigation.css
  */
 
 body {
@@ -39,4 +39,15 @@ body > header {
     overflow: visible;
     z-index: var(--z-sticky);
   }
+}
+
+main > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+main > header nav form button {
+  --button-bg: var(--color-danger, red);
+  --button-fg: var(--color-bg-lightest, white);
 }

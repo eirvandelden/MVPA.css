@@ -6,37 +6,38 @@
   <title>MVPA.css – Component Showcase</title>
 
   <!-- Settings & Variables -->
-  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/0_settings/0_colors.css">
-  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/0_settings/1_variables.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/4_theme/0_colors.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/0_base/0_variables.css">
 
   <!-- Base Styles -->
-  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/1_base/0_reset.css">
-  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/1_base/1_typography.css">
-  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/1_base/2_tables.css">
-  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/1_base/3_forms.css">
-  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/1_base/4_details.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/0_base/1_reset.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/0_base/2_typography.css">
 
   <!-- Layout -->
-  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_layout/0_header.css">
-  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_layout/1_main.css">
-  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_layout/2_footer.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/1_layout/0_header.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/1_layout/1_main.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/1_layout/2_footer.css">
 
   <!-- Components -->
-  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/3_components/0_flash.css">
-  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/3_components/1_errors.css">
-  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/3_components/2_buttons.css">
-  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/3_components/3_progress.css">
-  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/3_components/4_definition_list.css">
-  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/3_components/5_article.css">
-  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/3_components/6_mark.css">
-  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/3_components/7_navigation.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/0_tables.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/1_forms.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/2_details.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/3_flash.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/4_errors.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/5_buttons.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/6_progress.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/7_definition_list.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/8_article.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/9_mark.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/10_navigation.css">
 
   <!-- Themes -->
-  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/4_themes/0_themes.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/4_theme/1_theme-switching.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/4_theme/2_monochrome.css">
 
   <!-- Animations & Utilities -->
-  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/1_base/5_animations.css">
-  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/5_utilities/0_turbo-transitions.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/0_base/3_animations.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/11_turbo-transitions.css">
 
   <!-- Importmap -->
   <script type="importmap">
@@ -231,30 +232,29 @@ console.log(greet('World'));</code></pre>
   <section id="messages">
     <h2>💬 Messages & Alerts</h2>
 
-    <h3>Success Message (Flash)</h3>
-    <section role="status">
-      <p>✓ Your changes have been saved successfully!</p>
+    <h3>Flash Messages</h3>
+    <section aria-label="Notifications" data-mvpa-flashes>
+      <aside role="status">
+        <p>✓ Your changes have been saved successfully!</p>
+      </aside>
+
+      <aside role="status">
+        <p>ℹ Please review your information before submitting.</p>
+      </aside>
+
+      <aside role="alert">
+        <h4>Validation Error</h4>
+        <ul>
+          <li>Email field is required</li>
+          <li>Password must be at least 8 characters</li>
+          <li>Please accept the terms and conditions</li>
+        </ul>
+      </aside>
+
+      <aside role="alert">
+        <p><strong>Warning:</strong> This action cannot be undone. Proceed with caution.</p>
+      </aside>
     </section>
-
-    <h3>Info Message (Flash)</h3>
-    <section role="status">
-      <p>ℹ Please review your information before submitting.</p>
-    </section>
-
-    <h3>Error Alert</h3>
-    <aside role="alert">
-      <h4>Validation Error</h4>
-      <ul>
-        <li>Email field is required</li>
-        <li>Password must be at least 8 characters</li>
-        <li>Please accept the terms and conditions</li>
-      </ul>
-    </aside>
-
-    <h3>Warning Message</h3>
-    <aside role="alert">
-      <p><strong>Warning:</strong> This action cannot be undone. Proceed with caution.</p>
-    </aside>
   </section>
 
   <!-- Forms Section -->
@@ -551,7 +551,7 @@ console.log(greet('World'));</code></pre>
       <dd>Chrome 111+, Firefox 113+, Safari 16.4+</dd>
 
       <dt>CSS Files</dt>
-      <dd>18 files organized in SMACSS structure</dd>
+      <dd>22 files organized in SMACSS structure</dd>
 
       <dt>Button Classes</dt>
       <dd>Only 4 classes: button-success, button-danger, button-warning, button-secondary</dd>
@@ -561,7 +561,7 @@ console.log(greet('World'));</code></pre>
 
     <details>
       <summary>Installation Instructions</summary>
-      <p>Import all 18 CSS files in the correct order, then set the data-theme attribute on the html element.</p>
+      <p>Import all 22 CSS files in the correct order, then set the data-theme attribute on the html element.</p>
       <pre><code>&lt;html data-color-scheme="system" data-theme="solunized-light"&gt;
   &lt;!-- Your content --&gt;
 &lt;/html&gt;</code></pre>
@@ -827,9 +827,9 @@ console.log(greet('World'));</code></pre>
 
     <h3>Flash Messages with Slide-In</h3>
     <p>Example flash message with the slide-in animation:</p>
-    <section role="alert" style="background-color: var(--color-success); color: white; padding: var(--block-space); border-radius: 0.5rem; margin-block: var(--block-space);">
+    <aside role="status" style="background-color: var(--color-success); color: white; padding: var(--block-space); border-radius: 0.5rem; margin-block: var(--block-space);">
       ✓ Success! The message slides in from the top with a gentle bounce.
-    </section>
+    </aside>
 
     <h3>Table Row Animations</h3>
     <p>Table rows fade in with a staggered effect. Hover over rows to see the subtle lift animation:</p>

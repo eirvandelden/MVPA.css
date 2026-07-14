@@ -45,6 +45,13 @@ class ElevationDepthSystemTest < Minitest::Test
     assert_includes packaged_manifest, "a:not([class]):not(body > header nav a) {"
   end
 
+  def test_sidebar_links_get_hover_lift
+    assert_includes navigation_css, "transform: scale(var(--animation-scale-small)) translateY(-2px);"
+    assert_includes navigation_css, "box-shadow: 0 3px 8px oklch(0% 0 0 / 0.14);"
+    assert_includes navigation_css, "transform 150ms ease-out, box-shadow 150ms ease-out"
+    assert_includes packaged_manifest, "transform: scale(var(--animation-scale-small)) translateY(-2px);"
+  end
+
   private
 
   def variables_css
@@ -65,6 +72,10 @@ class ElevationDepthSystemTest < Minitest::Test
 
   def animations_css
     read("0_base/3_animations.css")
+  end
+
+  def navigation_css
+    read("2_modules/10_navigation.css")
   end
 
   def packaged_manifest

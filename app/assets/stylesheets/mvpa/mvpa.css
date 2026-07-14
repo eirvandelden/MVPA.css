@@ -1177,7 +1177,7 @@ header nav ul li > details > summary {
   text-decoration: none;
   font-weight: 500;
   color: var(--color-fg);
-  transition: background-color var(--transition-fast), color var(--transition-fast);
+  transition: background-color var(--transition-fast), color var(--transition-fast), transform 150ms ease-out, box-shadow 150ms ease-out;
   cursor: pointer;
 }
 
@@ -1186,6 +1186,8 @@ header nav ul li > details > summary:hover {
   background-color: color-mix(in oklch, var(--color-bg-lighter), var(--color-fg) 8%);
   color: var(--color-fg-darker);
   text-decoration: none;
+  transform: scale(var(--animation-scale-small)) translateY(-2px);
+  box-shadow: 0 3px 8px oklch(0% 0 0 / 0.14);
 }
 
 header nav ul li > a[aria-current="page"] {

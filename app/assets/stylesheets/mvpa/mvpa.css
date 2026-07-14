@@ -1412,8 +1412,8 @@ header nav details > ul {
   --color-orange: oklch(54.51% 0.1416 46.63);
   --color-violet: oklch(55.00% 0.1524 294.56);
 
-  /* bg scale: bg_0=lightest, bg_1=darker panel, bg_2=darkest border */
-  --color-bg: var(--color-bg-0);
+  /* bg scale: bg_0=lightest surface (sidebar/card), bg_1=canvas (recessed page background), bg_2=darkest border */
+  --color-bg: var(--color-bg-1);
   --color-bg-lighter: var(--color-bg-0);
   --color-bg-lightest: var(--color-bg-0);
   --color-bg-darker: var(--color-bg-1);
@@ -1610,7 +1610,7 @@ header nav details > ul {
 
 [data-theme="solunized-light"],
 [data-theme="solunized-white"] {
-  --color-bg: var(--color-bg-0);
+  --color-bg: var(--color-bg-1);
   --color-bg-lighter: var(--color-bg-0);
   --color-bg-lightest: var(--color-bg-0);
   --color-bg-darker: var(--color-bg-1);

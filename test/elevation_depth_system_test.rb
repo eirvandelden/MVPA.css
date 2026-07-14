@@ -20,6 +20,20 @@ class ElevationDepthSystemTest < Minitest::Test
     assert_includes dark_black_block, "--color-bg: var(--color-bg-0);"
   end
 
+  def test_sidebar_floats_with_gutter_and_no_internal_scrollbar
+    assert_includes header_css, "padding: var(--shell-gutter);"
+    assert_includes header_css, "column-gap: var(--shell-gutter);"
+    assert_includes header_css, "min-block-size: calc(100dvh - 2 * var(--shell-gutter));"
+    assert_includes header_css, "overflow-y: visible;"
+    assert_equal false, header_css.include?("overflow-y: auto;")
+    assert_includes packaged_manifest, "min-block-size: calc(100dvh - 2 * var(--shell-gutter));"
+  end
+
+  def test_sidebar_uses_border_not_shadow_on_dark_themes
+    assert_includes header_css, "[data-theme=\"solunized-dark\"] body > header,"
+    assert_includes header_css, "border: 1px solid color-mix(in oklch, var(--color-fg) 14%, transparent);"
+  end
+
   private
 
   def variables_css
@@ -28,6 +42,10 @@ class ElevationDepthSystemTest < Minitest::Test
 
   def colors_css
     read("4_theme/0_colors.css")
+  end
+
+  def header_css
+    read("1_layout/0_header.css")
   end
 
   def packaged_manifest

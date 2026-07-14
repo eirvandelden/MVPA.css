@@ -29,6 +29,14 @@ class ElevationDepthSystemTest < Minitest::Test
     assert_includes packaged_manifest, "min-block-size: calc(100dvh - 2 * var(--shell-gutter));"
   end
 
+  def test_sidebar_does_not_grid_stretch_to_match_main_height
+    # Regression: without align-self: start, Grid's default stretch makes
+    # header (which spans both grid rows) match main's full content height
+    # instead of sizing to its own nav content.
+    assert_includes header_css, "align-self: start;"
+    assert_includes packaged_manifest, "align-self: start;"
+  end
+
   def test_sidebar_uses_border_not_shadow_on_dark_themes
     assert_includes header_css, "[data-theme=\"solunized-dark\"] body > header,"
     assert_includes header_css, "border: 1px solid color-mix(in oklch, var(--color-fg) 14%, transparent);"

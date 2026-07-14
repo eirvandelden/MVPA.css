@@ -2,6 +2,23 @@
 
 **Note:** This project uses git SHAs instead of semver. Pin to a specific SHA in your Gemfile (`ref: "e4179e9"`). Each GitHub release is tagged with its commit SHA.
 
+## 2026-07-14
+
+### Changed
+- **Elevation/depth system** — sidebar and `<article>` cards now read as
+  elevated surfaces on a recessed page background. In the light/white
+  themes, `--color-bg` (page canvas) now sits one step darker than
+  `--color-bg-lighter` (sidebar/card surface); dark/black themes already
+  had this relationship. The sidebar floats with a `--shell-gutter`
+  margin, rounded corners, and a shadow (border on dark/black themes
+  instead, since shadows don't read well there), and no longer gets an
+  internal scrollbar — it grows with its content instead of clipping to
+  viewport height. `<article>` gained a subtle elevation shadow.
+- **Sidebar nav link hover** — links no longer inherit the generic
+  underline-wiggle hover animation; they now get a small scale+lift
+  (`--animation-scale-small` + `translateY(-2px)`) with a matching shadow,
+  reusing the existing scale token rather than a new magic number.
+
 ## 2026-03-04
 
 ### Added

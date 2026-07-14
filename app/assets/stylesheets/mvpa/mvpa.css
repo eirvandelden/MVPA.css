@@ -452,12 +452,13 @@ blockquote {
     animation: focus-ring-draw var(--animation-duration-fast) ease-out forwards;
   }
 
-  /* Links: Underline wiggle on hover */
-  a:not([class]) {
+  /* Links: Underline wiggle on hover (not sidebar nav links — they get their
+     own pill-background + lift hover treatment, see 2_modules/10_navigation.css) */
+  a:not([class]):not(body > header nav a) {
     position: relative;
   }
 
-  a:not([class])::after {
+  a:not([class]):not(body > header nav a)::after {
     content: "";
     position: absolute;
     bottom: -2px;
@@ -470,7 +471,7 @@ blockquote {
     transition: transform var(--animation-duration) ease-out;
   }
 
-  a:not([class]):hover::after {
+  a:not([class]):not(body > header nav a):hover::after {
     animation: link-underline-wiggle var(--animation-duration) var(--animation-spring);
     transform: scaleX(1);
   }

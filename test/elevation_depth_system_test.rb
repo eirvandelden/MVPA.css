@@ -39,6 +39,12 @@ class ElevationDepthSystemTest < Minitest::Test
     assert_includes packaged_manifest, "box-shadow: 0 1px 3px oklch(0% 0 0 / 0.06);"
   end
 
+  def test_sidebar_links_do_not_get_generic_underline_wiggle
+    assert_includes animations_css, "a:not([class]):not(body > header nav a) {"
+    assert_equal false, animations_css.include?("a:not([class]) {\n")
+    assert_includes packaged_manifest, "a:not([class]):not(body > header nav a) {"
+  end
+
   private
 
   def variables_css
@@ -55,6 +61,10 @@ class ElevationDepthSystemTest < Minitest::Test
 
   def article_css
     read("2_modules/8_article.css")
+  end
+
+  def animations_css
+    read("0_base/3_animations.css")
   end
 
   def packaged_manifest

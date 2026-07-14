@@ -34,6 +34,11 @@ class ElevationDepthSystemTest < Minitest::Test
     assert_includes header_css, "border: 1px solid color-mix(in oklch, var(--color-fg) 14%, transparent);"
   end
 
+  def test_article_has_elevation_shadow
+    assert_includes article_css, "box-shadow: 0 1px 3px oklch(0% 0 0 / 0.06);"
+    assert_includes packaged_manifest, "box-shadow: 0 1px 3px oklch(0% 0 0 / 0.06);"
+  end
+
   private
 
   def variables_css
@@ -46,6 +51,10 @@ class ElevationDepthSystemTest < Minitest::Test
 
   def header_css
     read("1_layout/0_header.css")
+  end
+
+  def article_css
+    read("2_modules/8_article.css")
   end
 
   def packaged_manifest

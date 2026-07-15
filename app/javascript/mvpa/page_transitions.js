@@ -20,7 +20,11 @@ const recordDirection = (fromUrl, toUrl, { persist = false } = {}) => {
   const fromIndex = links.findIndex((a) => a.href === fromUrl);
   const toIndex = links.findIndex((a) => a.href === toUrl);
 
-  if (fromIndex === -1 || toIndex === -1) return; // destination isn't in the sidebar nav — no direction, plain fallback slide applies
+  if (fromIndex === -1 || toIndex === -1) {
+    if (persist) sessionStorage.removeItem("mvpaTransitionDirection");
+    document.documentElement.removeAttribute("data-transition-direction");
+    return;
+  }
 
   const direction = toIndex > fromIndex ? "forward" : "backward";
   if (persist) sessionStorage.setItem("mvpaTransitionDirection", direction);

@@ -1,4 +1,5 @@
 require "minitest/autorun"
+require "open3"
 
 # Verifies the page-transition feature (direction-aware slide) is present
 # in both the source partials/JS and the packaged mvpa.css manifest, and
@@ -40,6 +41,69 @@ class PageTransitionsTest < Minitest::Test
 
   def test_direction_script_scoped_to_sidebar_nav_only
     assert_includes page_transitions_js, "body > header nav a[href]"
+  end
+
+  def test_non_sidebar_visits_clear_stale_transition_direction
+    script = <<~JAVASCRIPT
+      const fs = require("fs");
+      const vm = require("vm");
+
+      const attributes = {};
+      const documentElement = {
+        setAttribute(name, value) { attributes[name] = value; },
+        getAttribute(name) { return attributes[name]; },
+        removeAttribute(name) { delete attributes[name]; }
+      };
+      const storage = {};
+      const sessionStorage = {
+        getItem(name) { return storage[name] ?? null; },
+        setItem(name, value) { storage[name] = value; },
+        removeItem(name) { delete storage[name]; }
+      };
+      const listeners = {};
+      const links = ["dashboard", "reports", "settings"].map((path) => ({
+        href: `https://example.test/${path}`
+      }));
+      const document = {
+        URL: "https://example.test/dashboard",
+        documentElement,
+        addEventListener(name, listener) { listeners[name] = listener; },
+        querySelectorAll() { return links; }
+      };
+      const window = { addEventListener(name, listener) { listeners[name] = listener; } };
+
+      vm.runInNewContext(
+        fs.readFileSync("app/javascript/mvpa/page_transitions.js", "utf8"),
+        { document, window, sessionStorage }
+      );
+
+      listeners["turbo:before-visit"]({ detail: { url: "https://example.test/reports" } });
+      document.URL = "https://example.test/reports";
+      listeners["turbo:before-visit"]({ detail: { url: "https://example.test/help" } });
+      if (documentElement.getAttribute("data-transition-direction") !== undefined) {
+        throw new Error("Turbo visit retained a stale transition direction");
+      }
+
+      documentElement.setAttribute("data-transition-direction", "backward");
+      sessionStorage.setItem("mvpaTransitionDirection", "backward");
+      listeners.pageswap({
+        viewTransition: {},
+        activation: {
+          from: { url: "https://example.test/reports" },
+          entry: { url: "https://example.test/help" }
+        }
+      });
+      if (documentElement.getAttribute("data-transition-direction") !== undefined) {
+        throw new Error("Persisted visit retained a stale transition direction");
+      }
+      if (sessionStorage.getItem("mvpaTransitionDirection") !== null) {
+        throw new Error("Persisted visit retained a stale transition direction in storage");
+      }
+    JAVASCRIPT
+
+    _output, error, status = Open3.capture3("node", "-e", script)
+
+    assert status.success?, error
   end
 
   def test_readme_documents_the_required_inline_snippet

@@ -19,6 +19,10 @@ class PageTransitionsTest < Minitest::Test
     assert_equal false, page_transitions_js.include?("location.href")
   end
 
+  def test_direction_script_guards_missing_activation
+    assert_includes page_transitions_js, "if (!event.activation) return;"
+  end
+
   def test_direction_script_scoped_to_sidebar_nav_only
     assert_includes page_transitions_js, "body > header nav a[href]"
   end

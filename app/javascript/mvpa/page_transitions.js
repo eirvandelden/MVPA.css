@@ -17,6 +17,7 @@
 // View Transitions spec.
 window.addEventListener("pageswap", (event) => {
   if (!event.viewTransition) return;
+  if (!event.activation) return;
 
   const links = Array.from(document.querySelectorAll("body > header nav a[href]"));
   // Use event.activation.from/.entry rather than the ambient location

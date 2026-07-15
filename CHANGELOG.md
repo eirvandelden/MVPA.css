@@ -2,6 +2,19 @@
 
 **Note:** This project uses git SHAs instead of semver. Pin to a specific SHA in your Gemfile (`ref: "e4179e9"`). Each GitHub release is tagged with its commit SHA.
 
+## 2026-07-15
+
+### Added
+- **Direction-aware page transitions** — `main` content now slides down
+  when navigating to a sidebar item later in the list, up when navigating
+  to one earlier (vertical on desktop, horizontal on mobile, matching the
+  sidebar's own responsive breakpoint). Requires one small inline snippet
+  copied into your app's layout `<head>` — see README "Page Transitions".
+  Deliberately built on sessionStorage + a plain data-attribute rather
+  than the View Transitions types API/named-type pseudo-class mechanism,
+  which was confirmed during development to not reliably take effect in
+  real-world browser testing despite reporting API support.
+
 ## 2026-07-14
 
 ### Changed

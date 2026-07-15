@@ -23,6 +23,19 @@ class PageTransitionsTest < Minitest::Test
     assert_includes page_transitions_js, "body > header nav a[href]"
   end
 
+  def test_direction_scoped_overrides_present
+    assert_includes turbo_transitions_css, 'html[data-transition-direction="forward"] ::view-transition-old(main-content) {'
+    assert_includes turbo_transitions_css, 'html[data-transition-direction="forward"] ::view-transition-new(main-content) {'
+    assert_includes turbo_transitions_css, 'html[data-transition-direction="backward"] ::view-transition-old(main-content) {'
+    assert_includes turbo_transitions_css, 'html[data-transition-direction="backward"] ::view-transition-new(main-content) {'
+    assert_includes packaged_manifest, 'html[data-transition-direction="backward"] ::view-transition-new(main-content) {'
+  end
+
+  def test_does_not_use_the_confirmed_non_functional_mechanism
+    assert_equal false, turbo_transitions_css.include?(":active-view-transition-type")
+    assert_equal false, turbo_transitions_css.include?("viewTransition.types")
+  end
+
   def test_main_named_and_baseline_slide_present
     assert_includes turbo_transitions_css, "view-transition-name: main-content;"
     assert_includes turbo_transitions_css, "::view-transition-old(main-content) {"

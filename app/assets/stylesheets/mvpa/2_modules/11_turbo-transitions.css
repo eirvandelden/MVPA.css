@@ -43,12 +43,12 @@
      * synchronous inline script at the top of <head> (see README) reads it
      * and sets data-transition-direction on <html> before first paint.
      *
-     * This deliberately does NOT use event.viewTransition.types +
-     * :active-view-transition-type() — confirmed during design validation
+     * This deliberately does NOT use the View Transitions types API +
+     * named-type pseudo-class mechanism — confirmed during design validation
      * (a full-page color-flash test) to not actually take effect in
      * real-world testing despite every individual piece of that API
      * reporting/behaving as supported. A plain data-attribute is used
-     * instead, since :root:active-view-transition-type() with a matching
+     * instead, since the named-type pseudo-class with a matching
      * pseudo-element scope is what silently failed to work in testing.
      *
      * The rules below are an unconditional baseline (not feature-detected)
@@ -66,6 +66,22 @@
 
     ::view-transition-new(main-content) {
       animation-name: mvpa-slide-in-down;
+    }
+
+    html[data-transition-direction="forward"] ::view-transition-old(main-content) {
+      animation-name: mvpa-slide-out-down;
+    }
+
+    html[data-transition-direction="forward"] ::view-transition-new(main-content) {
+      animation-name: mvpa-slide-in-down;
+    }
+
+    html[data-transition-direction="backward"] ::view-transition-old(main-content) {
+      animation-name: mvpa-slide-out-up;
+    }
+
+    html[data-transition-direction="backward"] ::view-transition-new(main-content) {
+      animation-name: mvpa-slide-in-up;
     }
 
     /* forward/down: old content exits toward the bottom, new content enters

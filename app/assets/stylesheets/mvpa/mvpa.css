@@ -1339,7 +1339,7 @@ header nav details > ul {
     }
 
     /* Keep header fixed during page transitions */
-    header {
+    body > header {
       view-transition-name: header;
     }
 

@@ -143,6 +143,12 @@ class PageTransitionsTest < Minitest::Test
     assert_includes packaged_manifest, "view-transition-name: main-content;"
   end
 
+  def test_header_transition_name_is_scoped_to_the_shell_header
+    assert_includes turbo_transitions_css, "body > header {\n      view-transition-name: header;"
+    assert_includes packaged_manifest, "body > header {\n      view-transition-name: header;"
+    assert_equal false, turbo_transitions_css.include?("    header {\n      view-transition-name: header;")
+  end
+
   private
 
   def page_transitions_js

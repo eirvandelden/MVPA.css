@@ -21,7 +21,7 @@
     }
 
     /* Keep header fixed during page transitions */
-    header {
+    body > header {
       view-transition-name: header;
     }
 

@@ -19,6 +19,21 @@ class PageTransitionsTest < Minitest::Test
     assert_equal false, page_transitions_js.include?("location.href")
   end
 
+  def test_direction_script_handles_turbo_visits_before_rendering
+    assert_includes page_transitions_js, 'document.addEventListener("turbo:before-visit"'
+    assert_includes page_transitions_js, "event.detail.url"
+    assert_includes page_transitions_js, "document.URL"
+    assert_includes page_transitions_js, 'document.documentElement.setAttribute("data-transition-direction", direction);'
+  end
+
+  def test_turbo_directions_do_not_persist_for_later_native_page_loads
+    assert_includes page_transitions_js, "const recordDirection = (fromUrl, toUrl, { persist = false } = {}) => {"
+    assert_includes page_transitions_js, 'if (persist) sessionStorage.setItem("mvpaTransitionDirection", direction);'
+    assert_includes page_transitions_js,
+      "recordDirection(event.activation.from.url, event.activation.entry.url, { persist: true });"
+    assert_includes page_transitions_js, "recordDirection(document.URL, event.detail.url);"
+  end
+
   def test_direction_script_guards_missing_activation
     assert_includes page_transitions_js, "if (!event.activation) return;"
   end
@@ -31,6 +46,7 @@ class PageTransitionsTest < Minitest::Test
     assert_includes readme, "data-transition-direction"
     assert_includes readme, "mvpaTransitionDirection"
     assert_includes readme, 'import "mvpa/page_transitions"'
+    assert_includes readme, '<meta name="view-transition" content="same-origin">'
   end
 
   def test_mobile_axis_swap_present

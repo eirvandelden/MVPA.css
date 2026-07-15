@@ -1,4 +1,4 @@
-// Tags each cross-document navigation as "forward" or "backward" by
+// Tags each navigation as "forward" or "backward" by
 // comparing the current page's position in the sidebar <nav> against the
 // destination's position — not by relying on the browser back/forward
 // button, since clicking deeper into the nav in a different order than
@@ -15,19 +15,29 @@
 // page's <head> — see README) is used instead; both are ordinary
 // primitives with a long track record, unlike this specific corner of the
 // View Transitions spec.
+const recordDirection = (fromUrl, toUrl, { persist = false } = {}) => {
+  const links = Array.from(document.querySelectorAll("body > header nav a[href]"));
+  const fromIndex = links.findIndex((a) => a.href === fromUrl);
+  const toIndex = links.findIndex((a) => a.href === toUrl);
+
+  if (fromIndex === -1 || toIndex === -1) return; // destination isn't in the sidebar nav — no direction, plain fallback slide applies
+
+  const direction = toIndex > fromIndex ? "forward" : "backward";
+  if (persist) sessionStorage.setItem("mvpaTransitionDirection", direction);
+  document.documentElement.setAttribute("data-transition-direction", direction);
+};
+
 window.addEventListener("pageswap", (event) => {
   if (!event.viewTransition) return;
   if (!event.activation) return;
 
-  const links = Array.from(document.querySelectorAll("body > header nav a[href]"));
   // Use event.activation.from/.entry rather than the ambient location
   // object — by the time this handler runs, the browser's location may
   // already reflect the destination, which would silently make
   // fromIndex === toIndex and break direction detection on every navigation.
-  const fromIndex = links.findIndex((a) => a.href === event.activation.from.url);
-  const toIndex = links.findIndex((a) => a.href === event.activation.entry.url);
+  recordDirection(event.activation.from.url, event.activation.entry.url, { persist: true });
+});
 
-  if (fromIndex === -1 || toIndex === -1) return; // destination isn't in the sidebar nav — no direction, plain fallback slide applies
-
-  sessionStorage.setItem("mvpaTransitionDirection", toIndex > fromIndex ? "forward" : "backward");
+document.addEventListener("turbo:before-visit", (event) => {
+  recordDirection(document.URL, event.detail.url);
 });

@@ -433,6 +433,13 @@ stylesheet or other script:
 
 #### Rails (importmap-rails)
 
+Turbo requires this meta tag on every page that should participate in a
+view transition. Add it to the shared layout's `<head>`:
+
+```html
+<meta name="view-transition" content="same-origin">
+```
+
 The gem pins `mvpa/page_transitions` automatically. Import it once in
 `app/javascript/application.js`:
 

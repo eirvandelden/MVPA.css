@@ -25,6 +25,8 @@
     "autorun",
     "stylesheet",
     "solunized",
-    "Solunized"
+    "Solunized",
+    "pageswap",
+    "onpageswap"
   ]
 }

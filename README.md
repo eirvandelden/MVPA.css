@@ -402,6 +402,69 @@ Add an importmap to your HTML `<head>` and bootstrap with a module script:
 </script>
 ```
 
+### Page Transitions
+
+Direction-aware page transitions for Turbo/View-Transitions navigation:
+sliding "down" when navigating to a sidebar item later in the list, "up"
+when navigating to one earlier — vertical on desktop, horizontal on mobile
+(matching the sidebar's own responsive behavior).
+
+The CSS (`2_modules/11_turbo-transitions.css`) and the direction-detection
+script are both part of the framework, but one small piece **must be
+copied into your own app's layout** — it can't be shipped as an external
+file, because it has to run synchronously before the page's first paint,
+and an external script always introduces a network round-trip that would
+risk a flash of the wrong direction (or no direction at all).
+
+Add this as the **very first thing inside `<head>`**, before any
+stylesheet or other script:
+
+```html
+<script>
+  (function () {
+    var dir = sessionStorage.getItem("mvpaTransitionDirection");
+    if (dir) {
+      document.documentElement.setAttribute("data-transition-direction", dir);
+      sessionStorage.removeItem("mvpaTransitionDirection");
+    }
+  })();
+</script>
+```
+
+#### Rails (importmap-rails)
+
+Turbo requires this meta tag on every page that should participate in a
+view transition. Add it to the shared layout's `<head>`:
+
+```html
+<meta name="view-transition" content="same-origin">
+```
+
+The gem pins `mvpa/page_transitions` automatically. Import it once in
+`app/javascript/application.js`:
+
+```javascript
+import "mvpa/page_transitions"
+```
+
+#### Standalone / non-Rails
+
+Add an importmap entry and import it the same way:
+
+```html
+<script type="importmap">
+{
+  "imports": {
+    "mvpa/page_transitions": "./path/to/mvpa/page_transitions.js"
+  }
+}
+</script>
+
+<script type="module">
+  import "mvpa/page_transitions"
+</script>
+```
+
 ## Design Tokens
 
 All design values are defined as CSS custom properties for easy customization.

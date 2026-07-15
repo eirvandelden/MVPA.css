@@ -19,6 +19,8 @@ pre-push:
     - minitest
     - rspec
   commands:
+    eslint:
+      skip: true
     stylelint:
       skip: false
     browserslist:

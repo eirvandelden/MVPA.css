@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    mvpa-css (0.1.0.pre.git.a035eda)
+    mvpa-css (0.1.0.pre.git.17c3a7a)
       railties (>= 6.0)
 
 GEM
@@ -139,7 +139,7 @@ CHECKSUMS
   logger (1.7.0)
   loofah (2.25.1)
   minitest (6.0.6)
-  mvpa-css (0.1.0.pre.git.a035eda)
+  mvpa-css (0.1.0.pre.git.17c3a7a)
   nokogiri (1.19.4-arm64-darwin)
   pp (0.6.4)
   prettyprint (0.2.0)

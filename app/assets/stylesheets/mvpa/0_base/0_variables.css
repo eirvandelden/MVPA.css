@@ -76,4 +76,7 @@
   /* Navigation */
   --nav-width: 240px;
   --nav-height-mobile: 4rem;
+
+  /* App shell */
+  --shell-gutter: 0.625rem;
 }

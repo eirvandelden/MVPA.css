@@ -9,7 +9,7 @@
      ===================================================== */
 
   /* Enable View Transitions API for page navigation */
-  @supports (view-transition-name: auto) {
+  @supports (view-transition-name: main) {
     @view-transition {
       navigation: auto;
     }
@@ -21,7 +21,7 @@
     }
 
     /* Keep header fixed during page transitions */
-    header {
+    body > header {
       view-transition-name: header;
     }
 
@@ -36,6 +36,114 @@
     /* [data-turbo-transition-id] {
       view-transition-name: attr(data-turbo-transition-id type(<custom-ident>), none);
     } */
+
+    /* Direction-aware main content slide. Direction ("forward"/"backward")
+     * is computed by app/javascript/mvpa/page_transitions.js (based on
+     * sidebar nav order) and passed to the next page via sessionStorage; a
+     * synchronous inline script at the top of <head> (see README) reads it
+     * and sets data-transition-direction on <html> before first paint.
+     *
+     * This deliberately does NOT use the View Transitions types API +
+     * named-type pseudo-class mechanism — confirmed during design validation
+     * (a full-page color-flash test) to not actually take effect in
+     * real-world testing despite every individual piece of that API
+     * reporting/behaving as supported. A plain data-attribute is used
+     * instead, since the named-type pseudo-class with a matching
+     * pseudo-element scope is what silently failed to work in testing.
+     *
+     * The rules below are an unconditional baseline (not feature-detected)
+     * so pages reached outside the sidebar nav, or any browser where the
+     * data-attribute never gets set, still get a plain slide instead of
+     * nothing. Task 3 adds direction-scoped overrides on top of this via
+     * ordinary CSS specificity. */
+    main {
+      view-transition-name: main-content;
+    }
+
+    ::view-transition-old(main-content) {
+      animation-name: mvpa-slide-out-down;
+    }
+
+    ::view-transition-new(main-content) {
+      animation-name: mvpa-slide-in-down;
+    }
+
+    html[data-transition-direction="forward"] ::view-transition-old(main-content) {
+      animation-name: mvpa-slide-out-down;
+    }
+
+    html[data-transition-direction="forward"] ::view-transition-new(main-content) {
+      animation-name: mvpa-slide-in-down;
+    }
+
+    html[data-transition-direction="backward"] ::view-transition-old(main-content) {
+      animation-name: mvpa-slide-out-up;
+    }
+
+    html[data-transition-direction="backward"] ::view-transition-new(main-content) {
+      animation-name: mvpa-slide-in-up;
+    }
+
+    /* forward/down: old content exits toward the bottom, new content enters
+     * from the top — both moving downward, one continuous motion. Uses
+     * viewport-relative vh (not %, which is relative to main's own —
+     * possibly short — box height and can leave content only partially
+     * off-screen) so short pages still slide fully clear of the viewport. */
+    @keyframes mvpa-slide-out-down {
+      to {
+        translate: 0 100vh;
+      }
+    }
+
+    @keyframes mvpa-slide-in-down {
+      from {
+        translate: 0 -100vh;
+      }
+    }
+
+    /* backward/up: the reverse — both moving upward */
+    @keyframes mvpa-slide-out-up {
+      to {
+        translate: 0 -100vh;
+      }
+    }
+
+    @keyframes mvpa-slide-in-up {
+      from {
+        translate: 0 100vh;
+      }
+    }
+
+    /* Mobile: the sidebar collapses to a horizontal bottom tab bar at this
+     * same breakpoint (see 2_modules/10_navigation.css), so swap the slide
+     * axis to match — left/right instead of up/down. The direction-scoped
+     * selector rules above don't need to change: they reference these same
+     * keyframe names, which are simply redefined here for this viewport. */
+    @media (max-width: 768px) {
+      @keyframes mvpa-slide-out-down {
+        to {
+          translate: 100vw 0;
+        }
+      }
+
+      @keyframes mvpa-slide-in-down {
+        from {
+          translate: -100vw 0;
+        }
+      }
+
+      @keyframes mvpa-slide-out-up {
+        to {
+          translate: -100vw 0;
+        }
+      }
+
+      @keyframes mvpa-slide-in-up {
+        from {
+          translate: 100vw 0;
+        }
+      }
+    }
   }
 
   /* =====================================================

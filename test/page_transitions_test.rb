@@ -23,6 +23,12 @@ class PageTransitionsTest < Minitest::Test
     assert_includes page_transitions_js, "body > header nav a[href]"
   end
 
+  def test_readme_documents_the_required_inline_snippet
+    assert_includes readme, "data-transition-direction"
+    assert_includes readme, "mvpaTransitionDirection"
+    assert_includes readme, 'import "mvpa/page_transitions"'
+  end
+
   def test_mobile_axis_swap_present
     mobile_block = turbo_transitions_css[/@media \(max-width: 768px\) \{.*?\n  \}\n\}/m]
     assert mobile_block, "expected to find a max-width: 768px media query inside the transitions file"
@@ -69,5 +75,9 @@ class PageTransitionsTest < Minitest::Test
 
   def packaged_manifest
     File.read(File.expand_path("../app/assets/stylesheets/mvpa/mvpa.css", __dir__))
+  end
+
+  def readme
+    File.read(File.expand_path("../README.md", __dir__))
   end
 end

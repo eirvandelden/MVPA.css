@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" data-color-scheme="system" data-theme="solunized-light">
+<head>
+  <meta charset="UTF-8">
+  <script>
+    (function () {
+      var dir = sessionStorage.getItem("mvpaTransitionDirection");
+      if (dir) {
+        document.documentElement.setAttribute("data-transition-direction", dir);
+        sessionStorage.removeItem("mvpaTransitionDirection");
+      }
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reports — MVPA.css Page Transitions Demo</title>
+  <link rel="stylesheet" href="../../app/assets/stylesheets/mvpa/mvpa.css">
+  <script type="importmap">
+    { "imports": { "mvpa/page_transitions": "../../app/javascript/mvpa/page_transitions.js" } }
+  </script>
+  <script type="module">
+    import "mvpa/page_transitions"
+  </script>
+</head>
+<body>
+  <header>
+    <nav>
+      <h1>Demo App</h1>
+      <ul>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="reports.html" aria-current="page">Reports</a></li>
+        <li><a href="settings.html">Settings</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <header>
+      <h1>Reports</h1>
+    </header>
+    <article>
+      <h2>Monthly Summary</h2>
+      <p>This page is later in the sidebar than Dashboard, so navigating
+      here from Dashboard should slide down; navigating back should slide
+      up.</p>
+    </article>
+  </main>
+  <footer>
+    <p>MVPA.css page transitions demo</p>
+  </footer>
+</body>
+</html>

@@ -23,6 +23,15 @@ class PageTransitionsTest < Minitest::Test
     assert_includes page_transitions_js, "body > header nav a[href]"
   end
 
+  def test_main_named_and_baseline_slide_present
+    assert_includes turbo_transitions_css, "view-transition-name: main-content;"
+    assert_includes turbo_transitions_css, "::view-transition-old(main-content) {"
+    assert_includes turbo_transitions_css, "::view-transition-new(main-content) {"
+    assert_includes turbo_transitions_css, "animation-name: mvpa-slide-out-down;"
+    assert_includes turbo_transitions_css, "animation-name: mvpa-slide-in-down;"
+    assert_includes packaged_manifest, "view-transition-name: main-content;"
+  end
+
   private
 
   def page_transitions_js
@@ -31,5 +40,13 @@ class PageTransitionsTest < Minitest::Test
 
   def importmap_rb
     File.read(File.expand_path("../config/importmap.rb", __dir__))
+  end
+
+  def turbo_transitions_css
+    File.read(File.expand_path("../app/assets/stylesheets/mvpa/2_modules/11_turbo-transitions.css", __dir__))
+  end
+
+  def packaged_manifest
+    File.read(File.expand_path("../app/assets/stylesheets/mvpa/mvpa.css", __dir__))
   end
 end

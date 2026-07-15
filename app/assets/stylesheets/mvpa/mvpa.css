@@ -1327,7 +1327,7 @@ header nav details > ul {
      ===================================================== */
 
   /* Enable View Transitions API for page navigation */
-  @supports (view-transition-name: auto) {
+  @supports (view-transition-name: main) {
     @view-transition {
       navigation: auto;
     }

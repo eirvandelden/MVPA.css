@@ -23,6 +23,14 @@ class PageTransitionsTest < Minitest::Test
     assert_includes page_transitions_js, "body > header nav a[href]"
   end
 
+  def test_mobile_axis_swap_present
+    mobile_block = turbo_transitions_css[/@media \(max-width: 768px\) \{.*?\n  \}\n\}/m]
+    assert mobile_block, "expected to find a max-width: 768px media query inside the transitions file"
+    assert_includes mobile_block, "@keyframes mvpa-slide-out-down"
+    assert_includes mobile_block, "translate: 100vw 0;"
+    assert_includes mobile_block, "translate: -100vw 0;"
+  end
+
   def test_direction_scoped_overrides_present
     assert_includes turbo_transitions_css, 'html[data-transition-direction="forward"] ::view-transition-old(main-content) {'
     assert_includes turbo_transitions_css, 'html[data-transition-direction="forward"] ::view-transition-new(main-content) {'

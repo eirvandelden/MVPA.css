@@ -1431,6 +1431,37 @@ header nav details > ul {
         translate: 0 100vh;
       }
     }
+
+    /* Mobile: the sidebar collapses to a horizontal bottom tab bar at this
+     * same breakpoint (see 2_modules/10_navigation.css), so swap the slide
+     * axis to match — left/right instead of up/down. The direction-scoped
+     * selector rules above don't need to change: they reference these same
+     * keyframe names, which are simply redefined here for this viewport. */
+    @media (max-width: 768px) {
+      @keyframes mvpa-slide-out-down {
+        to {
+          translate: 100vw 0;
+        }
+      }
+
+      @keyframes mvpa-slide-in-down {
+        from {
+          translate: -100vw 0;
+        }
+      }
+
+      @keyframes mvpa-slide-out-up {
+        to {
+          translate: -100vw 0;
+        }
+      }
+
+      @keyframes mvpa-slide-in-up {
+        from {
+          translate: 100vw 0;
+        }
+      }
+    }
   }
 
   /* =====================================================

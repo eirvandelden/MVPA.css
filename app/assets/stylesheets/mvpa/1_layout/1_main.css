@@ -18,6 +18,7 @@ main {
     grid-row: 1;
     max-inline-size: unset;
     margin-inline: 0;
+    padding-block-start: 0;
   }
 }
 

@@ -47,6 +47,16 @@ class ElevationDepthSystemTest < Minitest::Test
     assert_includes packaged_manifest, "box-shadow: 0 1px 3px oklch(0% 0 0 / 0.06);"
   end
 
+  def test_article_uses_large_radius_in_packaged_manifest
+    assert_includes article_rule(article_css), "border-radius: var(--radius-large);"
+    assert_includes article_rule(packaged_manifest), "border-radius: var(--radius-large);"
+  end
+
+  def test_desktop_main_removes_top_padding_in_packaged_manifest
+    assert_includes desktop_main_rule(main_css), "padding-block-start: 0;"
+    assert_includes desktop_main_rule(packaged_manifest), "padding-block-start: 0;"
+  end
+
   def test_sidebar_links_do_not_get_generic_underline_wiggle
     assert_includes animations_css, "a:not([class]):not(body > header nav a) {"
     assert_equal false, animations_css.include?("a:not([class]) {\n")
@@ -72,6 +82,18 @@ class ElevationDepthSystemTest < Minitest::Test
 
   def header_css
     read("1_layout/0_header.css")
+  end
+
+  def main_css
+    read("1_layout/1_main.css")
+  end
+
+  def article_rule(contents)
+    contents[/article \{.*?\n\}/m]
+  end
+
+  def desktop_main_rule(contents)
+    contents[/@media \(min-width: 769px\) \{\n  main \{.*?\n  \}\n\}/m]
   end
 
   def article_css

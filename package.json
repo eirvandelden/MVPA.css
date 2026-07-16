@@ -5,7 +5,7 @@
     "lint:css": "stylelint \"app/assets/stylesheets/**/*.css\""
   },
   "devDependencies": {
-    "stylelint": "^17.4.0",
+    "stylelint": "^17.14.0",
     "stylelint-no-unsupported-browser-features": "^8.1.1"
   }
 }

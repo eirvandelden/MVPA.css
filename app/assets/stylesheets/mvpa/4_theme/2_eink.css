@@ -63,13 +63,14 @@
   box-shadow: none;
 }
 
-/* Nothing moves on e-ink — suppress all animations and transitions */
+/* Nothing moves on e-ink — suppress all animations, transitions, and hover/active transforms */
 [data-theme="eink-light"],
 [data-theme="eink-light"] *,
 [data-theme="eink-light"] *::before,
 [data-theme="eink-light"] *::after {
   animation: none !important;
   transition: none !important;
+  transform: none !important;
 }
 
 /* Page slides also stop */
@@ -272,13 +273,14 @@
   box-shadow: none;
 }
 
-/* Nothing moves on e-ink — suppress all animations and transitions */
+/* Nothing moves on e-ink — suppress all animations, transitions, and hover/active transforms */
 [data-theme="eink-dark"],
 [data-theme="eink-dark"] *,
 [data-theme="eink-dark"] *::before,
 [data-theme="eink-dark"] *::after {
   animation: none !important;
   transition: none !important;
+  transform: none !important;
 }
 
 /* Page slides also stop */

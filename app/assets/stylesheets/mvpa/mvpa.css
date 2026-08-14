@@ -2051,3 +2051,212 @@ html[data-color-scheme="system"] {
   background-color: black;
   color: white;
 }
+
+/*
+ * E-ink Dark
+ * The light theme with every step inverted: black canvas, white ink.
+ * Select with: data-theme="eink-dark"
+ */
+
+[data-theme="eink-dark"] {
+  color-scheme: dark;
+
+  /* Ink ramp, inverted — four widely separated steps */
+  --color-bg-0: black;
+  --color-bg-1: oklch(13% 0 0);
+  --color-bg-2: white;
+  --color-dim-0: oklch(45% 0 0);
+  --color-fg-0: white;
+  --color-fg-1: white;
+
+  /* Surface aliases: ink black for cards/sidebar, dark grey for page canvas */
+  --color-bg: oklch(13% 0 0);
+  --color-bg-lighter: black;
+  --color-bg-lightest: black;
+  --color-bg-darker: oklch(13% 0 0);
+  --color-bg-darkest: white;
+
+  /* Foreground aliases: all collapse to paper white */
+  --color-fg: white;
+  --color-fg-darker: white;
+  --color-fg-darkest: white;
+  --color-fg-lighter: oklch(45% 0 0);
+  --color-fg-lightest: oklch(45% 0 0);
+
+  /* Accents: collapse to paper white so colour carries no meaning */
+  --color-red: white;
+  --color-green: white;
+  --color-yellow: white;
+  --color-blue: white;
+  --color-magenta: white;
+  --color-cyan: white;
+  --color-orange: white;
+  --color-violet: white;
+
+  --color-br-red: white;
+  --color-br-green: white;
+  --color-br-yellow: white;
+  --color-br-blue: white;
+  --color-br-magenta: white;
+  --color-br-cyan: white;
+  --color-br-orange: white;
+  --color-br-violet: white;
+
+  /* Semantic aliases */
+  --color-primary: white;
+  --color-success: white;
+  --color-danger: white;
+  --color-warning: white;
+  --color-info: white;
+
+  /* Suppress all box-shadows at theme scope; surfaces get 1px borders instead */
+  box-shadow: none;
+}
+
+/* Nothing moves on e-ink — suppress all animations and transitions */
+[data-theme="eink-dark"],
+[data-theme="eink-dark"] *,
+[data-theme="eink-dark"] *::before,
+[data-theme="eink-dark"] *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Page slides also stop */
+[data-theme="eink-dark"] ::view-transition-group(*) {
+  animation: none !important;
+}
+
+/* Flat surfaces — remove shadows, add ink borders where depth matters */
+[data-theme="eink-dark"] body > header {
+  box-shadow: none;
+  border: 1px solid white;
+}
+
+[data-theme="eink-dark"] article {
+  box-shadow: none;
+  border: 1px solid white;
+}
+
+[data-theme="eink-dark"] header nav ul li > a:hover,
+[data-theme="eink-dark"] header nav ul li > details > summary:hover {
+  box-shadow: none;
+}
+
+/* Mobile nav scroll-hint gradient → flat fill */
+@media (max-width: 768px) {
+  [data-theme="eink-dark"] header nav {
+    background: black;
+  }
+}
+
+/* Indeterminate progress → flat bar on a grey track */
+[data-theme="eink-dark"] progress:not([value]) {
+  background: oklch(13% 0 0);
+}
+
+[data-theme="eink-dark"] progress::-webkit-progress-bar {
+  background: oklch(13% 0 0);
+}
+
+[data-theme="eink-dark"] progress::-webkit-progress-value {
+  background: white;
+}
+
+[data-theme="eink-dark"] progress::-moz-progress-bar {
+  background: white;
+}
+
+/* Skeleton loading → flat dark grey */
+[data-theme="eink-dark"] .skeleton {
+  background: oklch(13% 0 0);
+}
+
+/* Button ladder: outlined = ordinary action, filled = consequential action */
+[data-theme="eink-dark"] button,
+[data-theme="eink-dark"] input[type="submit"],
+[data-theme="eink-dark"] input[type="button"],
+[data-theme="eink-dark"] input[type="reset"] {
+  background-color: black;
+  color: white;
+  border: 1px solid white;
+  filter: none;
+}
+
+/* Active state: invert. White-to-black is e-ink's fastest, cleanest flash. */
+[data-theme="eink-dark"] button:active,
+[data-theme="eink-dark"] input[type="submit"]:active,
+[data-theme="eink-dark"] input[type="button"]:active,
+[data-theme="eink-dark"] input[type="reset"]:active {
+  background-color: white;
+  color: black;
+}
+
+/* Disabled: dashed mid-grey border replaces opacity: 0.5 */
+[data-theme="eink-dark"] button:disabled,
+[data-theme="eink-dark"] input[type="submit"]:disabled,
+[data-theme="eink-dark"] input[type="button"]:disabled,
+[data-theme="eink-dark"] input[type="reset"]:disabled {
+  background-color: black;
+  color: oklch(45% 0 0);
+  border: 1px dashed oklch(45% 0 0);
+  opacity: 1;
+}
+
+/* Secondary: quieter outlined button */
+[data-theme="eink-dark"] .button-secondary {
+  background-color: black;
+  color: white;
+  border: 1px solid oklch(45% 0 0);
+}
+
+/* Warning: filled, softer border — "almost danger" */
+[data-theme="eink-dark"] .button-warning {
+  background-color: white;
+  color: black;
+  border: 1px solid oklch(45% 0 0);
+}
+
+/* Danger: filled, crisp border — the most severe action */
+[data-theme="eink-dark"] .button-danger {
+  background-color: white;
+  color: black;
+  border: 1px solid white;
+}
+
+/* Flash messages: status = ink fill (ordinary), alert = paper fill (alarm) */
+[data-theme="eink-dark"] [data-mvpa-flashes] > aside[role="status"] {
+  background-color: black;
+  color: white;
+  border: 1px solid white;
+}
+
+[data-theme="eink-dark"] [data-mvpa-flashes] > aside[role="alert"] {
+  background-color: white;
+  color: black;
+}
+
+/* Error blocks: thick paper left border replaces the alpha tint */
+[data-theme="eink-dark"] aside[role="alert"] {
+  background-color: black;
+  border: 1px solid white;
+  border-inline-start-width: 4px;
+}
+
+[data-theme="eink-dark"] aside[role="alert"] h2 {
+  color: white;
+}
+
+/* Invalid fields: 2px border signals wrong without colour */
+[data-theme="eink-dark"] input:invalid,
+[data-theme="eink-dark"] textarea:invalid,
+[data-theme="eink-dark"] select:invalid {
+  border-width: 2px;
+  border-color: white;
+}
+
+/* Mark: inverted (paper on ink) instead of yellow */
+[data-theme="eink-dark"] mark {
+  background-color: white;
+  color: black;
+}

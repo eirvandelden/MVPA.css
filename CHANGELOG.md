@@ -5,16 +5,17 @@
 ## 2026-08-14
 
 ### Added
-- **E-ink theme** (`data-theme="eink"`) — paper white, ink black, nothing moves.
-  Four-step ink ramp, all animations and transitions suppressed, box-shadows
-  replaced by 1px ink borders, gradients replaced by flat fills. Buttons use
-  a fill/outline ladder so action weight is readable without colour. Invalid
-  fields use a 2px border instead of a red colour. Flash and error blocks use
-  fill contrast instead of hue. Auto-detection via `@media (monochrome)` is
-  unreliable on Android e-ink devices; the theme can be auto-applied via
-  `matchMedia('(update: slow)')` or selected explicitly. Replaces the previous
-  `2_monochrome.css` partial (which was inside a `@media (monochrome)` query
-  that never matched on Android e-ink).
+- **E-ink theme** (`data-theme="eink-light"` / `"eink-dark"`) — paper white,
+  ink black, nothing moves; `eink-dark` inverts every step for e-ink devices
+  in dark mode. Four-step ink ramp, all animations and transitions
+  suppressed, box-shadows replaced by 1px ink borders, gradients replaced by
+  flat fills. Buttons use a fill/outline ladder so action weight is readable
+  without colour. Invalid fields use a 2px border instead of a red colour.
+  Flash and error blocks use fill contrast instead of hue. Auto-detection via
+  `@media (monochrome)` is unreliable on Android e-ink devices; the theme can
+  be auto-applied via `matchMedia('(update: slow)')` or selected explicitly.
+  Replaces the previous `2_monochrome.css` partial (which was inside a
+  `@media (monochrome)` query that never matched on Android e-ink).
 - **44px touch target minimum** (all themes) — buttons and navigation links now
   have `min-height: var(--touch-target)` (44px). Buttons use `inline-flex` so
   single-line labels stay vertically centred. Applies on every theme, not just

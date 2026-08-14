@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-ink Device Probe</title>
+  <style>
+    body {
+      font-family: monospace;
+      font-size: 18px;
+      line-height: 1.8;
+      padding: 1rem;
+      background: white;
+      color: black;
+    }
+    h1 { font-size: 1.4rem; margin-block-end: 1rem; }
+    h2 { font-size: 1.1rem; margin-block: 1.5rem 0.5rem; border-bottom: 1px solid black; }
+    table { border-collapse: collapse; width: 100%; margin-block-end: 1rem; }
+    td, th { border: 1px solid black; padding: 0.4rem 0.8rem; text-align: left; }
+    th { background: black; color: white; }
+    .yes { font-weight: bold; }
+    .no { color: #555; }
+
+    /* Grey ladder — 16 evenly spaced steps */
+    .grey-ladder {
+      display: grid;
+      grid-template-columns: repeat(16, 1fr);
+      height: 3rem;
+      border: 1px solid black;
+      margin-block-end: 0.5rem;
+    }
+    .grey-ladder div { height: 100%; }
+
+    /* Solunized surface/text colours */
+    .color-ladder {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      height: 3rem;
+      border: 1px solid black;
+      margin-block-end: 0.5rem;
+    }
+    .color-label {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      font-size: 0.75rem;
+      margin-block-end: 1.5rem;
+    }
+    .color-label span { text-align: center; word-break: break-all; }
+  </style>
+</head>
+<body>
+
+<h1>E-ink Device Probe</h1>
+<p>Open this page on your e-ink device. Read the feature table, then photograph both ladders.</p>
+
+<h2>Media Feature Results</h2>
+<table id="features">
+  <tr><th>Feature</th><th>Match?</th><th>Value</th></tr>
+</table>
+
+<h2>Screen Info</h2>
+<table id="screen">
+  <tr><th>Property</th><th>Value</th></tr>
+</table>
+
+<h2>User Agent</h2>
+<p id="ua" style="word-break: break-all; font-size: 0.85rem;"></p>
+
+<h2>Grey Ladder (16 steps — photograph this)</h2>
+<p style="font-size:0.85rem;">How many distinct grey levels can you see? Count from left (white) to right (black).</p>
+<div class="grey-ladder" id="grey-ladder"></div>
+<p style="font-size:0.85rem;">Step values: 0%, 6.7%, 13.3%, 20%, 26.7%, 33.3%, 40%, 46.7%, 53.3%, 60%, 66.7%, 73.3%, 80%, 86.7%, 93.3%, 100%</p>
+
+<h2>Solunized Surface Colours (photograph this)</h2>
+<p style="font-size:0.85rem;">Solunized-light surfaces and text colours side by side.</p>
+<div class="color-ladder" id="color-ladder"></div>
+<div class="color-label" id="color-label"></div>
+
+<script>
+  // Media features to probe
+  const features = [
+    { query: "(monochrome)", label: "(monochrome)" },
+    { query: "(min-monochrome: 1)", label: "(min-monochrome: 1)" },
+    { query: "(min-monochrome: 2)", label: "(min-monochrome: 2)" },
+    { query: "(min-monochrome: 4)", label: "(min-monochrome: 4)" },
+    { query: "(min-monochrome: 8)", label: "(min-monochrome: 8)" },
+    { query: "(update: slow)", label: "(update: slow)" },
+    { query: "(update: fast)", label: "(update: fast)" },
+    { query: "(update: none)", label: "(update: none)" },
+    { query: "(prefers-reduced-motion: reduce)", label: "(prefers-reduced-motion: reduce)" },
+    { query: "(prefers-color-scheme: dark)", label: "(prefers-color-scheme: dark)" },
+    { query: "(forced-colors: active)", label: "(forced-colors: active)" },
+    { query: "(prefers-contrast: more)", label: "(prefers-contrast: more)" },
+    { query: "(inverted-colors: inverted)", label: "(inverted-colors: inverted)" },
+    { query: "(color)", label: "(color) — non-zero means colour" },
+    { query: "(min-color: 1)", label: "(min-color: 1)" },
+    { query: "(min-color: 8)", label: "(min-color: 8)" },
+  ];
+
+  const featureTable = document.getElementById("features");
+  for (const { query, label } of features) {
+    const mq = window.matchMedia(query);
+    const tr = document.createElement("tr");
+    const matched = mq.matches;
+    tr.innerHTML = `
+      <td>${label}</td>
+      <td class="${matched ? "yes" : "no"}">${matched ? "YES" : "no"}</td>
+      <td>${matched ? "matches" : "—"}</td>
+    `;
+    featureTable.appendChild(tr);
+  }
+
+  // Screen info
+  const screenTable = document.getElementById("screen");
+  const screenProps = [
+    ["screen.colorDepth", screen.colorDepth],
+    ["screen.pixelDepth", screen.pixelDepth],
+    ["screen.width × screen.height", `${screen.width} × ${screen.height}`],
+    ["window.innerWidth × window.innerHeight", `${window.innerWidth} × ${window.innerHeight}`],
+    ["devicePixelRatio", window.devicePixelRatio],
+  ];
+  for (const [prop, val] of screenProps) {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${prop}</td><td>${val}</td>`;
+    screenTable.appendChild(tr);
+  }
+
+  document.getElementById("ua").textContent = navigator.userAgent;
+
+  // Grey ladder — 16 steps from white (0%) to black (100%)
+  const ladder = document.getElementById("grey-ladder");
+  for (let i = 0; i < 16; i++) {
+    const pct = Math.round((i / 15) * 100);
+    const div = document.createElement("div");
+    div.style.background = `hsl(0 0% ${100 - pct}%)`;
+    ladder.appendChild(div);
+  }
+
+  // Solunized-light surface and text colours (OKLCH approximate hex)
+  const solunizedColors = [
+    { label: "bg-0\n(lightest)", color: "#fdf6e3" },
+    { label: "bg-1\n(light)", color: "#eee8d5" },
+    { label: "bg-2\n(border)", color: "#93a1a1" },
+    { label: "dim-0", color: "#657b83" },
+    { label: "fg-1\n(body)", color: "#586e75" },
+    { label: "fg-0\n(ink)", color: "#073642" },
+  ];
+
+  const colorLadder = document.getElementById("color-ladder");
+  const colorLabelEl = document.getElementById("color-label");
+  for (const { label, color } of solunizedColors) {
+    const div = document.createElement("div");
+    div.style.background = color;
+    colorLadder.appendChild(div);
+    const span = document.createElement("span");
+    span.textContent = label;
+    colorLabelEl.appendChild(span);
+  }
+</script>
+
+</body>
+</html>

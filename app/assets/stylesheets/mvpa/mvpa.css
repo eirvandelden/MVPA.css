@@ -1842,14 +1842,14 @@ html[data-color-scheme="system"] {
 /*
  * E-ink Theme
  * Paper white, ink black, nothing moves.
- * Select with: data-theme="eink"
+ * Select with: data-theme="eink-light"
  *
  * Auto-detection via @media (monochrome) is unreliable — Android e-ink devices
  * report a standard RGB framebuffer, so the query is always false. Apply this
  * theme explicitly via a button or stored preference.
  */
 
-[data-theme="eink"] {
+[data-theme="eink-light"] {
   color-scheme: light;
 
   /* Ink ramp — four widely separated steps */
@@ -1905,69 +1905,69 @@ html[data-color-scheme="system"] {
 }
 
 /* Nothing moves on e-ink — suppress all animations and transitions */
-[data-theme="eink"],
-[data-theme="eink"] *,
-[data-theme="eink"] *::before,
-[data-theme="eink"] *::after {
+[data-theme="eink-light"],
+[data-theme="eink-light"] *,
+[data-theme="eink-light"] *::before,
+[data-theme="eink-light"] *::after {
   animation: none !important;
   transition: none !important;
 }
 
 /* Page slides also stop */
-[data-theme="eink"] ::view-transition-group(*) {
+[data-theme="eink-light"] ::view-transition-group(*) {
   animation: none !important;
 }
 
 /* Flat surfaces — remove shadows, add ink borders where depth matters */
-[data-theme="eink"] body > header {
+[data-theme="eink-light"] body > header {
   box-shadow: none;
   border: 1px solid black;
 }
 
-[data-theme="eink"] article {
+[data-theme="eink-light"] article {
   box-shadow: none;
   border: 1px solid black;
 }
 
-[data-theme="eink"] header nav ul li > a:hover,
-[data-theme="eink"] header nav ul li > details > summary:hover {
+[data-theme="eink-light"] header nav ul li > a:hover,
+[data-theme="eink-light"] header nav ul li > details > summary:hover {
   box-shadow: none;
 }
 
 /* Mobile nav scroll-hint gradient → flat fill */
 @media (max-width: 768px) {
-  [data-theme="eink"] header nav {
+  [data-theme="eink-light"] header nav {
     background: white;
   }
 }
 
 /* Indeterminate progress → flat bar on a grey track */
-[data-theme="eink"] progress:not([value]) {
+[data-theme="eink-light"] progress:not([value]) {
   background: oklch(87% 0 0);
 }
 
-[data-theme="eink"] progress::-webkit-progress-bar {
+[data-theme="eink-light"] progress::-webkit-progress-bar {
   background: oklch(87% 0 0);
 }
 
-[data-theme="eink"] progress::-webkit-progress-value {
+[data-theme="eink-light"] progress::-webkit-progress-value {
   background: black;
 }
 
-[data-theme="eink"] progress::-moz-progress-bar {
+[data-theme="eink-light"] progress::-moz-progress-bar {
   background: black;
 }
 
 /* Skeleton loading → flat light grey */
-[data-theme="eink"] .skeleton {
+[data-theme="eink-light"] .skeleton {
   background: oklch(87% 0 0);
 }
 
 /* Button ladder: outlined = ordinary action, filled = consequential action */
-[data-theme="eink"] button,
-[data-theme="eink"] input[type="submit"],
-[data-theme="eink"] input[type="button"],
-[data-theme="eink"] input[type="reset"] {
+[data-theme="eink-light"] button,
+[data-theme="eink-light"] input[type="submit"],
+[data-theme="eink-light"] input[type="button"],
+[data-theme="eink-light"] input[type="reset"] {
   background-color: white;
   color: black;
   border: 1px solid black;
@@ -1975,19 +1975,19 @@ html[data-color-scheme="system"] {
 }
 
 /* Active state: invert. Black-to-white is e-ink's fastest, cleanest flash. */
-[data-theme="eink"] button:active,
-[data-theme="eink"] input[type="submit"]:active,
-[data-theme="eink"] input[type="button"]:active,
-[data-theme="eink"] input[type="reset"]:active {
+[data-theme="eink-light"] button:active,
+[data-theme="eink-light"] input[type="submit"]:active,
+[data-theme="eink-light"] input[type="button"]:active,
+[data-theme="eink-light"] input[type="reset"]:active {
   background-color: black;
   color: white;
 }
 
 /* Disabled: dashed mid-grey border replaces opacity: 0.5 */
-[data-theme="eink"] button:disabled,
-[data-theme="eink"] input[type="submit"]:disabled,
-[data-theme="eink"] input[type="button"]:disabled,
-[data-theme="eink"] input[type="reset"]:disabled {
+[data-theme="eink-light"] button:disabled,
+[data-theme="eink-light"] input[type="submit"]:disabled,
+[data-theme="eink-light"] input[type="button"]:disabled,
+[data-theme="eink-light"] input[type="reset"]:disabled {
   background-color: white;
   color: oklch(55% 0 0);
   border: 1px dashed oklch(55% 0 0);
@@ -1995,59 +1995,59 @@ html[data-color-scheme="system"] {
 }
 
 /* Secondary: quieter outlined button */
-[data-theme="eink"] .button-secondary {
+[data-theme="eink-light"] .button-secondary {
   background-color: white;
   color: black;
   border: 1px solid oklch(55% 0 0);
 }
 
 /* Warning: filled, softer border — "almost danger" */
-[data-theme="eink"] .button-warning {
+[data-theme="eink-light"] .button-warning {
   background-color: black;
   color: white;
   border: 1px solid oklch(55% 0 0);
 }
 
 /* Danger: filled, crisp border — the most severe action */
-[data-theme="eink"] .button-danger {
+[data-theme="eink-light"] .button-danger {
   background-color: black;
   color: white;
   border: 1px solid black;
 }
 
 /* Flash messages: status = paper fill (ordinary), alert = ink fill (alarm) */
-[data-theme="eink"] [data-mvpa-flashes] > aside[role="status"] {
+[data-theme="eink-light"] [data-mvpa-flashes] > aside[role="status"] {
   background-color: white;
   color: black;
   border: 1px solid black;
 }
 
-[data-theme="eink"] [data-mvpa-flashes] > aside[role="alert"] {
+[data-theme="eink-light"] [data-mvpa-flashes] > aside[role="alert"] {
   background-color: black;
   color: white;
 }
 
 /* Error blocks: thick ink left border replaces the alpha tint */
-[data-theme="eink"] aside[role="alert"] {
+[data-theme="eink-light"] aside[role="alert"] {
   background-color: white;
   border: 1px solid black;
   border-inline-start-width: 4px;
 }
 
-[data-theme="eink"] aside[role="alert"] h2 {
+[data-theme="eink-light"] aside[role="alert"] h2 {
   color: black;
 }
 
 /* Invalid fields: 2px border signals wrong without colour */
-[data-theme="eink"] input:invalid,
-[data-theme="eink"] textarea:invalid,
-[data-theme="eink"] select:invalid {
+[data-theme="eink-light"] input:invalid,
+[data-theme="eink-light"] textarea:invalid,
+[data-theme="eink-light"] select:invalid {
   border-width: 2px;
   border-color: black;
 }
 
 /* Mark: inverted (ink on paper) instead of yellow */
-[data-theme="eink"] mark {
+[data-theme="eink-light"] mark {
   background-color: black;
   color: white;
 }

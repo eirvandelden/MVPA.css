@@ -4,10 +4,10 @@ require "minitest/autorun"
 # The eink theme must be readable on such a screen without any colour perception.
 class EinkThemeTest < Minitest::Test
   def test_an_eink_reader_can_choose_the_eink_theme
-    assert_includes eink_partial, '[data-theme="eink"]',
-      "eink theme selector missing from source partial"
-    assert_includes bundle, '[data-theme="eink"]',
-      "eink theme selector missing from packaged bundle"
+    assert_includes eink_partial, '[data-theme="eink-light"]',
+      "eink-light theme selector missing from source partial"
+    assert_includes bundle, '[data-theme="eink-light"]',
+      "eink-light theme selector missing from packaged bundle"
   end
 
   def test_the_eink_theme_prints_ink_black_on_paper_white
@@ -27,16 +27,16 @@ class EinkThemeTest < Minitest::Test
   end
 
   def test_nothing_moves_on_the_eink_theme
-    assert_match(/\[data-theme="eink"\].*animation:\s*none/m, eink_partial,
+    assert_match(/\[data-theme="eink-light"\].*animation:\s*none/m, eink_partial,
       "animations not suppressed for eink theme")
-    assert_match(/\[data-theme="eink"\].*transition:\s*none/m, eink_partial,
+    assert_match(/\[data-theme="eink-light"\].*transition:\s*none/m, eink_partial,
       "transitions not suppressed for eink theme")
     assert_match(/::view-transition-group\(\*\).*animation:\s*none/m, eink_partial,
       "page-slide view transitions not suppressed for eink theme")
   end
 
   def test_the_eink_theme_has_no_shadows_gradients_or_see_through_fills
-    assert_match(/\[data-theme="eink"\][^}]*box-shadow:\s*none/m, eink_partial,
+    assert_match(/\[data-theme="eink-light"\][^}]*box-shadow:\s*none/m, eink_partial,
       "box shadows not removed for eink theme")
     refute_match(/linear-gradient|radial-gradient/, eink_partial, # rubocop:disable Rails/RefuteMethods
       "gradients still present in eink theme")

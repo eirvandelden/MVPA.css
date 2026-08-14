@@ -24,12 +24,21 @@
     /* Grey ladder — 16 evenly spaced steps */
     .grey-ladder {
       display: grid;
-      grid-template-columns: repeat(16, 1fr);
-      height: 3rem;
+      grid-template-columns: repeat(11, 1fr);
+      height: 4rem;
       border: 1px solid black;
       margin-block-end: 0.5rem;
     }
-    .grey-ladder div { height: 100%; }
+    .grey-ladder div {
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      font-size: 0.65rem;
+      padding-block-end: 2px;
+      border-inline-end: 1px solid black;
+    }
+    .grey-ladder div:last-child { border-inline-end: none; }
 
     /* Solunized surface/text colours */
     .color-ladder {
@@ -51,7 +60,7 @@
 <body>
 
 <h1>E-ink Device Probe</h1>
-<p>Open this page on your e-ink device. Read the feature table, then photograph both ladders.</p>
+<p>Open this page on your e-ink device. Read the feature table, then read both ladders directly on-screen.</p>
 
 <h2>Media Feature Results</h2>
 <table id="features">
@@ -65,13 +74,16 @@
 
 <h2>User Agent</h2>
 <p id="ua" style="word-break: break-all; font-size: 0.85rem;"></p>
+<p style="font-size:0.85rem;">Chrome/Edge hide the real device model behind the placeholder "K" in this string as a privacy measure. The real model, if the browser will disclose it, shows up below instead.</p>
 
-<h2>Grey Ladder (16 steps — photograph this)</h2>
-<p style="font-size:0.85rem;">How many distinct grey levels can you see? Count from left (white) to right (black).</p>
+<h2>Device Model (User-Agent Client Hints)</h2>
+<p id="uach" style="font-size:0.85rem;"></p>
+
+<h2>Grey Ladder (11 steps, labelled — read directly, no photo needed)</h2>
+<p style="font-size:0.85rem;">Each swatch is labelled with its darkness. Read on the panel itself — a camera's auto-exposure clips the ends and hides real steps. Report the labels of any two neighbouring swatches that look identical.</p>
 <div class="grey-ladder" id="grey-ladder"></div>
-<p style="font-size:0.85rem;">Step values: 0%, 6.7%, 13.3%, 20%, 26.7%, 33.3%, 40%, 46.7%, 53.3%, 60%, 66.7%, 73.3%, 80%, 86.7%, 93.3%, 100%</p>
 
-<h2>Solunized Surface Colours (photograph this)</h2>
+<h2>Solunized Surface Colours</h2>
 <p style="font-size:0.85rem;">Solunized-light surfaces and text colours side by side.</p>
 <div class="color-ladder" id="color-ladder"></div>
 <div class="color-label" id="color-label"></div>
@@ -127,12 +139,28 @@
 
   document.getElementById("ua").textContent = navigator.userAgent;
 
-  // Grey ladder — 16 steps from white (0%) to black (100%)
+  // Device model via User-Agent Client Hints — only available in a secure
+  // context (HTTPS). The plain-HTTP local server used for the rest of this
+  // probe cannot report it; this needs testing over HTTPS.
+  const uachEl = document.getElementById("uach");
+  if (!window.isSecureContext) {
+    uachEl.textContent = "Not available — this page is not served over HTTPS.";
+  } else if (!navigator.userAgentData) {
+    uachEl.textContent = "Not available — navigator.userAgentData is unsupported in this browser.";
+  } else {
+    navigator.userAgentData.getHighEntropyValues(["model", "platformVersion"])
+      .then(values => { uachEl.textContent = JSON.stringify(values); })
+      .catch(error => { uachEl.textContent = `Request failed: ${error.message}`; });
+  }
+
+  // Grey ladder — 11 steps from white (0%) to black (100%), labelled
   const ladder = document.getElementById("grey-ladder");
-  for (let i = 0; i < 16; i++) {
-    const pct = Math.round((i / 15) * 100);
+  for (let i = 0; i <= 10; i++) {
+    const pct = i * 10;
     const div = document.createElement("div");
     div.style.background = `hsl(0 0% ${100 - pct}%)`;
+    div.style.color = pct >= 50 ? "white" : "black";
+    div.textContent = `${pct}%`;
     ladder.appendChild(div);
   }
 

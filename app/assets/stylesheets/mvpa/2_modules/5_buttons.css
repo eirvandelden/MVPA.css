@@ -19,3 +19,36 @@
   --button-bg: var(--color-bg-darker);
   --button-fg: var(--color-fg);
 }
+
+/* 44pt touch target (Apple HIG) */
+button,
+input[type="submit"],
+input[type="button"],
+input[type="reset"],
+a[role="button"] {
+  min-block-size: 2.75rem;
+}
+
+/* Destructive — Rails button_to method: :delete emits this hidden input */
+form:has(input[name="_method"][value="delete"]) button {
+  --button-bg: var(--color-danger);
+  --button-fg: var(--color-bg-lightest);
+}
+
+/* Primary page action — link in page-level header nav (slice 4 adds the structure) */
+main > header nav a {
+  display: inline-flex;
+  align-items: center;
+  padding-block: 0.4rem;
+  padding-inline: 0.75rem;
+  border-radius: var(--radius);
+  text-decoration: none;
+  background-color: var(--color-primary);
+  color: var(--color-bg-lightest);
+}
+
+main > header nav a:hover,
+main > header nav a:visited {
+  color: var(--color-bg-lightest);
+  text-decoration: none;
+}

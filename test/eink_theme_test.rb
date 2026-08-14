@@ -40,6 +40,14 @@ class EinkThemeTest < Minitest::Test
       "hover transforms (scale/translate) still shift buttons and nav links on eink theme")
   end
 
+  def test_the_submenu_arrow_still_shows_open_state_on_the_eink_theme
+    assert_match(
+      /\[data-theme="eink-light"\] header nav details\[open\] > summary::after[^}]*transform:\s*rotate\(90deg\)\s*!important/m,
+      eink_partial,
+      "submenu arrow no longer rotates when open on eink theme — the blanket transform: none wins, so expanded submenus look collapsed"
+    )
+  end
+
   def test_the_eink_theme_has_no_shadows_gradients_or_see_through_fills
     assert_match(/\[data-theme="eink-light"\][^}]*box-shadow:\s*none/m, eink_partial,
       "box shadows not removed for eink theme")
@@ -93,6 +101,14 @@ class EinkThemeTest < Minitest::Test
   def test_hover_states_do_not_shift_position_on_the_dark_eink_theme_either
     assert_match(/\[data-theme="eink-dark"\][^{]*\{[^}]*transform:\s*none/m, eink_partial,
       "hover transforms (scale/translate) still shift buttons and nav links on the dark eink theme")
+  end
+
+  def test_the_submenu_arrow_still_shows_open_state_on_the_dark_eink_theme
+    assert_match(
+      /\[data-theme="eink-dark"\] header nav details\[open\] > summary::after[^}]*transform:\s*rotate\(90deg\)\s*!important/m,
+      eink_partial,
+      "submenu arrow no longer rotates when open on the dark eink theme — the blanket transform: none wins, so expanded submenus look collapsed"
+    )
   end
 
   private

@@ -94,6 +94,11 @@
   box-shadow: none;
 }
 
+/* Submenu arrow still rotates to show open state — this is a state indicator, not motion */
+[data-theme="eink-light"] header nav details[open] > summary::after {
+  transform: rotate(90deg) !important;
+}
+
 /* Mobile nav scroll-hint gradient → flat fill */
 @media (max-width: 768px) {
   [data-theme="eink-light"] header nav {
@@ -302,6 +307,11 @@
 [data-theme="eink-dark"] header nav ul li > a:hover,
 [data-theme="eink-dark"] header nav ul li > details > summary:hover {
   box-shadow: none;
+}
+
+/* Submenu arrow still rotates to show open state — this is a state indicator, not motion */
+[data-theme="eink-dark"] header nav details[open] > summary::after {
+  transform: rotate(90deg) !important;
 }
 
 /* Mobile nav scroll-hint gradient → flat fill */

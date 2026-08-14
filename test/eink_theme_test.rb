@@ -38,9 +38,9 @@ class EinkThemeTest < Minitest::Test
   def test_the_eink_theme_has_no_shadows_gradients_or_see_through_fills
     assert_match(/\[data-theme="eink"\][^}]*box-shadow:\s*none/m, eink_partial,
       "box shadows not removed for eink theme")
-    refute_match(/linear-gradient|radial-gradient/, eink_partial,
+    refute_match(/linear-gradient|radial-gradient/, eink_partial, # rubocop:disable Rails/RefuteMethods
       "gradients still present in eink theme")
-    refute_match(/\d+%\s*\)/, eink_partial,
+    refute_match(/\d+%\s*\)/, eink_partial, # rubocop:disable Rails/RefuteMethods
       "semi-transparent fills (oklch with alpha %) still present in eink theme")
   end
 

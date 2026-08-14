@@ -97,7 +97,10 @@ input[type="reset"] {
   --button-bg: var(--color-primary);
   --button-fg: var(--color-bg-lightest);
 
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--touch-target);
   padding-block: 0.5em;
   padding-inline: 1.5em;
   font-size: 1rem;

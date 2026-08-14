@@ -151,9 +151,9 @@ MVPA.css supports four Solunized variants with automatic dark mode switching:
 - **Solunized Dark** (default dark theme) – Hex-based dark palette generated from Solunized
 - **Solunized White** – High-key Solunized white variant
 - **Solunized Black** – High-contrast Solunized black variant
-- **E-ink** (`data-theme="eink"`) – Paper white, ink black, no animations. For slow grey displays. Auto-detection via `@media (monochrome)` is unreliable on Android e-ink devices (they report an RGB framebuffer); apply this theme explicitly or detect via `matchMedia('(update: slow)')`.
+- **E-ink Light** (`data-theme="eink-light"`) – Paper white, ink black, no animations. For slow grey displays. Auto-detection via `@media (monochrome)` is unreliable on Android e-ink devices (they report an RGB framebuffer); apply this theme explicitly or detect via `matchMedia('(update: slow)')`.
 
-Set the theme with `data-theme="eink"` on the `<html>` element, or use the E-ink button in `demo.html`.
+Set the theme with `data-theme="eink-light"` on the `<html>` element, or use the E-ink button in `demo.html`.
 
 ### Setting Themes Programmatically
 

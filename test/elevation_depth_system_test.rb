@@ -43,8 +43,8 @@ class ElevationDepthSystemTest < Minitest::Test
   end
 
   def test_article_has_elevation_shadow
-    assert_includes article_css, "box-shadow: 0 1px 3px oklch(0% 0 0 / 0.06);"
-    assert_includes packaged_manifest, "box-shadow: 0 1px 3px oklch(0% 0 0 / 0.06);"
+    assert_includes article_css, "box-shadow: var(--shadow-1);"
+    assert_includes packaged_manifest, "box-shadow: var(--shadow-1);"
   end
 
   def test_article_uses_large_radius_in_packaged_manifest
@@ -65,7 +65,7 @@ class ElevationDepthSystemTest < Minitest::Test
 
   def test_sidebar_links_get_hover_lift
     assert_includes navigation_css, "transform: scale(var(--animation-scale-small)) translateY(-2px);"
-    assert_includes navigation_css, "box-shadow: 0 3px 8px oklch(0% 0 0 / 0.14);"
+    assert_includes navigation_css, "box-shadow: var(--shadow-2);"
     assert_includes navigation_css, "transform 150ms ease-out, box-shadow 150ms ease-out"
     assert_includes packaged_manifest, "transform: scale(var(--animation-scale-small)) translateY(-2px);"
   end

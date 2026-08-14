@@ -60,6 +60,31 @@ class EinkThemeTest < Minitest::Test
       "invalid fields do not have 2px border in eink theme — they look the same as valid fields")
   end
 
+  def test_an_eink_reader_can_choose_a_dark_eink_theme
+    assert_includes eink_partial, '[data-theme="eink-dark"]',
+      "eink-dark theme selector missing from source partial"
+    assert_includes bundle, '[data-theme="eink-dark"]',
+      "eink-dark theme selector missing from packaged bundle"
+  end
+
+  def test_the_dark_eink_theme_is_the_light_theme_inverted
+    dark_block = eink_partial[/\[data-theme="eink-dark"\]\s*\{[^}]*\}/m]
+    refute_nil dark_block, "no [data-theme=\"eink-dark\"] rule block found"
+    assert_match(/--color-bg-0:\s*black/, dark_block,
+      "dark eink surface is not ink black")
+    assert_match(/--color-fg:\s*white/, dark_block,
+      "dark eink text is not paper white")
+    assert_match(/--color-bg-2:\s*white/, dark_block,
+      "dark eink border is not paper white — borders would vanish on a black canvas")
+  end
+
+  def test_nothing_moves_on_the_dark_eink_theme_either
+    assert_match(/\[data-theme="eink-dark"\].*animation:\s*none/m, eink_partial,
+      "animations not suppressed for the dark eink theme")
+    assert_match(/\[data-theme="eink-dark"\].*transition:\s*none/m, eink_partial,
+      "transitions not suppressed for the dark eink theme")
+  end
+
   private
 
   def eink_partial

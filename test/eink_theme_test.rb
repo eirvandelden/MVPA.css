@@ -69,7 +69,7 @@ class EinkThemeTest < Minitest::Test
 
   def test_the_dark_eink_theme_is_the_light_theme_inverted
     dark_block = eink_partial[/\[data-theme="eink-dark"\]\s*\{[^}]*\}/m]
-    refute_nil dark_block, "no [data-theme=\"eink-dark\"] rule block found"
+    refute_nil dark_block, "no [data-theme=\"eink-dark\"] rule block found" # rubocop:disable Rails/RefuteMethods
     assert_match(/--color-bg-0:\s*black/, dark_block,
       "dark eink surface is not ink black")
     assert_match(/--color-fg:\s*white/, dark_block,

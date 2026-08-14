@@ -35,6 +35,11 @@ class EinkThemeTest < Minitest::Test
       "page-slide view transitions not suppressed for eink theme")
   end
 
+  def test_hover_states_do_not_shift_position_on_the_eink_theme
+    assert_match(/\[data-theme="eink-light"\][^{]*\{[^}]*transform:\s*none/m, eink_partial,
+      "hover transforms (scale/translate) still shift buttons and nav links on eink theme")
+  end
+
   def test_the_eink_theme_has_no_shadows_gradients_or_see_through_fills
     assert_match(/\[data-theme="eink-light"\][^}]*box-shadow:\s*none/m, eink_partial,
       "box shadows not removed for eink theme")
@@ -83,6 +88,11 @@ class EinkThemeTest < Minitest::Test
       "animations not suppressed for the dark eink theme")
     assert_match(/\[data-theme="eink-dark"\].*transition:\s*none/m, eink_partial,
       "transitions not suppressed for the dark eink theme")
+  end
+
+  def test_hover_states_do_not_shift_position_on_the_dark_eink_theme_either
+    assert_match(/\[data-theme="eink-dark"\][^{]*\{[^}]*transform:\s*none/m, eink_partial,
+      "hover transforms (scale/translate) still shift buttons and nav links on the dark eink theme")
   end
 
   private

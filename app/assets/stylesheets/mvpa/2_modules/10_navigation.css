@@ -57,7 +57,7 @@ header nav ul li > details > summary:hover {
   color: var(--color-fg-darker);
   text-decoration: none;
   transform: scale(var(--animation-scale-small)) translateY(-2px);
-  box-shadow: 0 3px 8px oklch(0% 0 0 / 0.14);
+  box-shadow: var(--shadow-2);
 }
 
 header nav ul li > a[aria-current="page"] {

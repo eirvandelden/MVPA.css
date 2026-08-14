@@ -86,7 +86,7 @@ Add these imports to your HTML in the correct order:
 
 <!-- Themes -->
 <link rel="stylesheet" href="mvpa/4_theme/1_theme-switching.css">
-<link rel="stylesheet" href="mvpa/4_theme/2_monochrome.css">
+<link rel="stylesheet" href="mvpa/4_theme/2_eink.css">
 
 <!-- Animations & Utilities -->
 <link rel="stylesheet" href="mvpa/0_base/3_animations.css">
@@ -133,10 +133,10 @@ app/assets/stylesheets/mvpa/
 │   ├── 9_mark.css
 │   ├── 10_navigation.css
 │   └── 11_turbo-transitions.css
-└── 4_theme/             # Colors, theme switching, and monochrome support
+└── 4_theme/             # Colors, theme switching, and e-ink support
     ├── 0_colors.css
     ├── 1_theme-switching.css
-    └── 2_monochrome.css
+    └── 2_eink.css
 ```
 
 A flattened `mvpa.css` manifest is also provided for single-import usage (required for Propshaft).
@@ -151,6 +151,9 @@ MVPA.css supports four Solunized variants with automatic dark mode switching:
 - **Solunized Dark** (default dark theme) – Hex-based dark palette generated from Solunized
 - **Solunized White** – High-key Solunized white variant
 - **Solunized Black** – High-contrast Solunized black variant
+- **E-ink** (`data-theme="eink"`) – Paper white, ink black, no animations. For slow grey displays. Auto-detection via `@media (monochrome)` is unreliable on Android e-ink devices (they report an RGB framebuffer); apply this theme explicitly or detect via `matchMedia('(update: slow)')`.
+
+Set the theme with `data-theme="eink"` on the `<html>` element, or use the E-ink button in `demo.html`.
 
 ### Setting Themes Programmatically
 

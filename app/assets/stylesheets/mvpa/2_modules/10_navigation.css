@@ -42,7 +42,7 @@ header nav ul li > details > summary {
   display: flex;
   align-items: center;
   gap: var(--inline-space);
-  min-height: var(--touch-target);
+  min-block-size: var(--touch-target);
   padding: var(--block-space-half) var(--inline-space);
   border-radius: var(--radius);
   text-decoration: none;

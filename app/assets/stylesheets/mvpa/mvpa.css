@@ -890,7 +890,7 @@ input[type="reset"] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: var(--touch-target);
+  min-block-size: var(--touch-target);
   padding-block: 0.5em;
   padding-inline: 1.5em;
   font-size: 1rem;
@@ -1211,7 +1211,7 @@ header nav ul li > details > summary {
   display: flex;
   align-items: center;
   gap: var(--inline-space);
-  min-height: var(--touch-target);
+  min-block-size: var(--touch-target);
   padding: var(--block-space-half) var(--inline-space);
   border-radius: var(--radius);
   text-decoration: none;

@@ -7,12 +7,12 @@ class TouchTargetTest < Minitest::Test
   end
 
   def test_buttons_use_touch_target_token
-    assert_includes forms_css, "min-height: var(--touch-target)"
+    assert_includes forms_css, "min-block-size: var(--touch-target)"
     assert_includes forms_css, "display: inline-flex"
   end
 
   def test_navigation_links_use_touch_target_token
-    assert_includes navigation_css, "min-height: var(--touch-target)"
+    assert_includes navigation_css, "min-block-size: var(--touch-target)"
   end
 
   def test_bundle_includes_touch_target_token
@@ -20,7 +20,7 @@ class TouchTargetTest < Minitest::Test
   end
 
   def test_bundle_applies_touch_target_to_buttons
-    assert_includes bundle, "min-height: var(--touch-target)"
+    assert_includes bundle, "min-block-size: var(--touch-target)"
   end
 
   private

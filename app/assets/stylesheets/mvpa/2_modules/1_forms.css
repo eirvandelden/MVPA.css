@@ -100,7 +100,7 @@ input[type="reset"] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: var(--touch-target);
+  min-block-size: var(--touch-target);
   padding-block: 0.5em;
   padding-inline: 1.5em;
   font-size: 1rem;

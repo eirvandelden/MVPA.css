@@ -111,6 +111,14 @@ class EinkThemeTest < Minitest::Test
     )
   end
 
+  def test_the_mobile_header_stays_flush_on_the_eink_theme
+    mobile_block = header_css[/@media \(max-width: 768px\) \{.*?\n\}/m]
+    assert_match(/^\s*\[data-theme="eink-light"\] body > header,/, mobile_block,
+      "eink-light header keeps its all-round border on mobile — the flush edge-to-edge bar breaks")
+    assert_match(/^\s*\[data-theme="eink-dark"\] body > header/, mobile_block,
+      "eink-dark header keeps its all-round border on mobile — the flush edge-to-edge bar breaks")
+  end
+
   private
 
   def eink_partial
@@ -122,6 +130,12 @@ class EinkThemeTest < Minitest::Test
   def bundle
     @bundle ||= File.read(
       File.expand_path("../app/assets/stylesheets/mvpa/mvpa.css", __dir__)
+    )
+  end
+
+  def header_css
+    @header_css ||= File.read(
+      File.expand_path("../app/assets/stylesheets/mvpa/1_layout/0_header.css", __dir__)
     )
   end
 end

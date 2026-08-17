@@ -7,8 +7,7 @@ export default {
       true,
       {
         ignore: ["css-resize", "css-scrollbar", "css3-cursors"],
-        ignorePartialSupport: true,
-        severity: "warning"
+        ignorePartialSupport: true
       }
     ],
     "selector-pseudo-element-no-unknown": [

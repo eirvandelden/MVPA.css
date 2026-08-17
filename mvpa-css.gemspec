@@ -10,6 +10,8 @@ Gem::Specification.new do |spec|
   spec.description   = "A classless CSS framework for semantic HTML5 with Rails/Turbo integration. Includes 4 Solunized themes, automatic dark mode, modern color handling, and 37signals spacing."
   spec.license       = "osaassy"
 
+  spec.required_ruby_version = ">= 3.2.0"
+
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
     Dir["{app,config,lib}/**/*", "LICENSE.md", "README.md", "CHANGELOG.md"]
   end

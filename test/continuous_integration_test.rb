@@ -24,6 +24,11 @@ class ContinuousIntegrationTest < Minitest::Test
     assert_equal %w[bundler github-actions npm], watched_ecosystems.sort
   end
 
+  def test_the_project_pins_the_ruby_it_runs_on
+    assert_match(/\A\d+\.\d+\.\d+\z/, pinned_ruby,
+                 "CI asks rv for the 'current' Ruby, which is whatever .ruby-version says")
+  end
+
   def test_the_yaml_rules_ship_with_the_repository
     assert File.file?(path(".yamllint.yml")),
            "without its own config, CI falls back to yamllint defaults and disagrees with the hooks"
@@ -45,6 +50,10 @@ class ContinuousIntegrationTest < Minitest::Test
 
   def tested_ruby_versions
     workflow["jobs"]["test"]["strategy"]["matrix"]["ruby"]
+  end
+
+  def pinned_ruby
+    File.file?(path(".ruby-version")) ? read(".ruby-version").strip : "missing"
   end
 
   def oldest_supported_ruby

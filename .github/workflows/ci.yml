@@ -23,12 +23,10 @@ jobs:
         ruby: ["3.2", "4.0"]
     steps:
       - uses: actions/checkout@v7.0.1
-      - uses: ruby/setup-ruby@v1
+      - uses: spinel-coop/setup-rv@main
         with:
           ruby-version: ${{ matrix.ruby }}
-      # The gem version embeds the commit SHA, so a committed lockfile is always
-      # one commit stale and a frozen install can never resolve it.
-      - run: bundle install --jobs 4
+          install-gems: true
       - run: bundle exec rake test
 
   stylesheets:
@@ -71,7 +69,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7.0.1
-      - uses: ruby/setup-ruby@v1
+      - uses: spinel-coop/setup-rv@main
         with:
           ruby-version: "4.0"
       - run: gem build mvpa-css.gemspec

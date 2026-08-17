@@ -3,9 +3,11 @@
   "private": true,
   "scripts": {
     "lint:css": "stylelint \"app/assets/stylesheets/**/*.css\"",
-    "lint:browsers": "browserslist"
+    "lint:browsers": "browserslist",
+    "lint:spelling": "cspell --no-progress \"**/*.{js,rb,md}\""
   },
   "devDependencies": {
+    "cspell": "^10.0.1",
     "stylelint": "^17.14.0",
     "stylelint-no-unsupported-browser-features": "^8.1.1"
   }

@@ -49,7 +49,9 @@ body > header {
      specificity to override the desktop dark/black border rule above. */
   body > header,
   [data-theme="solunized-dark"] body > header,
-  [data-theme="solunized-black"] body > header {
+  [data-theme="solunized-black"] body > header,
+  [data-theme="eink-light"] body > header,
+  [data-theme="eink-dark"] body > header {
     position: fixed;
     inset-inline: 0;
     inset-block-start: auto;

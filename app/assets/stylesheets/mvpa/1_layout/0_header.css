@@ -61,7 +61,7 @@ body > header {
     border-radius: 0;
     box-shadow: none;
     border: none;
-    border-block-start: 1px solid var(--color-bg-darker);
+    border-block-start: 1px solid var(--color-border);
     overflow: visible;
     z-index: var(--z-sticky);
   }

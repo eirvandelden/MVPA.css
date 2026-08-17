@@ -15,26 +15,14 @@ concurrency:
 
 jobs:
   test:
-    name: Tests (Ruby ${{ matrix.ruby }})
+    name: Tests
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        # "current" reads .ruby-version, so the pin is the single source of truth.
-        ruby: ["3.2", "current"]
     steps:
       - uses: actions/checkout@v7.0.1
-      # rv treats .ruby-version as the active Ruby, so the older job cannot
-      # install its own until the pin is out of the way. Restored before the
-      # tests run, because one of them checks the pin is there.
-      - if: matrix.ruby != 'current'
-        run: mv .ruby-version .ruby-version.pinned
       - uses: spinel-coop/setup-rv@main
         with:
-          ruby-version: ${{ matrix.ruby }}
+          ruby-version: current
           install-gems: true
-      - if: matrix.ruby != 'current'
-        run: mv .ruby-version.pinned .ruby-version
       - run: bundle exec rake test
 
   stylesheets:

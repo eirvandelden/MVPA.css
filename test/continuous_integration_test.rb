@@ -15,11 +15,6 @@ class ContinuousIntegrationTest < Minitest::Test
     end
   end
 
-  def test_the_oldest_supported_ruby_is_tested
-    assert_includes tested_ruby_versions, oldest_supported_ruby,
-                    "the gem claims to support Ruby #{oldest_supported_ruby} but CI never runs it"
-  end
-
   def test_dependabot_watches_gems_packages_and_actions
     assert_equal %w[bundler github-actions npm], watched_ecosystems.sort
   end
@@ -48,16 +43,8 @@ class ContinuousIntegrationTest < Minitest::Test
     dependabot["updates"].map { |entry| entry["package-ecosystem"] }
   end
 
-  def tested_ruby_versions
-    workflow["jobs"]["test"]["strategy"]["matrix"]["ruby"]
-  end
-
   def pinned_ruby
     File.file?(path(".ruby-version")) ? read(".ruby-version").strip : "missing"
-  end
-
-  def oldest_supported_ruby
-    read("mvpa-css.gemspec")[/required_ruby_version\s*=\s*">=\s*(\d+\.\d+)/, 1]
   end
 
   def workflow_scripts

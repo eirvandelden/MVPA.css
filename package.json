@@ -2,7 +2,8 @@
   "name": "mvpa-css",
   "private": true,
   "scripts": {
-    "lint:css": "stylelint \"app/assets/stylesheets/**/*.css\""
+    "lint:css": "stylelint \"app/assets/stylesheets/**/*.css\"",
+    "lint:browsers": "browserslist"
   },
   "devDependencies": {
     "stylelint": "^17.14.0",

@@ -26,7 +26,9 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-          bundler-cache: true
+      # The gem version embeds the commit SHA, so a committed lockfile is always
+      # one commit stale and a frozen install can never resolve it.
+      - run: bundle install --jobs 4
       - run: bundle exec rake test
 
   stylesheets:
@@ -72,5 +74,4 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: "4.0"
-          bundler-cache: true
       - run: gem build mvpa-css.gemspec

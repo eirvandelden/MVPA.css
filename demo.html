@@ -234,28 +234,30 @@ console.log(greet('World'));</code></pre>
   <section id="messages">
     <h2>💬 Messages & Alerts</h2>
 
-    <h3>Flash Messages</h3>
-    <section aria-label="Notifications" data-mvpa-flashes>
-      <aside role="status">
-        <p>✓ Your changes have been saved successfully!</p>
-      </aside>
+    <section>
+      <h3>Flash Messages</h3>
+      <section aria-label="Notifications" data-mvpa-flashes>
+        <aside role="status">
+          <p>✓ Your changes have been saved successfully!</p>
+        </aside>
 
-      <aside role="status">
-        <p>ℹ Please review your information before submitting.</p>
-      </aside>
+        <aside role="status">
+          <p>ℹ Please review your information before submitting.</p>
+        </aside>
 
-      <aside role="alert">
-        <h4>Validation Error</h4>
-        <ul>
-          <li>Email field is required</li>
-          <li>Password must be at least 8 characters</li>
-          <li>Please accept the terms and conditions</li>
-        </ul>
-      </aside>
+        <aside role="alert">
+          <h4>Validation Error</h4>
+          <ul>
+            <li>Email field is required</li>
+            <li>Password must be at least 8 characters</li>
+            <li>Please accept the terms and conditions</li>
+          </ul>
+        </aside>
 
-      <aside role="alert">
-        <p><strong>Warning:</strong> This action cannot be undone. Proceed with caution.</p>
-      </aside>
+        <aside role="alert">
+          <p><strong>Warning:</strong> This action cannot be undone. Proceed with caution.</p>
+        </aside>
+      </section>
     </section>
   </section>
 
@@ -350,19 +352,23 @@ console.log(greet('World'));</code></pre>
       </p>
     </form>
 
-    <h3>Disabled State</h3>
-    <form>
-      <fieldset disabled>
-        <legend>🔒 Disabled Fieldset</legend>
-        <label for="disabled-input">Disabled input</label>
-        <input type="text" id="disabled-input" placeholder="Cannot be edited">
-        <button type="submit">Submit (Disabled)</button>
-      </fieldset>
-    </form>
+    <section>
+      <h3>Disabled State</h3>
+      <form>
+        <fieldset disabled>
+          <legend>🔒 Disabled Fieldset</legend>
+          <label for="disabled-input">Disabled input</label>
+          <input type="text" id="disabled-input" placeholder="Cannot be edited">
+          <button type="submit">Submit (Disabled)</button>
+        </fieldset>
+      </form>
+    </section>
 
-    <h3>Invalid State</h3>
-    <input type="text" placeholder="Invalid input" style="border: 2px solid var(--color-danger); outline-color: var(--color-danger);">
-    <small style="color: var(--color-danger);">⚠️ This field is required</small>
+    <section>
+      <h3>Invalid State</h3>
+      <input type="text" placeholder="Invalid input" style="border: 2px solid var(--color-danger); outline-color: var(--color-danger);">
+      <small style="color: var(--color-danger);">⚠️ This field is required</small>
+    </section>
   </section>
 
   <!-- Buttons Section -->
@@ -432,83 +438,87 @@ console.log(greet('World'));</code></pre>
   <section id="tables">
     <h2>📊 Tables</h2>
 
-    <h3>Basic Table</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Component</th>
-          <th>Type</th>
-          <th>Status</th>
-          <th>Lines of Code</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Colors</td>
-          <td>Settings</td>
-          <td>Complete</td>
-          <td>196</td>
-        </tr>
-        <tr>
-          <td>Typography</td>
-          <td>Base</td>
-          <td>Complete</td>
-          <td>112</td>
-        </tr>
-        <tr>
-          <td>Forms</td>
-          <td>Base</td>
-          <td>Complete</td>
-          <td>187</td>
-        </tr>
-        <tr>
-          <td>Buttons</td>
-          <td>Component</td>
-          <td>Complete</td>
-          <td>42</td>
-        </tr>
-        <tr>
-          <td>Articles</td>
-          <td>Component</td>
-          <td>Complete</td>
-          <td>28</td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <th colspan="3">Total</th>
-          <td>565</td>
-        </tr>
-      </tfoot>
-    </table>
+    <section>
+      <h3>Basic Table</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Component</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Lines of Code</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Colors</td>
+            <td>Settings</td>
+            <td>Complete</td>
+            <td>196</td>
+          </tr>
+          <tr>
+            <td>Typography</td>
+            <td>Base</td>
+            <td>Complete</td>
+            <td>112</td>
+          </tr>
+          <tr>
+            <td>Forms</td>
+            <td>Base</td>
+            <td>Complete</td>
+            <td>187</td>
+          </tr>
+          <tr>
+            <td>Buttons</td>
+            <td>Component</td>
+            <td>Complete</td>
+            <td>42</td>
+          </tr>
+          <tr>
+            <td>Articles</td>
+            <td>Component</td>
+            <td>Complete</td>
+            <td>28</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th colspan="3">Total</th>
+            <td>565</td>
+          </tr>
+        </tfoot>
+      </table>
+    </section>
 
-    <h3>Table with Sorting (Information Only)</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Framework</th>
-          <th>Browser Support</th>
-          <th>Bundle Size</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>MVPA.css</td>
-          <td>Chrome 111+, Firefox 113+, Safari 16.4+</td>
-          <td>~15 KB</td>
-        </tr>
-        <tr>
-          <td>Bootstrap</td>
-          <td>All modern browsers</td>
-          <td>~200 KB</td>
-        </tr>
-        <tr>
-          <td>Tailwind</td>
-          <td>All modern browsers</td>
-          <td>Varies (build-based)</td>
-        </tr>
-      </tbody>
-    </table>
+    <section>
+      <h3>Table with Sorting (Information Only)</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Framework</th>
+            <th>Browser Support</th>
+            <th>Bundle Size</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>MVPA.css</td>
+            <td>Chrome 111+, Firefox 113+, Safari 16.4+</td>
+            <td>~15 KB</td>
+          </tr>
+          <tr>
+            <td>Bootstrap</td>
+            <td>All modern browsers</td>
+            <td>~200 KB</td>
+          </tr>
+          <tr>
+            <td>Tailwind</td>
+            <td>All modern browsers</td>
+            <td>Varies (build-based)</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
   </section>
 
   <!-- Progress Section -->
@@ -535,77 +545,81 @@ console.log(greet('World'));</code></pre>
   <section id="lists">
     <h2>📝 Definition Lists & Details</h2>
 
-    <h3>Definition List</h3>
-    <dl>
-      <dt>Framework</dt>
-      <dd>MVPA.css – Minimal Viable Product CSS Framework</dd>
+    <section>
+      <h3>Definition List</h3>
+      <dl>
+        <dt>Framework</dt>
+        <dd>MVPA.css – Minimal Viable Product CSS Framework</dd>
 
-      <dt>Color Space</dt>
-      <dd>OKLCH – Perceptually uniform color space</dd>
+        <dt>Color Space</dt>
+        <dd>OKLCH – Perceptually uniform color space</dd>
 
-      <dt>Architecture</dt>
-      <dd>SMACSS – Scalable and Modular Architecture for CSS</dd>
+        <dt>Architecture</dt>
+        <dd>SMACSS – Scalable and Modular Architecture for CSS</dd>
 
-      <dt>Spacing System</dt>
-      <dd>37signals – 1ch × 1rem base unit</dd>
+        <dt>Spacing System</dt>
+        <dd>37signals – 1ch × 1rem base unit</dd>
 
-      <dt>Browser Support</dt>
-      <dd>Chrome 111+, Firefox 113+, Safari 16.4+</dd>
+        <dt>Browser Support</dt>
+        <dd>Chrome 111+, Firefox 113+, Safari 16.4+</dd>
 
-      <dt>CSS Files</dt>
-      <dd>22 files organized in SMACSS structure</dd>
+        <dt>CSS Files</dt>
+        <dd>22 files organized in SMACSS structure</dd>
 
-      <dt>Button Classes</dt>
-      <dd>Only 4 classes: button-success, button-danger, button-warning, button-secondary</dd>
-    </dl>
+        <dt>Button Classes</dt>
+        <dd>Only 4 classes: button-success, button-danger, button-warning, button-secondary</dd>
+      </dl>
+    </section>
 
-    <h3>Details & Summary (Disclosure Widgets)</h3>
+    <section>
+      <h3>Details & Summary (Disclosure Widgets)</h3>
 
-    <details>
-      <summary>Installation Instructions</summary>
-      <p>Import all 22 CSS files in the correct order, then set the data-theme attribute on the html element.</p>
-      <pre><code>&lt;html data-color-scheme="system" data-theme="solunized-light"&gt;
+      <details>
+        <summary>Installation Instructions</summary>
+        <p>Import all 22 CSS files in the correct order, then set the data-theme attribute on the html element.</p>
+        <pre><code>&lt;html data-color-scheme="system" data-theme="solunized-light"&gt;
   &lt;!-- Your content --&gt;
 &lt;/html&gt;</code></pre>
-    </details>
+      </details>
 
-    <details open>
-      <summary>Theme System (Open by Default)</summary>
-      <p>The framework supports four Solunized themes with automatic dark mode switching. Use the data-theme attribute to override.</p>
-      <ul>
-        <li>Solunized Light (hex-based light palette)</li>
-        <li>Solunized Dark (hex-based dark palette)</li>
-        <li>Solunized White (high-key Solunized variant)</li>
-        <li>Solunized Black (high-contrast Solunized variant)</li>
-      </ul>
-    </details>
+      <details open>
+        <summary>Theme System (Open by Default)</summary>
+        <p>The framework supports four Solunized themes with automatic dark mode switching. Use the data-theme attribute to override.</p>
+        <ul>
+          <li>Solunized Light (hex-based light palette)</li>
+          <li>Solunized Dark (hex-based dark palette)</li>
+          <li>Solunized White (high-key Solunized variant)</li>
+          <li>Solunized Black (high-contrast Solunized variant)</li>
+        </ul>
+      </details>
 
-    <details>
-      <summary>Color Palette</summary>
-      <p>The framework uses Solunized colors for theme palettes and semantic colors such as success, danger, warning, and info.</p>
-      <dl>
-        <dt>Background Shades</dt>
-        <dd>5 levels: lightest, lighter, base, darker, darkest</dd>
+      <details>
+        <summary>Color Palette</summary>
+        <p>The framework uses Solunized colors for theme palettes and semantic colors such as success, danger, warning, and info.</p>
+        <dl>
+          <dt>Background Shades</dt>
+          <dd>5 levels: lightest, lighter, base, darker, darkest</dd>
 
-        <dt>Foreground Shades</dt>
-        <dd>5 levels: darkest, darker, base, lighter, lightest</dd>
+          <dt>Foreground Shades</dt>
+          <dd>5 levels: darkest, darker, base, lighter, lightest</dd>
 
-        <dt>Semantic Colors</dt>
-        <dd>Primary (blue), Success (green), Danger (red), Warning (yellow), Info (cyan)</dd>
-      </dl>
-    </details>
+          <dt>Semantic Colors</dt>
+          <dd>Primary (blue), Success (green), Danger (red), Warning (yellow), Info (cyan)</dd>
+        </dl>
+      </details>
 
-    <details>
-      <summary>Design Tokens</summary>
-      <p>All design values are exposed as CSS custom properties for easy customization and theming.</p>
-      <ul>
-        <li>Color variables (OKLCH based)</li>
-        <li>Spacing system (inline/block in 5 levels)</li>
-        <li>Typography scale (8 sizes)</li>
-        <li>Line heights, border radius, transitions</li>
-        <li>Z-index stack, max widths</li>
-      </ul>
-    </details>
+      <details>
+        <summary>Design Tokens</summary>
+        <p>All design values are exposed as CSS custom properties for easy customization and theming.</p>
+        <ul>
+          <li>Color variables (OKLCH based)</li>
+          <li>Spacing system (inline/block in 5 levels)</li>
+          <li>Typography scale (8 sizes)</li>
+          <li>Line heights, border radius, transitions</li>
+          <li>Z-index stack, max widths</li>
+        </ul>
+      </details>
+    </section>
   </section>
 
   <!-- Articles Section -->
@@ -648,94 +662,102 @@ console.log(greet('World'));</code></pre>
   <section id="colors">
     <h2>🎨 Color System</h2>
 
-    <h3>Semantic Colors</h3>
-    <section class="color-palette">
-      <dl style="background-color: var(--color-primary); color: white;">
-        <dt>Primary</dt>
-        <dd>Blue</dd>
-      </dl>
-      <dl style="background-color: var(--color-success); color: white;">
-        <dt>Success</dt>
-        <dd>Green</dd>
-      </dl>
-      <dl style="background-color: var(--color-danger); color: white;">
-        <dt>Danger</dt>
-        <dd>Red</dd>
-      </dl>
-      <dl style="background-color: var(--color-warning); color: var(--color-fg-darkest);">
-        <dt>Warning</dt>
-        <dd>Yellow</dd>
-      </dl>
-      <dl style="background-color: var(--color-info); color: white;">
-        <dt>Info</dt>
-        <dd>Cyan</dd>
-      </dl>
+    <section>
+      <h3>Semantic Colors</h3>
+      <section class="color-palette">
+        <dl style="background-color: var(--color-primary); color: white;">
+          <dt>Primary</dt>
+          <dd>Blue</dd>
+        </dl>
+        <dl style="background-color: var(--color-success); color: white;">
+          <dt>Success</dt>
+          <dd>Green</dd>
+        </dl>
+        <dl style="background-color: var(--color-danger); color: white;">
+          <dt>Danger</dt>
+          <dd>Red</dd>
+        </dl>
+        <dl style="background-color: var(--color-warning); color: var(--color-fg-darkest);">
+          <dt>Warning</dt>
+          <dd>Yellow</dd>
+        </dl>
+        <dl style="background-color: var(--color-info); color: white;">
+          <dt>Info</dt>
+          <dd>Cyan</dd>
+        </dl>
+      </section>
     </section>
 
-    <h3>Background Shades</h3>
-    <section class="color-palette">
-      <dl style="background-color: var(--color-bg-lightest); border: 1px solid var(--color-bg-darker);">
-        <dt>Lightest</dt>
-      </dl>
-      <dl style="background-color: var(--color-bg-lighter); border: 1px solid var(--color-bg-darker);">
-        <dt>Lighter</dt>
-      </dl>
-      <dl style="background-color: var(--color-bg); border: 1px solid var(--color-bg-darker);">
-        <dt>Base</dt>
-      </dl>
-      <dl style="background-color: var(--color-bg-darker);">
-        <dt>Darker</dt>
-      </dl>
-      <dl style="background-color: var(--color-bg-darkest);">
-        <dt>Darkest</dt>
-      </dl>
+    <section>
+      <h3>Background Shades</h3>
+      <section class="color-palette">
+        <dl style="background-color: var(--color-bg-lightest); border: 1px solid var(--color-bg-darker);">
+          <dt>Lightest</dt>
+        </dl>
+        <dl style="background-color: var(--color-bg-lighter); border: 1px solid var(--color-bg-darker);">
+          <dt>Lighter</dt>
+        </dl>
+        <dl style="background-color: var(--color-bg); border: 1px solid var(--color-bg-darker);">
+          <dt>Base</dt>
+        </dl>
+        <dl style="background-color: var(--color-bg-darker);">
+          <dt>Darker</dt>
+        </dl>
+        <dl style="background-color: var(--color-bg-darkest);">
+          <dt>Darkest</dt>
+        </dl>
+      </section>
     </section>
 
-    <h3>Foreground (Text) Shades</h3>
-    <section class="color-palette">
-      <dl style="background-color: var(--color-fg-darkest); color: white;">
-        <dt>Darkest</dt>
-      </dl>
-      <dl style="background-color: var(--color-fg-darker); color: white;">
-        <dt>Darker</dt>
-      </dl>
-      <dl style="background-color: var(--color-fg); color: white;">
-        <dt>Base</dt>
-      </dl>
-      <dl style="background-color: var(--color-fg-lighter); color: white;">
-        <dt>Lighter</dt>
-      </dl>
-      <dl style="background-color: var(--color-fg-lightest); color: var(--color-fg-darkest);">
-        <dt>Lightest</dt>
-      </dl>
+    <section>
+      <h3>Foreground (Text) Shades</h3>
+      <section class="color-palette">
+        <dl style="background-color: var(--color-fg-darkest); color: white;">
+          <dt>Darkest</dt>
+        </dl>
+        <dl style="background-color: var(--color-fg-darker); color: white;">
+          <dt>Darker</dt>
+        </dl>
+        <dl style="background-color: var(--color-fg); color: white;">
+          <dt>Base</dt>
+        </dl>
+        <dl style="background-color: var(--color-fg-lighter); color: white;">
+          <dt>Lighter</dt>
+        </dl>
+        <dl style="background-color: var(--color-fg-lightest); color: var(--color-fg-darkest);">
+          <dt>Lightest</dt>
+        </dl>
+      </section>
     </section>
 
-    <h3>Chromatic Colors</h3>
-    <section class="color-palette">
-      <dl style="background-color: var(--color-red); color: white;">
-        <dt>Red</dt>
-      </dl>
-      <dl style="background-color: var(--color-green); color: white;">
-        <dt>Green</dt>
-      </dl>
-      <dl style="background-color: var(--color-yellow); color: var(--color-fg-darkest);">
-        <dt>Yellow</dt>
-      </dl>
-      <dl style="background-color: var(--color-blue); color: white;">
-        <dt>Blue</dt>
-      </dl>
-      <dl style="background-color: var(--color-magenta); color: white;">
-        <dt>Magenta</dt>
-      </dl>
-      <dl style="background-color: var(--color-cyan); color: white;">
-        <dt>Cyan</dt>
-      </dl>
-      <dl style="background-color: var(--color-orange); color: white;">
-        <dt>Orange</dt>
-      </dl>
-      <dl style="background-color: var(--color-violet); color: white;">
-        <dt>Violet</dt>
-      </dl>
+    <section>
+      <h3>Chromatic Colors</h3>
+      <section class="color-palette">
+        <dl style="background-color: var(--color-red); color: white;">
+          <dt>Red</dt>
+        </dl>
+        <dl style="background-color: var(--color-green); color: white;">
+          <dt>Green</dt>
+        </dl>
+        <dl style="background-color: var(--color-yellow); color: var(--color-fg-darkest);">
+          <dt>Yellow</dt>
+        </dl>
+        <dl style="background-color: var(--color-blue); color: white;">
+          <dt>Blue</dt>
+        </dl>
+        <dl style="background-color: var(--color-magenta); color: white;">
+          <dt>Magenta</dt>
+        </dl>
+        <dl style="background-color: var(--color-cyan); color: white;">
+          <dt>Cyan</dt>
+        </dl>
+        <dl style="background-color: var(--color-orange); color: white;">
+          <dt>Orange</dt>
+        </dl>
+        <dl style="background-color: var(--color-violet); color: white;">
+          <dt>Violet</dt>
+        </dl>
+      </section>
     </section>
   </section>
 
@@ -743,39 +765,45 @@ console.log(greet('World'));</code></pre>
   <section id="details">
     <h2>🔎 Additional Elements</h2>
 
-    <h3>Description List (Definition List)</h3>
-    <dl>
-      <dt>Term One</dt>
-      <dd>Definition of the first term</dd>
+    <section>
+      <h3>Description List (Definition List)</h3>
+      <dl>
+        <dt>Term One</dt>
+        <dd>Definition of the first term</dd>
 
-      <dt>Term Two</dt>
-      <dd>Definition of the second term which can be longer and span multiple lines</dd>
+        <dt>Term Two</dt>
+        <dd>Definition of the second term which can be longer and span multiple lines</dd>
 
-      <dt>Term Three</dt>
-      <dd>First definition for term three</dd>
-      <dd>Alternative definition for term three</dd>
-    </dl>
+        <dt>Term Three</dt>
+        <dd>First definition for term three</dd>
+        <dd>Alternative definition for term three</dd>
+      </dl>
+    </section>
 
-    <h3>Aside (Sidebar Content)</h3>
-    <aside>
-      <h4>Related Information</h4>
-      <p>This is an aside element, typically used for sidebars, pull quotes, or supplementary information not essential to main content.</p>
-      <ul>
-        <li>Item one</li>
-        <li>Item two</li>
-        <li>Item three</li>
-      </ul>
-    </aside>
+    <section>
+      <h3>Aside (Sidebar Content)</h3>
+      <aside>
+        <h4>Related Information</h4>
+        <p>This is an aside element, typically used for sidebars, pull quotes, or supplementary information not essential to main content.</p>
+        <ul>
+          <li>Item one</li>
+          <li>Item two</li>
+          <li>Item three</li>
+        </ul>
+      </aside>
+    </section>
 
-    <h3>Navigation Example</h3>
-    <nav>
-      <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
+    <section>
+      <h3>Navigation Example</h3>
+      <nav>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </section>
   </section>
 
   <!-- Animations Section -->
@@ -783,112 +811,130 @@ console.log(greet('World'));</code></pre>
     <h2>✨ Whimsical Animations</h2>
     <p>MVPA.css includes delightful micro-interactions inspired by Josh W Comeau's animation principles. All animations respect the <code>prefers-reduced-motion</code> preference.</p>
 
-    <h3>Button Boop Animation</h3>
-    <p>Hover over these buttons to see the boop animation – they spring up with a playful bounce!</p>
-    <p>
-      <button>Primary Button</button>
-      <button>Secondary Button</button>
-      <button>Hover me →</button>
-    </p>
+    <section>
+      <h3>Button Boop Animation</h3>
+      <p>Hover over these buttons to see the boop animation – they spring up with a playful bounce!</p>
+      <p>
+        <button>Primary Button</button>
+        <button>Secondary Button</button>
+        <button>Hover me →</button>
+      </p>
+    </section>
 
-    <h3>Link Underline Wiggle</h3>
-    <p>Hover over <a href="#">this link</a> to see the underline wiggle animation that adds playfulness without affecting readability.</p>
+    <section>
+      <h3>Link Underline Wiggle</h3>
+      <p>Hover over <a href="#">this link</a> to see the underline wiggle animation that adds playfulness without affecting readability.</p>
+    </section>
 
-    <h3>Form Input Focus Pulse</h3>
-    <p>Focus on the input field below to see a subtle pulse glow animation:</p>
-    <form style="max-inline-size: 300px;">
-      <label for="demo-focus">Try clicking here:</label>
-      <input type="text" id="demo-focus" placeholder="Focus me for the animation">
-      <small>A subtle glow expands when focused</small>
-    </form>
+    <section>
+      <h3>Form Input Focus Pulse</h3>
+      <p>Focus on the input field below to see a subtle pulse glow animation:</p>
+      <form style="max-inline-size: 300px;">
+        <label for="demo-focus">Try clicking here:</label>
+        <input type="text" id="demo-focus" placeholder="Focus me for the animation">
+        <small>A subtle glow expands when focused</small>
+      </form>
+    </section>
 
-    <h3>Checkbox Pop Animation</h3>
-    <p>Check these boxes to see the satisfying pop animation:</p>
-    <form style="display: flex; gap: 2rem; flex-wrap: wrap;">
-      <label>
-        <input type="checkbox"> First option
-      </label>
-      <label>
-        <input type="checkbox"> Second option
-      </label>
-      <label>
-        <input type="checkbox"> Third option
-      </label>
-    </form>
+    <section>
+      <h3>Checkbox Pop Animation</h3>
+      <p>Check these boxes to see the satisfying pop animation:</p>
+      <form style="display: flex; gap: 2rem; flex-wrap: wrap;">
+        <label>
+          <input type="checkbox"> First option
+        </label>
+        <label>
+          <input type="checkbox"> Second option
+        </label>
+        <label>
+          <input type="checkbox"> Third option
+        </label>
+      </form>
+    </section>
 
-    <h3>Details Expand Animation</h3>
-    <p>Click the details below to see the smooth expand animation with fade:</p>
-    <details>
-      <summary>What makes animations delightful?</summary>
-      <p>Great animations respond to user intent, are subtle enough not to distract, and make interactions feel intentional. They should never delay functionality – the action happens immediately, the animation is just the cherry on top.</p>
-    </details>
-    <details>
-      <summary>How do these animations perform?</summary>
-      <p>All animations in MVPA.css only animate <code>transform</code> and <code>opacity</code>, which are GPU-accelerated for smooth 60fps performance. This ensures the animations delight without slowing down your app.</p>
-    </details>
+    <section>
+      <h3>Details Expand Animation</h3>
+      <p>Click the details below to see the smooth expand animation with fade:</p>
+      <details>
+        <summary>What makes animations delightful?</summary>
+        <p>Great animations respond to user intent, are subtle enough not to distract, and make interactions feel intentional. They should never delay functionality – the action happens immediately, the animation is just the cherry on top.</p>
+      </details>
+      <details>
+        <summary>How do these animations perform?</summary>
+        <p>All animations in MVPA.css only animate <code>transform</code> and <code>opacity</code>, which are GPU-accelerated for smooth 60fps performance. This ensures the animations delight without slowing down your app.</p>
+      </details>
+    </section>
 
-    <h3>Flash Messages with Slide-In</h3>
-    <p>Example flash message with the slide-in animation:</p>
-    <aside role="status" style="background-color: var(--color-success); color: white; padding: var(--block-space); border-radius: 0.5rem; margin-block: var(--block-space);">
-      ✓ Success! The message slides in from the top with a gentle bounce.
-    </aside>
+    <section>
+      <h3>Flash Messages with Slide-In</h3>
+      <p>Example flash message with the slide-in animation:</p>
+      <aside role="status" style="background-color: var(--color-success); color: white; padding: var(--block-space); border-radius: 0.5rem; margin-block: var(--block-space);">
+        ✓ Success! The message slides in from the top with a gentle bounce.
+      </aside>
+    </section>
 
-    <h3>Table Row Animations</h3>
-    <p>Table rows fade in with a staggered effect. Hover over rows to see the subtle lift animation:</p>
-    <table>
-      <thead>
-        <tr>
-          <th>Feature</th>
-          <th>Animation Type</th>
-          <th>Duration</th>
-          <th>Easing</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Button hover</td>
-          <td>Scale boop</td>
-          <td>350ms</td>
-          <td>Spring</td>
-        </tr>
-        <tr>
-          <td>Input focus</td>
-          <td>Pulse glow</td>
-          <td>500ms</td>
-          <td>Ease-out</td>
-        </tr>
-        <tr>
-          <td>Checkbox check</td>
-          <td>Pop scale</td>
-          <td>200ms</td>
-          <td>Ease-out</td>
-        </tr>
-        <tr>
-          <td>Details expand</td>
-          <td>Fade + slide</td>
-          <td>350ms</td>
-          <td>Ease-out</td>
-        </tr>
-        <tr>
-          <td>Flash message</td>
-          <td>Slide + bounce</td>
-          <td>500ms</td>
-          <td>Spring</td>
-        </tr>
-      </tbody>
-    </table>
+    <section>
+      <h3>Table Row Animations</h3>
+      <p>Table rows fade in with a staggered effect. Hover over rows to see the subtle lift animation:</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Animation Type</th>
+            <th>Duration</th>
+            <th>Easing</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Button hover</td>
+            <td>Scale boop</td>
+            <td>350ms</td>
+            <td>Spring</td>
+          </tr>
+          <tr>
+            <td>Input focus</td>
+            <td>Pulse glow</td>
+            <td>500ms</td>
+            <td>Ease-out</td>
+          </tr>
+          <tr>
+            <td>Checkbox check</td>
+            <td>Pop scale</td>
+            <td>200ms</td>
+            <td>Ease-out</td>
+          </tr>
+          <tr>
+            <td>Details expand</td>
+            <td>Fade + slide</td>
+            <td>350ms</td>
+            <td>Ease-out</td>
+          </tr>
+          <tr>
+            <td>Flash message</td>
+            <td>Slide + bounce</td>
+            <td>500ms</td>
+            <td>Spring</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
 
-    <h3>Accessibility & Reduced Motion</h3>
-    <p>All animations respect the <code>prefers-reduced-motion</code> preference. Users who prefer reduced motion will see interactions without animations, but functionality remains completely intact.</p>
-    <p><strong>To test on macOS:</strong> System Settings → Accessibility → Display → Reduce motion</p>
+    <section>
+      <h3>Accessibility & Reduced Motion</h3>
+      <p>All animations respect the <code>prefers-reduced-motion</code> preference. Users who prefer reduced motion will see interactions without animations, but functionality remains completely intact.</p>
+      <p><strong>To test on macOS:</strong> System Settings → Accessibility → Display → Reduce motion</p>
+    </section>
 
-    <h3>Turbo Integration</h3>
-    <p>When using this with Turbo Streams and Stimulus, elements added via Turbo automatically get the appropriate animations:</p>
-    <ul>
-      <li><code>data-turbo-stream-transition="slide-in"</code> – Slides in from right</li>
-      <li><code>data-turbo-stream-transition="highlight"</code> – Highlights with a flash</li>
-      <li><code>data-turbo-stream-transition="fade-out"</code> – Fades out before removal</li>
-    </ul>
+    <section>
+      <h3>Turbo Integration</h3>
+      <p>When using this with Turbo Streams and Stimulus, elements added via Turbo automatically get the appropriate animations:</p>
+      <ul>
+        <li><code>data-turbo-stream-transition="slide-in"</code> – Slides in from right</li>
+        <li><code>data-turbo-stream-transition="highlight"</code> – Highlights with a flash</li>
+        <li><code>data-turbo-stream-transition="fade-out"</code> – Fades out before removal</li>
+      </ul>
+    </section>
   </section>
 
 </main>

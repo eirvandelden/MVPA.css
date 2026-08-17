@@ -119,6 +119,13 @@ class EinkThemeTest < Minitest::Test
       "eink-dark header keeps its all-round border on mobile — the flush edge-to-edge bar breaks")
   end
 
+  def test_the_mobile_header_divider_is_visible_on_the_eink_theme
+    mobile_block = header_css[/@media \(max-width: 768px\) \{.*?\n\}/m]
+    assert_match(/border-block-start:\s*1px solid var\(--color-border\)/, mobile_block,
+      "mobile header divider uses --color-bg-darker, which equals the page background on eink " \
+      "and vanishes — should use the semantic --color-border token instead")
+  end
+
   private
 
   def eink_partial

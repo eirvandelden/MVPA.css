@@ -1,8 +1,10 @@
 ---
 extends: default
 
+# lefthook.yml is a symlink to a config outside the repository; it dangles on CI.
 ignore: |
   node_modules/
+  lefthook.yml
 
 rules:
   line-length:

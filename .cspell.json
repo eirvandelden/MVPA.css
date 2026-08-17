@@ -1,6 +1,7 @@
 {
   "version": "0.2",
   "language": "en",
+  "ignorePaths": ["node_modules/**"],
   "words": [
     "Mvpa",
     "mvpa",
@@ -29,6 +30,9 @@
     "pageswap",
     "onpageswap",
     "eink",
-    "Eink"
+    "Eink",
+    "Etienne",
+    "Delden",
+    "Saasy"
   ]
 }

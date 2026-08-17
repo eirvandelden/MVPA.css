@@ -20,7 +20,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ruby: ["3.2", "4.0"]
+        # "current" reads .ruby-version, so the pin is the single source of truth.
+        ruby: ["3.2", "current"]
     steps:
       - uses: actions/checkout@v7.0.1
       - uses: spinel-coop/setup-rv@main
@@ -71,5 +72,5 @@ jobs:
       - uses: actions/checkout@v7.0.1
       - uses: spinel-coop/setup-rv@main
         with:
-          ruby-version: "4.0"
+          ruby-version: current
       - run: gem build mvpa-css.gemspec

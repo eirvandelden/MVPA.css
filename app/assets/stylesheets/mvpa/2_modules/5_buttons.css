@@ -11,6 +11,10 @@
   --button-bg: var(--color-danger);
 }
 
+.button-danger:active {
+  filter: brightness(1.05);
+}
+
 .button-warning {
   --button-bg: var(--color-warning);
 }

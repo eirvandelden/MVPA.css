@@ -180,6 +180,14 @@
   border: 1px solid black;
 }
 
+/* Danger/warning start already inverted, so pressing them must invert back
+   or the generic button:active rule sets them to the colours they already have. */
+[data-theme="eink-light"] .button-warning:active,
+[data-theme="eink-light"] .button-danger:active {
+  background-color: white;
+  color: black;
+}
+
 /* Flash messages: status = paper fill (ordinary), alert = ink fill (alarm) */
 [data-theme="eink-light"] [data-mvpa-flashes] > aside[role="status"] {
   background-color: white;
@@ -393,6 +401,14 @@
   background-color: white;
   color: black;
   border: 1px solid white;
+}
+
+/* Danger/warning start already inverted, so pressing them must invert back
+   or the generic button:active rule sets them to the colours they already have. */
+[data-theme="eink-dark"] .button-warning:active,
+[data-theme="eink-dark"] .button-danger:active {
+  background-color: black;
+  color: white;
 }
 
 /* Flash messages: status = ink fill (ordinary), alert = paper fill (alarm) */

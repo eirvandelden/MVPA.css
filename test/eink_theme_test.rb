@@ -126,6 +126,16 @@ class EinkThemeTest < Minitest::Test
       "and vanishes — should use the semantic --color-border token instead")
   end
 
+  def test_pressing_danger_or_warning_gives_visible_feedback_on_the_eink_theme
+    assert_match(/\[data-theme="eink-light"\] \.button-warning:active,\s*\[data-theme="eink-light"\] \.button-danger:active\s*\{[^}]*background-color:\s*white/m,
+      eink_partial,
+      "pressing a filled danger/warning button on eink-light shows no change — they are already " \
+      "black-on-white inverted, so the generic invert-on-press rule sets them to the same colours they already have")
+    assert_match(/\[data-theme="eink-dark"\] \.button-warning:active,\s*\[data-theme="eink-dark"\] \.button-danger:active\s*\{[^}]*background-color:\s*black/m,
+      eink_partial,
+      "pressing a filled danger/warning button on eink-dark shows no change — same issue, inverted direction")
+  end
+
   private
 
   def eink_partial

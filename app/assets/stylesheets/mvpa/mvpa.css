@@ -1803,6 +1803,9 @@ header nav details > ul {
   --color-danger: var(--color-red);
   --color-warning: var(--color-yellow);
   --color-info: var(--color-cyan);
+
+  --color-border: var(--color-bg-darkest);
+  --color-muted: var(--color-fg-lighter);
 }
 /*
  * Theme Switching Logic

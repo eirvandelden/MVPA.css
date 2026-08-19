@@ -1933,10 +1933,17 @@ html[data-color-scheme="system"] {
   animation: none !important;
 }
 
-/* Flat surfaces — remove shadows, add ink borders where depth matters */
+/* Flat surfaces — remove shadows, add ink borders where depth matters.
+   Header border is desktop-only: on mobile it must stay borderless on the
+   side/bottom edges so the fixed bar reads flush, per 1_layout/0_header.css. */
 [data-theme="eink-light"] body > header {
   box-shadow: none;
-  border: 1px solid black;
+}
+
+@media (min-width: 769px) {
+  [data-theme="eink-light"] body > header {
+    border: 1px solid black;
+  }
 }
 
 [data-theme="eink-light"] article {
@@ -2156,10 +2163,17 @@ html[data-color-scheme="system"] {
   animation: none !important;
 }
 
-/* Flat surfaces — remove shadows, add ink borders where depth matters */
+/* Flat surfaces — remove shadows, add ink borders where depth matters.
+   Header border is desktop-only: on mobile it must stay borderless on the
+   side/bottom edges so the fixed bar reads flush, per 1_layout/0_header.css. */
 [data-theme="eink-dark"] body > header {
   box-shadow: none;
-  border: 1px solid white;
+}
+
+@media (min-width: 769px) {
+  [data-theme="eink-dark"] body > header {
+    border: 1px solid white;
+  }
 }
 
 [data-theme="eink-dark"] article {

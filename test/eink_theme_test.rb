@@ -126,6 +126,17 @@ class EinkThemeTest < Minitest::Test
       "and vanishes — should use the semantic --color-border token instead")
   end
 
+  def test_the_eink_header_border_does_not_fight_the_mobile_flush_bar
+    assert_match(/@media \(min-width:\s*769px\)\s*\{[^}]*\[data-theme="eink-light"\] body > header\s*\{[^}]*border:\s*1px solid black/m,
+      eink_partial,
+      "eink-light's header border rule is not confined to desktop widths — at the same specificity as " \
+      "header.css's mobile flush override, and loaded later in the bundle, it wins and puts a border back " \
+      "on every side of the mobile header bar")
+    assert_match(/@media \(min-width:\s*769px\)\s*\{[^}]*\[data-theme="eink-dark"\] body > header\s*\{[^}]*border:\s*1px solid white/m,
+      eink_partial,
+      "eink-dark's header border rule is not confined to desktop widths — same issue, inverted colours")
+  end
+
   def test_pressing_danger_or_warning_gives_visible_feedback_on_the_eink_theme
     assert_match(/\[data-theme="eink-light"\] \.button-warning:active,\s*\[data-theme="eink-light"\] \.button-danger:active\s*\{[^}]*background-color:\s*white/m,
       eink_partial,

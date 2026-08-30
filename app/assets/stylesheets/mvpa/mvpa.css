@@ -2005,6 +2005,7 @@ html[data-color-scheme="system"] {
   background-color: white;
   color: black;
   border: 1px solid black;
+  box-shadow: none;
   filter: none;
 }
 
@@ -2235,6 +2236,7 @@ html[data-color-scheme="system"] {
   background-color: black;
   color: white;
   border: 1px solid white;
+  box-shadow: none;
   filter: none;
 }
 

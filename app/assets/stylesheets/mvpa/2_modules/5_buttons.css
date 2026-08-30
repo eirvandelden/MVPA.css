@@ -49,6 +49,7 @@ main > header nav a {
   text-decoration: none;
   background-color: var(--color-primary);
   color: var(--color-bg-lightest);
+  box-shadow: var(--shadow-1);
 }
 
 main > header nav a:hover,

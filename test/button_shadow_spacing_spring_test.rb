@@ -55,6 +55,13 @@ class ButtonShadowSpacingSpringTest < Minitest::Test
     assert_includes dark_button_rule, "[data-theme=\"solunized-black\"] button,"
   end
 
+  def test_a_disabled_button_loses_its_lift_shadow
+    # The shadow is the affordance that says "press me". A disabled button
+    # dims but still cast the shadow, so it kept looking like you could press it.
+    assert_includes button_disabled_rule(forms_css), "box-shadow: none;"
+    assert_includes button_disabled_rule(bundle), "box-shadow: none;"
+  end
+
   def test_the_page_header_action_link_lifts_like_the_button_beside_it
     # main > header nav pairs a primary action link with a real button (e.g.
     # Show + Destroy). The link is styled to look like a button, so it should
@@ -94,5 +101,9 @@ class ButtonShadowSpacingSpringTest < Minitest::Test
 
   def button_active_rule(contents)
     contents[/^button:active,\ninput\[type="submit"\]:active,\ninput\[type="button"\]:active,\ninput\[type="reset"\]:active \{.*?\n\}/m]
+  end
+
+  def button_disabled_rule(contents)
+    contents[/^button:disabled,\ninput\[type="submit"\]:disabled,\ninput\[type="button"\]:disabled,\ninput\[type="reset"\]:disabled \{.*?\n\}/m]
   end
 end

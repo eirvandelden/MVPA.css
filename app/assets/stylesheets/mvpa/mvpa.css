@@ -933,6 +933,7 @@ input[type="button"]:disabled,
 input[type="reset"]:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
 /* Shadows barely read against a dark background; use a hairline border instead. */

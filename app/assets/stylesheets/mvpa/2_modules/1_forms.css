@@ -144,6 +144,19 @@ input[type="reset"]:disabled {
   cursor: not-allowed;
 }
 
+/* Shadows barely read against a dark background; use a hairline border instead. */
+[data-theme="solunized-dark"] button,
+[data-theme="solunized-dark"] input[type="submit"],
+[data-theme="solunized-dark"] input[type="button"],
+[data-theme="solunized-dark"] input[type="reset"],
+[data-theme="solunized-black"] button,
+[data-theme="solunized-black"] input[type="submit"],
+[data-theme="solunized-black"] input[type="button"],
+[data-theme="solunized-black"] input[type="reset"] {
+  box-shadow: none;
+  border: 1px solid color-mix(in oklch, var(--color-fg) 14%, transparent);
+}
+
 input:invalid,
 textarea:invalid,
 select:invalid {

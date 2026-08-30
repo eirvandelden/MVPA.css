@@ -44,6 +44,17 @@ class ButtonShadowSpacingSpringTest < Minitest::Test
     assert_includes bundle, "button:not(:disabled):hover:not(:active) {"
   end
 
+  def test_a_button_gets_a_visible_border_instead_of_an_invisible_shadow_on_dark_themes
+    # --shadow-1 is near-black at low opacity, so it disappears against the
+    # dark themes' dark canvas. The header solves the same problem by
+    # swapping to a hairline border there instead — buttons follow suit.
+    dark_button_rule = forms_css[/\[data-theme="solunized-dark"\] button,.*?\n\}/m]
+    refute_nil dark_button_rule, "no dark-theme button override found"
+    assert_includes dark_button_rule, "box-shadow: none;"
+    assert_includes dark_button_rule, "border: 1px solid color-mix(in oklch, var(--color-fg) 14%, transparent);"
+    assert_includes dark_button_rule, "[data-theme=\"solunized-black\"] button,"
+  end
+
   def test_the_page_header_action_link_lifts_like_the_button_beside_it
     # main > header nav pairs a primary action link with a real button (e.g.
     # Show + Destroy). The link is styled to look like a button, so it should

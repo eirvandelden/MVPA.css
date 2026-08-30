@@ -5,7 +5,10 @@
 
 form {
   max-inline-size: var(--max-width-content);
-  margin-block-end: var(--block-space);
+}
+
+form + form {
+  margin-block-start: var(--block-space);
 }
 
 fieldset {
@@ -115,7 +118,7 @@ input[type="reset"] {
   border-radius: var(--radius);
   box-shadow: var(--shadow-1);
   cursor: pointer;
-  transition: filter var(--transition-fast), transform var(--transition-fast) var(--animation-spring);
+  transition: filter var(--transition-fast), transform 150ms var(--animation-spring);
 }
 
 button:hover,

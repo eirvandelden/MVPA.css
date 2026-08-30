@@ -5,6 +5,7 @@
 
 form {
   max-inline-size: var(--max-width-content);
+  margin-block-end: var(--block-space);
 }
 
 fieldset {
@@ -112,8 +113,9 @@ input[type="reset"] {
   color: var(--button-fg);
   border: none;
   border-radius: var(--radius);
+  box-shadow: var(--shadow-1);
   cursor: pointer;
-  transition: filter var(--transition-fast);
+  transition: filter var(--transition-fast), transform var(--transition-fast) var(--animation-spring);
 }
 
 button:hover,
@@ -128,6 +130,7 @@ input[type="submit"]:active,
 input[type="button"]:active,
 input[type="reset"]:active {
   filter: brightness(0.95);
+  transform: scale(0.93);
 }
 
 button:disabled,

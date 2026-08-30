@@ -23,10 +23,14 @@ class ElevationDepthSystemTest < Minitest::Test
   def test_sidebar_floats_with_gutter_and_no_internal_scrollbar
     assert_includes header_css, "padding: var(--shell-gutter);"
     assert_includes header_css, "column-gap: var(--shell-gutter);"
-    assert_includes header_css, "min-block-size: calc(100dvh - 2 * var(--shell-gutter));"
     assert_includes header_css, "overflow-y: visible;"
     assert_equal false, header_css.include?("overflow-y: auto;")
-    assert_includes packaged_manifest, "min-block-size: calc(100dvh - 2 * var(--shell-gutter));"
+  end
+
+  def test_sidebar_is_only_as_tall_as_its_own_content
+    assert_includes sidebar_rule(header_css), "block-size: auto;"
+    assert_equal false, sidebar_rule(header_css).include?("min-block-size")
+    assert_equal false, sidebar_rule(packaged_manifest).include?("min-block-size")
   end
 
   def test_sidebar_does_not_grid_stretch_to_match_main_height
@@ -90,6 +94,10 @@ class ElevationDepthSystemTest < Minitest::Test
 
   def article_rule(contents)
     contents[/article \{.*?\n\}/m]
+  end
+
+  def sidebar_rule(contents)
+    contents[/^body > header \{.*?\n\}/m]
   end
 
   def desktop_main_rule(contents)

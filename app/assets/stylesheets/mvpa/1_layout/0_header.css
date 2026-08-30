@@ -18,11 +18,10 @@ body > header {
   grid-row: 1 / -1;
   /* Without this, Grid's default stretch makes header match main's height
      (which can be far taller than the nav), instead of sizing to its own
-     content with min-block-size as a floor. */
+     content. */
   align-self: start;
   position: sticky;
   top: var(--shell-gutter);
-  min-block-size: calc(100dvh - 2 * var(--shell-gutter));
   block-size: auto;
   overflow-y: visible;
   border-radius: var(--radius-large);
@@ -57,7 +56,6 @@ body > header {
     inset-block-start: auto;
     inset-block-end: 0;
     block-size: var(--nav-height-mobile);
-    min-block-size: unset;
     border-radius: 0;
     box-shadow: none;
     border: none;

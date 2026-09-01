@@ -1551,6 +1551,13 @@ strip-ansi@^7.1.2:
   dependencies:
     ansi-regex "^6.2.2"
 
+stylelint-csstree-validator@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/stylelint-csstree-validator/-/stylelint-csstree-validator-4.0.0.tgz#13ec020c7d872dd06d347525384dccd3b24f8f0a"
+  integrity sha512-B++SYa4pwGflGCpRAxIGqmyWauTGg2BajP5rdR+R8wY25gYfSOB1X/DlOo+FsvTvvQpvwKhHfQ0RS5STq3t0jQ==
+  dependencies:
+    css-tree "^3.2.1"
+
 stylelint-no-unsupported-browser-features@^8.1.1:
   version "8.1.1"
   resolved "https://registry.yarnpkg.com/stylelint-no-unsupported-browser-features/-/stylelint-no-unsupported-browser-features-8.1.1.tgz#20451d4a4d26c5884e4e57eaacbfb5996dee8089"

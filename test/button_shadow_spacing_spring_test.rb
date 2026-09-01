@@ -66,11 +66,8 @@ class ButtonShadowSpacingSpringTest < Minitest::Test
     # main > header nav pairs a primary action link with a real button (e.g.
     # Show + Destroy). The link is styled to look like a button, so it should
     # carry the same elevation or it reads as flat next to a raised button.
-    #
-    # Source-only: the packaged mvpa.css is already missing this whole rule
-    # on main, independent of this branch — a separate sync gap to fix on
-    # its own, not asserted here.
     assert_includes header_nav_link_rule(buttons_css), "box-shadow: var(--shadow-1);"
+    assert_includes header_nav_link_rule(bundle), "box-shadow: var(--shadow-1);"
   end
 
   private

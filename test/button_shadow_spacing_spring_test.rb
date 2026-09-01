@@ -18,8 +18,8 @@ class ButtonShadowSpacingSpringTest < Minitest::Test
     # form + form only matches when a form follows a form, so a single
     # button_to form sitting in a page header's nav (see 1_layout/0_header.css)
     # is untouched — it can't inherit the destroy-form-must-space-out rule.
-    refute_includes forms_css, "form {\n  margin-block-end"
-    refute_includes bundle, "form {\n  margin-block-end"
+    refute_includes forms_css, "form {\n  margin-block-end" # rubocop:disable Rails/RefuteMethods
+    refute_includes bundle, "form {\n  margin-block-end" # rubocop:disable Rails/RefuteMethods
   end
 
   def test_the_press_transition_carries_only_one_easing_function_per_layer
@@ -49,7 +49,7 @@ class ButtonShadowSpacingSpringTest < Minitest::Test
     # dark themes' dark canvas. The header solves the same problem by
     # swapping to a hairline border there instead — buttons follow suit.
     dark_button_rule = forms_css[/\[data-theme="solunized-dark"\] button,.*?\n\}/m]
-    refute_nil dark_button_rule, "no dark-theme button override found"
+    refute_nil dark_button_rule, "no dark-theme button override found" # rubocop:disable Rails/RefuteMethods
     assert_includes dark_button_rule, "box-shadow: none;"
     assert_includes dark_button_rule, "border: 1px solid color-mix(in oklch, var(--color-fg) 14%, transparent);"
     assert_includes dark_button_rule, "[data-theme=\"solunized-black\"] button,"

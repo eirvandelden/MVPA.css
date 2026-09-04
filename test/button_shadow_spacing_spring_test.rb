@@ -55,6 +55,14 @@ class ButtonShadowSpacingSpringTest < Minitest::Test
     assert_includes dark_button_rule, "[data-theme=\"solunized-black\"] button,"
   end
 
+  def test_the_page_header_action_link_also_gets_the_dark_theme_border_swap
+    # main > header nav a got a shadow alongside real buttons, so it needs
+    # the same dark-theme treatment or it stays invisible-shadowed while the
+    # button beside it correctly shows a hairline border.
+    dark_button_rule = forms_css[/\[data-theme="solunized-dark"\] button,.*?\n\}/m]
+    assert_includes dark_button_rule, "main > header nav a,"
+  end
+
   def test_a_disabled_button_loses_its_lift_shadow
     # The shadow is the affordance that says "press me". A disabled button
     # dims but still cast the shadow, so it kept looking like you could press it.

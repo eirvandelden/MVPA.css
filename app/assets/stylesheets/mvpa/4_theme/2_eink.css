@@ -81,7 +81,8 @@
 /* Flat surfaces — remove shadows, add ink borders where depth matters.
    Header border is desktop-only: on mobile it must stay borderless on the
    side/bottom edges so the fixed bar reads flush, per 1_layout/0_header.css. */
-[data-theme="eink-light"] body > header {
+[data-theme="eink-light"] body > header,
+[data-theme="eink-light"] main > header nav a {
   box-shadow: none;
 }
 
@@ -312,7 +313,8 @@
 /* Flat surfaces — remove shadows, add ink borders where depth matters.
    Header border is desktop-only: on mobile it must stay borderless on the
    side/bottom edges so the fixed bar reads flush, per 1_layout/0_header.css. */
-[data-theme="eink-dark"] body > header {
+[data-theme="eink-dark"] body > header,
+[data-theme="eink-dark"] main > header nav a {
   box-shadow: none;
 }
 

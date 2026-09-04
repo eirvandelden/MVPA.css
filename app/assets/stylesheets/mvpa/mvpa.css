@@ -942,10 +942,12 @@ input[type="reset"]:disabled {
 [data-theme="solunized-dark"] input[type="submit"],
 [data-theme="solunized-dark"] input[type="button"],
 [data-theme="solunized-dark"] input[type="reset"],
+[data-theme="solunized-dark"] main > header nav a,
 [data-theme="solunized-black"] button,
 [data-theme="solunized-black"] input[type="submit"],
 [data-theme="solunized-black"] input[type="button"],
-[data-theme="solunized-black"] input[type="reset"] {
+[data-theme="solunized-black"] input[type="reset"],
+[data-theme="solunized-black"] main > header nav a {
   box-shadow: none;
   border: 1px solid color-mix(in oklch, var(--color-fg) 14%, transparent);
 }
@@ -1984,7 +1986,8 @@ html[data-color-scheme="system"] {
 /* Flat surfaces — remove shadows, add ink borders where depth matters.
    Header border is desktop-only: on mobile it must stay borderless on the
    side/bottom edges so the fixed bar reads flush, per 1_layout/0_header.css. */
-[data-theme="eink-light"] body > header {
+[data-theme="eink-light"] body > header,
+[data-theme="eink-light"] main > header nav a {
   box-shadow: none;
 }
 
@@ -2215,7 +2218,8 @@ html[data-color-scheme="system"] {
 /* Flat surfaces — remove shadows, add ink borders where depth matters.
    Header border is desktop-only: on mobile it must stay borderless on the
    side/bottom edges so the fixed bar reads flush, per 1_layout/0_header.css. */
-[data-theme="eink-dark"] body > header {
+[data-theme="eink-dark"] body > header,
+[data-theme="eink-dark"] main > header nav a {
   box-shadow: none;
 }
 

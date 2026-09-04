@@ -9,6 +9,13 @@ class ButtonShadowSpacingSpringTest < Minitest::Test
     assert_includes button_rule(bundle), "box-shadow: var(--shadow-1);"
   end
 
+  def test_a_button_has_a_default_margin_so_it_never_sits_flush_against_a_neighbor
+    assert_includes button_rule(forms_css), "margin-inline-end: var(--inline-space-half);"
+    assert_includes button_rule(forms_css), "margin-block-end: var(--block-space-half);"
+    assert_includes button_rule(bundle), "margin-inline-end: var(--inline-space-half);"
+    assert_includes button_rule(bundle), "margin-block-end: var(--block-space-half);"
+  end
+
   def test_a_form_stacked_directly_after_another_form_gets_space_above_it
     assert_match(/form \+ form\s*\{[^}]*margin-block-start:\s*var\(--block-space\)/m, forms_css)
     assert_match(/form \+ form\s*\{[^}]*margin-block-start:\s*var\(--block-space\)/m, bundle)

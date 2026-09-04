@@ -902,6 +902,8 @@ a[role="button"] {
   align-items: center;
   justify-content: center;
   min-block-size: var(--touch-target);
+  margin-inline-end: var(--inline-space-half);
+  margin-block-end: var(--block-space-half);
   padding-block: 0.5em;
   padding-inline: 1.5em;
   font-size: 1rem;

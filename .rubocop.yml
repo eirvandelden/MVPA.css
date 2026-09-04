@@ -1,0 +1,13 @@
+---
+# The rules shared by every personal Ruby project. Not the Rails layer: this gem ships a thin
+# engine shim, but its tests are plain Minitest, and the Rails test cops ask for ActiveSupport
+# methods like assert_not_includes that are not available here.
+inherit_gem:
+  rubocop-eirvandelden: config/default.yml
+
+# These tests match the compiled CSS as text, so the selector chains they look for are long by
+# nature. Breaking one across lines hides the very thing the assertion is about.
+Layout/LineLength:
+  Exclude:
+    - "test/button_shadow_spacing_spring_test.rb"
+    - "test/eink_theme_test.rb"

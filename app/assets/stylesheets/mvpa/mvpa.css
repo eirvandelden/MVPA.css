@@ -450,8 +450,9 @@ blockquote {
      Animation Applications
      ===================================================== */
 
-  /* Buttons: Boop on hover */
-  button:not(:disabled):hover {
+  /* Buttons: Boop on hover. Excludes :active so a press's own squash
+     (2_modules/1_forms.css) isn't masked by this hover animation. */
+  button:not(:disabled):hover:not(:active) {
     animation: button-boop var(--animation-duration) var(--animation-spring);
     transform: scale(var(--animation-scale-medium));
   }
@@ -797,6 +798,10 @@ form {
   max-inline-size: var(--max-width-content);
 }
 
+form + form {
+  margin-block-start: var(--block-space);
+}
+
 fieldset {
   border: 1px solid var(--color-bg-darker);
   border-radius: var(--radius);
@@ -902,8 +907,9 @@ input[type="reset"] {
   color: var(--button-fg);
   border: none;
   border-radius: var(--radius);
+  box-shadow: var(--shadow-1);
   cursor: pointer;
-  transition: filter var(--transition-fast);
+  transition: filter var(--transition-fast), transform 150ms var(--animation-spring);
 }
 
 button:hover,
@@ -918,6 +924,7 @@ input[type="submit"]:active,
 input[type="button"]:active,
 input[type="reset"]:active {
   filter: brightness(0.95);
+  transform: scale(0.93);
 }
 
 button:disabled,
@@ -926,6 +933,20 @@ input[type="button"]:disabled,
 input[type="reset"]:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Shadows barely read against a dark background; use a hairline border instead. */
+[data-theme="solunized-dark"] button,
+[data-theme="solunized-dark"] input[type="submit"],
+[data-theme="solunized-dark"] input[type="button"],
+[data-theme="solunized-dark"] input[type="reset"],
+[data-theme="solunized-black"] button,
+[data-theme="solunized-black"] input[type="submit"],
+[data-theme="solunized-black"] input[type="button"],
+[data-theme="solunized-black"] input[type="reset"] {
+  box-shadow: none;
+  border: 1px solid color-mix(in oklch, var(--color-fg) 14%, transparent);
 }
 
 input:invalid,
@@ -1097,6 +1118,40 @@ aside[role="alert"] ul {
 .button-secondary {
   --button-bg: var(--color-bg-darker);
   --button-fg: var(--color-fg);
+}
+
+/* 44pt touch target (Apple HIG) */
+button,
+input[type="submit"],
+input[type="button"],
+input[type="reset"],
+a[role="button"] {
+  min-block-size: 2.75rem;
+}
+
+/* Destructive — Rails button_to method: :delete emits this hidden input */
+form:has(input[name="_method"][value="delete"]) button {
+  --button-bg: var(--color-danger);
+  --button-fg: var(--color-bg-lightest);
+}
+
+/* Primary page action — link in page-level header nav (slice 4 adds the structure) */
+main > header nav a {
+  display: inline-flex;
+  align-items: center;
+  padding-block: 0.4rem;
+  padding-inline: 0.75rem;
+  border-radius: var(--radius);
+  text-decoration: none;
+  background-color: var(--color-primary);
+  color: var(--color-bg-lightest);
+  box-shadow: var(--shadow-1);
+}
+
+main > header nav a:hover,
+main > header nav a:visited {
+  color: var(--color-bg-lightest);
+  text-decoration: none;
 }
 /*
  * Progress Bar
@@ -1998,6 +2053,7 @@ html[data-color-scheme="system"] {
   background-color: white;
   color: black;
   border: 1px solid black;
+  box-shadow: none;
   filter: none;
 }
 
@@ -2228,6 +2284,7 @@ html[data-color-scheme="system"] {
   background-color: black;
   color: white;
   border: 1px solid white;
+  box-shadow: none;
   filter: none;
 }
 

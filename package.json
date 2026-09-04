@@ -9,6 +9,7 @@
   "devDependencies": {
     "cspell": "^10.1.0",
     "stylelint": "^17.14.0",
+    "stylelint-csstree-validator": "^4.0.0",
     "stylelint-no-unsupported-browser-features": "^8.1.1"
   }
 }

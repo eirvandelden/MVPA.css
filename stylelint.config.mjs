@@ -1,8 +1,9 @@
 export default {
   ignoreFiles: ["app/assets/stylesheets/mvpa/mvpa.css"],
-  plugins: ["stylelint-no-unsupported-browser-features"],
+  plugins: ["stylelint-no-unsupported-browser-features", "stylelint-csstree-validator"],
   rules: {
     "at-rule-no-unknown": [true, { ignoreAtRules: ["view-transition"] }],
+    "csstree/validator": true,
     "plugin/no-unsupported-browser-features": [
       true,
       {

@@ -57,6 +57,13 @@ class EinkThemeTest < Minitest::Test
       "semi-transparent fills (oklch with alpha %) still present in eink theme")
   end
 
+  def test_buttons_stay_flat_on_the_eink_theme
+    assert_match(/\[data-theme="eink-light"\] button,[^{]*\{[^}]*box-shadow:\s*none/m, eink_partial,
+      "eink-light buttons keep the library's raised box-shadow, contradicting the theme's flat-surface contract")
+    assert_match(/\[data-theme="eink-dark"\] button,[^{]*\{[^}]*box-shadow:\s*none/m, eink_partial,
+      "eink-dark buttons keep the library's raised box-shadow, contradicting the theme's flat-surface contract")
+  end
+
   def test_buttons_still_tell_an_eink_reader_how_heavy_the_action_is
     assert_match(/\.button-danger/, eink_partial,
       ".button-danger not targeted in eink theme")

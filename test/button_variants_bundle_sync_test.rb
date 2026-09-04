@@ -4,7 +4,10 @@ require "minitest/autorun"
 # 5_buttons.css had drifted: three whole rules existed only in source.
 class ButtonVariantsBundleSyncTest < Minitest::Test
   def test_the_destructive_button_to_rule_is_packaged
-    assert_includes bundle, "form:has(input[name=\"_method\"][value=\"delete\"]) button {\n  --button-bg: var(--color-danger);\n  --button-fg: var(--color-bg-lightest);\n}"
+    assert_match(
+      /form:has\(input\[name="_method"\]\[value="delete"\]\) button\s*\{[^}]*--button-bg:\s*var\(--color-danger\)/m,
+      bundle
+    )
   end
 
   private

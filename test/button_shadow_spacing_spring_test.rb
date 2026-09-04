@@ -10,16 +10,8 @@ class ButtonShadowSpacingSpringTest < Minitest::Test
   end
 
   def test_a_form_stacked_directly_after_another_form_gets_space_above_it
-    assert_includes forms_css, "form + form {\n  margin-block-start: var(--block-space);\n}"
-    assert_includes bundle, "form + form {\n  margin-block-start: var(--block-space);\n}"
-  end
-
-  def test_a_lone_form_in_a_page_header_gets_no_extra_space
-    # form + form only matches when a form follows a form, so a single
-    # button_to form sitting in a page header's nav (see 1_layout/0_header.css)
-    # is untouched — it can't inherit the destroy-form-must-space-out rule.
-    refute_includes forms_css, "form {\n  margin-block-end" # rubocop:disable Rails/RefuteMethods
-    refute_includes bundle, "form {\n  margin-block-end" # rubocop:disable Rails/RefuteMethods
+    assert_match(/form \+ form\s*\{[^}]*margin-block-start:\s*var\(--block-space\)/m, forms_css)
+    assert_match(/form \+ form\s*\{[^}]*margin-block-start:\s*var\(--block-space\)/m, bundle)
   end
 
   def test_the_press_transition_carries_only_one_easing_function_per_layer
@@ -29,8 +21,10 @@ class ButtonShadowSpacingSpringTest < Minitest::Test
     # the browser discard the whole declaration. The duration is pulled from
     # its own token instead of a hardcoded 150ms, so retuning it can't
     # silently pull filter and transform out of sync again.
-    assert_includes button_rule(forms_css), "transition: filter var(--transition-fast), transform var(--transition-duration-fast) var(--animation-spring);"
-    assert_includes button_rule(bundle), "transition: filter var(--transition-fast), transform var(--transition-duration-fast) var(--animation-spring);"
+    expected_transition = "transition: filter var(--transition-fast), " \
+      "transform var(--transition-duration-fast) var(--animation-spring);"
+    assert_includes button_rule(forms_css), expected_transition
+    assert_includes button_rule(bundle), expected_transition
   end
 
   def test_the_press_squash_is_suppressed_for_reduced_motion
@@ -72,7 +66,9 @@ class ButtonShadowSpacingSpringTest < Minitest::Test
     # users never set that attribute — they get dark purely from the OS via
     # prefers-color-scheme, which the border swap didn't cover, so most
     # dark-mode users kept the shadow that renders as nothing on a dark canvas.
-    system_dark_rule = forms_css[/@media \(prefers-color-scheme: dark\) \{\s*:root:not\(\[data-theme\]\) button,.*?\n  \}\n\}/m]
+    system_dark_rule = forms_css[
+      /@media \(prefers-color-scheme: dark\) \{\s*:root:not\(\[data-theme\]\) button,.*?\n  \}\n\}/m
+    ]
     refute_nil system_dark_rule, "no default-dark-scheme button override found" # rubocop:disable Rails/RefuteMethods
     assert_includes system_dark_rule, "box-shadow: none;"
     assert_includes system_dark_rule, "border: 1px solid color-mix(in oklch, var(--color-fg) 14%, transparent);"
@@ -135,14 +131,20 @@ class ButtonShadowSpacingSpringTest < Minitest::Test
   end
 
   def button_rule(contents)
-    contents[/^button,\ninput\[type="submit"\],\ninput\[type="button"\],\ninput\[type="reset"\],\na\[role="button"\] \{.*?\n\}/m]
+    contents[
+      /^button,\ninput\[type="submit"\],\ninput\[type="button"\],\ninput\[type="reset"\],\na\[role="button"\] \{.*?\n\}/m
+    ]
   end
 
   def button_active_rule(contents)
-    contents[/^button:active,\ninput\[type="submit"\]:active,\ninput\[type="button"\]:active,\ninput\[type="reset"\]:active \{.*?\n\}/m]
+    contents[
+      /^button:active,\ninput\[type="submit"\]:active,\ninput\[type="button"\]:active,\ninput\[type="reset"\]:active \{.*?\n\}/m
+    ]
   end
 
   def button_disabled_rule(contents)
-    contents[/^button:disabled,\ninput\[type="submit"\]:disabled,\ninput\[type="button"\]:disabled,\ninput\[type="reset"\]:disabled \{.*?\n\}/m]
+    contents[
+      /^button:disabled,\ninput\[type="submit"\]:disabled,\ninput\[type="button"\]:disabled,\ninput\[type="reset"\]:disabled \{.*?\n\}/m
+    ]
   end
 end

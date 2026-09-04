@@ -31,17 +31,27 @@ class ButtonShadowSpacingSpringTest < Minitest::Test
     assert_includes button_rule(bundle), "transition: filter var(--transition-fast), transform 150ms var(--animation-spring);"
   end
 
-  def test_pressing_a_button_squashes_it
-    assert_includes button_active_rule(forms_css), "transform: scale(0.93);"
-    assert_includes button_active_rule(bundle), "transform: scale(0.93);"
+  def test_the_press_squash_is_suppressed_for_reduced_motion
+    reduce_block = animations_css[/@media \(prefers-reduced-motion: reduce\) \{.*?\n\}/m]
+    refute_nil reduce_block, "no reduced-motion block found" # rubocop:disable Rails/RefuteMethods
+    assert_includes reduce_block, "transform: none !important;"
   end
 
   def test_a_mouse_press_still_squashes_a_hovered_button
-    # The hover boop keeps its own scale as long as the pointer merely hovers,
-    # but a press always also counts as a hover, so the boop must step aside
-    # the moment :active starts or the press never shows for mouse users.
-    assert_includes animations_css, "button:not(:disabled):hover:not(:active) {"
-    assert_includes bundle, "button:not(:disabled):hover:not(:active) {"
+    # A press always also counts as a hover, so the squash needs !important
+    # to win over the hover boop's animation. Plain specificity is not
+    # enough: a running CSS animation outranks a normal declaration.
+    assert_includes button_active_rule(forms_css), "transform: scale(0.93) !important;"
+    assert_includes button_active_rule(bundle), "transform: scale(0.93) !important;"
+  end
+
+  def test_releasing_a_click_does_not_replay_the_hover_boop
+    # The hover rule must keep matching continuously through a press (no
+    # :not(:active) escape hatch), or the boop animation restarts from 0%
+    # the moment the button is released — an effect nobody asked for.
+    assert_includes animations_css, "button:not(:disabled):hover {"
+    assert_includes bundle, "button:not(:disabled):hover {"
+    refute_includes animations_css, ":hover:not(:active)" # rubocop:disable Rails/RefuteMethods
   end
 
   def test_a_button_gets_a_visible_border_instead_of_an_invisible_shadow_on_dark_themes

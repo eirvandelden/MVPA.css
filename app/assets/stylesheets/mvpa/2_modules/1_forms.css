@@ -134,7 +134,7 @@ input[type="submit"]:active,
 input[type="button"]:active,
 input[type="reset"]:active {
   filter: brightness(0.95);
-  transform: scale(0.93);
+  transform: scale(0.93) !important;
 }
 
 button:disabled,

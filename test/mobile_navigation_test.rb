@@ -13,8 +13,8 @@ class MobileNavigationTest < Minitest::Test
   private
 
   def assert_fixed_mobile_navigation(stylesheet)
-    assert mobile_body_blocks(stylesheet).any?
-    assert mobile_header_blocks(stylesheet).any?
+    assert_predicate mobile_body_blocks(stylesheet), :any?
+    assert_predicate mobile_header_blocks(stylesheet), :any?
 
     mobile_body_blocks(stylesheet).each do |block|
       assert_includes block, "padding-block-end: var(--nav-height-mobile);"
@@ -30,10 +30,6 @@ class MobileNavigationTest < Minitest::Test
 
   def mobile_body_blocks(stylesheet)
     mobile_media_blocks(stylesheet).flat_map { |block| block.scan(/^[ \t]*body \{.*?^[ \t]*\}/m) }
-  end
-
-  def mobile_header_blocks(stylesheet)
-    mobile_media_blocks(stylesheet).flat_map { |block| block.scan(/^[ \t]*body > header(?:,| \{).*?^[ \t]*\}/m) }
   end
 
   def mobile_media_blocks(stylesheet)
@@ -54,6 +50,10 @@ class MobileNavigationTest < Minitest::Test
       depth -= 1 if character == "}"
       return stylesheet[start_index..index] if depth.zero?
     end
+  end
+
+  def mobile_header_blocks(stylesheet)
+    mobile_media_blocks(stylesheet).flat_map { |block| block.scan(/^[ \t]*body > header(?:,| \{).*?^[ \t]*\}/m) }
   end
 
   def source_header

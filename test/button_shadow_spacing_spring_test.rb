@@ -30,12 +30,14 @@ class ButtonShadowSpacingSpringTest < Minitest::Test
     # silently pull filter and transform out of sync again.
     expected_transition = "transition: filter var(--transition-fast), " \
       "transform var(--transition-duration-fast) var(--animation-spring);"
+
     assert_includes button_rule(forms_css), expected_transition
     assert_includes button_rule(bundle), expected_transition
   end
 
   def test_the_press_squash_is_suppressed_for_reduced_motion
     reduce_block = animations_css[/@media \(prefers-reduced-motion: reduce\) \{.*?\n\}/m]
+
     refute_nil reduce_block, "no reduced-motion block found" # rubocop:disable Rails/RefuteMethods
     assert_includes reduce_block, "transform: none !important;"
   end
@@ -62,6 +64,7 @@ class ButtonShadowSpacingSpringTest < Minitest::Test
     # dark themes' dark canvas. The header solves the same problem by
     # swapping to a hairline border there instead — buttons follow suit.
     dark_button_rule = forms_css[/\[data-theme="solunized-dark"\] button,.*?\n\}/m]
+
     refute_nil dark_button_rule, "no dark-theme button override found" # rubocop:disable Rails/RefuteMethods
     assert_includes dark_button_rule, "box-shadow: none;"
     assert_includes dark_button_rule, "border: 1px solid color-mix(in oklch, var(--color-fg) 14%, transparent);"
@@ -76,6 +79,7 @@ class ButtonShadowSpacingSpringTest < Minitest::Test
     system_dark_rule = forms_css[
       /@media \(prefers-color-scheme: dark\) \{\s*:root:not\(\[data-theme\]\) button,.*?\n  \}\n\}/m
     ]
+
     refute_nil system_dark_rule, "no default-dark-scheme button override found" # rubocop:disable Rails/RefuteMethods
     assert_includes system_dark_rule, "box-shadow: none;"
     assert_includes system_dark_rule, "border: 1px solid color-mix(in oklch, var(--color-fg) 14%, transparent);"
@@ -87,6 +91,7 @@ class ButtonShadowSpacingSpringTest < Minitest::Test
     # the same dark-theme treatment or it stays invisible-shadowed while the
     # button beside it correctly shows a hairline border.
     dark_button_rule = forms_css[/\[data-theme="solunized-dark"\] button,.*?\n\}/m]
+
     assert_includes dark_button_rule, "main > header nav a,"
   end
 
@@ -113,8 +118,10 @@ class ButtonShadowSpacingSpringTest < Minitest::Test
 
   private
 
-  def variables_css
-    File.read(File.expand_path("../app/assets/stylesheets/mvpa/0_base/0_variables.css", __dir__))
+  def button_rule(contents)
+    contents[
+      /^button,\ninput\[type="submit"\],\ninput\[type="button"\],\ninput\[type="reset"\],\na\[role="button"\] \{.*?\n\}/m
+    ]
   end
 
   def forms_css
@@ -129,20 +136,6 @@ class ButtonShadowSpacingSpringTest < Minitest::Test
     File.read(File.expand_path("../app/assets/stylesheets/mvpa/0_base/3_animations.css", __dir__))
   end
 
-  def buttons_css
-    File.read(File.expand_path("../app/assets/stylesheets/mvpa/2_modules/5_buttons.css", __dir__))
-  end
-
-  def header_nav_link_rule(contents)
-    contents[/^main > header nav a \{.*?\n\}/m]
-  end
-
-  def button_rule(contents)
-    contents[
-      /^button,\ninput\[type="submit"\],\ninput\[type="button"\],\ninput\[type="reset"\],\na\[role="button"\] \{.*?\n\}/m
-    ]
-  end
-
   def button_active_rule(contents)
     contents[
       /^button:active,\ninput\[type="submit"\]:active,\ninput\[type="button"\]:active,\ninput\[type="reset"\]:active \{.*?\n\}/m
@@ -153,5 +146,17 @@ class ButtonShadowSpacingSpringTest < Minitest::Test
     contents[
       /^button:disabled,\ninput\[type="submit"\]:disabled,\ninput\[type="button"\]:disabled,\ninput\[type="reset"\]:disabled \{.*?\n\}/m
     ]
+  end
+
+  def header_nav_link_rule(contents)
+    contents[/^main > header nav a \{.*?\n\}/m]
+  end
+
+  def buttons_css
+    File.read(File.expand_path("../app/assets/stylesheets/mvpa/2_modules/5_buttons.css", __dir__))
+  end
+
+  def variables_css
+    File.read(File.expand_path("../app/assets/stylesheets/mvpa/0_base/0_variables.css", __dir__))
   end
 end

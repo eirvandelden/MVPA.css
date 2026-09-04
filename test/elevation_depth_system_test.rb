@@ -16,6 +16,7 @@ class ElevationDepthSystemTest < Minitest::Test
 
   def test_dark_and_black_themes_are_unchanged
     dark_black_block = colors_css[/\[data-theme="solunized-dark"\],\n\[data-theme="solunized-black"\] \{.*?\}/m]
+
     assert dark_black_block, "expected to find the solunized-dark/black mapping block"
     assert_includes dark_black_block, "--color-bg: var(--color-bg-0);"
   end
@@ -25,7 +26,7 @@ class ElevationDepthSystemTest < Minitest::Test
     assert_includes header_css, "column-gap: var(--shell-gutter);"
     assert_includes header_css, "min-block-size: calc(100dvh - 2 * var(--shell-gutter));"
     assert_includes header_css, "overflow-y: visible;"
-    assert_equal false, header_css.include?("overflow-y: auto;")
+    refute_includes header_css, "overflow-y: auto;"
     assert_includes packaged_manifest, "min-block-size: calc(100dvh - 2 * var(--shell-gutter));"
   end
 
@@ -59,7 +60,7 @@ class ElevationDepthSystemTest < Minitest::Test
 
   def test_sidebar_links_do_not_get_generic_underline_wiggle
     assert_includes animations_css, "a:not([class]):not(body > header nav a) {"
-    assert_equal false, animations_css.include?("a:not([class]) {\n")
+    refute_includes animations_css, "a:not([class]) {\n"
     assert_includes packaged_manifest, "a:not([class]):not(body > header nav a) {"
   end
 
@@ -76,6 +77,14 @@ class ElevationDepthSystemTest < Minitest::Test
     read("0_base/0_variables.css")
   end
 
+  def read(relative_path)
+    File.read(File.expand_path("../app/assets/stylesheets/mvpa/#{relative_path}", __dir__))
+  end
+
+  def packaged_manifest
+    File.read(File.expand_path("../app/assets/stylesheets/mvpa/mvpa.css", __dir__))
+  end
+
   def colors_css
     read("4_theme/0_colors.css")
   end
@@ -84,8 +93,8 @@ class ElevationDepthSystemTest < Minitest::Test
     read("1_layout/0_header.css")
   end
 
-  def main_css
-    read("1_layout/1_main.css")
+  def article_css
+    read("2_modules/8_article.css")
   end
 
   def article_rule(contents)
@@ -96,8 +105,8 @@ class ElevationDepthSystemTest < Minitest::Test
     contents[/@media \(min-width: 769px\) \{\n  main \{.*?\n  \}\n\}/m]
   end
 
-  def article_css
-    read("2_modules/8_article.css")
+  def main_css
+    read("1_layout/1_main.css")
   end
 
   def animations_css
@@ -106,13 +115,5 @@ class ElevationDepthSystemTest < Minitest::Test
 
   def navigation_css
     read("2_modules/10_navigation.css")
-  end
-
-  def packaged_manifest
-    File.read(File.expand_path("../app/assets/stylesheets/mvpa/mvpa.css", __dir__))
-  end
-
-  def read(relative_path)
-    File.read(File.expand_path("../app/assets/stylesheets/mvpa/#{relative_path}", __dir__))
   end
 end

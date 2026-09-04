@@ -29,15 +29,15 @@ class DemoSubsectionStructureTest < Minitest::Test
     document.css('nav[data-controller="nav"] a[href^="#"]').map { |a| a["href"].delete_prefix("#") }
   end
 
-  def top_level_category?(element)
-    element.name == "article" && element.key?("id")
-  end
-
   def document
     @document ||= Nokogiri::HTML(demo_html)
   end
 
   def demo_html
     File.read(File.expand_path("../demo.html", __dir__))
+  end
+
+  def top_level_category?(element)
+    element.name == "article" && element.key?("id")
   end
 end

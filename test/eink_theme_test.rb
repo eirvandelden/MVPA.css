@@ -44,7 +44,8 @@ class EinkThemeTest < Minitest::Test
     assert_match(
       /\[data-theme="eink-light"\] header nav details\[open\] > summary::after[^}]*transform:\s*rotate\(90deg\)\s*!important/m,
       eink_partial,
-      "submenu arrow no longer rotates when open on eink theme — the blanket transform: none wins, so expanded submenus look collapsed"
+      "submenu arrow no longer rotates when open on eink theme — the blanket transform: none " \
+      "wins, so expanded submenus look collapsed"
     )
   end
 
@@ -98,6 +99,7 @@ class EinkThemeTest < Minitest::Test
 
   def test_the_dark_eink_theme_is_the_light_theme_inverted
     dark_block = eink_partial[/\[data-theme="eink-dark"\]\s*\{[^}]*\}/m]
+
     refute_nil dark_block, "no [data-theme=\"eink-dark\"] rule block found" # rubocop:disable Rails/RefuteMethods
     assert_match(/--color-bg-0:\s*black/, dark_block,
       "dark eink surface is not ink black")
@@ -123,12 +125,14 @@ class EinkThemeTest < Minitest::Test
     assert_match(
       /\[data-theme="eink-dark"\] header nav details\[open\] > summary::after[^}]*transform:\s*rotate\(90deg\)\s*!important/m,
       eink_partial,
-      "submenu arrow no longer rotates when open on the dark eink theme — the blanket transform: none wins, so expanded submenus look collapsed"
+      "submenu arrow no longer rotates when open on the dark eink theme — the blanket " \
+      "transform: none wins, so expanded submenus look collapsed"
     )
   end
 
   def test_the_mobile_header_stays_flush_on_the_eink_theme
     mobile_block = header_css[/@media \(max-width: 768px\) \{.*?\n\}/m]
+
     assert_match(/^\s*\[data-theme="eink-light"\] body > header,/, mobile_block,
       "eink-light header keeps its all-round border on mobile — the flush edge-to-edge bar breaks")
     assert_match(/^\s*\[data-theme="eink-dark"\] body > header/, mobile_block,
@@ -137,6 +141,7 @@ class EinkThemeTest < Minitest::Test
 
   def test_the_mobile_header_divider_is_visible_on_the_eink_theme
     mobile_block = header_css[/@media \(max-width: 768px\) \{.*?\n\}/m]
+
     assert_match(/border-block-start:\s*1px solid var\(--color-border\)/, mobile_block,
       "mobile header divider uses --color-bg-darker, which equals the page background on eink " \
       "and vanishes — should use the semantic --color-border token instead")

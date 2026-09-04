@@ -17,14 +17,15 @@ class PageTransitionsTest < Minitest::Test
   def test_direction_script_uses_activation_urls_not_location
     assert_includes page_transitions_js, "event.activation.from.url"
     assert_includes page_transitions_js, "event.activation.entry.url"
-    assert_equal false, page_transitions_js.include?("location.href")
+    refute_includes page_transitions_js, "location.href"
   end
 
   def test_direction_script_handles_turbo_visits_before_rendering
     assert_includes page_transitions_js, 'document.addEventListener("turbo:before-visit"'
     assert_includes page_transitions_js, "event.detail.url"
     assert_includes page_transitions_js, "document.URL"
-    assert_includes page_transitions_js, 'document.documentElement.setAttribute("data-transition-direction", direction);'
+    assert_includes page_transitions_js,
+'document.documentElement.setAttribute("data-transition-direction", direction);'
   end
 
   def test_turbo_directions_do_not_persist_for_later_native_page_loads
@@ -103,7 +104,7 @@ class PageTransitionsTest < Minitest::Test
 
     _output, error, status = Open3.capture3("node", "-e", script)
 
-    assert status.success?, error
+    assert_predicate status, :success?, error
   end
 
   def test_readme_documents_the_required_inline_snippet
@@ -115,6 +116,7 @@ class PageTransitionsTest < Minitest::Test
 
   def test_mobile_axis_swap_present
     mobile_block = turbo_transitions_css[/@media \(max-width: 768px\) \{.*?\n  \}\n\}/m]
+
     assert mobile_block, "expected to find a max-width: 768px media query inside the transitions file"
     assert_includes mobile_block, "@keyframes mvpa-slide-out-down"
     assert_includes mobile_block, "translate: 100vw 0;"
@@ -122,16 +124,21 @@ class PageTransitionsTest < Minitest::Test
   end
 
   def test_direction_scoped_overrides_present
-    assert_includes turbo_transitions_css, 'html[data-transition-direction="forward"] ::view-transition-old(main-content) {'
-    assert_includes turbo_transitions_css, 'html[data-transition-direction="forward"] ::view-transition-new(main-content) {'
-    assert_includes turbo_transitions_css, 'html[data-transition-direction="backward"] ::view-transition-old(main-content) {'
-    assert_includes turbo_transitions_css, 'html[data-transition-direction="backward"] ::view-transition-new(main-content) {'
-    assert_includes packaged_manifest, 'html[data-transition-direction="backward"] ::view-transition-new(main-content) {'
+    assert_includes turbo_transitions_css,
+'html[data-transition-direction="forward"] ::view-transition-old(main-content) {'
+    assert_includes turbo_transitions_css,
+'html[data-transition-direction="forward"] ::view-transition-new(main-content) {'
+    assert_includes turbo_transitions_css,
+'html[data-transition-direction="backward"] ::view-transition-old(main-content) {'
+    assert_includes turbo_transitions_css,
+'html[data-transition-direction="backward"] ::view-transition-new(main-content) {'
+    assert_includes packaged_manifest,
+'html[data-transition-direction="backward"] ::view-transition-new(main-content) {'
   end
 
   def test_does_not_use_the_confirmed_non_functional_mechanism
-    assert_equal false, turbo_transitions_css.include?(":active-view-transition-type")
-    assert_equal false, turbo_transitions_css.include?("viewTransition.types")
+    refute_includes turbo_transitions_css, ":active-view-transition-type"
+    refute_includes turbo_transitions_css, "viewTransition.types"
   end
 
   def test_main_named_and_baseline_slide_present
@@ -146,7 +153,7 @@ class PageTransitionsTest < Minitest::Test
   def test_header_transition_name_is_scoped_to_the_shell_header
     assert_includes turbo_transitions_css, "body > header {\n      view-transition-name: header;"
     assert_includes packaged_manifest, "body > header {\n      view-transition-name: header;"
-    assert_equal false, turbo_transitions_css.include?("    header {\n      view-transition-name: header;")
+    refute_includes turbo_transitions_css, "    header {\n      view-transition-name: header;"
   end
 
   private
@@ -159,15 +166,15 @@ class PageTransitionsTest < Minitest::Test
     File.read(File.expand_path("../config/importmap.rb", __dir__))
   end
 
+  def readme
+    File.read(File.expand_path("../README.md", __dir__))
+  end
+
   def turbo_transitions_css
     File.read(File.expand_path("../app/assets/stylesheets/mvpa/2_modules/11_turbo-transitions.css", __dir__))
   end
 
   def packaged_manifest
     File.read(File.expand_path("../app/assets/stylesheets/mvpa/mvpa.css", __dir__))
-  end
-
-  def readme
-    File.read(File.expand_path("../README.md", __dir__))
   end
 end

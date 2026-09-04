@@ -93,7 +93,7 @@ class ButtonShadowSpacingSpringTest < Minitest::Test
   end
 
   def button_rule(contents)
-    contents[/^button,\ninput\[type="submit"\],\ninput\[type="button"\],\ninput\[type="reset"\] \{.*?\n\}/m]
+    contents[/^button,\ninput\[type="submit"\],\ninput\[type="button"\],\ninput\[type="reset"\],\na\[role="button"\] \{.*?\n\}/m]
   end
 
   def button_active_rule(contents)

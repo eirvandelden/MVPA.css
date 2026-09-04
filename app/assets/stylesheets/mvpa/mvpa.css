@@ -888,7 +888,8 @@ input[type="radio"] {
 button,
 input[type="submit"],
 input[type="button"],
-input[type="reset"] {
+input[type="reset"],
+a[role="button"] {
   --button-bg: var(--color-primary);
   --button-fg: var(--color-bg-lightest);
 
@@ -1120,15 +1121,6 @@ aside[role="alert"] ul {
   --button-fg: var(--color-fg);
 }
 
-/* 44pt touch target (Apple HIG) */
-button,
-input[type="submit"],
-input[type="button"],
-input[type="reset"],
-a[role="button"] {
-  min-block-size: 2.75rem;
-}
-
 /* Destructive — Rails button_to method: :delete emits this hidden input */
 form:has(input[name="_method"][value="delete"]) button {
   --button-bg: var(--color-danger);
@@ -1146,6 +1138,7 @@ main > header nav a {
   background-color: var(--color-primary);
   color: var(--color-bg-lightest);
   box-shadow: var(--shadow-1);
+  min-block-size: var(--touch-target);
 }
 
 main > header nav a:hover,

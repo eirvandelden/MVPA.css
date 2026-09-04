@@ -64,6 +64,15 @@ class EinkThemeTest < Minitest::Test
       "eink-dark buttons keep the library's raised box-shadow, contradicting the theme's flat-surface contract")
   end
 
+  def test_the_page_header_action_link_also_stays_flat_on_the_eink_theme
+    # main > header nav a got a shadow alongside real buttons, so it needs
+    # the same flat-surface treatment or it breaks the eink theme's contract.
+    assert_match(/\[data-theme="eink-light"\] main > header nav a\s*\{[^}]*box-shadow:\s*none/m, eink_partial,
+      "eink-light's page header action link keeps its raised box-shadow")
+    assert_match(/\[data-theme="eink-dark"\] main > header nav a\s*\{[^}]*box-shadow:\s*none/m, eink_partial,
+      "eink-dark's page header action link keeps its raised box-shadow")
+  end
+
   def test_buttons_still_tell_an_eink_reader_how_heavy_the_action_is
     assert_match(/\.button-danger/, eink_partial,
       ".button-danger not targeted in eink theme")

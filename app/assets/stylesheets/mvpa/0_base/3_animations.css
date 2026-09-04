@@ -203,9 +203,11 @@
      Animation Applications
      ===================================================== */
 
-  /* Buttons: Boop on hover. Excludes :active so a press's own squash
-     (2_modules/1_forms.css) isn't masked by this hover animation. */
-  button:not(:disabled):hover:not(:active) {
+  /* Buttons: Boop on hover. The press squash (2_modules/1_forms.css) uses
+     !important to win over this animation while :active, without the hover
+     rule ever un-matching — un-matching and re-matching on release would
+     restart the boop animation from 0%. */
+  button:not(:disabled):hover {
     animation: button-boop var(--animation-duration) var(--animation-spring);
     transform: scale(var(--animation-scale-medium));
   }
@@ -362,5 +364,6 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    transform: none !important;
   }
 }

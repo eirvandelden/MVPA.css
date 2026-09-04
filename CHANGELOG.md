@@ -2,6 +2,32 @@
 
 **Note:** This project uses git SHAs instead of semver. Pin to a specific SHA in your Gemfile (`ref: "e4179e9"`). Each GitHub release is tagged with its commit SHA.
 
+## 2026-09-04
+
+### Added
+- **Button elevation and press feedback** — buttons and `a[role="button"]`
+  now cast a subtle shadow (`--shadow-1`) and squash slightly
+  (`--animation-scale-press`) on press, with a spring-back release.
+  `main > header nav a` (the page header's primary action link) gets the
+  same shadow and 44px touch-target floor as the button next to it, on
+  every theme: a hairline border instead of the shadow on dark themes
+  (explicit `data-theme` and the default system dark scheme both), and
+  fully flat on the e-ink theme. The squash is suppressed under
+  `prefers-reduced-motion: reduce`, and never masks or replays the
+  existing hover "boop" animation. Disabled buttons drop the shadow.
+- **Spacing between stacked forms** — a `form` directly after another
+  `form` (e.g. two `button_to` forms in a row) now gets space above it.
+
+### Fixed
+- **Touch target token** — `a[role="button"]` had its own hardcoded
+  `min-block-size: 2.75rem` that silently overrode the shared
+  `var(--touch-target)` rule below it in source order. Folded into the
+  token-based rule instead, so retuning `--touch-target` moves buttons
+  again.
+- **Packaged `mvpa.css`** was missing three button-variant rules that only
+  existed in the source partial (touch-target sizing, the destructive
+  `button_to` color override, the page header action link styling).
+
 ## 2026-08-14
 
 ### Added

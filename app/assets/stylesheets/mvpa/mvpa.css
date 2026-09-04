@@ -38,7 +38,8 @@
   --radius-large: 1rem;
 
   /* Transitions */
-  --transition-fast: 150ms ease-in-out;
+  --transition-duration-fast: 150ms;
+  --transition-fast: var(--transition-duration-fast) ease-in-out;
   --transition: 250ms ease-in-out;
   --transition-slow: 400ms ease-in-out;
 
@@ -52,6 +53,7 @@
   --animation-ease-out: cubic-bezier(0.33, 1, 0.68, 1); /* Smooth ease-out */
 
   /* Animation scales */
+  --animation-scale-press: 0.93;
   --animation-scale-small: 1.02;
   --animation-scale-medium: 1.05;
   --animation-scale-large: 1.08;
@@ -450,9 +452,11 @@ blockquote {
      Animation Applications
      ===================================================== */
 
-  /* Buttons: Boop on hover. Excludes :active so a press's own squash
-     (2_modules/1_forms.css) isn't masked by this hover animation. */
-  button:not(:disabled):hover:not(:active) {
+  /* Buttons: Boop on hover. The press squash (2_modules/1_forms.css) uses
+     !important to win over this animation while :active, without the hover
+     rule ever un-matching — un-matching and re-matching on release would
+     restart the boop animation from 0%. */
+  button:not(:disabled):hover {
     animation: button-boop var(--animation-duration) var(--animation-spring);
     transform: scale(var(--animation-scale-medium));
   }
@@ -609,6 +613,7 @@ blockquote {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    transform: none !important;
   }
 }
 /*
@@ -888,7 +893,8 @@ input[type="radio"] {
 button,
 input[type="submit"],
 input[type="button"],
-input[type="reset"] {
+input[type="reset"],
+a[role="button"] {
   --button-bg: var(--color-primary);
   --button-fg: var(--color-bg-lightest);
 
@@ -896,6 +902,8 @@ input[type="reset"] {
   align-items: center;
   justify-content: center;
   min-block-size: var(--touch-target);
+  margin-inline-end: var(--inline-space-half);
+  margin-block-end: var(--block-space-half);
   padding-block: 0.5em;
   padding-inline: 1.5em;
   font-size: 1rem;
@@ -909,7 +917,7 @@ input[type="reset"] {
   border-radius: var(--radius);
   box-shadow: var(--shadow-1);
   cursor: pointer;
-  transition: filter var(--transition-fast), transform 150ms var(--animation-spring);
+  transition: filter var(--transition-fast), transform var(--transition-duration-fast) var(--animation-spring);
 }
 
 button:hover,
@@ -924,7 +932,7 @@ input[type="submit"]:active,
 input[type="button"]:active,
 input[type="reset"]:active {
   filter: brightness(0.95);
-  transform: scale(0.93);
+  transform: scale(var(--animation-scale-press)) !important;
 }
 
 button:disabled,
@@ -941,12 +949,28 @@ input[type="reset"]:disabled {
 [data-theme="solunized-dark"] input[type="submit"],
 [data-theme="solunized-dark"] input[type="button"],
 [data-theme="solunized-dark"] input[type="reset"],
+[data-theme="solunized-dark"] main > header nav a,
 [data-theme="solunized-black"] button,
 [data-theme="solunized-black"] input[type="submit"],
 [data-theme="solunized-black"] input[type="button"],
-[data-theme="solunized-black"] input[type="reset"] {
+[data-theme="solunized-black"] input[type="reset"],
+[data-theme="solunized-black"] main > header nav a {
   box-shadow: none;
   border: 1px solid color-mix(in oklch, var(--color-fg) 14%, transparent);
+}
+
+/* Most dark-mode users never set data-theme — they get dark from the OS via
+   prefers-color-scheme, so the border swap above needs a system-default
+   twin, guarded to step aside the moment an explicit theme is chosen. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) button,
+  :root:not([data-theme]) input[type="submit"],
+  :root:not([data-theme]) input[type="button"],
+  :root:not([data-theme]) input[type="reset"],
+  :root:not([data-theme]) main > header nav a {
+    box-shadow: none;
+    border: 1px solid color-mix(in oklch, var(--color-fg) 14%, transparent);
+  }
 }
 
 input:invalid,
@@ -1120,15 +1144,6 @@ aside[role="alert"] ul {
   --button-fg: var(--color-fg);
 }
 
-/* 44pt touch target (Apple HIG) */
-button,
-input[type="submit"],
-input[type="button"],
-input[type="reset"],
-a[role="button"] {
-  min-block-size: 2.75rem;
-}
-
 /* Destructive — Rails button_to method: :delete emits this hidden input */
 form:has(input[name="_method"][value="delete"]) button {
   --button-bg: var(--color-danger);
@@ -1146,6 +1161,7 @@ main > header nav a {
   background-color: var(--color-primary);
   color: var(--color-bg-lightest);
   box-shadow: var(--shadow-1);
+  min-block-size: var(--touch-target);
 }
 
 main > header nav a:hover,
@@ -1991,7 +2007,8 @@ html[data-color-scheme="system"] {
 /* Flat surfaces — remove shadows, add ink borders where depth matters.
    Header border is desktop-only: on mobile it must stay borderless on the
    side/bottom edges so the fixed bar reads flush, per 1_layout/0_header.css. */
-[data-theme="eink-light"] body > header {
+[data-theme="eink-light"] body > header,
+[data-theme="eink-light"] main > header nav a {
   box-shadow: none;
 }
 
@@ -2222,7 +2239,8 @@ html[data-color-scheme="system"] {
 /* Flat surfaces — remove shadows, add ink borders where depth matters.
    Header border is desktop-only: on mobile it must stay borderless on the
    side/bottom edges so the fixed bar reads flush, per 1_layout/0_header.css. */
-[data-theme="eink-dark"] body > header {
+[data-theme="eink-dark"] body > header,
+[data-theme="eink-dark"] main > header nav a {
   box-shadow: none;
 }
 

@@ -97,7 +97,8 @@ input[type="radio"] {
 button,
 input[type="submit"],
 input[type="button"],
-input[type="reset"] {
+input[type="reset"],
+a[role="button"] {
   --button-bg: var(--color-primary);
   --button-fg: var(--color-bg-lightest);
 
@@ -105,6 +106,8 @@ input[type="reset"] {
   align-items: center;
   justify-content: center;
   min-block-size: var(--touch-target);
+  margin-inline-end: var(--inline-space-half);
+  margin-block-end: var(--block-space-half);
   padding-block: 0.5em;
   padding-inline: 1.5em;
   font-size: 1rem;
@@ -118,7 +121,7 @@ input[type="reset"] {
   border-radius: var(--radius);
   box-shadow: var(--shadow-1);
   cursor: pointer;
-  transition: filter var(--transition-fast), transform 150ms var(--animation-spring);
+  transition: filter var(--transition-fast), transform var(--transition-duration-fast) var(--animation-spring);
 }
 
 button:hover,
@@ -133,7 +136,7 @@ input[type="submit"]:active,
 input[type="button"]:active,
 input[type="reset"]:active {
   filter: brightness(0.95);
-  transform: scale(0.93);
+  transform: scale(var(--animation-scale-press)) !important;
 }
 
 button:disabled,
@@ -150,12 +153,28 @@ input[type="reset"]:disabled {
 [data-theme="solunized-dark"] input[type="submit"],
 [data-theme="solunized-dark"] input[type="button"],
 [data-theme="solunized-dark"] input[type="reset"],
+[data-theme="solunized-dark"] main > header nav a,
 [data-theme="solunized-black"] button,
 [data-theme="solunized-black"] input[type="submit"],
 [data-theme="solunized-black"] input[type="button"],
-[data-theme="solunized-black"] input[type="reset"] {
+[data-theme="solunized-black"] input[type="reset"],
+[data-theme="solunized-black"] main > header nav a {
   box-shadow: none;
   border: 1px solid color-mix(in oklch, var(--color-fg) 14%, transparent);
+}
+
+/* Most dark-mode users never set data-theme — they get dark from the OS via
+   prefers-color-scheme, so the border swap above needs a system-default
+   twin, guarded to step aside the moment an explicit theme is chosen. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) button,
+  :root:not([data-theme]) input[type="submit"],
+  :root:not([data-theme]) input[type="button"],
+  :root:not([data-theme]) input[type="reset"],
+  :root:not([data-theme]) main > header nav a {
+    box-shadow: none;
+    border: 1px solid color-mix(in oklch, var(--color-fg) 14%, transparent);
+  }
 }
 
 input:invalid,

@@ -38,7 +38,8 @@
   --radius-large: 1rem;
 
   /* Transitions */
-  --transition-fast: 150ms ease-in-out;
+  --transition-duration-fast: 150ms;
+  --transition-fast: var(--transition-duration-fast) ease-in-out;
   --transition: 250ms ease-in-out;
   --transition-slow: 400ms ease-in-out;
 
@@ -52,6 +53,7 @@
   --animation-ease-out: cubic-bezier(0.33, 1, 0.68, 1); /* Smooth ease-out */
 
   /* Animation scales */
+  --animation-scale-press: 0.93;
   --animation-scale-small: 1.02;
   --animation-scale-medium: 1.05;
   --animation-scale-large: 1.08;
@@ -913,7 +915,7 @@ a[role="button"] {
   border-radius: var(--radius);
   box-shadow: var(--shadow-1);
   cursor: pointer;
-  transition: filter var(--transition-fast), transform 150ms var(--animation-spring);
+  transition: filter var(--transition-fast), transform var(--transition-duration-fast) var(--animation-spring);
 }
 
 button:hover,
@@ -928,7 +930,7 @@ input[type="submit"]:active,
 input[type="button"]:active,
 input[type="reset"]:active {
   filter: brightness(0.95);
-  transform: scale(0.93) !important;
+  transform: scale(var(--animation-scale-press)) !important;
 }
 
 button:disabled,

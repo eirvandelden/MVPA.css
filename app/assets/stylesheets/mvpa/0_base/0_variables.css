@@ -38,7 +38,8 @@
   --radius-large: 1rem;
 
   /* Transitions */
-  --transition-fast: 150ms ease-in-out;
+  --transition-duration-fast: 150ms;
+  --transition-fast: var(--transition-duration-fast) ease-in-out;
   --transition: 250ms ease-in-out;
   --transition-slow: 400ms ease-in-out;
 
@@ -52,6 +53,7 @@
   --animation-ease-out: cubic-bezier(0.33, 1, 0.68, 1); /* Smooth ease-out */
 
   /* Animation scales */
+  --animation-scale-press: 0.93;
   --animation-scale-small: 1.02;
   --animation-scale-medium: 1.05;
   --animation-scale-large: 1.08;

@@ -26,9 +26,11 @@ class ButtonShadowSpacingSpringTest < Minitest::Test
     # --transition-fast already bundles a duration and an easing function
     # (150ms ease-in-out). Reusing it alongside --animation-spring would
     # stack two easing functions in one layer, which is invalid and makes
-    # the browser discard the whole declaration.
-    assert_includes button_rule(forms_css), "transition: filter var(--transition-fast), transform 150ms var(--animation-spring);"
-    assert_includes button_rule(bundle), "transition: filter var(--transition-fast), transform 150ms var(--animation-spring);"
+    # the browser discard the whole declaration. The duration is pulled from
+    # its own token instead of a hardcoded 150ms, so retuning it can't
+    # silently pull filter and transform out of sync again.
+    assert_includes button_rule(forms_css), "transition: filter var(--transition-fast), transform var(--transition-duration-fast) var(--animation-spring);"
+    assert_includes button_rule(bundle), "transition: filter var(--transition-fast), transform var(--transition-duration-fast) var(--animation-spring);"
   end
 
   def test_the_press_squash_is_suppressed_for_reduced_motion
@@ -41,8 +43,8 @@ class ButtonShadowSpacingSpringTest < Minitest::Test
     # A press always also counts as a hover, so the squash needs !important
     # to win over the hover boop's animation. Plain specificity is not
     # enough: a running CSS animation outranks a normal declaration.
-    assert_includes button_active_rule(forms_css), "transform: scale(0.93) !important;"
-    assert_includes button_active_rule(bundle), "transform: scale(0.93) !important;"
+    assert_includes button_active_rule(forms_css), "transform: scale(var(--animation-scale-press)) !important;"
+    assert_includes button_active_rule(bundle), "transform: scale(var(--animation-scale-press)) !important;"
   end
 
   def test_releasing_a_click_does_not_replay_the_hover_boop
@@ -100,7 +102,17 @@ class ButtonShadowSpacingSpringTest < Minitest::Test
     assert_includes header_nav_link_rule(bundle), "box-shadow: var(--shadow-1);"
   end
 
+  def test_the_press_duration_and_scale_are_tokens_not_hardcoded_numbers
+    assert_includes variables_css, "--transition-duration-fast: 150ms;"
+    assert_includes variables_css, "--transition-fast: var(--transition-duration-fast) ease-in-out;"
+    assert_includes variables_css, "--animation-scale-press: 0.93;"
+  end
+
   private
+
+  def variables_css
+    File.read(File.expand_path("../app/assets/stylesheets/mvpa/0_base/0_variables.css", __dir__))
+  end
 
   def forms_css
     File.read(File.expand_path("../app/assets/stylesheets/mvpa/2_modules/1_forms.css", __dir__))

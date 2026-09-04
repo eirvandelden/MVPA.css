@@ -955,6 +955,20 @@ input[type="reset"]:disabled {
   border: 1px solid color-mix(in oklch, var(--color-fg) 14%, transparent);
 }
 
+/* Most dark-mode users never set data-theme — they get dark from the OS via
+   prefers-color-scheme, so the border swap above needs a system-default
+   twin, guarded to step aside the moment an explicit theme is chosen. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) button,
+  :root:not([data-theme]) input[type="submit"],
+  :root:not([data-theme]) input[type="button"],
+  :root:not([data-theme]) input[type="reset"],
+  :root:not([data-theme]) main > header nav a {
+    box-shadow: none;
+    border: 1px solid color-mix(in oklch, var(--color-fg) 14%, transparent);
+  }
+}
+
 input:invalid,
 textarea:invalid,
 select:invalid {

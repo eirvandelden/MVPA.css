@@ -65,6 +65,18 @@ class ButtonShadowSpacingSpringTest < Minitest::Test
     assert_includes dark_button_rule, "[data-theme=\"solunized-black\"] button,"
   end
 
+  def test_a_button_also_gets_the_border_swap_on_the_default_system_dark_scheme
+    # solunized-dark/black are explicit opt-ins via data-theme. Most dark-mode
+    # users never set that attribute — they get dark purely from the OS via
+    # prefers-color-scheme, which the border swap didn't cover, so most
+    # dark-mode users kept the shadow that renders as nothing on a dark canvas.
+    system_dark_rule = forms_css[/@media \(prefers-color-scheme: dark\) \{\s*:root:not\(\[data-theme\]\) button,.*?\n  \}\n\}/m]
+    refute_nil system_dark_rule, "no default-dark-scheme button override found" # rubocop:disable Rails/RefuteMethods
+    assert_includes system_dark_rule, "box-shadow: none;"
+    assert_includes system_dark_rule, "border: 1px solid color-mix(in oklch, var(--color-fg) 14%, transparent);"
+    assert_includes system_dark_rule, ":root:not([data-theme]) main > header nav a"
+  end
+
   def test_the_page_header_action_link_also_gets_the_dark_theme_border_swap
     # main > header nav a got a shadow alongside real buttons, so it needs
     # the same dark-theme treatment or it stays invisible-shadowed while the

@@ -7,7 +7,7 @@
     "lint:spelling": "cspell --no-progress \"**/*.{js,rb,md}\""
   },
   "devDependencies": {
-    "cspell": "^10.1.0",
+    "cspell": "^10.1.1",
     "stylelint": "^17.14.1",
     "stylelint-csstree-validator": "^4.0.0",
     "stylelint-no-unsupported-browser-features": "^8.1.1"

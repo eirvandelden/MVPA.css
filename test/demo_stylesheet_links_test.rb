@@ -15,11 +15,11 @@ class DemoStylesheetLinksTest < Minitest::Test
 
   private
 
-  def demo_html
-    File.read(File.expand_path("../demo.html", __dir__))
-  end
-
   def stylesheet_links
     demo_html.scan(/<link rel="stylesheet" href="([^"]+\.css)">/).flatten
+  end
+
+  def demo_html
+    File.read(File.expand_path("../demo.html", __dir__))
   end
 end

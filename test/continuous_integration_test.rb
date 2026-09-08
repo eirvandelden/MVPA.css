@@ -35,16 +35,12 @@ class ContinuousIntegrationTest < Minitest::Test
     YAML.safe_load(read(".github/workflows/ci.yml"))
   end
 
-  def dependabot
-    YAML.safe_load(read(".github/dependabot.yml"))
+  def read(relative_path)
+    File.read(path(relative_path))
   end
 
-  def watched_ecosystems
-    dependabot["updates"].map { |entry| entry["package-ecosystem"] }
-  end
-
-  def pinned_ruby
-    File.file?(path(".ruby-version")) ? read(".ruby-version").strip : "missing"
+  def path(relative_path)
+    File.expand_path("../#{relative_path}", __dir__)
   end
 
   def workflow_scripts
@@ -55,11 +51,15 @@ class ContinuousIntegrationTest < Minitest::Test
     JSON.parse(read("package.json"))["scripts"].keys
   end
 
-  def read(relative_path)
-    File.read(path(relative_path))
+  def watched_ecosystems
+    dependabot["updates"].map { |entry| entry["package-ecosystem"] }
   end
 
-  def path(relative_path)
-    File.expand_path("../#{relative_path}", __dir__)
+  def dependabot
+    YAML.safe_load(read(".github/dependabot.yml"))
+  end
+
+  def pinned_ruby
+    File.file?(path(".ruby-version")) ? read(".ruby-version").strip : "missing"
   end
 end

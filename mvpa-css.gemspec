@@ -3,11 +3,13 @@ require_relative "lib/mvpa/css/version"
 Gem::Specification.new do |spec|
   spec.name          = "mvpa-css"
   spec.version       = Mvpa::Css::VERSION
-  spec.authors       = ["Etienne van Delden"]
-  spec.email         = ["etienne@conductor.build"]
+  spec.authors       = [ "Etienne van Delden" ]
+  spec.email         = [ "etienne@conductor.build" ]
   spec.homepage      = "https://github.com/eirvandelden/mvpa.css"
   spec.summary       = "MVPA.css - Minimal Viable Product CSS Framework"
-  spec.description   = "A classless CSS framework for semantic HTML5 with Rails/Turbo integration. Includes 4 Solunized themes, automatic dark mode, modern color handling, and 37signals spacing."
+  spec.description   = "A classless CSS framework for semantic HTML5 with Rails/Turbo " \
+                       "integration. Includes 4 Solunized themes, automatic dark mode, " \
+                       "modern color handling, and 37signals spacing."
   spec.license       = "osaassy"
 
   spec.required_ruby_version = ">= 3.2.0"

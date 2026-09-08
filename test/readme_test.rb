@@ -11,17 +11,17 @@ class ReadmeTest < Minitest::Test
   def test_readme_flash_example_matches_flash_selector
     assert_includes readme, '<section aria-label="Notifications" data-mvpa-flashes>'
     assert_includes readme, '<aside role="status">'
-    assert_equal false, readme.include?('<section role="status">')
+    refute_includes readme, '<section role="status">'
   end
 
   private
 
-  def readme
-    File.read(File.expand_path("../README.md", __dir__))
-  end
-
   def stylesheet_links
     readme.scan(/href="mvpa\/([^"]+\.css)"/).flatten
+  end
+
+  def readme
+    File.read(File.expand_path("../README.md", __dir__))
   end
 
   def stylesheet_path(href)

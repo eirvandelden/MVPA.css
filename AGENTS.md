@@ -20,5 +20,5 @@ Styles are organized SMACSS-style under `app/assets/stylesheets/mvpa/`, in numbe
 - `mvpa.css` is not generated — editing a theme or module partial (e.g. `4_theme/0_colors.css`) requires manually applying the same change to `mvpa.css`, or `test/mvpa_manifest_sync_test.rb` fails on selector and semantic-color-mapping mismatches.
 - `demo.html` hardcodes both the list of `<link>` tags and a written count of "N files" in its own text; adding or removing a stylesheet partial needs both updated, or `test/demo_stylesheet_links_test.rb` fails.
 - README code examples (stylesheet paths, the flash markup snippet) are asserted against the real files by `test/readme_test.rb` — keep them literal and in sync with actual markup/paths.
-- `lefthook.yml` in the repo root is an absolute-path symlink into `~/Developer/dotfiles` on this machine; it only resolves locally and is not portable to another clone.
+- `lefthook.yml` in the repo root points at the shared hooks via a `remotes:` entry (`eirvandelden/dotfiles`); lefthook fetches that repo's own `lefthook.yml` into `.git/info/lefthook-remotes/` on `lefthook install`, so it works the same on any clone.
 - Ruby version comes from `.ruby-version` via `rv`; do not use mise/asdf/rbenv/rvm.

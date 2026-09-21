@@ -1,1 +1,3 @@
-/Users/etienne.vandelden/Developer/dotfiles/lefthook.yml
+---
+remotes:
+  - git_url: git@github.com:eirvandelden/dotfiles

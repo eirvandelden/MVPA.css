@@ -6,7 +6,7 @@
     "lint:browsers": "browserslist"
   },
   "devDependencies": {
-    "stylelint": "^17.14.1",
+    "stylelint": "^17.15.0",
     "stylelint-csstree-validator": "^4.0.0",
     "stylelint-no-unsupported-browser-features": "^8.1.2"
   }

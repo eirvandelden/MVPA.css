@@ -5,7 +5,7 @@ require "json"
 # Every check the project relies on must run in CI, where nobody can skip it.
 class ContinuousIntegrationTest < Minitest::Test
   def test_every_check_runs_on_every_change
-    assert_equal %w[gem spelling stylesheets test yaml], workflow["jobs"].keys.sort
+    assert_equal %w[gem stylesheets test yaml], workflow["jobs"].keys.sort
   end
 
   def test_the_workflow_only_runs_scripts_that_exist

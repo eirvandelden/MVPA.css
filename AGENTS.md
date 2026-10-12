@@ -36,7 +36,7 @@ Example, with placeholder class names:
 
 ### Upgrading
 1. Replace `class="button-old"` with `class="button-new"` in every view.
-2. Search your own stylesheets for `.button-old` and rename each selector.
+2. Rename every `.button-old` selector in your own stylesheets to `.button-new`.
 ```
 
 ## Gotchas

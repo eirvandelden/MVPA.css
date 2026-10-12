@@ -3,11 +3,11 @@ require "minitest/autorun"
 # Verifies AGENTS.md tells agents when a changelog entry needs an Upgrading subsection.
 class AgentsMdTest < Minitest::Test
   def test_changelog_rule_asks_for_an_upgrading_subsection_when_apps_must_act
-    assert_match(/^- Add a `### Upgrading` subsection to the dated entry when an app must/, rules)
+    assert(rule_line(/Add a `### Upgrading`/, /app must/), "no rule asks for an Upgrading subsection")
   end
 
   def test_changelog_rule_names_what_requires_apps_to_act
-    trigger_rule = rules[/^- Add a `### Upgrading` subsection.*$/]
+    trigger_rule = rule_line(/Add a `### Upgrading`/, /app must/)
 
     %w[markup classes configuration code].each do |trigger|
       assert_match(/\b#{trigger}\b/, trigger_rule.to_s)
@@ -15,13 +15,11 @@ class AgentsMdTest < Minitest::Test
   end
 
   def test_changelog_rule_excludes_entries_without_app_changes
-    assert_match(/^- Add no `### Upgrading` subsection when an app needs to do nothing, for example a colour fix\./,
-                 rules)
+    assert(rule_line(/Add no `### Upgrading`/, /colour fix/), "no rule excludes entries such as a colour fix")
   end
 
   def test_changelog_rule_appends_to_an_existing_upgrading_subsection
-    assert_match(/^- When the dated entry already has a `### Upgrading` subsection, append the new steps to it\./,
-                 rules)
+    assert(rule_line(/already has a `### Upgrading`/, /append/), "no rule says to append to an existing subsection")
   end
 
   def test_changelog_rule_shows_an_example_upgrading_subsection
@@ -31,9 +29,15 @@ class AgentsMdTest < Minitest::Test
     assert_match(/^## \d{4}-\d{2}-\d{2}$/, example)
     assert_match(/^### Upgrading$/, example)
     assert_match(/^1\. .*button-old.*button-new/, example)
+    example.scan(/^\d+\. .*$/).each { |step| refute_match(/ and /, step, "a step holds two actions: #{step}") }
   end
 
   private
+
+  # The first rule bullet that matches every pattern, or nil.
+  def rule_line(*patterns)
+    rules.lines.find { |line| line.start_with?("- ") && patterns.all? { |pattern| line.match?(pattern) } }
+  end
 
   # The Changelog section without its fenced example, so a rule cannot pass on the example's text.
   def rules

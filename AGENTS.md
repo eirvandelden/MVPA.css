@@ -20,8 +20,9 @@ Styles are organized SMACSS-style under `app/assets/stylesheets/mvpa/`, in numbe
 Other apps pin mvpa.css to a git SHA. When a change requires an app to act, its `CHANGELOG.md` entry says how.
 
 - Add a `### Upgrading` subsection to the dated entry when an app must change markup, classes, configuration or code to follow the change.
-- Add no `### Upgrading` subsection when no app action is needed, for example a colour fix.
+- Add no `### Upgrading` subsection when an app needs to do nothing, for example a colour fix.
 - Put `### Upgrading` last in the entry, after whichever change subsections the entry has. Never add an empty `### Changed` or `### Fixed` heading to reach it.
+- When the dated entry already has a `### Upgrading` subsection, append the new steps to it. Never add a second one.
 - Write the steps as a numbered list. Each step is one concrete action, so a reader in another app can follow it without the mvpa.css diff.
 - Leave out the bump of the pinned `ref:`. Every upgrade needs it.
 

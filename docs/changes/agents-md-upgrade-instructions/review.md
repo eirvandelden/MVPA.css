@@ -23,3 +23,21 @@ Findings:
 ## Round 2 — 2026-10-12T15:01:16Z — 557795a (codex)
 
 No findings. `codex review --base origin/main`: the changelog guidance matches the intent, and the focused tests pass.
+
+## Round 3 — 2026-10-12T15:02:48Z — 089aad7
+
+Checks: `bundle exec rake test` (95 runs, 0 failures), `bundle exec ruby -Itest test/agents_md_test.rb` (5 runs, 0 failures), `bundle exec rubocop` (no offenses), `yamllint --strict .` (clean). The diff only adds a test file, so no existing test is weakened, skipped or deleted.
+
+Round 1 fixes hold: the rule tests read the section with the fence removed, the exclusion test names the colour fix, the trigger words match as whole words on the rule line only, the section ends at a `## ` heading outside a fence, the append rule exists with its own test, and the exclusion uses active voice.
+
+Compliance:
+
+- An agent that renames a button class adds a `### Upgrading` subsection → `test/agents_md_test.rb` `test_changelog_rule_asks_for_an_upgrading_subsection_when_apps_must_act`, `test_changelog_rule_shows_an_example_upgrading_subsection` (text proof of the rule; behaviour is checked by review of the next applicable entry, as `plan.md` states)
+- An agent that fixes a colour adds no `### Upgrading` subsection → `test/agents_md_test.rb` `test_changelog_rule_excludes_entries_without_app_changes`
+- A reader of `AGENTS.md` finds the rule and an example → `test/agents_md_test.rb` `test_changelog_rule_names_what_requires_apps_to_act`, `test_changelog_rule_shows_an_example_upgrading_subsection`
+- Every test named in `plan.md` `## Proof` exists with the planned name. One extra test, `test_changelog_rule_appends_to_an_existing_upgrading_subsection`, covers the round 1 append rule.
+
+Findings:
+
+- [ ] Nit: Three tests now match whole rule sentences, up to the final full stop. `plan.md` `## Risks` names this as the risk to avoid ("match on the heading, the trigger words and the fenced example, not whole sentences"). A harmless rewording such as "for example, a colour fix" turns them red. Matching on the bullet's start and its key words keeps the round 1 fix and the plan's mitigation both. — `test/agents_md_test.rb:6` →
+- [ ] Nit: Example step 2, "Search your own stylesheets for `.button-old` and rename each selector", is the step that agents will copy, but it holds two actions. The rule on line 26 says each step is one concrete action. A single action such as "Rename each `.button-old` selector in your own stylesheets to `.button-new`" matches the rule. — `AGENTS.md:39` →

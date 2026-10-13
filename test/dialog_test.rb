@@ -20,6 +20,12 @@ class DialogTest < Minitest::Test
     end
   end
 
+  def test_a_modal_dialog_is_centred_despite_the_reset_zeroing_margins
+    each_source(DIALOG) do |name, css|
+      assert_includes rule_body(css, "dialog"), "margin: auto;", name
+    end
+  end
+
   def test_the_dialog_surface_has_a_border_and_shadow
     each_source(DIALOG) do |name, css|
       rule = rule_body(css, "dialog")

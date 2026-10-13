@@ -1,13 +1,14 @@
 /*
  * Dialog
  * A modal <dialog> is a centred box over a dimmed page. The UA centres it
- * (showModal()); this partial only styles the box, backdrop and action row.
+ * (showModal()) with margin: auto, which the reset zeroes, so it is restored here.
  * Its footer row is Cancel then Delete on the right, never Delete far left.
  */
 
 dialog {
   inline-size: min(32rem, 100% - 2rem);
   max-inline-size: none;
+  margin: auto;
   padding: var(--block-space-double);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-large);

@@ -57,3 +57,15 @@ Compliance: the diff stays inside the intent's scope. No new class, no JavaScrip
 ## Round 8 — 2026-10-13T12:35Z — 037b9ce (codex)
 
 No findings. The test suite passes: 148 runs, 1055 assertions, no failures.
+
+## Round 9 — 2026-10-13T12:36Z — 1d8de0f
+
+No `REVIEW.md` in the repository; the default Bugs, Security and Compliance passes ran. Baseline: `bundle exec rake test` (149 runs, 1059 assertions, 0 failures), `yarn lint:css`, `yarn lint:browsers`, `bundle exec rubocop` and `yamllint --strict .` all pass. Since round 7 only `6d57e13` touched code. It adds `--button-fg` (ink) to the e-ink destructive rule in `2_eink.css` and `mvpa.css`. It also adds `test_a_destructive_header_link_keeps_ink_text_on_hover_on_eink`, which takes the count from 148 to 149. No existing test was weakened.
+
+Bugs: the round 7 fix holds. The e-ink destructive rule (0,2,1) beats `.button-danger` (0,1,0) for `--button-fg`, so the header link's `:hover` and `:visited` rule (0,2,4) now reads ink. Headless Chrome computes `--button-fg` as `black` on paper on `eink-light` and `white` on ink on `eink-dark`. The colour matches the e-ink destructive text in both themes. Pressing still inverts: the pressed destructive rule (0,3,1) beats the hover rule (0,2,4). Warning and success header links keep a `--button-fg` that contrasts their fill on both e-ink themes. `--button-fg` has no other reader, so the extra declaration on a DELETE form's button changes nothing. Solunized themes are unchanged.
+
+Security: nothing found (CSS, Markdown and static demo markup only; no script added).
+
+Compliance: the diff stays inside the intent's scope. No new class, no JavaScript, and `mvpa.css` stays in sync with the partials.
+
+No findings.

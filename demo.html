@@ -479,7 +479,7 @@ console.log(greet('World'));</code></pre>
 
     <section>
       <h3>Confirmation dialog</h3>
-      <p>Cancel is a submit in a method="dialog" form, so it is filled and the Return-key default. Delete is a DELETE form, so it is red. The opener uses Invoker Commands, with no script.</p>
+      <p>Cancel is a submit in a method="dialog" form, so it is filled and the Return-key default. Delete is a DELETE form, so it is red. The opener uses Invoker Commands, with no script; a browser without them does not open the dialog.</p>
       <button type="button" class="button-danger" command="show-modal" commandfor="confirm-delete">Delete…</button>
       <dialog id="confirm-delete">
         <h2>Delete this journal?</h2>

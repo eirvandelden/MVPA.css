@@ -69,6 +69,16 @@ Unchanged, and checked at the end: `Gemfile`, `mvpa-css.gemspec`, `.github/`, `.
 10. **Full verification.** Run every command in `## Proof` on the final branch, on Ruby 4.0.7. Delete the `.gem` file that `gem build` writes; never commit it.
 11. **Self-review.** Re-read `git diff main...HEAD`. Every hunk belongs to this task. `git diff main...HEAD -- Gemfile mvpa-css.gemspec .github .rubocop.yml CHANGELOG.md` is empty. `git diff main...HEAD -- package.json` shows only the stylelint range line.
 
+## Addendum: refetch the shared hooks (2026-10-13)
+
+Etienne asked to add this to this branch after review round 2. Cause: the cached copy of the shared hook config in `.git/info/lefthook-remotes/dotfiles` stayed at dotfiles #138 from 2026-09-19. lefthook never refetches a remote without `refetch` or `refetch_frequency`, so the removed `spelling` job kept running here.
+
+- **Value:** `refetch_frequency: 24h` on the dotfiles remote. lefthook's docs recommend a frequency for a remote without a `ref`. `refetch: true` would fetch on every hook run and slow every commit. A failed fetch only warns and keeps the cached copy, so offline commits still work.
+- **Test first:** new `test/git_hooks_test.rb` asserts that every remote in `lefthook.yml` sets `refetch_frequency`. It fails before the change.
+- **Docs:** the `lefthook.yml` gotcha in `AGENTS.md` (`CLAUDE.md` links to it) says the remote is fetched on `lefthook install`. Update it to say it refetches every 24 hours.
+- **Commits:** one commit, `chore(hooks): refetch the shared hook config daily`, holding the test, `lefthook.yml` and `AGENTS.md`.
+- **Verify:** the new test passes, the suite and `yamllint --strict .` pass, and `lefthook run pre-commit` still runs.
+
 ## Risks
 
 - **Environment side effect from planning.** While planning, a `bundle exec` under Ruby 4.0.7 auto-installed Bundler 4.0.17 and the locked gems into Ruby 4.0.7's gem home. That run also rewrote the `mvpa-css` SHA line in `Gemfile.lock`; the planner reverted it. Step 2's `bundle install` is therefore mostly a no-op.
@@ -88,6 +98,7 @@ Unchanged, and checked at the end: `Gemfile`, `mvpa-css.gemspec`, `.github/`, `.
 - The yarn binary, Node and every other system tool. Bundler is the one exception (see Design decisions).
 - The Dependabot configuration.
 - Adding or removing any dependency.
+- The shared hook config in `eirvandelden/dotfiles` and the other repositories that use it.
 
 ## Proof
 
@@ -102,7 +113,9 @@ Unchanged, and checked at the end: `Gemfile`, `mvpa-css.gemspec`, `.github/`, `.
 - `gem build mvpa-css.gemspec` succeeds → command `rv run --no-install gem build mvpa-css.gemspec`.
 - The Gemfile, the gemspec and `package.json` name the same direct dependencies as before → command `git diff main...HEAD -- Gemfile mvpa-css.gemspec` is empty, and `git diff main...HEAD -- package.json` shows only the stylelint range.
 
-Per changed file, the unit tests expected: none. `.ruby-version`, `Gemfile.lock`, `package.json` and `yarn.lock` hold no behaviour of their own. The existing suite covers them indirectly (see Design decisions). A file changed by a lint fix keeps the tests it already has, and they stay green.
+- `lefthook.yml` refetches the shared hooks every 24 hours → `test/git_hooks_test.rb`.
+
+Per changed file, the unit tests expected: `lefthook.yml` → `test/git_hooks_test.rb`; every other file: none. `.ruby-version`, `Gemfile.lock`, `package.json` and `yarn.lock` hold no behaviour of their own. The existing suite covers them indirectly (see Design decisions). A file changed by a lint fix keeps the tests it already has, and they stay green.
 
 Test setup: none. No fixtures and no faked boundaries. The command checks need network access to gem.coop, the GitHub git source and the npm registry.
 

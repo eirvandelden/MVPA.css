@@ -31,6 +31,7 @@ Every gem, npm package and the Ruby version are at their latest stable release o
 - The `package.json` ranges for direct npm devDependencies move up to the latest versions (stylelint `^17.16.0`).
 - Every transitive npm package in `yarn.lock` moves to the newest version its range allows.
 - New lint offenses or deprecation warnings that the updates surface get fixed.
+- Added on 2026-10-13 at Etienne's request: the shared git hooks stay current. Every clone refetches the shared `eirvandelden/dotfiles` hook config at least once a day, so a job removed there (such as `spelling`) stops running here within a day.
 
 ## Out of scope
 
@@ -39,6 +40,7 @@ Every gem, npm package and the Ruby version are at their latest stable release o
 - The rubocop-eirvandelden git revision. It is already at its GitHub HEAD.
 - The yarn binary itself, and any other system tool.
 - The Dependabot configuration.
+- The shared hook config in `eirvandelden/dotfiles` and the other repositories that use it.
 - The `mvpa-css` version-string churn in `Gemfile.lock` (the git SHA in `0.1.0.pre.git.<sha>`), apart from what the update itself rewrites.
 
 ## Acceptance criteria
@@ -51,6 +53,7 @@ Every gem, npm package and the Ruby version are at their latest stable release o
 - `bundle exec rubocop`, `yarn lint:css`, `yarn lint:browsers` and `yamllint --strict .` all pass.
 - `gem build mvpa-css.gemspec` succeeds.
 - The Gemfile, the gemspec and `package.json` name the same direct dependencies as before the change.
+- `lefthook.yml` tells lefthook to refetch the shared dotfiles hook config every 24 hours.
 
 ## Flagged concerns
 

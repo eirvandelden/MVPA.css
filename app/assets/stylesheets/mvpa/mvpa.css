@@ -690,11 +690,6 @@ main > header {
   justify-content: space-between;
   align-items: baseline;
 }
-
-main > header nav form button {
-  --button-bg: var(--color-danger, red);
-  --button-fg: var(--color-bg-lightest, white);
-}
 /*
  * Main
  * Main content area
@@ -890,14 +885,27 @@ input[type="radio"] {
   vertical-align: middle;
 }
 
+/* Button weight comes from semantics, set at zero specificity so any class
+   (.button-danger) and the DELETE-form rule win without !important.
+   Default (filled): a submit, a button with no type, a role="button" link. */
+:where(button, input[type="submit"], input[type="button"], input[type="reset"], a[role="button"]) {
+  --button-bg: var(--color-primary);
+  --button-fg: var(--color-bg-lightest);
+  --button-border-color: transparent;
+}
+
+/* Push button: type="button" and type="reset" are plain, never the default action. */
+:where(button[type="button"], button[type="reset"], input[type="button"], input[type="reset"]) {
+  --button-bg: var(--color-bg-lighter);
+  --button-fg: var(--color-fg);
+  --button-border-color: var(--color-border);
+}
+
 button,
 input[type="submit"],
 input[type="button"],
 input[type="reset"],
 a[role="button"] {
-  --button-bg: var(--color-primary);
-  --button-fg: var(--color-bg-lightest);
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -913,7 +921,7 @@ a[role="button"] {
   text-decoration: none;
   background-color: var(--button-bg);
   color: var(--button-fg);
-  border: none;
+  border: 1px solid var(--button-border-color);
   border-radius: var(--radius);
   box-shadow: var(--shadow-1);
   cursor: pointer;
@@ -1125,10 +1133,14 @@ aside[role="alert"] ul {
 
 .button-success {
   --button-bg: var(--color-success);
+  --button-fg: var(--color-bg-lightest);
+  --button-border-color: transparent;
 }
 
 .button-danger {
   --button-bg: var(--color-danger);
+  --button-fg: var(--color-bg-lightest);
+  --button-border-color: transparent;
 }
 
 .button-danger:active {
@@ -1137,20 +1149,25 @@ aside[role="alert"] ul {
 
 .button-warning {
   --button-bg: var(--color-warning);
+  --button-fg: var(--color-bg-lightest);
+  --button-border-color: transparent;
 }
 
+/* Secondary takes the same look as a plain type="button" push button */
 .button-secondary {
-  --button-bg: var(--color-bg-darker);
+  --button-bg: var(--color-bg-lighter);
   --button-fg: var(--color-fg);
+  --button-border-color: var(--color-border);
 }
 
 /* Destructive — Rails button_to method: :delete emits this hidden input */
 form:has(input[name="_method"][value="delete"]) button {
   --button-bg: var(--color-danger);
   --button-fg: var(--color-bg-lightest);
+  --button-border-color: transparent;
 }
 
-/* Primary page action — link in page-level header nav (slice 4 adds the structure) */
+/* Page action — link in page-level header nav, a plain push button */
 main > header nav a {
   display: inline-flex;
   align-items: center;
@@ -1158,16 +1175,25 @@ main > header nav a {
   padding-inline: 0.75rem;
   border-radius: var(--radius);
   text-decoration: none;
-  background-color: var(--color-primary);
-  color: var(--color-bg-lightest);
+  background-color: var(--color-bg-lighter);
+  color: var(--color-fg);
+  border: 1px solid var(--color-border);
   box-shadow: var(--shadow-1);
   min-block-size: var(--touch-target);
 }
 
-main > header nav a:hover,
-main > header nav a:visited {
-  color: var(--color-bg-lightest);
+main > header nav a:not([role="button"]):hover,
+main > header nav a:not([role="button"]):visited {
+  color: var(--color-fg);
   text-decoration: none;
+}
+
+/* A role="button" link keeps the filled look, including its text colour:
+   header nav a:hover (10_navigation.css) would otherwise darken it. */
+main > header nav a[role="button"],
+main > header nav a[role="button"]:hover,
+main > header nav a[role="button"]:visited {
+  color: var(--button-fg);
 }
 /*
  * Progress Bar

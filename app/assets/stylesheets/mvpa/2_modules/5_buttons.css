@@ -5,10 +5,14 @@
 
 .button-success {
   --button-bg: var(--color-success);
+  --button-fg: var(--color-bg-lightest);
+  --button-border-color: transparent;
 }
 
 .button-danger {
   --button-bg: var(--color-danger);
+  --button-fg: var(--color-bg-lightest);
+  --button-border-color: transparent;
 }
 
 .button-danger:active {
@@ -17,20 +21,25 @@
 
 .button-warning {
   --button-bg: var(--color-warning);
+  --button-fg: var(--color-bg-lightest);
+  --button-border-color: transparent;
 }
 
+/* Secondary takes the same look as a plain type="button" push button */
 .button-secondary {
-  --button-bg: var(--color-bg-darker);
+  --button-bg: var(--color-bg-lighter);
   --button-fg: var(--color-fg);
+  --button-border-color: var(--color-border);
 }
 
 /* Destructive — Rails button_to method: :delete emits this hidden input */
 form:has(input[name="_method"][value="delete"]) button {
   --button-bg: var(--color-danger);
   --button-fg: var(--color-bg-lightest);
+  --button-border-color: transparent;
 }
 
-/* Primary page action — link in page-level header nav (slice 4 adds the structure) */
+/* Page action — link in page-level header nav, a plain push button */
 main > header nav a {
   display: inline-flex;
   align-items: center;
@@ -38,14 +47,23 @@ main > header nav a {
   padding-inline: 0.75rem;
   border-radius: var(--radius);
   text-decoration: none;
-  background-color: var(--color-primary);
-  color: var(--color-bg-lightest);
+  background-color: var(--color-bg-lighter);
+  color: var(--color-fg);
+  border: 1px solid var(--color-border);
   box-shadow: var(--shadow-1);
   min-block-size: var(--touch-target);
 }
 
-main > header nav a:hover,
-main > header nav a:visited {
-  color: var(--color-bg-lightest);
+main > header nav a:not([role="button"]):hover,
+main > header nav a:not([role="button"]):visited {
+  color: var(--color-fg);
   text-decoration: none;
+}
+
+/* A role="button" link keeps the filled look, including its text colour:
+   header nav a:hover (10_navigation.css) would otherwise darken it. */
+main > header nav a[role="button"],
+main > header nav a[role="button"]:hover,
+main > header nav a[role="button"]:visited {
+  color: var(--button-fg);
 }

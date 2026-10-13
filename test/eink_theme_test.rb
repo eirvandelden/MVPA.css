@@ -244,6 +244,37 @@ class EinkThemeTest < Minitest::Test
     end
   end
 
+  def test_a_secondary_link_is_outlined_like_a_push_button_on_eink
+    EINK_THEMES.each_key do |theme|
+      assert_equal rule_body(eink_partial, "#{theme} button[type=\"button\"]"),
+        rule_body(eink_partial, "#{theme} a[role=\"button\"].button-secondary"), theme
+    end
+  end
+
+  def test_a_danger_link_has_the_destructive_look_on_eink
+    EINK_THEMES.each_key do |theme|
+      assert_equal rule_body(eink_partial, "#{theme} button.button-danger"),
+        rule_body(eink_partial, "#{theme} a[role=\"button\"].button-danger"), theme
+    end
+  end
+
+  def test_pressing_a_delete_form_button_or_a_danger_link_inks_it_on_eink
+    EINK_THEMES.each_key do |theme|
+      pressed = rule_body(eink_partial, "#{theme} button.button-danger:active")
+      delete_form = "#{theme} :where(form:has(input[name=\"_method\"][value=\"delete\"])) button:active"
+
+      assert_equal pressed, rule_body(eink_partial, delete_form), theme
+      assert_equal pressed, rule_body(eink_partial, "#{theme} a[role=\"button\"].button-danger:active"), theme
+    end
+  end
+
+  def test_pressing_a_secondary_submit_or_link_inks_it_on_eink
+    EINK_THEMES.each_key do |theme|
+      assert_equal rule_body(eink_partial, "#{theme} button[type=\"button\"]:active"),
+        rule_body(eink_partial, "#{theme} :is(button, input, a).button-secondary:active"), theme
+    end
+  end
+
   def test_disabled_comes_after_every_other_button_rule_on_eink
     EINK_THEMES.each_key do |theme|
       disabled = eink_partial.index("#{theme} button:disabled,")

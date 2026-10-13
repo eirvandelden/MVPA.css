@@ -1073,7 +1073,7 @@ fieldset > input[type="reset"] {
   justify-self: start;
 }
 
-/* Action row: a <footer> as the last child of a form. Buttons sit in DOM
+/* Action row: any <footer> directly inside a form; put it last. Buttons sit in DOM
    order, Cancel then Save, on the right. It resets what the global footer
    rule (1_layout/2_footer.css) applies to every footer. */
 form > footer {

@@ -69,3 +69,8 @@ Security: nothing found (CSS, Markdown and static demo markup only; no script ad
 Compliance: the diff stays inside the intent's scope. No new class, no JavaScript, and `mvpa.css` stays in sync with the partials.
 
 No findings.
+
+## Round 10 — 2026-10-13T12:45Z — 1d8de0f (codex)
+
+- [x] Important: When a form has a direct-child `<footer>` that is not its last child, the selector still turns it into an action row, and the mobile rule reverses its contents. That can misalign or reorder help text or metadata, although the documented behaviour applies only to a footer at the end of the form. Restrict the selector to the last child. — `app/assets/stylesheets/mvpa/2_modules/1_forms.css:258` → dismissed: plan decision 7 chose `form > footer` on purpose, and the changelog's `### Upgrading` note says every direct-child footer of a form or dialog becomes an action row and to move help text out. `:last-child` would silently drop the row when an app renders a trailing hidden input or template. The CSS comment that said "last child" now matches the rule (Say that any direct-child form footer is an action row)
+- [x] Important: At the low end of the browser floor (for example Chrome 111), Invoker Commands are unsupported, so the demo's opener does nothing and the dialog cannot open. Use a `showModal()` fallback or make the demo's browser requirement explicit. — `demo.html:483` → fixed (Note that the demo dialog needs Invoker Commands); a script fallback stays out: the intent keeps JavaScript out of this slice, and Etienne chose an Invoker-only opener at plan time

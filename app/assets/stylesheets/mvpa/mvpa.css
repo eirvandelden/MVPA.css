@@ -2216,11 +2216,26 @@ html[data-color-scheme="system"] {
   background: oklch(87% 0 0);
 }
 
-/* Button ladder: outlined = ordinary action, filled = consequential action */
+/* Button ladder, without colour:
+   filled (ink) = the default action: a submit, a button with no type, a role="button" link
+   outlined (paper, 1px) = a push button: type="button", type="reset", .button-secondary
+   double border (paper, 3px) = destructive: .button-danger, a DELETE form's button
+   Rule order matters: filled, push, warning, destructive, pressed, disabled. */
 [data-theme="eink-light"] button,
 [data-theme="eink-light"] input[type="submit"],
+[data-theme="eink-light"] a[role="button"] {
+  background-color: black;
+  color: white;
+  border: 1px solid black;
+  box-shadow: none;
+  filter: none;
+}
+
+[data-theme="eink-light"] button[type="button"],
+[data-theme="eink-light"] button[type="reset"],
 [data-theme="eink-light"] input[type="button"],
-[data-theme="eink-light"] input[type="reset"] {
+[data-theme="eink-light"] input[type="reset"],
+[data-theme="eink-light"] .button-secondary {
   background-color: white;
   color: black;
   border: 1px solid black;
@@ -2228,16 +2243,52 @@ html[data-color-scheme="system"] {
   filter: none;
 }
 
-/* Active state: invert. Black-to-white is e-ink's fastest, cleanest flash. */
+/* Warning: filled, softer border — "almost danger" */
+[data-theme="eink-light"] button.button-warning {
+  background-color: black;
+  color: white;
+  border: 1px solid oklch(55% 0 0);
+}
+
+/* Destructive: paper fill like a push button, but a double border no other button has */
+[data-theme="eink-light"] button.button-danger,
+[data-theme="eink-light"] :where(form:has(input[name="_method"][value="delete"])) button {
+  background-color: white;
+  color: black;
+  border: 3px double black;
+}
+
+/* Active state: invert. Fastest, cleanest flash on e-ink. */
 [data-theme="eink-light"] button:active,
 [data-theme="eink-light"] input[type="submit"]:active,
+[data-theme="eink-light"] a[role="button"]:active {
+  background-color: white;
+  color: black;
+}
+
+[data-theme="eink-light"] button[type="button"]:active,
+[data-theme="eink-light"] button[type="reset"]:active,
 [data-theme="eink-light"] input[type="button"]:active,
 [data-theme="eink-light"] input[type="reset"]:active {
   background-color: black;
   color: white;
 }
 
-/* Disabled: dashed mid-grey border replaces opacity: 0.5 */
+/* Warning starts filled, so pressing it inverts back to paper. */
+[data-theme="eink-light"] button.button-warning:active {
+  background-color: white;
+  color: black;
+}
+
+/* Destructive starts on paper, so pressing it inks it. The filter reset beats
+   .button-danger:active (5_buttons.css), which would otherwise brighten it. */
+[data-theme="eink-light"] button.button-danger:active {
+  background-color: black;
+  color: white;
+  filter: none;
+}
+
+/* Disabled: dashed mid-grey border replaces opacity: 0.5. Last, so it wins over every rule above. */
 [data-theme="eink-light"] button:disabled,
 [data-theme="eink-light"] input[type="submit"]:disabled,
 [data-theme="eink-light"] input[type="button"]:disabled,
@@ -2248,33 +2299,15 @@ html[data-color-scheme="system"] {
   opacity: 1;
 }
 
-/* Secondary: quieter outlined button */
-[data-theme="eink-light"] .button-secondary {
-  background-color: white;
-  color: black;
-  border: 1px solid oklch(55% 0 0);
+/* Dialog: a flat bordered box. No backdrop dimming (translucent fills muddy paper) and no open animation. */
+[data-theme="eink-light"] dialog {
+  border: 2px solid black;
+  box-shadow: none;
 }
 
-/* Warning: filled, softer border — "almost danger" */
-[data-theme="eink-light"] .button-warning {
-  background-color: black;
-  color: white;
-  border: 1px solid oklch(55% 0 0);
-}
-
-/* Danger: filled, crisp border — the most severe action */
-[data-theme="eink-light"] .button-danger {
-  background-color: black;
-  color: white;
-  border: 1px solid black;
-}
-
-/* Danger/warning start already inverted, so pressing them must invert back
-   or the generic button:active rule sets them to the colours they already have. */
-[data-theme="eink-light"] .button-warning:active,
-[data-theme="eink-light"] .button-danger:active {
-  background-color: white;
-  color: black;
+[data-theme="eink-light"] dialog::backdrop {
+  background: none;
+  animation: none !important;
 }
 
 /* Flash messages: status = paper fill (ordinary), alert = ink fill (alarm) */
@@ -2448,11 +2481,26 @@ html[data-color-scheme="system"] {
   background: oklch(13% 0 0);
 }
 
-/* Button ladder: outlined = ordinary action, filled = consequential action */
+/* Button ladder, without colour:
+   filled (ink) = the default action: a submit, a button with no type, a role="button" link
+   outlined (paper, 1px) = a push button: type="button", type="reset", .button-secondary
+   double border (paper, 3px) = destructive: .button-danger, a DELETE form's button
+   Rule order matters: filled, push, warning, destructive, pressed, disabled. */
 [data-theme="eink-dark"] button,
 [data-theme="eink-dark"] input[type="submit"],
+[data-theme="eink-dark"] a[role="button"] {
+  background-color: white;
+  color: black;
+  border: 1px solid white;
+  box-shadow: none;
+  filter: none;
+}
+
+[data-theme="eink-dark"] button[type="button"],
+[data-theme="eink-dark"] button[type="reset"],
 [data-theme="eink-dark"] input[type="button"],
-[data-theme="eink-dark"] input[type="reset"] {
+[data-theme="eink-dark"] input[type="reset"],
+[data-theme="eink-dark"] .button-secondary {
   background-color: black;
   color: white;
   border: 1px solid white;
@@ -2460,16 +2508,52 @@ html[data-color-scheme="system"] {
   filter: none;
 }
 
-/* Active state: invert. White-to-black is e-ink's fastest, cleanest flash. */
+/* Warning: filled, softer border — "almost danger" */
+[data-theme="eink-dark"] button.button-warning {
+  background-color: white;
+  color: black;
+  border: 1px solid oklch(45% 0 0);
+}
+
+/* Destructive: paper fill like a push button, but a double border no other button has */
+[data-theme="eink-dark"] button.button-danger,
+[data-theme="eink-dark"] :where(form:has(input[name="_method"][value="delete"])) button {
+  background-color: black;
+  color: white;
+  border: 3px double white;
+}
+
+/* Active state: invert. Fastest, cleanest flash on e-ink. */
 [data-theme="eink-dark"] button:active,
 [data-theme="eink-dark"] input[type="submit"]:active,
+[data-theme="eink-dark"] a[role="button"]:active {
+  background-color: black;
+  color: white;
+}
+
+[data-theme="eink-dark"] button[type="button"]:active,
+[data-theme="eink-dark"] button[type="reset"]:active,
 [data-theme="eink-dark"] input[type="button"]:active,
 [data-theme="eink-dark"] input[type="reset"]:active {
   background-color: white;
   color: black;
 }
 
-/* Disabled: dashed mid-grey border replaces opacity: 0.5 */
+/* Warning starts filled, so pressing it inverts back to paper. */
+[data-theme="eink-dark"] button.button-warning:active {
+  background-color: black;
+  color: white;
+}
+
+/* Destructive starts on paper, so pressing it inks it. The filter reset beats
+   .button-danger:active (5_buttons.css), which would otherwise brighten it. */
+[data-theme="eink-dark"] button.button-danger:active {
+  background-color: white;
+  color: black;
+  filter: none;
+}
+
+/* Disabled: dashed mid-grey border replaces opacity: 0.5. Last, so it wins over every rule above. */
 [data-theme="eink-dark"] button:disabled,
 [data-theme="eink-dark"] input[type="submit"]:disabled,
 [data-theme="eink-dark"] input[type="button"]:disabled,
@@ -2480,33 +2564,15 @@ html[data-color-scheme="system"] {
   opacity: 1;
 }
 
-/* Secondary: quieter outlined button */
-[data-theme="eink-dark"] .button-secondary {
-  background-color: black;
-  color: white;
-  border: 1px solid oklch(45% 0 0);
+/* Dialog: a flat bordered box. No backdrop dimming (translucent fills muddy paper) and no open animation. */
+[data-theme="eink-dark"] dialog {
+  border: 2px solid white;
+  box-shadow: none;
 }
 
-/* Warning: filled, softer border — "almost danger" */
-[data-theme="eink-dark"] .button-warning {
-  background-color: white;
-  color: black;
-  border: 1px solid oklch(45% 0 0);
-}
-
-/* Danger: filled, crisp border — the most severe action */
-[data-theme="eink-dark"] .button-danger {
-  background-color: white;
-  color: black;
-  border: 1px solid white;
-}
-
-/* Danger/warning start already inverted, so pressing them must invert back
-   or the generic button:active rule sets them to the colours they already have. */
-[data-theme="eink-dark"] .button-warning:active,
-[data-theme="eink-dark"] .button-danger:active {
-  background-color: black;
-  color: white;
+[data-theme="eink-dark"] dialog::backdrop {
+  background: none;
+  animation: none !important;
 }
 
 /* Flash messages: status = ink fill (ordinary), alert = paper fill (alarm) */

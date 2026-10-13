@@ -1,8 +1,17 @@
 require "minitest/autorun"
+require_relative "css_source_helper"
 
 # An e-ink reader uses a slow, grey, paper-like screen with no colour.
 # The eink theme must be readable on such a screen without any colour perception.
 class EinkThemeTest < Minitest::Test
+  include CssSourceHelper
+
+  # theme selector => [ink, paper]
+  EINK_THEMES = {
+    '[data-theme="eink-light"]' => %w[black white],
+    '[data-theme="eink-dark"]' => %w[white black]
+  }.freeze
+
   def test_an_eink_reader_can_choose_the_eink_theme
     assert_includes eink_partial, '[data-theme="eink-light"]',
       "eink-light theme selector missing from source partial"
@@ -158,14 +167,108 @@ class EinkThemeTest < Minitest::Test
       "eink-dark's header border rule is not confined to desktop widths — same issue, inverted colours")
   end
 
-  def test_pressing_danger_or_warning_gives_visible_feedback_on_the_eink_theme
-    assert_match(/\[data-theme="eink-light"\] \.button-warning:active,\s*\[data-theme="eink-light"\] \.button-danger:active\s*\{[^}]*background-color:\s*white/m,
-      eink_partial,
-      "pressing a filled danger/warning button on eink-light shows no change — they are already " \
-      "black-on-white inverted, so the generic invert-on-press rule sets them to the same colours they already have")
-    assert_match(/\[data-theme="eink-dark"\] \.button-warning:active,\s*\[data-theme="eink-dark"\] \.button-danger:active\s*\{[^}]*background-color:\s*black/m,
-      eink_partial,
-      "pressing a filled danger/warning button on eink-dark shows no change — same issue, inverted direction")
+  def test_pressing_a_warning_button_inks_it_on_paper_and_back_on_eink
+    EINK_THEMES.each do |theme, (ink, paper)|
+      rule = rule_body(eink_partial, "#{theme} button.button-warning:active")
+
+      assert_includes rule, "background-color: #{paper};", "#{theme} pressed warning button shows no change"
+      assert_includes rule, "color: #{ink};", theme
+    end
+  end
+
+  def test_the_default_button_is_ink_filled_on_eink
+    EINK_THEMES.each do |theme, (ink, paper)|
+      rule = rule_body(eink_partial, "#{theme} button")
+
+      assert_includes rule, "background-color: #{ink};", theme
+      assert_includes rule, "color: #{paper};", theme
+      assert_includes rule, "border: 1px solid #{ink};", theme
+      assert_includes rule_body(eink_partial, "#{theme} a[role=\"button\"]"), "background-color: #{ink};", theme
+      assert_empty rule_bodies(eink_partial, "#{theme} input[type=\"button\"]").grep(/background-color: #{ink}/), theme
+    end
+  end
+
+  def test_a_push_button_is_outlined_on_eink
+    EINK_THEMES.each do |theme, (ink, paper)|
+      %w[button[type="button"] button[type="reset"] input[type="button"] input[type="reset"]].each do |selector|
+        rule = rule_body(eink_partial, "#{theme} #{selector}")
+
+        assert_includes rule, "background-color: #{paper};", "#{theme} #{selector}"
+        assert_includes rule, "color: #{ink};", "#{theme} #{selector}"
+        assert_includes rule, "border: 1px solid #{ink};", "#{theme} #{selector}"
+      end
+    end
+  end
+
+  def test_the_secondary_button_matches_the_push_button_on_eink
+    EINK_THEMES.each_key do |theme|
+      assert_equal rule_body(eink_partial, "#{theme} button[type=\"button\"]"),
+        rule_body(eink_partial, "#{theme} .button-secondary"), theme
+    end
+  end
+
+  def test_a_destructive_button_has_a_double_border_on_eink
+    EINK_THEMES.each do |theme, (ink, paper)|
+      rule = rule_body(eink_partial, "#{theme} button.button-danger")
+
+      assert_includes rule, "background-color: #{paper};", theme
+      assert_includes rule, "color: #{ink};", theme
+      assert_includes rule, "border: 3px double #{ink};", theme
+    end
+  end
+
+  def test_a_delete_form_button_has_the_destructive_look_on_eink
+    EINK_THEMES.each_key do |theme|
+      delete_form = rule_body(eink_partial, "#{theme} :where(form:has(input[name=\"_method\"][value=\"delete\"])) button")
+
+      assert_equal rule_body(eink_partial, "#{theme} button.button-danger"), delete_form, theme
+    end
+  end
+
+  def test_pressing_a_destructive_button_inks_it_without_a_filter_on_eink
+    EINK_THEMES.each do |theme, (ink, paper)|
+      rule = rule_body(eink_partial, "#{theme} button.button-danger:active")
+
+      assert_includes rule, "background-color: #{ink};", theme
+      assert_includes rule, "color: #{paper};", theme
+      assert_includes rule, "filter: none;", theme
+    end
+  end
+
+  def test_pressing_a_push_button_inks_it_on_eink
+    EINK_THEMES.each do |theme, (ink, paper)|
+      rule = rule_body(eink_partial, "#{theme} button[type=\"button\"]:active")
+
+      assert_includes rule, "background-color: #{ink};", theme
+      assert_includes rule, "color: #{paper};", theme
+    end
+  end
+
+  def test_disabled_comes_after_every_other_button_rule_on_eink
+    EINK_THEMES.each_key do |theme|
+      disabled = eink_partial.index("#{theme} button:disabled,")
+
+      [ "#{theme} button,", "#{theme} button[type=\"button\"]", "#{theme} button.button-warning {",
+        "#{theme} button.button-danger," ].each do |earlier|
+        assert_operator eink_partial.index(earlier), :<, disabled, "#{theme} #{earlier}"
+      end
+    end
+  end
+
+  def test_the_dialog_opens_without_animation_on_eink
+    EINK_THEMES.each_key do |theme|
+      assert_includes rule_body(eink_partial, "#{theme} dialog::backdrop"), "animation: none !important;", theme
+      assert_includes rule_body(eink_partial, "#{theme} dialog::backdrop"), "background: none;", theme
+    end
+  end
+
+  def test_the_dialog_is_a_flat_bordered_box_on_eink
+    EINK_THEMES.each do |theme, (ink, _paper)|
+      rule = rule_body(eink_partial, "#{theme} dialog")
+
+      assert_includes rule, "border: 2px solid #{ink};", theme
+      assert_includes rule, "box-shadow: none;", theme
+    end
   end
 
   private

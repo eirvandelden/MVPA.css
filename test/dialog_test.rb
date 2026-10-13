@@ -7,6 +7,7 @@ class DialogTest < Minitest::Test
   include CssSourceHelper
 
   DIALOG = "2_modules/12_dialog.css".freeze
+  CONTROLS = ':is(button, input, a[role="button"])'.freeze
   ANIMATIONS = "0_base/3_animations.css".freeze
 
   def test_a_dialog_is_a_padded_rounded_box_capped_in_rem
@@ -57,7 +58,7 @@ class DialogTest < Minitest::Test
       assert_includes rule, "justify-content: flex-end;", name
       assert_includes rule, "max-inline-size: none;", name
       assert_includes rule, "border: none;", name
-      assert_includes rule_body(css, "dialog > footer button"), "margin: 0;", name
+      assert_includes partial("2_modules/1_forms.css"), ":is(form, dialog) > footer #{CONTROLS}", name
     end
   end
 
@@ -70,8 +71,7 @@ class DialogTest < Minitest::Test
       assert_includes rule, "align-items: stretch;", name
       assert_includes rule_body(phone, "dialog form > footer"), "flex-direction: column;", name
       assert_includes rule_body(phone, "dialog > footer > *"), "inline-size: 100%;", name
-      assert_includes rule_body(phone, "dialog > footer button"), "inline-size: 100%;", name
-      assert_includes rule_body(phone, 'dialog > footer :is(input, a[role="button"])'), "inline-size: 100%;", name
+      assert_includes rule_body(phone, "dialog > footer #{CONTROLS}"), "inline-size: 100%;", name
     end
   end
 

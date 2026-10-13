@@ -37,10 +37,6 @@ dialog > footer {
   color: inherit;
 }
 
-dialog > footer button {
-  margin: 0;
-}
-
 @media (max-width: 768px) {
   /* column: DOM [Cancel, Delete] renders Cancel on top, Delete below */
   dialog > footer,
@@ -50,8 +46,7 @@ dialog > footer button {
   }
 
   dialog > footer > *,
-  dialog > footer button,
-  dialog > footer :is(input, a[role="button"]) {
+  dialog > footer :is(button, input, a[role="button"]) {
     inline-size: 100%;
   }
 }

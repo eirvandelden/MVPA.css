@@ -140,8 +140,8 @@
    filled (ink) = the default action: a submit, a button with no type, a role="button" link
    outlined (paper, 1px) = a push button: type="button", type="reset", .button-secondary
    double border (paper, 3px) = destructive: .button-danger, a DELETE form's button
-   A role="button" link needs its own a[role="button"].button-* entry: the filled
-   a[role="button"] rule (0,2,1) beats a bare .button-secondary (0,2,0).
+   Variants use :is(button, input, a).button-* (0,2,1): a bare .button-* (0,2,0) loses to the filled
+   input[type="submit"] and a[role="button"] rules, and (0,2,1) keeps disabled winning.
    Rule order matters: filled, push, warning, destructive, pressed, disabled. */
 [data-theme="eink-light"] button,
 [data-theme="eink-light"] input[type="submit"],
@@ -157,8 +157,7 @@
 [data-theme="eink-light"] button[type="reset"],
 [data-theme="eink-light"] input[type="button"],
 [data-theme="eink-light"] input[type="reset"],
-[data-theme="eink-light"] .button-secondary,
-[data-theme="eink-light"] a[role="button"].button-secondary {
+[data-theme="eink-light"] :is(button, input, a).button-secondary {
   background-color: white;
   color: black;
   border: 1px solid black;
@@ -167,15 +166,14 @@
 }
 
 /* Warning: filled, softer border — "almost danger" */
-[data-theme="eink-light"] button.button-warning {
+[data-theme="eink-light"] :is(button, input, a).button-warning {
   background-color: black;
   color: white;
   border: 1px solid oklch(55% 0 0);
 }
 
 /* Destructive: paper fill like a push button, but a double border no other button has */
-[data-theme="eink-light"] button.button-danger,
-[data-theme="eink-light"] a[role="button"].button-danger,
+[data-theme="eink-light"] :is(button, input, a).button-danger,
 [data-theme="eink-light"] :where(form:has(input[name="_method"][value="delete"])) button {
   background-color: white;
   color: black;
@@ -200,15 +198,14 @@
 }
 
 /* Warning starts filled, so pressing it inverts back to paper. */
-[data-theme="eink-light"] button.button-warning:active {
+[data-theme="eink-light"] :is(button, input, a).button-warning:active {
   background-color: white;
   color: black;
 }
 
 /* Destructive starts on paper, so pressing it inks it. The filter reset beats
    .button-danger:active (5_buttons.css), which would otherwise brighten it. */
-[data-theme="eink-light"] button.button-danger:active,
-[data-theme="eink-light"] a[role="button"].button-danger:active,
+[data-theme="eink-light"] :is(button, input, a).button-danger:active,
 [data-theme="eink-light"] :where(form:has(input[name="_method"][value="delete"])) button:active {
   background-color: black;
   color: white;
@@ -412,8 +409,8 @@
    filled (ink) = the default action: a submit, a button with no type, a role="button" link
    outlined (paper, 1px) = a push button: type="button", type="reset", .button-secondary
    double border (paper, 3px) = destructive: .button-danger, a DELETE form's button
-   A role="button" link needs its own a[role="button"].button-* entry: the filled
-   a[role="button"] rule (0,2,1) beats a bare .button-secondary (0,2,0).
+   Variants use :is(button, input, a).button-* (0,2,1): a bare .button-* (0,2,0) loses to the filled
+   input[type="submit"] and a[role="button"] rules, and (0,2,1) keeps disabled winning.
    Rule order matters: filled, push, warning, destructive, pressed, disabled. */
 [data-theme="eink-dark"] button,
 [data-theme="eink-dark"] input[type="submit"],
@@ -429,8 +426,7 @@
 [data-theme="eink-dark"] button[type="reset"],
 [data-theme="eink-dark"] input[type="button"],
 [data-theme="eink-dark"] input[type="reset"],
-[data-theme="eink-dark"] .button-secondary,
-[data-theme="eink-dark"] a[role="button"].button-secondary {
+[data-theme="eink-dark"] :is(button, input, a).button-secondary {
   background-color: black;
   color: white;
   border: 1px solid white;
@@ -439,15 +435,14 @@
 }
 
 /* Warning: filled, softer border — "almost danger" */
-[data-theme="eink-dark"] button.button-warning {
+[data-theme="eink-dark"] :is(button, input, a).button-warning {
   background-color: white;
   color: black;
   border: 1px solid oklch(45% 0 0);
 }
 
 /* Destructive: paper fill like a push button, but a double border no other button has */
-[data-theme="eink-dark"] button.button-danger,
-[data-theme="eink-dark"] a[role="button"].button-danger,
+[data-theme="eink-dark"] :is(button, input, a).button-danger,
 [data-theme="eink-dark"] :where(form:has(input[name="_method"][value="delete"])) button {
   background-color: black;
   color: white;
@@ -472,15 +467,14 @@
 }
 
 /* Warning starts filled, so pressing it inverts back to paper. */
-[data-theme="eink-dark"] button.button-warning:active {
+[data-theme="eink-dark"] :is(button, input, a).button-warning:active {
   background-color: black;
   color: white;
 }
 
 /* Destructive starts on paper, so pressing it inks it. The filter reset beats
    .button-danger:active (5_buttons.css), which would otherwise brighten it. */
-[data-theme="eink-dark"] button.button-danger:active,
-[data-theme="eink-dark"] a[role="button"].button-danger:active,
+[data-theme="eink-dark"] :is(button, input, a).button-danger:active,
 [data-theme="eink-dark"] :where(form:has(input[name="_method"][value="delete"])) button:active {
   background-color: white;
   color: black;

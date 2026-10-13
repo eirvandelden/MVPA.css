@@ -169,7 +169,7 @@ class EinkThemeTest < Minitest::Test
 
   def test_pressing_a_warning_button_inks_it_on_paper_and_back_on_eink
     EINK_THEMES.each do |theme, (ink, paper)|
-      rule = rule_body(eink_partial, "#{theme} button.button-warning:active")
+      rule = rule_body(eink_partial, "#{theme} :is(button, input, a).button-warning:active")
 
       assert_includes rule, "background-color: #{paper};", "#{theme} pressed warning button shows no change"
       assert_includes rule, "color: #{ink};", theme
@@ -203,13 +203,13 @@ class EinkThemeTest < Minitest::Test
   def test_the_secondary_button_matches_the_push_button_on_eink
     EINK_THEMES.each_key do |theme|
       assert_equal rule_body(eink_partial, "#{theme} button[type=\"button\"]"),
-        rule_body(eink_partial, "#{theme} .button-secondary"), theme
+        rule_body(eink_partial, "#{theme} :is(button, input, a).button-secondary"), theme
     end
   end
 
   def test_a_destructive_button_has_a_double_border_on_eink
     EINK_THEMES.each do |theme, (ink, paper)|
-      rule = rule_body(eink_partial, "#{theme} button.button-danger")
+      rule = rule_body(eink_partial, "#{theme} :is(button, input, a).button-danger")
 
       assert_includes rule, "background-color: #{paper};", theme
       assert_includes rule, "color: #{ink};", theme
@@ -221,13 +221,13 @@ class EinkThemeTest < Minitest::Test
     EINK_THEMES.each_key do |theme|
       delete_form = rule_body(eink_partial, "#{theme} :where(form:has(input[name=\"_method\"][value=\"delete\"])) button")
 
-      assert_equal rule_body(eink_partial, "#{theme} button.button-danger"), delete_form, theme
+      assert_equal rule_body(eink_partial, "#{theme} :is(button, input, a).button-danger"), delete_form, theme
     end
   end
 
   def test_pressing_a_destructive_button_inks_it_without_a_filter_on_eink
     EINK_THEMES.each do |theme, (ink, paper)|
-      rule = rule_body(eink_partial, "#{theme} button.button-danger:active")
+      rule = rule_body(eink_partial, "#{theme} :is(button, input, a).button-danger:active")
 
       assert_includes rule, "background-color: #{ink};", theme
       assert_includes rule, "color: #{paper};", theme
@@ -244,27 +244,23 @@ class EinkThemeTest < Minitest::Test
     end
   end
 
-  def test_a_secondary_link_is_outlined_like_a_push_button_on_eink
+  # f.submit with a variant class and a role="button" link must not keep the filled look:
+  # input[type="submit"] and a[role="button"] (0,2,1) beat a bare .button-* (0,2,0).
+  def test_variant_looks_cover_inputs_and_links_on_eink
     EINK_THEMES.each_key do |theme|
-      assert_equal rule_body(eink_partial, "#{theme} button[type=\"button\"]"),
-        rule_body(eink_partial, "#{theme} a[role=\"button\"].button-secondary"), theme
+      %w[secondary warning danger].each do |variant|
+        assert_includes eink_partial, "#{theme} :is(button, input, a).button-#{variant}", "#{theme} #{variant}"
+      end
+      refute_includes eink_partial, "#{theme} .button-secondary", theme
     end
   end
 
-  def test_a_danger_link_has_the_destructive_look_on_eink
+  def test_pressing_a_delete_form_button_inks_it_on_eink
     EINK_THEMES.each_key do |theme|
-      assert_equal rule_body(eink_partial, "#{theme} button.button-danger"),
-        rule_body(eink_partial, "#{theme} a[role=\"button\"].button-danger"), theme
-    end
-  end
-
-  def test_pressing_a_delete_form_button_or_a_danger_link_inks_it_on_eink
-    EINK_THEMES.each_key do |theme|
-      pressed = rule_body(eink_partial, "#{theme} button.button-danger:active")
+      pressed = rule_body(eink_partial, "#{theme} :is(button, input, a).button-danger:active")
       delete_form = "#{theme} :where(form:has(input[name=\"_method\"][value=\"delete\"])) button:active"
 
       assert_equal pressed, rule_body(eink_partial, delete_form), theme
-      assert_equal pressed, rule_body(eink_partial, "#{theme} a[role=\"button\"].button-danger:active"), theme
     end
   end
 
@@ -279,8 +275,8 @@ class EinkThemeTest < Minitest::Test
     EINK_THEMES.each_key do |theme|
       disabled = eink_partial.index("#{theme} button:disabled,")
 
-      [ "#{theme} button,", "#{theme} button[type=\"button\"]", "#{theme} button.button-warning {",
-        "#{theme} button.button-danger," ].each do |earlier|
+      [ "#{theme} button,", "#{theme} button[type=\"button\"]", "#{theme} :is(button, input, a).button-warning {",
+        "#{theme} :is(button, input, a).button-danger," ].each do |earlier|
         assert_operator eink_partial.index(earlier), :<, disabled, "#{theme} #{earlier}"
       end
     end

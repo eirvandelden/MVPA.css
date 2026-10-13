@@ -25,8 +25,9 @@
       view-transition-name: header;
     }
 
-    /* Keep footer fixed during page transitions */
-    footer {
+    /* Keep the site footer fixed during page transitions. Only body > footer:
+     * action rows are footers too, and duplicate names skip the transition. */
+    body > footer {
       view-transition-name: footer;
     }
 

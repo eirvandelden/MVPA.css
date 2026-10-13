@@ -189,6 +189,27 @@
     }
   }
 
+  /* Dialog: scale up and fade in, with its backdrop fading alongside */
+  @keyframes dialog-enter {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes backdrop-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
   /* Sort Arrow: Spin animation */
   @keyframes sort-arrow-bounce {
     0%, 100% {
@@ -276,6 +297,15 @@
   aside[role="alert"],
   aside[role="status"] {
     animation: flash-enter var(--animation-duration-slow) var(--animation-spring);
+  }
+
+  /* Dialog: open animation */
+  dialog[open] {
+    animation: dialog-enter var(--animation-duration-fast) var(--animation-ease-out);
+  }
+
+  dialog[open]::backdrop {
+    animation: backdrop-fade-in var(--animation-duration-fast) var(--animation-ease-out);
   }
 
   /* Progress Bar: Shimmer for indeterminate */

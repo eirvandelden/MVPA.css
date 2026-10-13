@@ -438,6 +438,27 @@ blockquote {
     }
   }
 
+  /* Dialog: scale up and fade in, with its backdrop fading alongside */
+  @keyframes dialog-enter {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes backdrop-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
   /* Sort Arrow: Spin animation */
   @keyframes sort-arrow-bounce {
     0%, 100% {
@@ -525,6 +546,15 @@ blockquote {
   aside[role="alert"],
   aside[role="status"] {
     animation: flash-enter var(--animation-duration-slow) var(--animation-spring);
+  }
+
+  /* Dialog: open animation */
+  dialog[open] {
+    animation: dialog-enter var(--animation-duration-fast) var(--animation-ease-out);
+  }
+
+  dialog[open]::backdrop {
+    animation: backdrop-fade-in var(--animation-duration-fast) var(--animation-ease-out);
   }
 
   /* Progress Bar: Shimmer for indeterminate */
@@ -1518,8 +1548,9 @@ header nav details > ul {
       view-transition-name: header;
     }
 
-    /* Keep footer fixed during page transitions */
-    footer {
+    /* Keep the site footer fixed during page transitions. Only body > footer:
+     * action rows are footers too, and duplicate names skip the transition. */
+    body > footer {
       view-transition-name: footer;
     }
 
@@ -1691,6 +1722,61 @@ header nav details > ul {
     );
     background-size: 200% 100%;
     animation: progress-shimmer 1.5s ease-in-out infinite;
+  }
+}
+/*
+ * Dialog
+ * A modal <dialog> is a centred box over a dimmed page. The UA centres it
+ * (showModal()); this partial only styles the box, backdrop and action row.
+ * Its footer row is Cancel then Delete on the right, never Delete far left.
+ */
+
+dialog {
+  inline-size: min(32rem, 100% - 2rem);
+  max-inline-size: none;
+  padding: var(--block-space-double);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-large);
+  background-color: var(--color-bg-lighter);
+  color: var(--color-fg);
+  box-shadow: var(--shadow-3);
+}
+
+/* A literal colour: custom properties are not reliably available in ::backdrop
+   across the supported browsers. */
+dialog::backdrop {
+  background-color: oklch(0% 0 0 / 0.45);
+}
+
+dialog > footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--block-space-half) var(--inline-space);
+  max-inline-size: none;
+  margin-inline: 0;
+  margin-block-start: var(--block-space);
+  padding: 0;
+  border: none;
+  color: inherit;
+}
+
+dialog > footer button {
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  /* column: DOM [Cancel, Delete] renders Cancel on top, Delete below */
+  dialog > footer,
+  dialog form > footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  dialog > footer > *,
+  dialog > footer button {
+    inline-size: 100%;
   }
 }
 /*

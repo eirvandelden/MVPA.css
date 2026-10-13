@@ -156,6 +156,14 @@ class PageTransitionsTest < Minitest::Test
     refute_includes turbo_transitions_css, "    header {\n      view-transition-name: header;"
   end
 
+  def test_only_the_site_footer_gets_a_view_transition_name
+    # Action rows are footers too; duplicate names make the browser skip the transition.
+    [ turbo_transitions_css, packaged_manifest ].each do |css|
+      assert_includes css, "body > footer {\n      view-transition-name: footer;"
+      refute_includes css, "    footer {\n      view-transition-name: footer;"
+    end
+  end
+
   private
 
   def page_transitions_js

@@ -83,6 +83,7 @@ Add these imports to your HTML in the correct order:
 <link rel="stylesheet" href="mvpa/2_modules/8_article.css">
 <link rel="stylesheet" href="mvpa/2_modules/9_mark.css">
 <link rel="stylesheet" href="mvpa/2_modules/10_navigation.css">
+<link rel="stylesheet" href="mvpa/2_modules/12_dialog.css">
 
 <!-- Themes -->
 <link rel="stylesheet" href="mvpa/4_theme/1_theme-switching.css">
@@ -132,7 +133,8 @@ app/assets/stylesheets/mvpa/
 │   ├── 8_article.css
 │   ├── 9_mark.css
 │   ├── 10_navigation.css
-│   └── 11_turbo-transitions.css
+│   ├── 11_turbo-transitions.css
+│   └── 12_dialog.css
 └── 4_theme/             # Colors, theme switching, and e-ink support
     ├── 0_colors.css
     ├── 1_theme-switching.css

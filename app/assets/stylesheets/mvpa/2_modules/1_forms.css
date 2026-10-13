@@ -94,14 +94,27 @@ input[type="radio"] {
   vertical-align: middle;
 }
 
+/* Button weight comes from semantics, set at zero specificity so any class
+   (.button-danger) and the DELETE-form rule win without !important.
+   Default (filled): a submit, a button with no type, a role="button" link. */
+:where(button, input[type="submit"], input[type="button"], input[type="reset"], a[role="button"]) {
+  --button-bg: var(--color-primary);
+  --button-fg: var(--color-bg-lightest);
+  --button-border-color: transparent;
+}
+
+/* Push button: type="button" and type="reset" are plain, never the default action. */
+:where(button[type="button"], button[type="reset"], input[type="button"], input[type="reset"]) {
+  --button-bg: var(--color-bg-lighter);
+  --button-fg: var(--color-fg);
+  --button-border-color: var(--color-border);
+}
+
 button,
 input[type="submit"],
 input[type="button"],
 input[type="reset"],
 a[role="button"] {
-  --button-bg: var(--color-primary);
-  --button-fg: var(--color-bg-lightest);
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -117,7 +130,7 @@ a[role="button"] {
   text-decoration: none;
   background-color: var(--button-bg);
   color: var(--button-fg);
-  border: none;
+  border: 1px solid var(--button-border-color);
   border-radius: var(--radius);
   box-shadow: var(--shadow-1);
   cursor: pointer;
@@ -239,6 +252,35 @@ fieldset > input[type="reset"] {
   justify-self: start;
 }
 
+/* Action row: any <footer> directly inside a form; put it last. Buttons sit in DOM
+   order, Cancel then Save, on the right. It resets what the global footer
+   rule (1_layout/2_footer.css) applies to every footer. */
+form > footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--block-space-half) var(--inline-space);
+  max-inline-size: none;
+  margin-inline: 0;
+  margin-block-start: var(--block-space);
+  padding: 0;
+  border: none;
+  color: inherit;
+}
+
+/* The second entry beats the (0,1,1) margins of input[type="submit"] and a[role="button"]. */
+:is(form, dialog) > footer > *,
+:is(form, dialog) > footer :is(button, input, a[role="button"]) {
+  margin: 0;
+}
+
+/* Three or more buttons: the first (Delete…, Don't Save) stands apart on the
+   far left. Never inside a dialog, where the row is Cancel then Delete. */
+form:not(dialog *) > footer > :first-child:nth-last-child(n + 3) {
+  margin-inline-end: auto;
+}
+
 @media (max-width: 768px) {
   fieldset {
     display: block;
@@ -246,5 +288,20 @@ fieldset > input[type="reset"] {
 
   fieldset > label {
     margin-block-end: var(--block-space-half);
+  }
+
+  /* column-reverse renders DOM [Delete…, Cancel, Save] as Save, Cancel, Delete… */
+  form > footer {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  form > footer > * {
+    inline-size: 100%;
+  }
+
+  form:not(dialog *) > footer > :first-child:nth-last-child(n + 3) {
+    margin-inline-end: 0;
+    margin-block-start: var(--block-space);
   }
 }

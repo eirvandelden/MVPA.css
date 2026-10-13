@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/8_article.css">
   <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/9_mark.css">
   <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/10_navigation.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/12_dialog.css">
 
   <!-- Themes -->
   <link rel="stylesheet" href="app/assets/stylesheets/mvpa/4_theme/1_theme-switching.css">
@@ -128,6 +129,22 @@
 </header>
 
 <main>
+
+  <!-- Page header: the real main > header, with a link, a PATCH form and a DELETE form -->
+  <header>
+    <h1>MVPA.css</h1>
+    <nav>
+      <a href="#buttons">Edit</a>
+      <form method="post" action="#">
+        <input type="hidden" name="_method" value="patch">
+        <button type="submit">Tonen</button>
+      </form>
+      <form method="post" action="#">
+        <input type="hidden" name="_method" value="delete">
+        <button type="submit">Uitloggen</button>
+      </form>
+    </nav>
+  </header>
 
   <!-- Introduction Section -->
   <article id="introduction">
@@ -400,7 +417,7 @@ console.log(greet('World'));</code></pre>
         <button type="submit">Submit</button>
         <button type="reset">Reset</button>
         <button type="button">Button</button>
-        <a href="#" style="padding: 0.5rem 1ch; background-color: var(--color-primary); color: white; text-decoration: none; border-radius: 0.5rem; display: inline-block;">Link as Button</a>
+        <a href="#" role="button">Link as Button</a>
       </form>
     </section>
 
@@ -414,6 +431,69 @@ console.log(greet('World'));</code></pre>
       <form method="post" action="#">
         <button type="submit">Merge duplicate transactions</button>
       </form>
+    </section>
+
+    <section>
+      <h3>Button hierarchy</h3>
+      <p>A submit is the filled default. A type="button" or type="reset" button, a header nav link and .button-secondary are plain push buttons. A DELETE form's button is red.</p>
+      <form method="post" action="#">
+        <button type="button">Cancel</button>
+        <button type="submit">Save</button>
+        <button type="reset">Clear</button>
+        <button type="button" class="button-secondary">Secondary</button>
+        <a href="#" role="button">Link with role button</a>
+      </form>
+    </section>
+
+    <section>
+      <h3>Action row</h3>
+      <p>A footer as the last child of the form. On an edit page the red Delete… stands apart on the far left; Cancel and Save sit on the right, Save rightmost.</p>
+      <form id="edit-row" method="post" action="#">
+        <label for="edit-name">Name</label>
+        <input type="text" id="edit-name" value="Groceries">
+        <footer>
+          <button type="button" class="button-danger">Delete…</button>
+          <button type="button">Cancel</button>
+          <button type="submit">Save</button>
+        </footer>
+      </form>
+      <p>A new page has no Delete…, so Cancel and Save stay on the right.</p>
+      <form id="new-row" method="post" action="#">
+        <label for="new-name">Name</label>
+        <input type="text" id="new-name">
+        <footer>
+          <button type="button">Cancel</button>
+          <button type="submit">Save</button>
+        </footer>
+      </form>
+      <p>A save sheet with three buttons puts the plain Don't Save on the far left.</p>
+      <form id="save-sheet" method="post" action="#">
+        <p>Do you want to save your changes?</p>
+        <footer>
+          <button type="button">Don't Save</button>
+          <button type="button">Cancel</button>
+          <button type="submit">Save</button>
+        </footer>
+      </form>
+    </section>
+
+    <section>
+      <h3>Confirmation dialog</h3>
+      <p>Cancel is a submit in a method="dialog" form, so it is filled and the Return-key default. Delete is a DELETE form, so it is red. The opener uses Invoker Commands, with no script; a browser without them does not open the dialog.</p>
+      <button type="button" class="button-danger" command="show-modal" commandfor="confirm-delete">Delete…</button>
+      <dialog id="confirm-delete">
+        <h2>Delete this journal?</h2>
+        <p>This cannot be undone.</p>
+        <footer>
+          <form method="dialog">
+            <button>Cancel</button>
+          </form>
+          <form method="post" action="#">
+            <input type="hidden" name="_method" value="delete">
+            <button>Delete</button>
+          </form>
+        </footer>
+      </dialog>
     </section>
   </article>
 
@@ -576,7 +656,7 @@ console.log(greet('World'));</code></pre>
         <dd>Chrome 111+, Firefox 113+, Safari 16.4+</dd>
 
         <dt>CSS Files</dt>
-        <dd>22 files organized in SMACSS structure</dd>
+        <dd>23 files organized in SMACSS structure</dd>
 
         <dt>Button Classes</dt>
         <dd>Only 4 classes: button-success, button-danger, button-warning, button-secondary</dd>
@@ -588,7 +668,7 @@ console.log(greet('World'));</code></pre>
 
       <details>
         <summary>Installation Instructions</summary>
-        <p>Import all 22 CSS files in the correct order, then set the data-theme attribute on the html element.</p>
+        <p>Import all 23 CSS files in the correct order, then set the data-theme attribute on the html element.</p>
         <pre><code>&lt;html data-color-scheme="system" data-theme="solunized-light"&gt;
   &lt;!-- Your content --&gt;
 &lt;/html&gt;</code></pre>

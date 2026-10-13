@@ -2,6 +2,34 @@
 
 **Note:** This project uses git SHAs instead of semver. Pin to a specific SHA in your Gemfile (`ref: "e4179e9"`). Each GitHub release is tagged with its commit SHA.
 
+## 2026-10-13
+
+### Changed
+- **Button hierarchy from semantic HTML** — a submit (`<button>`, `type="submit"`, `<input type="submit">`) and `a[role="button"]` stay the filled default. `type="button"` and `type="reset"` buttons are now plain buttons: page-surface background, thin border, normal text colour. `.button-secondary` takes the same look. A `DELETE` form's button stays red.
+- **Header nav links are plain** — `main > header nav a` was a filled primary button. It is now a bordered button; a `role="button"` link there stays filled.
+- **Button colours are set through tokens** — `--button-bg`, `--button-fg` and the new `--button-border-color`. The defaults have zero specificity, so a class or a `button` rule in your own CSS wins. `.button-success`, `.button-danger` and `.button-warning` now set all three tokens.
+- **E-ink button ladder** — filled default, outlined plain button, and a double-bordered destructive button, in both e-ink themes. `.button-secondary` loses its grey border.
+- **Only the site footer keeps a view-transition name** — the rule is now `body > footer`, so action-row footers do not stop page transitions.
+
+### Added
+- **Action row** — a `<footer>` as the last child of a form lays out its buttons as a right-aligned row. With three or more buttons the first stands apart on the far left. On a phone the row stacks full width, `Save` on top.
+- **Dialog styles** (`2_modules/12_dialog.css`) — a centred box with padding, radius and a width cap, a dimmed `::backdrop`, a short open animation (off under `prefers-reduced-motion: reduce` and on e-ink) and a `Cancel`, `Delete` action row that stacks on a phone.
+- `demo.html` shows the hierarchy, the action rows and the dialog, with a real `main > header`.
+
+### Removed
+- The rule that made every form button in `main > header nav` red. Header buttons follow the general rules: a submit is filled, a `DELETE` form's button is red.
+
+### Upgrading
+- Every `type="button"` and `type="reset"` control turns plain, including a `Cancel` in an existing confirm dialog. Make a button the default action by giving it `type="submit"` or no type.
+- For a filled `Cancel` in a dialog, use a submit inside a `<form method="dialog">`: `<form method="dialog"><button>Cancel</button></form>`.
+- Add `class="button-danger"` to a `type="button"` such as `Delete…` to keep it red.
+- Build the edit-page action row with a `<footer>` as the last child of the form, buttons in the order `Delete…`, `Cancel`, `Save`. Leave `Delete…` out on a new page.
+- Build the confirmation with a `<dialog>`: a `<footer>` holding the `<form method="dialog">` Cancel, then a `DELETE` form with the red `Delete`.
+- A `<footer>` that is a direct child of a `form` or `dialog` becomes an action row. Move help text out of it.
+- If your own CSS sets `--button-bg` on `button`, it now wins on every button, including plain ones.
+- Every button now has a 1px border, transparent on filled buttons, so each button is 2px taller and wider than before. Check tight layouts.
+- Add `12_dialog.css` to your stylesheet links, after `10_navigation.css`. The gem and `mvpa.css` include it already.
+
 ## 2026-09-04
 
 ### Added

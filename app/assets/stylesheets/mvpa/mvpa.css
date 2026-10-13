@@ -438,6 +438,27 @@ blockquote {
     }
   }
 
+  /* Dialog: scale up and fade in, with its backdrop fading alongside */
+  @keyframes dialog-enter {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes backdrop-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
   /* Sort Arrow: Spin animation */
   @keyframes sort-arrow-bounce {
     0%, 100% {
@@ -525,6 +546,15 @@ blockquote {
   aside[role="alert"],
   aside[role="status"] {
     animation: flash-enter var(--animation-duration-slow) var(--animation-spring);
+  }
+
+  /* Dialog: open animation */
+  dialog[open] {
+    animation: dialog-enter var(--animation-duration-fast) var(--animation-ease-out);
+  }
+
+  dialog[open]::backdrop {
+    animation: backdrop-fade-in var(--animation-duration-fast) var(--animation-ease-out);
   }
 
   /* Progress Bar: Shimmer for indeterminate */
@@ -689,11 +719,6 @@ main > header {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-}
-
-main > header nav form button {
-  --button-bg: var(--color-danger, red);
-  --button-fg: var(--color-bg-lightest, white);
 }
 /*
  * Main
@@ -890,14 +915,27 @@ input[type="radio"] {
   vertical-align: middle;
 }
 
+/* Button weight comes from semantics, set at zero specificity so any class
+   (.button-danger) and the DELETE-form rule win without !important.
+   Default (filled): a submit, a button with no type, a role="button" link. */
+:where(button, input[type="submit"], input[type="button"], input[type="reset"], a[role="button"]) {
+  --button-bg: var(--color-primary);
+  --button-fg: var(--color-bg-lightest);
+  --button-border-color: transparent;
+}
+
+/* Push button: type="button" and type="reset" are plain, never the default action. */
+:where(button[type="button"], button[type="reset"], input[type="button"], input[type="reset"]) {
+  --button-bg: var(--color-bg-lighter);
+  --button-fg: var(--color-fg);
+  --button-border-color: var(--color-border);
+}
+
 button,
 input[type="submit"],
 input[type="button"],
 input[type="reset"],
 a[role="button"] {
-  --button-bg: var(--color-primary);
-  --button-fg: var(--color-bg-lightest);
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -913,7 +951,7 @@ a[role="button"] {
   text-decoration: none;
   background-color: var(--button-bg);
   color: var(--button-fg);
-  border: none;
+  border: 1px solid var(--button-border-color);
   border-radius: var(--radius);
   box-shadow: var(--shadow-1);
   cursor: pointer;
@@ -1035,6 +1073,35 @@ fieldset > input[type="reset"] {
   justify-self: start;
 }
 
+/* Action row: any <footer> directly inside a form; put it last. Buttons sit in DOM
+   order, Cancel then Save, on the right. It resets what the global footer
+   rule (1_layout/2_footer.css) applies to every footer. */
+form > footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--block-space-half) var(--inline-space);
+  max-inline-size: none;
+  margin-inline: 0;
+  margin-block-start: var(--block-space);
+  padding: 0;
+  border: none;
+  color: inherit;
+}
+
+/* The second entry beats the (0,1,1) margins of input[type="submit"] and a[role="button"]. */
+:is(form, dialog) > footer > *,
+:is(form, dialog) > footer :is(button, input, a[role="button"]) {
+  margin: 0;
+}
+
+/* Three or more buttons: the first (Delete…, Don't Save) stands apart on the
+   far left. Never inside a dialog, where the row is Cancel then Delete. */
+form:not(dialog *) > footer > :first-child:nth-last-child(n + 3) {
+  margin-inline-end: auto;
+}
+
 @media (max-width: 768px) {
   fieldset {
     display: block;
@@ -1042,6 +1109,21 @@ fieldset > input[type="reset"] {
 
   fieldset > label {
     margin-block-end: var(--block-space-half);
+  }
+
+  /* column-reverse renders DOM [Delete…, Cancel, Save] as Save, Cancel, Delete… */
+  form > footer {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  form > footer > * {
+    inline-size: 100%;
+  }
+
+  form:not(dialog *) > footer > :first-child:nth-last-child(n + 3) {
+    margin-inline-end: 0;
+    margin-block-start: var(--block-space);
   }
 }
 /*
@@ -1125,10 +1207,14 @@ aside[role="alert"] ul {
 
 .button-success {
   --button-bg: var(--color-success);
+  --button-fg: var(--color-bg-lightest);
+  --button-border-color: transparent;
 }
 
 .button-danger {
   --button-bg: var(--color-danger);
+  --button-fg: var(--color-bg-lightest);
+  --button-border-color: transparent;
 }
 
 .button-danger:active {
@@ -1137,20 +1223,25 @@ aside[role="alert"] ul {
 
 .button-warning {
   --button-bg: var(--color-warning);
+  --button-fg: var(--color-bg-lightest);
+  --button-border-color: transparent;
 }
 
+/* Secondary takes the same look as a plain type="button" push button */
 .button-secondary {
-  --button-bg: var(--color-bg-darker);
+  --button-bg: var(--color-bg-lighter);
   --button-fg: var(--color-fg);
+  --button-border-color: var(--color-border);
 }
 
 /* Destructive — Rails button_to method: :delete emits this hidden input */
 form:has(input[name="_method"][value="delete"]) button {
   --button-bg: var(--color-danger);
   --button-fg: var(--color-bg-lightest);
+  --button-border-color: transparent;
 }
 
-/* Primary page action — link in page-level header nav (slice 4 adds the structure) */
+/* Page action — link in page-level header nav, a plain push button */
 main > header nav a {
   display: inline-flex;
   align-items: center;
@@ -1158,16 +1249,25 @@ main > header nav a {
   padding-inline: 0.75rem;
   border-radius: var(--radius);
   text-decoration: none;
-  background-color: var(--color-primary);
-  color: var(--color-bg-lightest);
+  background-color: var(--color-bg-lighter);
+  color: var(--color-fg);
+  border: 1px solid var(--color-border);
   box-shadow: var(--shadow-1);
   min-block-size: var(--touch-target);
 }
 
-main > header nav a:hover,
-main > header nav a:visited {
-  color: var(--color-bg-lightest);
+main > header nav a:not([role="button"]):hover,
+main > header nav a:not([role="button"]):visited {
+  color: var(--color-fg);
   text-decoration: none;
+}
+
+/* A role="button" link keeps the filled look, including its text colour:
+   header nav a:hover (10_navigation.css) would otherwise darken it. */
+main > header nav a[role="button"],
+main > header nav a[role="button"]:hover,
+main > header nav a[role="button"]:visited {
+  color: var(--button-fg);
 }
 /*
  * Progress Bar
@@ -1450,8 +1550,9 @@ header nav details > ul {
       view-transition-name: header;
     }
 
-    /* Keep footer fixed during page transitions */
-    footer {
+    /* Keep the site footer fixed during page transitions. Only body > footer:
+     * action rows are footers too, and duplicate names skip the transition. */
+    body > footer {
       view-transition-name: footer;
     }
 
@@ -1623,6 +1724,58 @@ header nav details > ul {
     );
     background-size: 200% 100%;
     animation: progress-shimmer 1.5s ease-in-out infinite;
+  }
+}
+/*
+ * Dialog
+ * A modal <dialog> is a centred box over a dimmed page. The UA centres it
+ * (showModal()) with margin: auto, which the reset zeroes, so it is restored here.
+ * Its footer row is Cancel then Delete on the right, never Delete far left.
+ */
+
+dialog {
+  inline-size: min(32rem, 100% - 2rem);
+  max-inline-size: none;
+  margin: auto;
+  padding: var(--block-space-double);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-large);
+  background-color: var(--color-bg-lighter);
+  color: var(--color-fg);
+  box-shadow: var(--shadow-3);
+}
+
+/* A literal colour: custom properties are not reliably available in ::backdrop
+   across the supported browsers. */
+dialog::backdrop {
+  background-color: oklch(0% 0 0 / 0.45);
+}
+
+dialog > footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--block-space-half) var(--inline-space);
+  max-inline-size: none;
+  margin-inline: 0;
+  margin-block-start: var(--block-space);
+  padding: 0;
+  border: none;
+  color: inherit;
+}
+
+@media (max-width: 768px) {
+  /* column: DOM [Cancel, Delete] renders Cancel on top, Delete below */
+  dialog > footer,
+  dialog form > footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  dialog > footer > *,
+  dialog > footer :is(button, input, a[role="button"]) {
+    inline-size: 100%;
   }
 }
 /*
@@ -2062,11 +2215,28 @@ html[data-color-scheme="system"] {
   background: oklch(87% 0 0);
 }
 
-/* Button ladder: outlined = ordinary action, filled = consequential action */
+/* Button ladder, without colour:
+   filled (ink) = the default action: a submit, a button with no type, a role="button" link
+   outlined (paper, 1px) = a push button: type="button", type="reset", .button-secondary
+   double border (paper, 3px) = destructive: .button-danger, a DELETE form's button
+   Variants use :is(button, input, a).button-* (0,2,1): a bare .button-* (0,2,0) loses to the filled
+   input[type="submit"] and a[role="button"] rules, and (0,2,1) keeps disabled winning.
+   Rule order matters: filled, push, warning, destructive, pressed, disabled. */
 [data-theme="eink-light"] button,
 [data-theme="eink-light"] input[type="submit"],
+[data-theme="eink-light"] a[role="button"] {
+  background-color: black;
+  color: white;
+  border: 1px solid black;
+  box-shadow: none;
+  filter: none;
+}
+
+[data-theme="eink-light"] button[type="button"],
+[data-theme="eink-light"] button[type="reset"],
 [data-theme="eink-light"] input[type="button"],
-[data-theme="eink-light"] input[type="reset"] {
+[data-theme="eink-light"] input[type="reset"],
+[data-theme="eink-light"] :is(button, input, a).button-secondary {
   background-color: white;
   color: black;
   border: 1px solid black;
@@ -2074,16 +2244,56 @@ html[data-color-scheme="system"] {
   filter: none;
 }
 
-/* Active state: invert. Black-to-white is e-ink's fastest, cleanest flash. */
+/* Warning: filled, softer border — "almost danger" */
+[data-theme="eink-light"] :is(button, input, a).button-warning {
+  background-color: black;
+  color: white;
+  border: 1px solid oklch(55% 0 0);
+}
+
+/* Destructive: paper fill like a push button, but a double border no other button has.
+   --button-fg keeps the page header link's hover and visited text (5_buttons.css) in ink. */
+[data-theme="eink-light"] :is(button, input, a).button-danger,
+[data-theme="eink-light"] :where(form:has(input[name="_method"][value="delete"])) button {
+  background-color: white;
+  color: black;
+  border: 3px double black;
+  --button-fg: black;
+}
+
+/* Active state: invert. Fastest, cleanest flash on e-ink. */
 [data-theme="eink-light"] button:active,
 [data-theme="eink-light"] input[type="submit"]:active,
+[data-theme="eink-light"] a[role="button"]:active {
+  background-color: white;
+  color: black;
+}
+
+[data-theme="eink-light"] button[type="button"]:active,
+[data-theme="eink-light"] button[type="reset"]:active,
 [data-theme="eink-light"] input[type="button"]:active,
-[data-theme="eink-light"] input[type="reset"]:active {
+[data-theme="eink-light"] input[type="reset"]:active,
+[data-theme="eink-light"] :is(button, input, a).button-secondary:active {
   background-color: black;
   color: white;
 }
 
-/* Disabled: dashed mid-grey border replaces opacity: 0.5 */
+/* Warning starts filled, so pressing it inverts back to paper. */
+[data-theme="eink-light"] :is(button, input, a).button-warning:active {
+  background-color: white;
+  color: black;
+}
+
+/* Destructive starts on paper, so pressing it inks it. The filter reset beats
+   .button-danger:active (5_buttons.css), which would otherwise brighten it. */
+[data-theme="eink-light"] :is(button, input, a).button-danger:active,
+[data-theme="eink-light"] :where(form:has(input[name="_method"][value="delete"])) button:active {
+  background-color: black;
+  color: white;
+  filter: none;
+}
+
+/* Disabled: dashed mid-grey border replaces opacity: 0.5. Last, so it wins over every rule above. */
 [data-theme="eink-light"] button:disabled,
 [data-theme="eink-light"] input[type="submit"]:disabled,
 [data-theme="eink-light"] input[type="button"]:disabled,
@@ -2094,33 +2304,15 @@ html[data-color-scheme="system"] {
   opacity: 1;
 }
 
-/* Secondary: quieter outlined button */
-[data-theme="eink-light"] .button-secondary {
-  background-color: white;
-  color: black;
-  border: 1px solid oklch(55% 0 0);
+/* Dialog: a flat bordered box. No backdrop dimming (translucent fills muddy paper) and no open animation. */
+[data-theme="eink-light"] dialog {
+  border: 2px solid black;
+  box-shadow: none;
 }
 
-/* Warning: filled, softer border — "almost danger" */
-[data-theme="eink-light"] .button-warning {
-  background-color: black;
-  color: white;
-  border: 1px solid oklch(55% 0 0);
-}
-
-/* Danger: filled, crisp border — the most severe action */
-[data-theme="eink-light"] .button-danger {
-  background-color: black;
-  color: white;
-  border: 1px solid black;
-}
-
-/* Danger/warning start already inverted, so pressing them must invert back
-   or the generic button:active rule sets them to the colours they already have. */
-[data-theme="eink-light"] .button-warning:active,
-[data-theme="eink-light"] .button-danger:active {
-  background-color: white;
-  color: black;
+[data-theme="eink-light"] dialog::backdrop {
+  background: none;
+  animation: none !important;
 }
 
 /* Flash messages: status = paper fill (ordinary), alert = ink fill (alarm) */
@@ -2294,11 +2486,28 @@ html[data-color-scheme="system"] {
   background: oklch(13% 0 0);
 }
 
-/* Button ladder: outlined = ordinary action, filled = consequential action */
+/* Button ladder, without colour:
+   filled (ink) = the default action: a submit, a button with no type, a role="button" link
+   outlined (paper, 1px) = a push button: type="button", type="reset", .button-secondary
+   double border (paper, 3px) = destructive: .button-danger, a DELETE form's button
+   Variants use :is(button, input, a).button-* (0,2,1): a bare .button-* (0,2,0) loses to the filled
+   input[type="submit"] and a[role="button"] rules, and (0,2,1) keeps disabled winning.
+   Rule order matters: filled, push, warning, destructive, pressed, disabled. */
 [data-theme="eink-dark"] button,
 [data-theme="eink-dark"] input[type="submit"],
+[data-theme="eink-dark"] a[role="button"] {
+  background-color: white;
+  color: black;
+  border: 1px solid white;
+  box-shadow: none;
+  filter: none;
+}
+
+[data-theme="eink-dark"] button[type="button"],
+[data-theme="eink-dark"] button[type="reset"],
 [data-theme="eink-dark"] input[type="button"],
-[data-theme="eink-dark"] input[type="reset"] {
+[data-theme="eink-dark"] input[type="reset"],
+[data-theme="eink-dark"] :is(button, input, a).button-secondary {
   background-color: black;
   color: white;
   border: 1px solid white;
@@ -2306,16 +2515,56 @@ html[data-color-scheme="system"] {
   filter: none;
 }
 
-/* Active state: invert. White-to-black is e-ink's fastest, cleanest flash. */
+/* Warning: filled, softer border — "almost danger" */
+[data-theme="eink-dark"] :is(button, input, a).button-warning {
+  background-color: white;
+  color: black;
+  border: 1px solid oklch(45% 0 0);
+}
+
+/* Destructive: paper fill like a push button, but a double border no other button has.
+   --button-fg keeps the page header link's hover and visited text (5_buttons.css) in ink. */
+[data-theme="eink-dark"] :is(button, input, a).button-danger,
+[data-theme="eink-dark"] :where(form:has(input[name="_method"][value="delete"])) button {
+  background-color: black;
+  color: white;
+  border: 3px double white;
+  --button-fg: white;
+}
+
+/* Active state: invert. Fastest, cleanest flash on e-ink. */
 [data-theme="eink-dark"] button:active,
 [data-theme="eink-dark"] input[type="submit"]:active,
+[data-theme="eink-dark"] a[role="button"]:active {
+  background-color: black;
+  color: white;
+}
+
+[data-theme="eink-dark"] button[type="button"]:active,
+[data-theme="eink-dark"] button[type="reset"]:active,
 [data-theme="eink-dark"] input[type="button"]:active,
-[data-theme="eink-dark"] input[type="reset"]:active {
+[data-theme="eink-dark"] input[type="reset"]:active,
+[data-theme="eink-dark"] :is(button, input, a).button-secondary:active {
   background-color: white;
   color: black;
 }
 
-/* Disabled: dashed mid-grey border replaces opacity: 0.5 */
+/* Warning starts filled, so pressing it inverts back to paper. */
+[data-theme="eink-dark"] :is(button, input, a).button-warning:active {
+  background-color: black;
+  color: white;
+}
+
+/* Destructive starts on paper, so pressing it inks it. The filter reset beats
+   .button-danger:active (5_buttons.css), which would otherwise brighten it. */
+[data-theme="eink-dark"] :is(button, input, a).button-danger:active,
+[data-theme="eink-dark"] :where(form:has(input[name="_method"][value="delete"])) button:active {
+  background-color: white;
+  color: black;
+  filter: none;
+}
+
+/* Disabled: dashed mid-grey border replaces opacity: 0.5. Last, so it wins over every rule above. */
 [data-theme="eink-dark"] button:disabled,
 [data-theme="eink-dark"] input[type="submit"]:disabled,
 [data-theme="eink-dark"] input[type="button"]:disabled,
@@ -2326,33 +2575,15 @@ html[data-color-scheme="system"] {
   opacity: 1;
 }
 
-/* Secondary: quieter outlined button */
-[data-theme="eink-dark"] .button-secondary {
-  background-color: black;
-  color: white;
-  border: 1px solid oklch(45% 0 0);
+/* Dialog: a flat bordered box. No backdrop dimming (translucent fills muddy paper) and no open animation. */
+[data-theme="eink-dark"] dialog {
+  border: 2px solid white;
+  box-shadow: none;
 }
 
-/* Warning: filled, softer border — "almost danger" */
-[data-theme="eink-dark"] .button-warning {
-  background-color: white;
-  color: black;
-  border: 1px solid oklch(45% 0 0);
-}
-
-/* Danger: filled, crisp border — the most severe action */
-[data-theme="eink-dark"] .button-danger {
-  background-color: white;
-  color: black;
-  border: 1px solid white;
-}
-
-/* Danger/warning start already inverted, so pressing them must invert back
-   or the generic button:active rule sets them to the colours they already have. */
-[data-theme="eink-dark"] .button-warning:active,
-[data-theme="eink-dark"] .button-danger:active {
-  background-color: black;
-  color: white;
+[data-theme="eink-dark"] dialog::backdrop {
+  background: none;
+  animation: none !important;
 }
 
 /* Flash messages: status = ink fill (ordinary), alert = paper fill (alarm) */

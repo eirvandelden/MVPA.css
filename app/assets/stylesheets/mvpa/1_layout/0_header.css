@@ -72,8 +72,3 @@ main > header {
   justify-content: space-between;
   align-items: baseline;
 }
-
-main > header nav form button {
-  --button-bg: var(--color-danger, red);
-  --button-fg: var(--color-bg-lightest, white);
-}

@@ -7,13 +7,14 @@ class ChangelogUpgradingTest < Minitest::Test
     upgrading = latest_entry[/^### Upgrading.*?(?=^### |\z)/m]
 
     refute_nil upgrading, "the latest changelog entry has no ### Upgrading subsection"
-    ['type="button"', 'type="reset"', "plain", '<form method="dialog">', "button-danger", "<footer>", "<dialog"].each do |text|
+    [ 'type="button"', 'type="reset"', "plain", '<form method="dialog">', "button-danger", "<footer>",
+"<dialog" ].each do |text|
       assert_includes upgrading, text
     end
   end
 
   def test_the_latest_entry_lists_what_changed_was_added_and_was_removed
-    ["### Changed", "### Added", "### Removed"].each { |heading| assert_includes latest_entry, heading }
+    [ "### Changed", "### Added", "### Removed" ].each { |heading| assert_includes latest_entry, heading }
   end
 
   private

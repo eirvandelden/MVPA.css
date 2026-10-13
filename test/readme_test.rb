@@ -37,10 +37,6 @@ class ReadmeTest < Minitest::Test
 
   private
 
-  def buttons_section
-    readme[/^### Buttons.*?(?=^### Tables)/m]
-  end
-
   def stylesheet_links
     readme.scan(/href="mvpa\/([^"]+\.css)"/).flatten
   end
@@ -51,5 +47,9 @@ class ReadmeTest < Minitest::Test
 
   def stylesheet_path(href)
     File.expand_path("../app/assets/stylesheets/mvpa/#{href}", __dir__)
+  end
+
+  def buttons_section
+    readme[/^### Buttons.*?(?=^### Tables)/m]
   end
 end

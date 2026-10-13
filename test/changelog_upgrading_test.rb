@@ -8,7 +8,7 @@ class ChangelogUpgradingTest < Minitest::Test
 
     refute_nil upgrading, "the latest changelog entry has no ### Upgrading subsection"
     [ 'type="button"', 'type="reset"', "plain", '<form method="dialog">', "button-danger", "<footer>",
-"<dialog" ].each do |text|
+"<dialog", "1px border" ].each do |text|
       assert_includes upgrading, text
     end
   end

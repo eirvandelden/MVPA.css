@@ -27,6 +27,7 @@
 - Build the confirmation with a `<dialog>`: a `<footer>` holding the `<form method="dialog">` Cancel, then a `DELETE` form with the red `Delete`.
 - A `<footer>` that is a direct child of a `form` or `dialog` becomes an action row. Move help text out of it.
 - If your own CSS sets `--button-bg` on `button`, it now wins on every button, including plain ones.
+- Every button now has a 1px border, transparent on filled buttons, so each button is 2px taller and wider than before. Check tight layouts.
 - Add `12_dialog.css` to your stylesheet links, after `10_navigation.css`. The gem and `mvpa.css` include it already.
 
 ## 2026-09-04

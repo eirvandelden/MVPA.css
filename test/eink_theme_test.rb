@@ -217,6 +217,15 @@ class EinkThemeTest < Minitest::Test
     end
   end
 
+  # The page header's role="button" link reads var(--button-fg) on hover and once visited.
+  def test_a_destructive_header_link_keeps_ink_text_on_hover_on_eink
+    EINK_THEMES.each do |theme, (ink, _paper)|
+      rule = rule_body(eink_partial, "#{theme} :is(button, input, a).button-danger")
+
+      assert_includes rule, "--button-fg: #{ink};", theme
+    end
+  end
+
   def test_a_delete_form_button_has_the_destructive_look_on_eink
     EINK_THEMES.each_key do |theme|
       delete_form = rule_body(eink_partial, "#{theme} :where(form:has(input[name=\"_method\"][value=\"delete\"])) button")

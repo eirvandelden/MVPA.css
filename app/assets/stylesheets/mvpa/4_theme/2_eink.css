@@ -172,12 +172,14 @@
   border: 1px solid oklch(55% 0 0);
 }
 
-/* Destructive: paper fill like a push button, but a double border no other button has */
+/* Destructive: paper fill like a push button, but a double border no other button has.
+   --button-fg keeps the page header link's hover and visited text (5_buttons.css) in ink. */
 [data-theme="eink-light"] :is(button, input, a).button-danger,
 [data-theme="eink-light"] :where(form:has(input[name="_method"][value="delete"])) button {
   background-color: white;
   color: black;
   border: 3px double black;
+  --button-fg: black;
 }
 
 /* Active state: invert. Fastest, cleanest flash on e-ink. */
@@ -441,12 +443,14 @@
   border: 1px solid oklch(45% 0 0);
 }
 
-/* Destructive: paper fill like a push button, but a double border no other button has */
+/* Destructive: paper fill like a push button, but a double border no other button has.
+   --button-fg keeps the page header link's hover and visited text (5_buttons.css) in ink. */
 [data-theme="eink-dark"] :is(button, input, a).button-danger,
 [data-theme="eink-dark"] :where(form:has(input[name="_method"][value="delete"])) button {
   background-color: black;
   color: white;
   border: 3px double white;
+  --button-fg: white;
 }
 
 /* Active state: invert. Fastest, cleanest flash on e-ink. */

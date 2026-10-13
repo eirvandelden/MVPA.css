@@ -28,3 +28,14 @@ Security: nothing found (CSS, Markdown and static demo markup only; no script ad
 ## Round 4 — 2026-10-13T11:05Z — 6464d98 (codex)
 
 No findings.
+
+## Round 5 — 2026-10-13T12:09Z — d40db30
+
+No `REVIEW.md` in the repository; the default Bugs, Security and Compliance passes ran. Baseline: `bundle exec rake test` (148 runs, 0 failures), `yarn lint:css`, `yarn lint:browsers`, `bundle exec rubocop` and `yamllint --strict .` all pass. Every test named in `plan.md`'s Proof exists. The count drops from 149 to 148 because `71a0830` merges the two e-ink link tests into `test_variant_looks_cover_inputs_and_links_on_eink`. That is not a weakening: the links now share the `:is(button, input, a).button-*` selectors, so the existing rule-body tests for secondary, danger and pressed danger cover them.
+
+Bugs: the round 3 fix holds. On e-ink, `:is(button, input, a).button-*` (0,2,1) follows the filled and push rules, so it beats `input[type="submit"]` and `a[role="button"]`. Each pressed variant (0,3,1) follows the filled pressed rule, and disabled (0,2,1 and up, last) still wins over every resting look. A plain `<a class="button-*">` without `role="button"` still gets the e-ink look, as on `main`, so that is not a regression. Dropping `dialog > footer button { margin: 0 }` changes nothing: `:is(form, dialog) > footer :is(button, input, a[role="button"])` (0,1,3) zeroes the same margins.
+
+Security: nothing found (CSS, Markdown and static demo markup only; no script added).
+
+- [ ] Nit: `test_a_dialog_footer_is_a_right_aligned_row` runs inside `each_source(DIALOG)`, but its new last assertion reads `partial("2_modules/1_forms.css")` both times. The `mvpa.css` pass therefore checks the partial again, never the bundle. `test_submit_inputs_and_role_button_links_in_a_footer_lose_their_margins` (`test/action_row_test.rb:43`) already checks that rule in both files. Drop the assertion, or move it out of the loop. — `test/dialog_test.rb:61` →
+- [ ] Nit: The working tree has an uncommitted `Gemfile.lock` change. It only moves the gem's git-SHA version stamp (`0.1.0.pre.git.cdc8355` → `d40db30`), and every new commit makes it stale. Leave it out of this branch; `main` updates it in its own `chore` commits. — `Gemfile.lock:19` →

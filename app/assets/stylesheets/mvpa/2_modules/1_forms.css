@@ -252,6 +252,33 @@ fieldset > input[type="reset"] {
   justify-self: start;
 }
 
+/* Action row: a <footer> as the last child of a form. Buttons sit in DOM
+   order, Cancel then Save, on the right. It resets what the global footer
+   rule (1_layout/2_footer.css) applies to every footer. */
+form > footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--block-space-half) var(--inline-space);
+  max-inline-size: none;
+  margin-inline: 0;
+  margin-block-start: var(--block-space);
+  padding: 0;
+  border: none;
+  color: inherit;
+}
+
+:is(form, dialog) > footer > * {
+  margin: 0;
+}
+
+/* Three or more buttons: the first (Delete…, Don't Save) stands apart on the
+   far left. Never inside a dialog, where the row is Cancel then Delete. */
+form:not(dialog *) > footer > :first-child:nth-last-child(n + 3) {
+  margin-inline-end: auto;
+}
+
 @media (max-width: 768px) {
   fieldset {
     display: block;
@@ -259,5 +286,20 @@ fieldset > input[type="reset"] {
 
   fieldset > label {
     margin-block-end: var(--block-space-half);
+  }
+
+  /* column-reverse renders DOM [Delete…, Cancel, Save] as Save, Cancel, Delete… */
+  form > footer {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  form > footer > * {
+    inline-size: 100%;
+  }
+
+  form:not(dialog *) > footer > :first-child:nth-last-child(n + 3) {
+    margin-inline-end: 0;
+    margin-block-start: var(--block-space);
   }
 }

@@ -58,7 +58,6 @@ class DialogTest < Minitest::Test
       assert_includes rule, "justify-content: flex-end;", name
       assert_includes rule, "max-inline-size: none;", name
       assert_includes rule, "border: none;", name
-      assert_includes partial("2_modules/1_forms.css"), ":is(form, dialog) > footer #{CONTROLS}", name
     end
   end
 

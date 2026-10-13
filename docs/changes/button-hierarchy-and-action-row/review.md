@@ -86,3 +86,7 @@ Security: nothing found (CSS, Markdown and static demo markup only; no script ad
 Compliance: the diff stays inside the intent's scope. No new class, no JavaScript, and `mvpa.css`, `demo.html` and the README stay in sync with the partials. The uncommitted `Gemfile.lock` version stamp (`cdc8355` → `f8e05d9`) is the known local `bundle exec` rewrite from round 5; it is not part of the branch.
 
 No findings.
+
+## Round 12 — 2026-10-13T12:50Z — f8e05d9 (codex)
+
+- [x] Important: When an `a[role="button"]` appears in `main > header nav`, this rule changes only its text colour. The earlier `main > header nav a` rule still sets a page-surface background and border, so the link stays outlined instead of filled. — `app/assets/stylesheets/mvpa/2_modules/5_buttons.css:65` → dismissed: third time this finding is raised (rounds 2 and 6); Etienne settled it as dismiss with evidence. `a[role="button"]` (0,1,1) beats `main > header nav a` (0,0,4) for background and border. Headless Chrome on f8e05d9 computes the link's background as the primary fill on all four Solunized themes (e.g. solunized-light `oklch(0.5241 0.1709 254.71)`) and ink on both e-ink themes. Its border is transparent on the light themes, the dark-theme hairline on the dark ones (plan decision 1 exception), and ink on e-ink. A plain header link next to it computes the page-surface background with a grey border

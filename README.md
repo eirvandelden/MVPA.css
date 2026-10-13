@@ -233,14 +233,60 @@ On mobile (≤768px) the layout collapses to stacked automatically.
 
 ### Buttons
 
-Buttons are styled with semantic color variants using classes:
+Button weight comes from semantic HTML, so most buttons need no class.
 
-- **Default** – `<button>` – Primary blue
+A submit is the filled default: `<button>`, `<button type="submit">`, `<input type="submit">` and `<a role="button">`.
+
+A `type="button"` or `type="reset"` button is a plain push button: page-surface background, thin border, normal text colour.
+
+A header nav link (`main > header nav a`) is a plain push button too.
+
+A button in a `DELETE` form (Rails `button_to ..., method: :delete`) is red.
+
+Four classes change a button's colour, and `disabled` dims it:
+
 - **Success** – `<button class="button-success">` – Green
-- **Danger** – `<button class="button-danger">` – Red
+- **Danger** – `<button class="button-danger">` – Red. Add it to a `type="button"` such as `Delete…` to make it red.
 - **Warning** – `<button class="button-warning">` – Yellow
-- **Secondary** – `<button class="button-secondary">` – Gray
+- **Secondary** – `<button class="button-secondary">` – Looks the same as a plain `type="button"` push button
 - **Disabled** – `<button disabled>` – Reduced opacity
+
+#### Action row
+
+An edit page follows the macOS save sheet. Put a `<footer>` as the last child of the form, with the buttons in this order:
+
+```html
+<form>
+  <!-- fields -->
+  <footer>
+    <button type="button" class="button-danger">Delete…</button>
+    <button type="button">Cancel</button>
+    <button>Save</button>
+  </footer>
+</form>
+```
+
+With three or more buttons, the first one stands apart on the far left. `Cancel` and `Save` sit together on the right, `Save` rightmost. Leave `Delete…` out and `Cancel` and `Save` still sit on the right. On a phone the row stacks full width: `Save` on top, then `Cancel`, then the left-standing button at the bottom.
+
+#### Confirmation dialog
+
+A modal `<dialog>` is a centred box over a dimmed page. Its footer shows `Cancel` then `Delete` on the right, and the left-standing rule never applies there. Open it with `showModal()` or an Invoker Command (`command="show-modal" commandfor="confirm-delete"`).
+
+```html
+<dialog id="confirm-delete">
+  <h2>Delete this journal?</h2>
+  <p>This cannot be undone.</p>
+  <footer>
+    <form method="dialog"><button>Cancel</button></form>
+    <form method="post" action="/journals/1">
+      <input type="hidden" name="_method" value="delete">
+      <button>Delete</button>
+    </form>
+  </footer>
+</dialog>
+```
+
+`Cancel` is a submit in a `<form method="dialog">`, so it is filled and the Return-key default. `Delete` is its own `DELETE` form, so it is red. On a phone the buttons stack: `Cancel` on top, `Delete` below. The dialog opens with a short animation, switched off under `prefers-reduced-motion: reduce` and on e-ink.
 
 ### Tables
 

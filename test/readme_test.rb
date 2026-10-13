@@ -14,7 +14,32 @@ class ReadmeTest < Minitest::Test
     refute_includes readme, '<section role="status">'
   end
 
+  def test_readme_explains_that_a_submit_is_filled_and_type_button_is_plain
+    assert_includes buttons_section, "A submit is the filled default"
+    assert_includes buttons_section, 'type="button"'
+    assert_includes buttons_section, 'type="reset"'
+    assert_includes buttons_section, "plain push button"
+    assert_includes buttons_section, "DELETE"
+  end
+
+  def test_readme_shows_the_action_row_footer_markup
+    assert_includes buttons_section, "<footer>"
+    assert_includes buttons_section, '<button type="button" class="button-danger">Delete…</button>'
+    assert_includes buttons_section, '<button type="button">Cancel</button>'
+    assert_includes buttons_section, "<button>Save</button>"
+  end
+
+  def test_readme_shows_the_dialog_with_a_method_dialog_cancel
+    assert_includes buttons_section, "<dialog"
+    assert_includes buttons_section, '<form method="dialog"><button>Cancel</button></form>'
+    assert_includes buttons_section, '<input type="hidden" name="_method" value="delete">'
+  end
+
   private
+
+  def buttons_section
+    readme[/^### Buttons.*?(?=^### Tables)/m]
+  end
 
   def stylesheet_links
     readme.scan(/href="mvpa\/([^"]+\.css)"/).flatten

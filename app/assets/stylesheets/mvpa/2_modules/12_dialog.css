@@ -50,7 +50,8 @@ dialog > footer button {
   }
 
   dialog > footer > *,
-  dialog > footer button {
+  dialog > footer button,
+  dialog > footer :is(input, a[role="button"]) {
     inline-size: 100%;
   }
 }

@@ -7,6 +7,7 @@ class ActionRowTest < Minitest::Test
   include CssSourceHelper
 
   FORMS = "2_modules/1_forms.css".freeze
+  FOOTER_CONTROLS = ':is(form, dialog) > footer :is(button, input, a[role="button"])'.freeze
   LEFT_STANDING = "form:not(dialog *) > footer > :first-child:nth-last-child(n + 3)".freeze
 
   def test_a_form_footer_is_a_right_aligned_row
@@ -35,6 +36,13 @@ class ActionRowTest < Minitest::Test
   def test_footer_children_lose_their_own_margins
     each_source(FORMS) do |name, css|
       assert_includes rule_body(css, ":is(form, dialog) > footer > *"), "margin: 0;", name
+    end
+  end
+
+  # input[type="submit"] (f.submit) and a[role="button"] carry (0,1,1) margins that beat "> *".
+  def test_submit_inputs_and_role_button_links_in_a_footer_lose_their_margins
+    each_source(FORMS) do |name, css|
+      assert_includes rule_body(css, FOOTER_CONTROLS), "margin: 0;", name
     end
   end
 

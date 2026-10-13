@@ -71,6 +71,7 @@ class DialogTest < Minitest::Test
       assert_includes rule_body(phone, "dialog form > footer"), "flex-direction: column;", name
       assert_includes rule_body(phone, "dialog > footer > *"), "inline-size: 100%;", name
       assert_includes rule_body(phone, "dialog > footer button"), "inline-size: 100%;", name
+      assert_includes rule_body(phone, 'dialog > footer :is(input, a[role="button"])'), "inline-size: 100%;", name
     end
   end
 

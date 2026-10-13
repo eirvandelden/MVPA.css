@@ -269,7 +269,9 @@ form > footer {
   color: inherit;
 }
 
-:is(form, dialog) > footer > * {
+/* The second entry beats the (0,1,1) margins of input[type="submit"] and a[role="button"]. */
+:is(form, dialog) > footer > *,
+:is(form, dialog) > footer :is(button, input, a[role="button"]) {
   margin: 0;
 }
 

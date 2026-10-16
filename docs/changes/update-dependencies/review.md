@@ -83,3 +83,32 @@ No existing test was weakened, skipped or deleted; the only change under `test/`
 - [x] Important: `rv run --no-install bundle outdated` exits 1 again. It lists rubocop-eirvandelden `1e2e033` → `5f82215` (pushed 2026-10-14). The compare between the two revisions changes only that repository's own `Gemfile.lock` (Dependabot bumps of rubocop-minitest and rubocop-rails), so the shipped config does not change. The intent puts this revision out of scope, on the premise "it is already at its GitHub HEAD", which no longer holds. Etienne decides: bump the revision, or record that the out-of-scope line wins — `Gemfile.lock:3` → fixed in `ece044a` (Etienne chose to bump; scope recorded in `9a43a36`).
 - [x] Important: The plan's Proof "a fresh `yarn install --ignore-scripts` produces an identical `yarn.lock`" fails again. A fresh install resolves baseline-browser-mapping 2.11.28 → 2.11.29 (2026-10-15), electron-to-chromium 1.5.453 → 1.5.458 (2026-10-16) and node-releases 2.0.58 → 2.0.59 (2026-10-15). All three are data packages that release almost daily, so this Proof goes stale within days of any refresh. `yarn outdated` stays green — `yarn.lock:173` → fixed in `6c0257f` (refresh on 2026-10-16). Later drift in these daily data packages is dismissed, per Etienne's decision recorded in `9a43a36`.
 - [x] Important: `test/git_hooks_test.rb` asserts only that `refetch_frequency` is present. It does not prove the criterion "refetch every 24 hours". In a scratch copy, `refetch_frequency: never`, which turns fetching off, passes the test. So does `remotes: []`, with 0 assertions. The test name `test_every_shared_hook_config_is_refetched` claims more than it checks. Assert the value, and that at least one remote exists — `test/git_hooks_test.rb:8` → fixed in `634dd19`: asserts the dotfiles remote exists and `refetch_frequency` equals `24h`; fails in scratch for `never`, `remotes: []` and main's `lefthook.yml`.
+
+## Round 4 — 2026-10-16T18:57:54Z — 7061ee5
+
+Base: the merge base is still 77697d4, but `origin/main` is now c17bfe8 (see the finding). New since round 3: `634dd19` (stricter hook test), `9a43a36` (intent and plan addendum), `ece044a` (rubocop-eirvandelden to `5f82215`), `6c0257f` (`yarn.lock` refresh) and `7061ee5` (round-3 closures). Ruby commands ran through `rv run --no-install` on Ruby 4.0.7.
+
+Current state of the suite: `bundle exec rake test` passes (151 runs, 0 failures), and `test/git_hooks_test.rb` passes alone (2 runs). `bundle exec rubocop` (also with `--parallel --cache false`), `yarn lint:css`, `yarn lint:browsers`, `yamllint --strict .`, `yarn install --frozen-lockfile`, `lefthook validate` and `gem build mvpa-css.gemspec` all pass. The engine smoke check prints `Rails::Engine`.
+
+Round 3 findings, checked against `77697d4...HEAD`:
+
+- Important 1 (rubocop-eirvandelden behind): closed by `ece044a`, which holds only the GIT revision bump (`1e2e033` → `5f82215`) and the accepted `mvpa-css` SHA churn. The scope change is recorded in `9a43a36`. `bundle outdated` prints `Bundle up to date!` and exits 0. RuboCop reports no offenses.
+- Important 2 (fresh `yarn.lock` differs): closed by `6c0257f`. A fresh `yarn install --ignore-scripts` in a scratch directory now gives a `yarn.lock` identical to the repository one. There is no new drift today in baseline-browser-mapping, electron-to-chromium or node-releases. Later drift in those three is dismissed by the `9a43a36` addendum.
+- Important 3 (weak hook test): closed by `634dd19`. In a scratch copy, the test now fails for `origin/main`'s `lefthook.yml`, for `remotes: []` and for `refetch_frequency: never`. It passes for `refetch_frequency: 24h`.
+
+Compliance — acceptance criteria against proof:
+
+- `bundle outdated` lists nothing behind → command check; passes.
+- `yarn outdated` lists nothing behind → command check; passes.
+- Transitive npm packages at newest in range (plan Proof) → scratch `yarn install`; identical.
+- stylelint `^17.16.0` resolving to 17.16.0 → passes.
+- `.ruby-version` reads 4.0.7, suite passes on 4.0.7 → `test/continuous_integration_test.rb` `test_the_project_pins_the_ruby_it_runs_on`; passes.
+- Bundler 4.0.22 (plan Proof) → passes.
+- rubocop, stylelint, browserslist, yamllint, `gem build` → all pass.
+- Same direct dependencies → `git diff origin/main...HEAD -- Gemfile mvpa-css.gemspec .github .rubocop.yml CHANGELOG.md` is empty; `package.json` changes only the stylelint range.
+- rubocop-eirvandelden at its GitHub HEAD (addendum 2026-10-16) → `Gemfile.lock` revision `5f82215`; `bundle outdated` passes.
+- `lefthook.yml` refetches the shared config every 24 hours → `test/git_hooks_test.rb` `test_the_shared_dotfiles_hooks_are_a_remote` and `test_every_shared_hook_config_is_refetched_daily`; passes.
+
+No existing test was weakened, skipped or deleted. The only test change since round 3 makes `test/git_hooks_test.rb` stricter.
+
+- [ ] Important: `origin/main` moved from 77697d4 to c17bfe8, and the branch is not rebased onto it. Main now holds Dependabot's railties 8.1.4 (`a9cbec3`) and stylelint 17.16.0 (`23340f5`) bumps, a new `AGENTS.md` Changelog section and `test/agents_md_test.rb`. A trial `git merge-tree` against c17bfe8 conflicts in `Gemfile.lock` and `yarn.lock`. Rule 20 asks for a rebase before any push. After it, the Rails and stylelint commits partly duplicate main and need regenerated lockfiles. Re-run the Proof list on the rebased branch, including `test/agents_md_test.rb` against the merged `AGENTS.md` — `Gemfile.lock:1` →

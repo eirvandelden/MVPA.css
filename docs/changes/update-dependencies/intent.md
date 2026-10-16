@@ -31,13 +31,13 @@ Every gem, npm package and the Ruby version are at their latest stable release o
 - The `package.json` ranges for direct npm devDependencies move up to the latest versions (stylelint `^17.16.0`).
 - Every transitive npm package in `yarn.lock` moves to the newest version its range allows.
 - New lint offenses or deprecation warnings that the updates surface get fixed.
+- Added on 2026-10-16 at Etienne's request: the rubocop-eirvandelden git revision moves to its GitHub HEAD (`5f82215`), after review round 3 found it had moved.
 - Added on 2026-10-13 at Etienne's request: the shared git hooks stay current. Every clone refetches the shared `eirvandelden/dotfiles` hook config at least once a day, so a job removed there (such as `spelling`) stops running here within a day.
 
 ## Out of scope
 
 - The gemspec's runtime constraint on railties.
 - GitHub Actions versions. actions/checkout v7.0.1 and actions/setup-node v7 are already the latest.
-- The rubocop-eirvandelden git revision. It is already at its GitHub HEAD.
 - The yarn binary itself, and any other system tool.
 - The Dependabot configuration.
 - The shared hook config in `eirvandelden/dotfiles` and the other repositories that use it.

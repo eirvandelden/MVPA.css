@@ -79,6 +79,13 @@ Etienne asked to add this to this branch after review round 2. Cause: the cached
 - **Commits:** one commit, `chore(hooks): refetch the shared hook config daily`, holding the test, `lefthook.yml` and `AGENTS.md`.
 - **Verify:** the new test passes, the suite and `yamllint --strict .` pass, and `lefthook run pre-commit` still runs.
 
+## Addendum: rubocop-eirvandelden and the npm drift (2026-10-16)
+
+Etienne decided this after review round 3.
+
+- **rubocop-eirvandelden:** `bundle update rubocop-eirvandelden` moves the GIT revision from `1e2e033` to the GitHub HEAD. Commit it alone. The new upstream commits change only that repository's own `Gemfile.lock`, so no new cops are expected; RuboCop still runs to prove it. This replaces the earlier "stays `1e2e033`" lines above.
+- **npm drift:** `yarn upgrade` again, commit `yarn.lock` alone. The fresh-install proof holds on the refresh date. baseline-browser-mapping, electron-to-chromium and node-releases release almost daily, so later drift in these data packages is dismissed, not re-fixed.
+
 ## Risks
 
 - **Environment side effect from planning.** While planning, a `bundle exec` under Ruby 4.0.7 auto-installed Bundler 4.0.17 and the locked gems into Ruby 4.0.7's gem home. That run also rewrote the `mvpa-css` SHA line in `Gemfile.lock`; the planner reverted it. Step 2's `bundle install` is therefore mostly a no-op.
@@ -94,7 +101,6 @@ Etienne asked to add this to this branch after review round 2. Cause: the cached
 
 - The gemspec's runtime constraint on railties.
 - GitHub Actions versions.
-- The rubocop-eirvandelden git revision.
 - The yarn binary, Node and every other system tool. Bundler is the one exception (see Design decisions).
 - The Dependabot configuration.
 - Adding or removing any dependency.

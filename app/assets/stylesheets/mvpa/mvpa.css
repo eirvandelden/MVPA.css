@@ -1305,6 +1305,7 @@ main > header nav details > summary::-webkit-details-marker {
 }
 
 main > header nav details > summary::after {
+  content: "▾";
   content: "▾" / "";
   display: inline;
   margin-inline-start: 0;

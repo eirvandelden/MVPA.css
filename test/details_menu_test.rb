@@ -23,6 +23,16 @@ class DetailsMenuTest < Minitest::Test
     end
   end
 
+  def test_the_arrow_keeps_a_plain_content_fallback_before_the_alternative_text
+    each_source(DETAILS) do |name, css|
+      arrow = rule_body(css, "#{MENU} > summary::after")
+      plain = arrow.index(%(content: "▾";))
+
+      refute_nil plain, "#{name} has no plain content declaration"
+      assert_operator plain, :<, arrow.index(%(content: "▾" / "";)), name
+    end
+  end
+
   def test_the_arrow_does_not_rotate_when_the_menu_is_open
     each_source(DETAILS) do |name, css|
       assert_includes rule_body(css, "#{MENU}[open] > summary::after"), "transform: none;", name

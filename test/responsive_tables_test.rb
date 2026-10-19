@@ -7,6 +7,7 @@ class ResponsiveTablesTest < Minitest::Test
   include CssSourceHelper
 
   TABLES = "2_modules/0_tables.css".freeze
+  MAIN = "1_layout/1_main.css".freeze
 
   def test_table_is_never_wider_than_its_container
     each_source(TABLES) do |name, css|
@@ -27,9 +28,19 @@ class ResponsiveTablesTest < Minitest::Test
     end
   end
 
-  def test_table_css_never_declares_a_container
-    each_source(TABLES) do |name, css|
-      refute_includes css, "container-type", name
+  def test_main_is_an_inline_size_container
+    each_source(MAIN) do |name, css|
+      assert_includes rule_body(css, "main"), "container-type: inline-size;", name
     end
+  end
+
+  def test_main_may_shrink_below_its_content
+    each_source(MAIN) do |name, css|
+      assert_includes rule_body(css, "main"), "min-inline-size: 0;", name
+    end
+  end
+
+  def test_table_css_never_declares_a_container
+    refute_includes partial(TABLES), "container-type"
   end
 end

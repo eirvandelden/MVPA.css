@@ -9,6 +9,8 @@ main {
   padding-inline: var(--inline-space-double);
   padding-block: var(--block-space);
   min-block-size: 70vh;
+  min-inline-size: 0;
+  container-type: inline-size;
 }
 
 /* Desktop: right column in body grid */

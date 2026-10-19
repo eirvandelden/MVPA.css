@@ -11,6 +11,7 @@
 ### Changed
 - **Table width** — every table has `max-inline-size: 100%`, text cells break anywhere, and `<time>` and `<data>` in a cell never wrap.
 - **`main` is a container** — `main` has `container-type: inline-size` and `min-inline-size: 0`, so tables follow the content area instead of the viewport. A child that relied on `main` growing with its content now overflows instead.
+- **Title bar is a wrapping row** — `main > header nav` lays its controls out left to right (`flex-direction: row; flex-wrap: wrap`) on every width. On a phone the controls wrap instead of scrolling sideways. It was a column on desktop.
 
 ### Upgrading
 1. Build a pull-down menu as `<details><summary>Actions</summary><ul><li><a>…</a></li></ul></details>` inside the `<nav>` of `main > header`.
@@ -21,6 +22,7 @@
 6. Mark dates with `<time datetime>` and amounts with `<data value>`.
 7. Remove your own `overflow-x: auto` wrapper around a table.
 8. Check pages whose content relied on `main` growing with its content, such as charts and wide tables.
+9. Remove your own `flex-direction: row` or `flex-wrap` rule for `main > header nav`, and check that the title-bar controls read left to right.
 
 ## 2026-10-13
 

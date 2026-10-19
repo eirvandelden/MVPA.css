@@ -10,9 +10,9 @@ Styles are organized SMACSS-style under `app/assets/stylesheets/mvpa/`, in numbe
 
 ## Commands
 
-- Install: `bundle install` (Ruby gem deps) and `yarn install` (lint tooling only — there is no JS runtime dependency, the framework ships plain CSS plus two small Stimulus-style JS files under `app/javascript/`).
+- Install: `bundle install` (Ruby gem deps) and `npm install` (lint tooling only — there is no JS runtime dependency, the framework ships plain CSS plus two small Stimulus-style JS files under `app/javascript/`).
 - Test: `bundle exec rake test` (Minitest, files in `test/**/*_test.rb`).
-- Lint: `bundle exec rubocop` (Ruby), `yarn lint:css` (stylelint), `yarn lint:browsers` (browserslist config check), `yamllint --strict .` (YAML). CI (`.github/workflows/ci.yml`) runs all of these plus a gem build check.
+- Lint: `bundle exec rubocop` (Ruby), `npm run lint:css` (stylelint), `npm run lint:browsers` (browserslist config check), `yamllint --strict .` (YAML). CI (`.github/workflows/ci.yml`) runs all of these plus a gem build check.
 - Preview: open `demo.html` directly in a browser — it links the individual partials, not the flattened manifest.
 
 ## Changelog

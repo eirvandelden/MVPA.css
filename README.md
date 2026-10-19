@@ -620,10 +620,10 @@ MVPA.css requires modern browsers with support for:
 
 Stylelint is configured with browser support checks via `.browserslistrc`.
 
-Run the CSS linter with Yarn:
+Run the CSS linter with npm:
 
 ```bash
-yarn lint:css
+npm run lint:css
 ```
 
 ### Minimum versions:

@@ -11,8 +11,17 @@ class ContinuousIntegrationTest < Minitest::Test
   def test_the_workflow_only_runs_scripts_that_exist
     workflow_scripts.each do |script|
       assert_includes package_scripts, script,
-                      "CI runs `yarn #{script}` but package.json defines no such script"
+                      "CI runs `npm run #{script}` but package.json defines no such script"
     end
+  end
+
+  def test_package_lock_replaces_yarn_lock
+    assert File.file?(path("package-lock.json")), "npm ci needs package-lock.json"
+    refute File.file?(path("yarn.lock")), "yarn.lock must not sit beside package-lock.json"
+  end
+
+  def test_no_tracked_file_names_yarn
+    assert_empty yarn_mentions, "tracked files still name yarn:\n#{yarn_mentions.join("\n")}"
   end
 
   def test_dependabot_watches_gems_packages_and_actions
@@ -44,11 +53,15 @@ class ContinuousIntegrationTest < Minitest::Test
   end
 
   def workflow_scripts
-    read(".github/workflows/ci.yml").scan(/yarn (lint:[\w:-]+)/).flatten.uniq
+    read(".github/workflows/ci.yml").scan(/npm run (lint:[\w:-]+)/).flatten.uniq
   end
 
   def package_scripts
     JSON.parse(read("package.json"))["scripts"].keys
+  end
+
+  def yarn_mentions
+    `git -C #{path(".")} grep -n -i yarn -- . ':!docs/changes' ':!test/continuous_integration_test.rb'`.lines
   end
 
   def watched_ecosystems

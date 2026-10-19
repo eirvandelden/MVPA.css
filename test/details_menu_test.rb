@@ -102,7 +102,8 @@ class DetailsMenuTest < Minitest::Test
       selectors = THEMES.map { |theme| %([data-theme="#{theme}"] #{SUMMARY}) }
 
       selectors.each { |selector| assert_includes rule_body(css, selector), "box-shadow: none;", "#{name} #{selector}" }
-      system_dark = css[/@media \(prefers-color-scheme: dark\) \{\n.*?:root:not\(\[data-theme\]\) #{Regexp.escape(SUMMARY)}.*?\n\}\n/m]
+      twin = ":root:not\\(\\[data-theme\\]\\) #{Regexp.escape(SUMMARY)}"
+      system_dark = css[/@media \(prefers-color-scheme: dark\) \{\n.*?#{twin}.*?\n\}\n/m]
 
       assert_includes system_dark.to_s, "box-shadow: none;", name
     end

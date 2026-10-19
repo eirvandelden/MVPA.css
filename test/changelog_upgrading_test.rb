@@ -24,8 +24,8 @@ class ChangelogUpgradingTest < Minitest::Test
 
     refute_nil upgrading, "the latest changelog entry has no ### Upgrading subsection"
     assert_includes upgrading, "as a direct child of the `<nav>`"
-    [ "<details>", "data-mvpa-flashes", "outside `<main>`", "data-stack", "data-label", 'role="table"', "<caption>", "aria-labelledby", "<time datetime>",
-"<data value>", "overflow-x: auto" ].each do |text|
+    [ "<details>", "data-mvpa-flashes", "outside `<main>`", "data-stack", "data-label", 'role="table"', "<caption>",
+"aria-labelledby", "<time datetime>", "<data value>", "overflow-x: auto" ].each do |text|
       assert_includes upgrading, text
     end
     assert_match(/^1\. /, upgrading)

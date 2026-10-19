@@ -1335,8 +1335,8 @@ main > header nav details > ul {
   box-shadow: var(--shadow-2);
 }
 
-main > header nav details > ul li > a,
-main > header nav details > ul li > form > button {
+:root:root main > header nav details > ul li > a,
+:root:root main > header nav details > ul li > form > button {
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -1358,11 +1358,29 @@ main > header nav details > ul li > form {
   margin: 0;
 }
 
-main > header nav details > ul li > a:hover,
-main > header nav details > ul li > form > button:hover {
+:root:root main > header nav details > ul li > a:hover,
+:root:root main > header nav details > ul li > form > button:hover {
   background-color: var(--color-bg-darker);
   box-shadow: none;
   transform: none;
+}
+
+/*
+ * Theme rules for buttons and header links (1_forms.css, 2_eink.css) outrank the item reset above,
+ * so :root:root (0,2,0) lifts the item rules over them, the :root:not([data-theme]) twin included.
+ * The summary is a header button, so it drops its shadow wherever the other header buttons do.
+ */
+[data-theme="solunized-dark"] main > header nav details > summary,
+[data-theme="solunized-black"] main > header nav details > summary,
+[data-theme="eink-light"] main > header nav details > summary,
+[data-theme="eink-dark"] main > header nav details > summary {
+  box-shadow: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) main > header nav details > summary {
+    box-shadow: none;
+  }
 }
 /*
  * Flash Messages

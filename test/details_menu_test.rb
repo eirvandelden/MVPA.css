@@ -9,8 +9,11 @@ class DetailsMenuTest < Minitest::Test
   DETAILS = "2_modules/2_details.css".freeze
   NAVIGATION = "2_modules/10_navigation.css".freeze
   MENU = "main > header nav details".freeze
-  ITEM = "main > header nav details > ul li > a".freeze
-  ITEM_BUTTON = "main > header nav details > ul li > form > button".freeze
+  # :root:root (0,2,0) outranks every theme rule for buttons and header links, including :root:not([data-theme]).
+  ITEM = ":root:root main > header nav details > ul li > a".freeze
+  ITEM_BUTTON = ":root:root main > header nav details > ul li > form > button".freeze
+  SUMMARY = "main > header nav details > summary".freeze
+  THEMES = %w[solunized-dark solunized-black eink-light eink-dark].freeze
 
   def test_header_menu_summary_is_a_plain_button_with_a_decorative_arrow
     each_source(DETAILS) do |name, css|
@@ -76,6 +79,35 @@ class DetailsMenuTest < Minitest::Test
     end
   end
 
+  def test_menu_items_stay_plain_under_every_theme
+    each_source(DETAILS) do |name, css|
+      [ ITEM, ITEM_BUTTON ].each do |item|
+        body = rule_body(css, item)
+
+        assert_includes body, "border: none;", name
+        assert_includes body, "background-color: transparent;", name
+        assert_includes body, "box-shadow: none;", name
+      end
+    end
+  end
+
+  def test_menu_item_hover_outranks_theme_hover_rules
+    each_source(DETAILS) do |name, css|
+      assert_includes rule_body(css, "#{ITEM}:hover"), "background-color: var(--color-bg-darker);", name
+    end
+  end
+
+  def test_the_summary_drops_its_shadow_where_the_header_buttons_do
+    each_source(DETAILS) do |name, css|
+      selectors = THEMES.map { |theme| %([data-theme="#{theme}"] #{SUMMARY}) }
+
+      selectors.each { |selector| assert_includes rule_body(css, selector), "box-shadow: none;", "#{name} #{selector}" }
+      system_dark = css[/@media \(prefers-color-scheme: dark\) \{\n.*?:root:not\(\[data-theme\]\) #{Regexp.escape(SUMMARY)}.*?\n\}\n/m]
+
+      assert_includes system_dark.to_s, "box-shadow: none;", name
+    end
+  end
+
   def test_sidebar_details_are_not_styled_as_a_menu
     refute_includes partial(DETAILS), "body > header"
     refute_includes rule_body(partial(DETAILS), "details"), "position:"
@@ -85,7 +117,7 @@ class DetailsMenuTest < Minitest::Test
   def test_every_menu_rule_is_scoped_to_the_page_header
     lines = partial(DETAILS).lines.grep(/\A[^\s\/*@}].*[,{]\s*\z/)
     selectors = lines.map { |line| line.strip.chomp("{").chomp(",").strip }
-    menu, base = selectors.partition { |selector| selector.start_with?("main") }
+    menu, base = selectors.partition { |selector| selector.include?("main > header nav") }
 
     assert_equal %w[details summary summary:hover], base
     assert_operator menu.size, :>, 5

@@ -22,7 +22,8 @@
 6. Mark dates with `<time datetime>` and amounts with `<data value>`.
 7. Remove your own `overflow-x: auto` wrapper around a table.
 8. Check pages whose content relied on `main` growing with its content, such as charts and wide tables.
-9. Remove your own `flex-direction: row` or `flex-wrap` rule for `main > header nav`, and check that the title-bar controls read left to right.
+9. Move your `[data-mvpa-flashes]` notifications container outside `<main>`, as a direct child of `<body>`. `main` is now a size container, and on Safari before 18.4 a fixed child inside it scrolls with the content instead of staying at the viewport corner.
+10. Remove your own `flex-direction: row` or `flex-wrap` rule for `main > header nav`, and check that the title-bar controls read left to right.
 
 ## 2026-10-13
 

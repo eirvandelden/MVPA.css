@@ -23,7 +23,7 @@ class ChangelogUpgradingTest < Minitest::Test
     upgrading = latest_entry[/^### Upgrading.*?(?=^### |\z)/m]
 
     refute_nil upgrading, "the latest changelog entry has no ### Upgrading subsection"
-    [ "<details>", "data-stack", "data-label", 'role="table"', "<caption>", "aria-labelledby", "<time datetime>",
+    [ "<details>", "data-mvpa-flashes", "outside `<main>`", "data-stack", "data-label", 'role="table"', "<caption>", "aria-labelledby", "<time datetime>",
 "<data value>", "overflow-x: auto" ].each do |text|
       assert_includes upgrading, text
     end

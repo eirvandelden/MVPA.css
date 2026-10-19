@@ -300,7 +300,7 @@ Semantic table elements are automatically styled:
 ### Messages
 
 #### Flash Messages (Success/Info)
-Wrap flash messages in a notifications container and use `<aside role="status">` for positive feedback:
+Wrap flash messages in a notifications container and put it outside `<main>`, as a direct child of `<body>`: `main` is a size container, and on Safari before 18.4 a fixed child inside it scrolls with the content. Use `<aside role="status">` for positive feedback:
 ```html
 <section aria-label="Notifications" data-mvpa-flashes>
   <aside role="status">

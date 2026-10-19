@@ -128,6 +128,30 @@
   </nav>
 </header>
 
+<!-- Notifications: outside main, so they stay fixed to the viewport on every supported browser -->
+<section aria-label="Notifications" data-mvpa-flashes>
+  <aside role="status">
+    <p>✓ Your changes have been saved successfully!</p>
+  </aside>
+
+  <aside role="status">
+    <p>ℹ Please review your information before submitting.</p>
+  </aside>
+
+  <aside role="alert">
+    <h4>Validation Error</h4>
+    <ul>
+      <li>Email field is required</li>
+      <li>Password must be at least 8 characters</li>
+      <li>Please accept the terms and conditions</li>
+    </ul>
+  </aside>
+
+  <aside role="alert">
+    <p><strong>Warning:</strong> This action cannot be undone. Proceed with caution.</p>
+  </aside>
+</section>
+
 <main>
 
   <!-- Page header: the real main > header, with a link, a PATCH form and a DELETE form -->
@@ -265,28 +289,7 @@ console.log(greet('World'));</code></pre>
 
     <section>
       <h3>Flash Messages</h3>
-      <section aria-label="Notifications" data-mvpa-flashes>
-        <aside role="status">
-          <p>✓ Your changes have been saved successfully!</p>
-        </aside>
-
-        <aside role="status">
-          <p>ℹ Please review your information before submitting.</p>
-        </aside>
-
-        <aside role="alert">
-          <h4>Validation Error</h4>
-          <ul>
-            <li>Email field is required</li>
-            <li>Password must be at least 8 characters</li>
-            <li>Please accept the terms and conditions</li>
-          </ul>
-        </aside>
-
-        <aside role="alert">
-          <p><strong>Warning:</strong> This action cannot be undone. Proceed with caution.</p>
-        </aside>
-      </section>
+      <p>The notifications sit fixed in the top-right corner of this page. Their container is a direct child of <code>&lt;body&gt;</code>, outside <code>&lt;main&gt;</code>: <code>main</code> is a size container, and on Safari before 18.4 a fixed child inside it scrolls with the content.</p>
     </section>
   </article>
 

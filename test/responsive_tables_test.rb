@@ -89,6 +89,19 @@ class ResponsiveTablesTest < Minitest::Test
     end
   end
 
+  def test_stacked_cell_label_keeps_a_plain_content_fallback_before_the_alternative_text
+    each_source(TABLES) do |name, css|
+      STEPS.each do |step, width|
+        rule = rule_body(container_block(css, width), %(table[data-stack="#{step}"] td::before))
+        plain = rule.index("content: attr(data-label);")
+        alternative = rule.index(%(content: attr(data-label) / "";))
+
+        refute_nil plain, "#{name} #{step} has no plain content declaration"
+        assert_operator plain, :<, alternative, "#{name} #{step}"
+      end
+    end
+  end
+
   def test_the_label_is_not_shown_above_the_breakpoint
     each_source(TABLES) do |name, css|
       outside = css.gsub(/@container.*?\n\}\n/m, "")

@@ -59,6 +59,7 @@ td :is(time, data) {
   }
 
   table[data-stack="narrow"] td::before {
+    content: attr(data-label);
     content: attr(data-label) / "";
     display: block;
     font-weight: 600;
@@ -92,6 +93,7 @@ td :is(time, data) {
   }
 
   table[data-stack="medium"] td::before {
+    content: attr(data-label);
     content: attr(data-label) / "";
     display: block;
     font-weight: 600;
@@ -125,6 +127,7 @@ td :is(time, data) {
   }
 
   table[data-stack="wide"] td::before {
+    content: attr(data-label);
     content: attr(data-label) / "";
     display: block;
     font-weight: 600;

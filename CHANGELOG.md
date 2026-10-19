@@ -2,6 +2,26 @@
 
 **Note:** This project uses git SHAs instead of semver. Pin to a specific SHA in your Gemfile (`ref: "e4179e9"`). Each GitHub release is tagged with its commit SHA.
 
+## 2026-10-19
+
+### Added
+- **Pull-down menu** — a `<details>` in `main > header nav` is a plain header button with a `▾` and opens its list as a surface under it. Each `li > a` and `li > form > button` fills the menu's width. The menu closes when you click the summary again or load a page, not on an outside click.
+- **Stacking tables** — opt in per table with `data-stack="narrow"`, `"medium"` or `"wide"`. The table stacks below 30, 45 or 60rem of content width. Each cell shows its `data-label`. The header row stays in the accessibility tree.
+
+### Changed
+- **Table width** — every table has `max-inline-size: 100%`, text cells break anywhere, and `<time>` and `<data>` in a cell never wrap.
+- **`main` is a container** — `main` has `container-type: inline-size` and `min-inline-size: 0`, so tables follow the content area instead of the viewport. A child that relied on `main` growing with its content now overflows instead.
+
+### Upgrading
+1. Build a pull-down menu as `<details><summary>Actions</summary><ul><li><a>…</a></li></ul></details>` inside the `<nav>` of `main > header`.
+2. On a table that should stack, add `data-stack="narrow"`, `"medium"` or `"wide"` and `role="table"`.
+3. Give the stacking table's parts `role="rowgroup"` on `thead` and `tbody`, `role="row"` on each `tr`, `role="columnheader"` on each `th` and `role="cell"` on each `td`.
+4. Add `data-label` with the column's name to every `td` of a stacking table.
+5. Name a stacking table with a `<caption>` or `aria-labelledby` pointing at its heading.
+6. Mark dates with `<time datetime>` and amounts with `<data value>`.
+7. Remove your own `overflow-x: auto` wrapper around a table.
+8. Check pages whose content relied on `main` growing with its content, such as charts and wide tables.
+
 ## 2026-10-13
 
 ### Changed

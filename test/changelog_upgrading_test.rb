@@ -5,7 +5,7 @@ require "minitest/autorun"
 class ChangelogUpgradingTest < Minitest::Test
   BUTTONS = "2026-10-13".freeze
 
-  def test_the_latest_entry_tells_apps_how_to_upgrade
+  def test_the_buttons_entry_tells_apps_how_to_upgrade
     upgrading = entry(BUTTONS)[/^### Upgrading.*?(?=^### |\z)/m]
 
     refute_nil upgrading, "the latest changelog entry has no ### Upgrading subsection"
@@ -15,7 +15,7 @@ class ChangelogUpgradingTest < Minitest::Test
     end
   end
 
-  def test_the_latest_entry_lists_what_changed_was_added_and_was_removed
+  def test_the_buttons_entry_lists_what_changed_was_added_and_was_removed
     [ "### Changed", "### Added", "### Removed" ].each { |heading| assert_includes entry(BUTTONS), heading }
   end
 

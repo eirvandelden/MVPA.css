@@ -5,6 +5,7 @@
 
 table {
   inline-size: 100%;
+  max-inline-size: 100%;
   border-collapse: collapse;
   margin-block: var(--block-space);
 }
@@ -14,10 +15,122 @@ td {
   padding: var(--block-space-half) var(--inline-space);
   text-align: start;
   border-block-end: 1px solid var(--color-border);
+  overflow-wrap: anywhere;
 }
 
 th {
   font-weight: 600;
   background-color: var(--color-bg-lighter);
   color: var(--color-fg-darkest);
+}
+
+td :is(time, data) {
+  white-space: nowrap;
+}
+
+/*
+ * Stacking: opt in with data-stack (narrow, medium, wide) and a data-label on every td.
+ * The content area (main) is the query container, so a table stacks when its
+ * space runs out, not when the viewport does.
+ */
+@container (width < 30rem) {
+  table[data-stack="narrow"],
+  table[data-stack="narrow"] :is(thead, tbody, tfoot, tr, th, td) {
+    display: block;
+  }
+
+  table[data-stack="narrow"] thead {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    clip-path: inset(50%);
+  }
+
+  table[data-stack="narrow"] tr {
+    border-block-end: 1px solid var(--color-border);
+  }
+
+  table[data-stack="narrow"] :is(th, td) {
+    border-block-end: none;
+  }
+
+  table[data-stack="narrow"] td::before {
+    content: attr(data-label);
+    content: attr(data-label) / "";
+    display: block;
+    font-weight: 600;
+    color: var(--color-fg-darkest);
+  }
+}
+
+@container (width < 45rem) {
+  table[data-stack="medium"],
+  table[data-stack="medium"] :is(thead, tbody, tfoot, tr, th, td) {
+    display: block;
+  }
+
+  table[data-stack="medium"] thead {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    clip-path: inset(50%);
+  }
+
+  table[data-stack="medium"] tr {
+    border-block-end: 1px solid var(--color-border);
+  }
+
+  table[data-stack="medium"] :is(th, td) {
+    border-block-end: none;
+  }
+
+  table[data-stack="medium"] td::before {
+    content: attr(data-label);
+    content: attr(data-label) / "";
+    display: block;
+    font-weight: 600;
+    color: var(--color-fg-darkest);
+  }
+}
+
+@container (width < 60rem) {
+  table[data-stack="wide"],
+  table[data-stack="wide"] :is(thead, tbody, tfoot, tr, th, td) {
+    display: block;
+  }
+
+  table[data-stack="wide"] thead {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    clip-path: inset(50%);
+  }
+
+  table[data-stack="wide"] tr {
+    border-block-end: 1px solid var(--color-border);
+  }
+
+  table[data-stack="wide"] :is(th, td) {
+    border-block-end: none;
+  }
+
+  table[data-stack="wide"] td::before {
+    content: attr(data-label);
+    content: attr(data-label) / "";
+    display: block;
+    font-weight: 600;
+    color: var(--color-fg-darkest);
+  }
 }

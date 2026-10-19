@@ -16,3 +16,117 @@ summary {
 summary:hover {
   color: var(--color-fg-darkest);
 }
+
+/*
+ * Pull-down menu: a <details> in the page header's nav.
+ * The summary is a plain header button; the list opens as a surface under it.
+ * It closes on a second click of the summary or on page load, not on an outside click.
+ */
+
+main > header nav:has(> details) {
+  overflow: visible;
+}
+
+main > header nav details {
+  position: relative;
+  margin-block: 0;
+}
+
+main > header nav details > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--inline-space-half);
+  min-block-size: var(--touch-target);
+  padding-block: 0.4rem;
+  padding-inline: 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background-color: var(--color-bg-lighter);
+  box-shadow: var(--shadow-1);
+  color: var(--color-fg);
+  font-weight: 400;
+  list-style: none;
+}
+
+main > header nav details > summary::-webkit-details-marker {
+  display: none;
+}
+
+main > header nav details > summary::after {
+  content: "▾";
+  content: "▾" / "";
+  display: inline;
+  margin-inline-start: 0;
+  transform: none;
+}
+
+main > header nav details[open] > summary::after {
+  transform: none;
+}
+
+main > header nav details > ul {
+  position: absolute;
+  inset-block-start: 100%;
+  inset-block-end: auto;
+  inset-inline-start: auto;
+  inset-inline-end: 0;
+  z-index: var(--z-dropdown);
+  min-inline-size: max-content;
+  max-block-size: none;
+  margin: 0;
+  margin-block-start: var(--block-space-half);
+  padding: var(--block-space-half);
+  overflow: visible;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background-color: var(--color-bg-lighter);
+  box-shadow: var(--shadow-2);
+}
+
+:root:root main > header nav details > ul li > a,
+:root:root main > header nav details > ul li > form > button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  inline-size: 100%;
+  min-block-size: var(--touch-target);
+  padding-block: 0;
+  padding-inline: var(--inline-space);
+  margin: 0;
+  border: none;
+  border-radius: var(--radius-small);
+  background-color: transparent;
+  box-shadow: none;
+  color: var(--color-fg);
+  text-align: start;
+}
+
+main > header nav details > ul li,
+main > header nav details > ul li > form {
+  margin: 0;
+}
+
+:root:root main > header nav details > ul li > a:hover,
+:root:root main > header nav details > ul li > form > button:hover {
+  background-color: var(--color-bg-darker);
+  box-shadow: none;
+  transform: none;
+}
+
+/*
+ * Theme rules for buttons and header links (1_forms.css, 2_eink.css) outrank the item reset above,
+ * so :root:root (0,2,0) lifts the item rules over them, the :root:not([data-theme]) twin included.
+ * The summary is a header button, so it drops its shadow wherever the other header buttons do.
+ */
+[data-theme="solunized-dark"] main > header nav details > summary,
+[data-theme="solunized-black"] main > header nav details > summary,
+[data-theme="eink-light"] main > header nav details > summary,
+[data-theme="eink-dark"] main > header nav details > summary {
+  box-shadow: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) main > header nav details > summary {
+    box-shadow: none;
+  }
+}

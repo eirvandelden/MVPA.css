@@ -25,6 +25,13 @@ class FlashSelectorTest < Minitest::Test
     refute_includes demo_html, '<section role="status">'
   end
 
+  def test_demo_places_the_notifications_container_outside_the_main_container
+    main = demo_html[/<main>.*<\/main>/m]
+
+    refute_includes main, "data-mvpa-flashes", "a fixed child of the main container scrolls on Safari before 18.4"
+    assert_includes demo_html, "data-mvpa-flashes"
+  end
+
   private
 
   def flash_css

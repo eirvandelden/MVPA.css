@@ -128,6 +128,30 @@
   </nav>
 </header>
 
+<!-- Notifications: outside main, so they stay fixed to the viewport on every supported browser -->
+<section aria-label="Notifications" data-mvpa-flashes>
+  <aside role="status">
+    <p>✓ Your changes have been saved successfully!</p>
+  </aside>
+
+  <aside role="status">
+    <p>ℹ Please review your information before submitting.</p>
+  </aside>
+
+  <aside role="alert">
+    <h4>Validation Error</h4>
+    <ul>
+      <li>Email field is required</li>
+      <li>Password must be at least 8 characters</li>
+      <li>Please accept the terms and conditions</li>
+    </ul>
+  </aside>
+
+  <aside role="alert">
+    <p><strong>Warning:</strong> This action cannot be undone. Proceed with caution.</p>
+  </aside>
+</section>
+
 <main>
 
   <!-- Page header: the real main > header, with a link, a PATCH form and a DELETE form -->
@@ -135,6 +159,18 @@
     <h1>MVPA.css</h1>
     <nav>
       <a href="#buttons">Edit</a>
+      <details>
+        <summary>Actions</summary>
+        <ul>
+          <li><a href="#tables">New item</a></li>
+          <li><a href="#tables">Import items</a></li>
+          <li>
+            <form method="post" action="#">
+              <button type="submit">Duplicate</button>
+            </form>
+          </li>
+        </ul>
+      </details>
       <form method="post" action="#">
         <input type="hidden" name="_method" value="patch">
         <button type="submit">Tonen</button>
@@ -253,28 +289,7 @@ console.log(greet('World'));</code></pre>
 
     <section>
       <h3>Flash Messages</h3>
-      <section aria-label="Notifications" data-mvpa-flashes>
-        <aside role="status">
-          <p>✓ Your changes have been saved successfully!</p>
-        </aside>
-
-        <aside role="status">
-          <p>ℹ Please review your information before submitting.</p>
-        </aside>
-
-        <aside role="alert">
-          <h4>Validation Error</h4>
-          <ul>
-            <li>Email field is required</li>
-            <li>Password must be at least 8 characters</li>
-            <li>Please accept the terms and conditions</li>
-          </ul>
-        </aside>
-
-        <aside role="alert">
-          <p><strong>Warning:</strong> This action cannot be undone. Proceed with caution.</p>
-        </aside>
-      </section>
+      <p>The notifications sit fixed in the top-right corner of this page. Their container is a direct child of <code>&lt;body&gt;</code>, outside <code>&lt;main&gt;</code>: <code>main</code> is a size container, and on Safari before 18.4 a fixed child inside it scrolls with the content.</p>
     </section>
   </article>
 
@@ -524,6 +539,11 @@ console.log(greet('World'));</code></pre>
         </nav>
       </header>
     </section>
+
+    <section>
+      <h3>Pull-down menu</h3>
+      <p>The "Actions" menu in the title bar at the top of this page is a <code>&lt;details&gt;</code> in <code>main &gt; header nav</code>. Its summary is a plain header button, and each <code>li &gt; a</code> or <code>li &gt; form &gt; button</code> fills the menu's width. It closes when you click the summary again.</p>
+    </section>
   </article>
 
   <!-- Tables Section -->
@@ -607,6 +627,86 @@ console.log(greet('World'));</code></pre>
             <td>Tailwind</td>
             <td>All modern browsers</td>
             <td>Varies (build-based)</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h3>Responsive table — data-stack="wide"</h3>
+      <p>Nine columns. Below 60rem of content width each row stacks and each value shows its <code>data-label</code>. Narrow the window to see it. Dates use <code>&lt;time&gt;</code> and amounts <code>&lt;data&gt;</code>, so they never wrap.</p>
+      <table data-stack="wide" role="table" aria-labelledby="stack-wide-title">
+        <caption id="stack-wide-title">Recent transactions</caption>
+        <thead role="rowgroup">
+          <tr role="row">
+            <th role="columnheader">Date</th>
+            <th role="columnheader">Title</th>
+            <th role="columnheader">Account</th>
+            <th role="columnheader">Category</th>
+            <th role="columnheader">Payee</th>
+            <th role="columnheader">Note</th>
+            <th role="columnheader">Amount</th>
+            <th role="columnheader">Status</th>
+            <th role="columnheader">Split</th>
+          </tr>
+        </thead>
+        <tbody role="rowgroup">
+          <tr role="row">
+            <td role="cell" data-label="Date"><time datetime="2026-10-12">2026-10-12</time></td>
+            <td role="cell" data-label="Title">Groceries</td>
+            <td role="cell" data-label="Account">Checking</td>
+            <td role="cell" data-label="Category">Food</td>
+            <td role="cell" data-label="Payee">Supermarket</td>
+            <td role="cell" data-label="Note">Weekly shop at the corner store, including a very long description that has to wrap instead of pushing the page sideways</td>
+            <td role="cell" data-label="Amount"><data value="82.15">€ 82,15</data></td>
+            <td role="cell" data-label="Status">Cleared</td>
+            <td role="cell" data-label="Split">Yes</td>
+          </tr>
+          <tr role="row">
+            <td role="cell" data-label="Date"><time datetime="2026-10-13">2026-10-13</time></td>
+            <td role="cell" data-label="Title">Train ticket</td>
+            <td role="cell" data-label="Account">Credit card</td>
+            <td role="cell" data-label="Category">Travel</td>
+            <td role="cell" data-label="Payee">Rail operator</td>
+            <td role="cell" data-label="Note">Return trip</td>
+            <td role="cell" data-label="Amount"><data value="41.80">€ 41,80</data></td>
+            <td role="cell" data-label="Status">Pending</td>
+            <td role="cell" data-label="Split">No</td>
+          </tr>
+          <tr role="row">
+            <td role="cell" data-label="Date"><time datetime="2026-10-14">2026-10-14</time></td>
+            <td role="cell" data-label="Title">Salary</td>
+            <td role="cell" data-label="Account">Checking</td>
+            <td role="cell" data-label="Category">Income</td>
+            <td role="cell" data-label="Payee">Employer</td>
+            <td role="cell" data-label="Note">October salary</td>
+            <td role="cell" data-label="Amount"><data value="3250.00">€ 3.250,00</data></td>
+            <td role="cell" data-label="Status">Cleared</td>
+            <td role="cell" data-label="Split">Yes</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h3>Responsive table — data-stack="narrow"</h3>
+      <p>Two columns stay a table down to 30rem of content width.</p>
+      <table data-stack="narrow" role="table" aria-labelledby="stack-narrow-title">
+        <caption id="stack-narrow-title">Accounts</caption>
+        <thead role="rowgroup">
+          <tr role="row">
+            <th role="columnheader">Name</th>
+            <th role="columnheader">Balance</th>
+          </tr>
+        </thead>
+        <tbody role="rowgroup">
+          <tr role="row">
+            <td role="cell" data-label="Name">Checking</td>
+            <td role="cell" data-label="Balance"><data value="1204.50">€ 1.204,50</data></td>
+          </tr>
+          <tr role="row">
+            <td role="cell" data-label="Name">Savings</td>
+            <td role="cell" data-label="Balance"><data value="8000.00">€ 8.000,00</data></td>
           </tr>
         </tbody>
       </table>

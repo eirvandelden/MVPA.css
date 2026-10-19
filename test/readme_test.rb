@@ -14,6 +14,10 @@ class ReadmeTest < Minitest::Test
     refute_includes readme, '<section role="status">'
   end
 
+  def test_readme_places_the_notifications_container_outside_main
+    assert_includes readme, "outside `<main>`"
+  end
+
   def test_readme_explains_that_a_submit_is_filled_and_type_button_is_plain
     assert_includes buttons_section, "A submit is the filled default"
     assert_includes buttons_section, 'type="button"'

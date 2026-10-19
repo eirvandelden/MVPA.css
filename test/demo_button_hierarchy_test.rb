@@ -14,10 +14,10 @@ class DemoButtonHierarchyTest < Minitest::Test
     header = document.at_css("main > header")
 
     assert_equal "Edit", header.at_css("nav a").text.strip
-    assert_equal "patch", header.at_css('nav form input[name="_method"]')["value"]
-    assert_equal "Tonen", header.at_css("nav form button").text.strip
-    assert_equal %w[patch delete], header.css('nav form input[name="_method"]').map { |input| input["value"] }
-    assert_equal "Uitloggen", header.css("nav form button").last.text.strip
+    assert_equal "patch", header.at_css('nav > form input[name="_method"]')["value"]
+    assert_equal "Tonen", header.at_css("nav > form button").text.strip
+    assert_equal %w[patch delete], header.css('nav > form input[name="_method"]').map { |input| input["value"] }
+    assert_equal "Uitloggen", header.css("nav > form button").last.text.strip
   end
 
   def test_the_demo_shows_an_edit_row_with_delete_first

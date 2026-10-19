@@ -14,7 +14,7 @@
 - **Title bar is a wrapping row** — `main > header nav` lays its controls out left to right (`flex-direction: row; flex-wrap: wrap`) on every width. On a phone the controls wrap instead of scrolling sideways. It was a column on desktop.
 
 ### Upgrading
-1. Build a pull-down menu as `<details><summary>Actions</summary><ul><li><a>…</a></li></ul></details>` inside the `<nav>` of `main > header`.
+1. Build a pull-down menu as `<details><summary>Actions</summary><ul><li><a>…</a></li></ul></details>` as a direct child of the `<nav>` of `main > header`. A menu nested deeper, such as in `nav > ul > li`, picks up the sidebar rules instead.
 2. On a table that should stack, add `data-stack="narrow"`, `"medium"` or `"wide"` and `role="table"`.
 3. Give the stacking table's parts `role="rowgroup"` on `thead` and `tbody`, `role="row"` on each `tr`, `role="columnheader"` on each `th` and `role="cell"` on each `td`.
 4. Add `data-label` with the column's name to every `td` of a stacking table.

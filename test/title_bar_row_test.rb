@@ -27,6 +27,16 @@ class TitleBarRowTest < Minitest::Test
     end
   end
 
+  def test_the_title_bar_heading_wraps_instead_of_widening_the_page
+    each_source(HEADER) do |name, css|
+      rule = rule_body(css, "main > header h1")
+
+      assert_includes rule, "min-inline-size: 0;", name
+      assert_includes rule, "overflow-wrap: anywhere;", name
+      refute_includes rule, "hyphens", name
+    end
+  end
+
   def test_the_sidebar_nav_stays_a_column
     column = rule_body(partial("2_modules/10_navigation.css"), "header nav")
 

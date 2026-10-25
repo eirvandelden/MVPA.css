@@ -186,7 +186,13 @@ Departures from the plan, made in the commit that needed them:
 - The radio-hiding rule is gated with `R` (`R > li > label > input[type="radio"]`), not the bare `menu > li > label > input[type="radio"]`, so the invariant "no ungated menu rule sets more than custom properties" holds.
 - `test/details_menu_test.rb` `test_sidebar_details_are_not_styled_as_a_menu` excludes the tab-bar badge rule from its `position: absolute` check; that rule is new and intended.
 - Gates `L` and `R` are written without a comma inside `:not()` (two chained `:not(:has())` for `R`), so selector-list scans stay simple. Behaviour is the same.
-- The browser matrix (Order of work, step 12) is pending: no browser run was possible in this session. Every browser `check:` line is unverified.
+- Browser matrix (Order of work, step 12), run by the coordinator on 2026-10-25 after the round-1 fixes:
+  - Chrome (headless, driven over the DevTools protocol): `main` at 76.9rem shows the period switch as a row, and at 39.4rem as a column. Tab from "Zonder categorie" lands on the checked "Beheerder" radio with `:focus-visible` and a 2px solid outline on its segment. ArrowLeft checks "Lid", which turns weight 600 while "Beheerder" drops to 500. "Opslaan" submits `?role=lid`. A click on the disabled "Beheerder" keeps "Lid" checked, and its segment is dimmed. "Vorig jaar" navigates (`#segmented-control`). The zero badge has `display: none`, and a `<data>` in a table cell keeps a transparent background. At 320px `scrollWidth` equals the viewport, and the title heading wraps to four lines inside it.
+  - Chrome, badge and selected-segment contrast per theme (badge / current-link badge / tile badge / selected segment): solunized-light 5.49 / 5.49 / 5.49 / 13.67; solunized-dark 3.19 / 3.19 / 3.19 / 5.40; solunized-white 5.49 / 5.49 / 5.49 / 12.55; solunized-black 3.19 / 3.19 / 3.19 / 7.20; eink-light 21 / 21 / 21 / 21; eink-dark 21 / 21 / 21 / 21. The 3.19 in the dark Solunized themes is the white text Etienne chose.
+  - Chrome screenshots of all six themes at desktop width, and of the phone width in a 390px frame: the track, the raised selection, the hairline on dark, the flat e-ink look and the badges read as intended. The tab-bar badge sits in the item's corner.
+  - Firefox (headless screenshots): solunized-light and solunized-dark render the same as Chrome.
+  - iOS Safari 26 (iPhone 17 Pro Simulator, served over local HTTP): the period switch stacks full width with "Deze maand" raised, the long heading wraps, and on eink-dark the badges read (black text on a white pill, a black pill on the current tab) with the zero badge hidden.
+  - Unverified: desktop Safari, and Safari or iOS older than 26, down to the 16.4 target. No such runtime was available. Keyboard, form and focus behaviour ran in Chrome only.
 
 ## Order of work
 

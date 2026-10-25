@@ -4,6 +4,9 @@ require "minitest/autorun"
 # floating sidebar gutter, card shadow, nav link hover polish) is present in
 # both the source partials and the packaged mvpa.css manifest.
 class ElevationDepthSystemTest < Minitest::Test
+  WIGGLE_RULE = "a:not([class]):not(body > header nav a, " \
+                "menu:has(> li > a):not(:has(> li > :not(a))) > li > a, a:has(> data)) {".freeze
+
   def test_shell_gutter_token_defined
     assert_includes variables_css, "--shell-gutter: 0.625rem;"
     assert_includes packaged_manifest, "--shell-gutter: 0.625rem;"
@@ -59,9 +62,9 @@ class ElevationDepthSystemTest < Minitest::Test
   end
 
   def test_sidebar_links_do_not_get_generic_underline_wiggle
-    assert_includes animations_css, "a:not([class]):not(body > header nav a, menu > li > a) {"
+    assert_includes animations_css, WIGGLE_RULE
     refute_includes animations_css, "a:not([class]) {\n"
-    assert_includes packaged_manifest, "a:not([class]):not(body > header nav a, menu > li > a) {"
+    assert_includes packaged_manifest, WIGGLE_RULE
   end
 
   def test_sidebar_links_get_hover_lift

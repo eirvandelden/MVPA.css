@@ -6,6 +6,8 @@ class SegmentedControlTest < Minitest::Test
   include CssSourceHelper
 
   PARTIAL = "2_modules/13_segmented_control.css".freeze
+  WIGGLE = "a:not([class]):not(body > header nav a, " \
+           "menu:has(> li > a):not(:has(> li > :not(a))) > li > a, a:has(> data))".freeze
   VIEW_SWITCH = "menu:has(> li > a):not(:has(> li > :not(a)))".freeze
   FORM_CHOICE = 'menu:has(> li > label > input[type="radio"]):not(:has(> li > :not(label)))' \
                 ':not(:has(> li > label > input:not([type="radio"])))'.freeze
@@ -175,9 +177,16 @@ name
 
   def test_segment_links_get_no_wiggle_underline
     each_source("0_base/3_animations.css") do |name, css|
-      assert_includes css, "a:not([class]):not(body > header nav a, menu > li > a) {", name
-      assert_includes css, "a:not([class]):not(body > header nav a, menu > li > a)::after {", name
-      assert_includes css, "a:not([class]):not(body > header nav a, menu > li > a):hover::after {", name
+      assert_includes css, "#{WIGGLE} {", name
+      assert_includes css, "#{WIGGLE}::after {", name
+      assert_includes css, "#{WIGGLE}:hover::after {", name
+    end
+  end
+
+  # Only a view switch drops the wiggle; a link in a mixed <menu> keeps its plain look, hover included.
+  def test_a_link_in_a_mixed_menu_keeps_the_wiggle_underline
+    each_source("0_base/3_animations.css") do |name, css|
+      refute_includes css, "menu > li > a) {", name
     end
   end
 

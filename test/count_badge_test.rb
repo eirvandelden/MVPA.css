@@ -58,6 +58,13 @@ css.index('a[aria-current]:not([aria-current="false"]) data'), name
     end
   end
 
+  # The hover underline spans the whole link box, so it would run under the pill.
+  def test_a_link_with_a_badge_gets_no_wiggle_underline
+    each_source("0_base/3_animations.css") do |name, css|
+      assert_match(/a:not\(\[class\]\):not\([^{]*, a:has\(> data\)\)::after \{/, css, name)
+    end
+  end
+
   def test_every_badge_selector_needs_a_link_ancestor
     selectors = partial(PARTIAL).scan(/([^{}]+)\{/).flatten.map { |s| s.gsub(%r{/\*.*?\*/}m, "") }
 

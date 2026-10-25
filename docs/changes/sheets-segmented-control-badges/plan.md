@@ -192,7 +192,7 @@ Departures from the plan, made in the commit that needed them:
   - Chrome screenshots of all six themes at desktop width, and of the phone width in a 390px frame: the track, the raised selection, the hairline on dark, the flat e-ink look and the badges read as intended. The tab-bar badge sits in the item's corner.
   - Firefox (headless screenshots): solunized-light and solunized-dark render the same as Chrome.
   - iOS Safari 26 (iPhone 17 Pro Simulator, served over local HTTP): the period switch stacks full width with "Deze maand" raised, the long heading wraps, and on eink-dark the badges read (black text on a white pill, a black pill on the current tab) with the zero badge hidden.
-  - Unverified: desktop Safari, and Safari or iOS older than 26, down to the 16.4 target. No such runtime was available. Keyboard, form and focus behaviour ran in Chrome only.
+  - Unverified: desktop Safari 27, which is installed but has no headless mode. Driving it needs `safaridriver` with "Allow Remote Automation" turned on, a system setting an agent may not change (playbook rule 8), and a window screenshot would take over Etienne's screen. iOS Safari 26 covers the same WebKit engine. Also unverified: Safari and iOS older than 26, down to the 16.4 target, because no such runtime is installed. Keyboard, form and focus behaviour ran in Chrome only.
 
 ## Order of work
 

@@ -39,6 +39,20 @@ class ReadmeTest < Minitest::Test
     assert_includes buttons_section, '<input type="hidden" name="_method" value="delete">'
   end
 
+  def test_readme_shows_view_switch_and_form_choice_markup
+    assert_includes segmented_section, '<menu><li><a href="?period=month" aria-current="page">Deze maand</a></li>'
+    assert_includes segmented_section, '<menu><li><label><input type="radio" name="role" value="lid"> Lid</label></li>'
+    assert_includes segmented_section, "<legend>Rol</legend>"
+    assert_includes segmented_section, "aria-current"
+    assert_includes segmented_section, "main > header nav"
+  end
+
+  def test_readme_shows_the_count_badge_markup
+    assert_includes badges_section, '<a href="/categorise">Categoriseren <data value="12">12</data></a>'
+    assert_includes badges_section, 'value="0"'
+    assert_includes readme, "main > header h1"
+  end
+
   private
 
   def stylesheet_links
@@ -55,5 +69,13 @@ class ReadmeTest < Minitest::Test
 
   def buttons_section
     readme[/^### Buttons.*?(?=^### Tables)/m]
+  end
+
+  def segmented_section
+    readme[/^### Segmented control.*?(?=^### )/m].to_s
+  end
+
+  def badges_section
+    readme[/^### Count badges.*?(?=^### )/m].to_s
   end
 end

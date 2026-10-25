@@ -180,6 +180,14 @@ Not affected: no database, no requests, no JavaScript. Each `:has()` uses child 
 - `test/segmented_control_test.rb`, `test/count_badge_test.rb`, `test/demo_segmented_control_and_badges_test.rb` — new.
 - `test/title_bar_row_test.rb`, `test/eink_theme_test.rb`, `test/mobile_navigation_test.rb`, `test/readme_test.rb`, `test/changelog_upgrading_test.rb`, `test/elevation_depth_system_test.rb` — extended or updated as listed under Proof.
 
+## Implementation notes
+
+Departures from the plan, made in the commit that needed them:
+- The radio-hiding rule is gated with `R` (`R > li > label > input[type="radio"]`), not the bare `menu > li > label > input[type="radio"]`, so the invariant "no ungated menu rule sets more than custom properties" holds.
+- `test/details_menu_test.rb` `test_sidebar_details_are_not_styled_as_a_menu` excludes the tab-bar badge rule from its `position: absolute` check; that rule is new and intended.
+- Gates `L` and `R` are written without a comma inside `:not()` (two chained `:not(:has())` for `R`), so selector-list scans stay simple. Behaviour is the same.
+- The browser matrix (Order of work, step 12) is pending: no browser run was possible in this session. Every browser `check:` line is unverified.
+
 ## Order of work
 
 1. Write `test/demo_segmented_control_and_badges_test.rb` `test_the_demo_period_view_switch_has_five_links_with_deze_maand_current` (walking skeleton), run it, watch it fail on the missing markup.

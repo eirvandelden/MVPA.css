@@ -5,7 +5,7 @@ require "minitest/autorun"
 # both the source partials and the packaged mvpa.css manifest.
 class ElevationDepthSystemTest < Minitest::Test
   WIGGLE_RULE = "a:not([class]):not(body > header nav a, " \
-                "menu:has(> li > a):not(:has(> li > :not(a))) > li > a, a:has(> data)) {".freeze
+                "menu:has(> li > a):not(:has(> li > :not(a))) > li > a, a:has(data:not([value=\"0\"]))) {".freeze
 
   def test_shell_gutter_token_defined
     assert_includes variables_css, "--shell-gutter: 0.625rem;"

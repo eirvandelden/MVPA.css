@@ -239,12 +239,12 @@
 
   /* Links: Underline wiggle on hover. Not sidebar nav links (they get their own
      pill-background + lift hover, see 2_modules/10_navigation.css), not view-switch
-     segments, and not a link with a count badge (the underline would run under the pill). */
-  a:not([class]):not(body > header nav a, menu:has(> li > a):not(:has(> li > :not(a))) > li > a, a:has(> data)) {
+     segments, and not a link with a visible count badge (the underline would run under the pill). */
+  a:not([class]):not(body > header nav a, menu:has(> li > a):not(:has(> li > :not(a))) > li > a, a:has(data:not([value="0"]))) {
     position: relative;
   }
 
-  a:not([class]):not(body > header nav a, menu:has(> li > a):not(:has(> li > :not(a))) > li > a, a:has(> data))::after {
+  a:not([class]):not(body > header nav a, menu:has(> li > a):not(:has(> li > :not(a))) > li > a, a:has(data:not([value="0"])))::after {
     content: "";
     position: absolute;
     bottom: -2px;
@@ -257,7 +257,7 @@
     transition: transform var(--animation-duration) ease-out;
   }
 
-  a:not([class]):not(body > header nav a, menu:has(> li > a):not(:has(> li > :not(a))) > li > a, a:has(> data)):hover::after {
+  a:not([class]):not(body > header nav a, menu:has(> li > a):not(:has(> li > :not(a))) > li > a, a:has(data:not([value="0"]))):hover::after {
     animation: link-underline-wiggle var(--animation-duration) var(--animation-spring);
     transform: scaleX(1);
   }

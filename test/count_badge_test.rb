@@ -59,9 +59,10 @@ css.index('a[aria-current]:not([aria-current="false"]) data'), name
   end
 
   # The hover underline spans the whole link box, so it would run under the pill.
+  # A hidden zero badge shows no pill, so its link keeps the underline; a nested badge is a pill too.
   def test_a_link_with_a_badge_gets_no_wiggle_underline
     each_source("0_base/3_animations.css") do |name, css|
-      assert_match(/a:not\(\[class\]\):not\([^{]*, a:has\(> data\)\)::after \{/, css, name)
+      assert_includes css, ', a:has(data:not([value="0"])))::after {', name
     end
   end
 

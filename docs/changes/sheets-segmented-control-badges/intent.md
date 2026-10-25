@@ -91,6 +91,8 @@ Semantic markup gets a segmented control and a count badge from mvpa.css alone, 
 - The badge is an attention pill in the primary colour — no reason given.
 - A landing tile shows the same badge, and mvpa.css adds no tile styles — no reason given.
 - Autonomous delivery without a Codex review, and no extra permissions — no reason given.
+- Badge text is white in every theme, also where it reaches only 3.19:1 on the dark-theme blue (settled 2026-10-25 at the plan escalation) — no reason given.
+- A badge inside a segmented control keeps the normal primary pill, also on the selected segment; only an `aria-current` link outside a `<menu>` inverts it (settled 2026-10-25 at the plan escalation) — the inverted pill's edge is faint on the raised segment.
 
 ## Open questions
 

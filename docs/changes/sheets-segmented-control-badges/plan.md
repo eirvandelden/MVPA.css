@@ -101,9 +101,10 @@ CSS, not Ruby: each touched partial with its one-line summary, then the selector
 Not supported: a view switch inside `main > header nav`. There `main > header nav a:not([role="button"]):visited` (0,2,4) outranks the link face (0,1,7). README says to place a view switch in the page content.
 
 `2_modules/14_count_badge.css` (new) — a `<data value>` inside a link renders as a count pill.
-- `:where(a data)` (0,0,0) — `--badge-bg: var(--color-primary); --badge-fg: var(--color-bg)`.
+- `:where(a data)` (0,0,0) — `--badge-bg: var(--color-primary); --badge-fg: oklch(100% 0 0)`. White text in every theme, as a literal colour (no white token exists), settled by Etienne on 2026-10-25.
 - `a data` (0,0,2) — `display: inline-block; min-inline-size: 1.6em; padding-inline: 0.5em; margin-inline-start: var(--inline-space-half); border-radius: 999px; background-color: var(--badge-bg); color: var(--badge-fg); font-size: var(--text-x-small); font-weight: 600; line-height: var(--line-height-normal); text-align: center; white-space: nowrap; font-variant-numeric: tabular-nums`. `inline-block` stops the link's underline from reaching the pill.
-- `a[aria-current]:not([aria-current="false"]) data` (0,2,2) — `--badge-bg: var(--color-bg); --badge-fg: var(--color-primary)`.
+- `a[aria-current]:not([aria-current="false"]) data` (0,2,2) — `--badge-bg: oklch(100% 0 0); --badge-fg: var(--color-primary)`: a white pill with primary text.
+- `menu > li > a data` — keeps the normal primary pill, also on a selected segment: reset `--badge-bg: var(--color-primary); --badge-fg: oklch(100% 0 0)` with a selector that outranks the inversion rule (for example `menu > li > a[aria-current]:not([aria-current="false"]) data`).
 - `a data[value="0"]` (0,1,2) — `display: none`.
 
 `1_layout/0_header.css` — gains `main > header h1 { min-inline-size: 0; overflow-wrap: anywhere; }`. No `hyphens`.
@@ -140,8 +141,8 @@ Not affected: no database, no requests, no JavaScript. Each `:has()` uses child 
 
 ## Design decisions
 
-- **Badge text colour is `--color-bg`, not `--color-bg-lightest`. This conflicts with `intent.md`.** `intent.md` asks for "light text" on the pill and a light pill on a current link, and for every theme to read correctly. Computed WCAG contrast of primary against each candidate (oklch → sRGB): light 4.59 (`--color-bg`) / 5.34 (`--color-bg-lightest`) / 5.49 (white); white 4.85 / 5.49 / 5.49; dark 4.69 / 2.28 / 3.19; black 5.93 / 3.73 / 3.19. No light text reaches 4.5:1 on the dark-theme blue, so the plan uses `--color-bg`: light text and a light inverted pill in light themes, dark text and a dark inverted pill in dark themes, the same pair as the sidebar's current link. Raised as a decision.
-- **The inverted badge applies to every link with `aria-current`, including a selected view-switch segment.** That follows `intent.md` literally. Inside a selected segment the inverted pill (canvas colour) sits on the raised segment surface, so the pill edge is faint while the number stays readable in primary. Raised as a decision.
+- **Badge text is white in every theme (settled by Etienne, 2026-10-25).** The plan proposed `--color-bg` because no light text reaches 4.5:1 on the dark-theme blue (white 3.19 on solunized-dark and solunized-black). Etienne chose white everywhere and accepts that contrast in the dark themes. The inverted pill on a current link is white with primary text.
+- **Inside a segmented control the badge keeps the normal primary pill (settled by Etienne, 2026-10-25),** also on the selected segment. Only an `aria-current` link outside a `<menu>` inverts the pill, because the inverted pill's edge is faint on the raised segment.
 - **Selected segment gets `font-weight: 600`** in every theme, so selection is not shown by colour or shadow alone (e-ink has no shadow).
 - **Disabled segment is dimmed with `--color-fg-lighter`, not `opacity`**, so e-ink shows no see-through fill.
 - **The phone tab bar places a badge in the item's corner.** The tab item is a fixed-height column; a third line would overflow it. Intent names the sidebar; the tab bar is the same nav on a phone.
@@ -218,7 +219,7 @@ Out of scope (from `intent.md`): sheets and any `<dialog>` change; dialog-openin
 - Tabbing shows a focus ring; arrows move the choice; saving sends the checked role → `test/segmented_control_test.rb` `test_a_focused_radio_rings_its_segment`; check: in `demo.html` Tab into "Rol", see the ring, press ← and →, see the raised segment move; submit the form and see `role=…` in the URL query.
 - Disabled "Beheerder" is dimmed and not selectable → `test/demo_segmented_control_and_badges_test.rb` `test_the_demo_has_a_disabled_beheerder_choice`; `test/segmented_control_test.rb` `test_a_disabled_radio_dims_its_segment`; check: click it in `demo.html`, the choice does not change.
 - Sidebar link with `<data value="12">12</data>` shows a primary pill after the label → `test/count_badge_test.rb` `test_data_in_a_link_is_a_primary_pill`; `test/demo_segmented_control_and_badges_test.rb` `test_the_sidebar_shows_badges_including_on_the_current_link`.
-- The badge on the current link inverts and stays readable → `test/count_badge_test.rb` `test_the_badge_inverts_on_a_current_link`; check: look at "🏠 Introduction" in every theme.
+- The badge on the current link inverts and stays readable → `test/count_badge_test.rb` `test_the_badge_inverts_on_a_current_link` and `test_a_badge_in_a_segmented_control_stays_primary`; check: look at "🏠 Introduction" in every theme.
 - `<data value="0">0</data>` shows no pill → `test/count_badge_test.rb` `test_a_zero_badge_is_hidden`; `test/demo_segmented_control_and_badges_test.rb` `test_the_demo_has_a_zero_badge`.
 - `<data value="1234">` stays on one line in a wider pill → `test/count_badge_test.rb` `test_a_long_number_stays_on_one_line_with_tabular_figures`; `test/demo_segmented_control_and_badges_test.rb` `test_the_demo_has_a_four_digit_badge`.
 - `<data value="5000">` in a table cell looks as before → `test/count_badge_test.rb` `test_every_badge_selector_needs_a_link_ancestor`; `test/responsive_tables_test.rb` `test_time_and_data_in_a_cell_never_wrap` (unchanged).

@@ -1,0 +1,41 @@
+/*
+ * Count badge
+ * A <data value> inside a link is a count pill after the link text. value="0"
+ * hides it, so an app can always render the badge. On the current link the pill
+ * inverts. Inside a segmented control it keeps the normal pill.
+ */
+
+:where(a data) {
+  --badge-bg: var(--color-primary);
+  --badge-fg: oklch(100% 0 0);
+}
+
+a data {
+  display: inline-block;
+  min-inline-size: 1.6em;
+  padding-inline: 0.5em;
+  margin-inline-start: var(--inline-space-half);
+  border-radius: 999px;
+  background-color: var(--badge-bg);
+  color: var(--badge-fg);
+  font-size: var(--text-x-small);
+  font-weight: 600;
+  line-height: var(--line-height-normal);
+  text-align: center;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+a[aria-current]:not([aria-current="false"]) data {
+  --badge-bg: oklch(100% 0 0);
+  --badge-fg: var(--color-primary);
+}
+
+menu > li > a[aria-current]:not([aria-current="false"]) data {
+  --badge-bg: var(--color-primary);
+  --badge-fg: oklch(100% 0 0);
+}
+
+a data[value="0"] {
+  display: none;
+}

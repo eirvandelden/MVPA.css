@@ -2103,7 +2103,8 @@ menu:has(> li > label > input[type="radio"]):not(:has(> li > :not(label))):not(:
   cursor: pointer;
 }
 
-menu:has(> li > a):not(:has(> li > :not(a))) > li > a:any-link:hover {
+menu:has(> li > a):not(:has(> li > :not(a))) > li > a:any-link:hover,
+menu:has(> li > label > input[type="radio"]):not(:has(> li > :not(label))):not(:has(> li > label > input:not([type="radio"]))) > li > label:has(> input[type="radio"]:enabled:not(:checked)):hover {
   color: var(--segment-fg);
   background-color: color-mix(in oklch, var(--segment-track), var(--color-bg-lightest) 50%);
   box-shadow: none;

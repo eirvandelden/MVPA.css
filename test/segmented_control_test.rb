@@ -175,6 +175,17 @@ name
     end
   end
 
+  # One look for both kinds: a radio segment that can still be chosen tints on hover like a link segment.
+  def test_a_radio_segment_tints_on_hover_like_a_link_segment
+    each_source(PARTIAL) do |name, css|
+      tint = "background-color: color-mix(in oklch, var(--segment-track), var(--color-bg-lightest) 50%);"
+      hover = rule_body(css, "#{FORM_CHOICE} > li > label:has(> input[type=\"radio\"]:enabled:not(:checked)):hover")
+
+      assert_includes hover, tint, name
+      assert_includes rule_body(css, "#{VIEW_SWITCH} > li > a:any-link:hover"), tint, name
+    end
+  end
+
   def test_segment_links_get_no_wiggle_underline
     each_source("0_base/3_animations.css") do |name, css|
       assert_includes css, "#{WIGGLE} {", name

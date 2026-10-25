@@ -1,0 +1,125 @@
+/*
+ * Segmented control
+ * A <menu> of links (view switch) or of radios (form choice) is one row of joined
+ * segments on a tinted track. The selected segment is raised on the page surface.
+ * Two strict gates decide which <menu> qualifies: every item is a link, or every
+ * item is a label holding only a radio. Any other <menu> keeps its plain look.
+ * Place a view switch in the page content, not in "main > header nav".
+ */
+
+:where(
+  menu:has(> li > a):not(:has(> li > :not(a))),
+  menu:has(> li > label > input[type="radio"]):not(:has(> li > :not(label))):not(:has(> li > label > input:not([type="radio"])))
+) {
+  --segment-track: color-mix(in oklch, var(--color-bg), var(--color-fg) 12%);
+  --segment-fg: var(--color-fg);
+  --segment-selected-bg: var(--color-bg-lightest);
+  --segment-selected-fg: var(--color-fg-darkest);
+  --segment-edge: transparent;
+  --segment-shadow: var(--shadow-1);
+}
+
+menu:has(> li > a):not(:has(> li > :not(a))),
+menu:has(> li > label > input[type="radio"]):not(:has(> li > :not(label))):not(:has(> li > label > input:not([type="radio"]))) {
+  display: flex;
+  gap: 2px;
+  padding: 2px;
+  margin-inline: 0;
+  list-style: none;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  border: 1px solid var(--segment-edge);
+  border-radius: var(--radius);
+  background-color: var(--segment-track);
+}
+
+fieldset > menu:has(> li > label > input[type="radio"]):not(:has(> li > :not(label))):not(:has(> li > label > input:not([type="radio"]))) {
+  grid-column: 1 / -1;
+  justify-self: start;
+}
+
+menu:has(> li > a):not(:has(> li > :not(a))) > li,
+menu:has(> li > label > input[type="radio"]):not(:has(> li > :not(label))):not(:has(> li > label > input:not([type="radio"]))) > li {
+  display: flex;
+  flex: 1 1 auto;
+  margin: 0;
+}
+
+menu:has(> li > a):not(:has(> li > :not(a))) > li > a:any-link,
+menu:has(> li > label > input[type="radio"]):not(:has(> li > :not(label))):not(:has(> li > label > input:not([type="radio"]))) > li > label {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-block-size: var(--touch-target);
+  padding-inline: var(--inline-space);
+  margin: 0;
+  border: 1px solid transparent;
+  border-radius: calc(var(--radius) - 2px);
+  color: var(--segment-fg);
+  background-color: transparent;
+  text-decoration: none;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+menu:has(> li > a):not(:has(> li > :not(a))) > li > a:any-link:hover {
+  color: var(--segment-fg);
+  background-color: color-mix(in oklch, var(--segment-track), var(--color-bg-lightest) 50%);
+  box-shadow: none;
+  transform: none;
+}
+
+menu:has(> li > a):not(:has(> li > :not(a))) > li > a:any-link[aria-current]:not([aria-current="false"]),
+menu:has(> li > label > input[type="radio"]):not(:has(> li > :not(label))):not(:has(> li > label > input:not([type="radio"]))) > li > label:has(> input[type="radio"]:checked) {
+  background-color: var(--segment-selected-bg);
+  color: var(--segment-selected-fg);
+  border-color: var(--segment-edge);
+  box-shadow: var(--segment-shadow);
+  font-weight: 600;
+}
+
+/* Visually hidden, still focusable and submitted: arrow keys and forms work natively. */
+menu:has(> li > label > input[type="radio"]):not(:has(> li > :not(label))):not(:has(> li > label > input:not([type="radio"]))) > li > label > input[type="radio"] {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: 0;
+  opacity: 0;
+  clip-path: inset(50%);
+}
+
+menu:has(> li > label > input[type="radio"]):not(:has(> li > :not(label))):not(:has(> li > label > input:not([type="radio"]))) > li > label:has(> input[type="radio"]:focus-visible) {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+menu:has(> li > label > input[type="radio"]):not(:has(> li > :not(label))):not(:has(> li > label > input:not([type="radio"]))) > li > label:has(> input[type="radio"]:disabled) {
+  color: var(--color-fg-lighter);
+  cursor: not-allowed;
+}
+
+/* Shadows barely read against a dark background; use a hairline edge instead. */
+[data-theme="solunized-dark"] menu,
+[data-theme="solunized-black"] menu {
+  --segment-shadow: none;
+  --segment-edge: color-mix(in oklch, var(--color-fg) 14%, transparent);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) menu {
+    --segment-shadow: none;
+    --segment-edge: color-mix(in oklch, var(--color-fg) 14%, transparent);
+  }
+}
+
+/* Segments that do not fit stack: one per line, full width. */
+@container (width < 45rem) {
+  menu:has(> li > a):not(:has(> li > :not(a))),
+  menu:has(> li > label > input[type="radio"]):not(:has(> li > :not(label))):not(:has(> li > label > input:not([type="radio"]))) {
+    flex-direction: column;
+    inline-size: 100%;
+  }
+}

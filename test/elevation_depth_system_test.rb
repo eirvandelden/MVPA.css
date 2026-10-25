@@ -59,9 +59,9 @@ class ElevationDepthSystemTest < Minitest::Test
   end
 
   def test_sidebar_links_do_not_get_generic_underline_wiggle
-    assert_includes animations_css, "a:not([class]):not(body > header nav a) {"
+    assert_includes animations_css, "a:not([class]):not(body > header nav a, menu > li > a) {"
     refute_includes animations_css, "a:not([class]) {\n"
-    assert_includes packaged_manifest, "a:not([class]):not(body > header nav a) {"
+    assert_includes packaged_manifest, "a:not([class]):not(body > header nav a, menu > li > a) {"
   end
 
   def test_sidebar_links_get_hover_lift

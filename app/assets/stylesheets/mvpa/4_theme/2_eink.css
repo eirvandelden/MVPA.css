@@ -556,3 +556,8 @@
   --segment-edge: white;
   --segment-shadow: none;
 }
+
+/* Count badge: the primary is white here, so the pill's text turns black. */
+[data-theme="eink-dark"] a data {
+  --badge-contrast: black;
+}

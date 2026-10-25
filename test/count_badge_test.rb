@@ -12,8 +12,9 @@ class CountBadgeTest < Minitest::Test
       tokens = rule_body(css, ":where(a data)")
       pill = rule_body(css, "a data")
 
+      assert_includes tokens, "--badge-contrast: oklch(100% 0 0);", name
       assert_includes tokens, "--badge-bg: var(--color-primary);", name
-      assert_includes tokens, "--badge-fg: oklch(100% 0 0);", name
+      assert_includes tokens, "--badge-fg: var(--badge-contrast);", name
       assert_includes pill, "border-radius: 999px;", name
       assert_includes pill, "background-color: var(--badge-bg);", name
       assert_includes pill, "color: var(--badge-fg);", name
@@ -41,7 +42,7 @@ class CountBadgeTest < Minitest::Test
     each_source(PARTIAL) do |name, css|
       inverted = rule_body(css, 'a[aria-current]:not([aria-current="false"]) data')
 
-      assert_includes inverted, "--badge-bg: oklch(100% 0 0);", name
+      assert_includes inverted, "--badge-bg: var(--badge-contrast);", name
       assert_includes inverted, "--badge-fg: var(--color-primary);", name
     end
   end
@@ -51,7 +52,7 @@ class CountBadgeTest < Minitest::Test
       kept = rule_body(css, 'menu > li > a[aria-current]:not([aria-current="false"]) data')
 
       assert_includes kept, "--badge-bg: var(--color-primary);", name
-      assert_includes kept, "--badge-fg: oklch(100% 0 0);", name
+      assert_includes kept, "--badge-fg: var(--badge-contrast);", name
       assert_operator css.index("menu > li > a[aria-current]"), :>,
 css.index('a[aria-current]:not([aria-current="false"]) data'), name
     end

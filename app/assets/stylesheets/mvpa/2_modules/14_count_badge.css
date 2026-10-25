@@ -6,8 +6,9 @@
  */
 
 :where(a data) {
+  --badge-contrast: oklch(100% 0 0);
   --badge-bg: var(--color-primary);
-  --badge-fg: oklch(100% 0 0);
+  --badge-fg: var(--badge-contrast);
 }
 
 a data {
@@ -27,13 +28,13 @@ a data {
 }
 
 a[aria-current]:not([aria-current="false"]) data {
-  --badge-bg: oklch(100% 0 0);
+  --badge-bg: var(--badge-contrast);
   --badge-fg: var(--color-primary);
 }
 
 menu > li > a[aria-current]:not([aria-current="false"]) data {
   --badge-bg: var(--color-primary);
-  --badge-fg: oklch(100% 0 0);
+  --badge-fg: var(--badge-contrast);
 }
 
 a data[value="0"] {

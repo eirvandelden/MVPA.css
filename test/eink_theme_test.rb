@@ -28,6 +28,16 @@ class EinkThemeTest < Minitest::Test
     end
   end
 
+  # eink-dark's primary is white, so the pill's contrast colour turns black: white text on a white pill is invisible.
+  def test_a_count_badge_stays_readable_on_the_dark_eink_theme
+    [ eink_partial, bundle ].each do |css|
+      rule = rule_body(css, '[data-theme="eink-dark"] a data')
+
+      assert_includes rule, "--badge-contrast: black;"
+      assert_empty rule.lines.map(&:strip).reject { |l| l.empty? || l.start_with?("--badge-") }
+    end
+  end
+
   def test_an_eink_reader_can_choose_the_eink_theme
     assert_includes eink_partial, '[data-theme="eink-light"]',
       "eink-light theme selector missing from source partial"

@@ -12,6 +12,22 @@ class EinkThemeTest < Minitest::Test
     '[data-theme="eink-dark"]' => %w[white black]
   }.freeze
 
+  def test_segmented_controls_stay_flat_on_the_eink_themes
+    {
+      '[data-theme="eink-light"] menu' => %w[oklch(87%\ 0\ 0) black],
+      '[data-theme="eink-dark"] menu' => %w[oklch(13%\ 0\ 0) white]
+    }.each do |selector, (track, edge)|
+      [ eink_partial, bundle ].each do |css|
+        rule = rule_body(css, selector)
+
+        assert_includes rule, "--segment-track: #{track};", selector
+        assert_includes rule, "--segment-edge: #{edge};", selector
+        assert_includes rule, "--segment-shadow: none;", selector
+        assert_empty rule.lines.map(&:strip).reject { |l| l.empty? || l.start_with?("--segment-") }, selector
+      end
+    end
+  end
+
   def test_an_eink_reader_can_choose_the_eink_theme
     assert_includes eink_partial, '[data-theme="eink-light"]',
       "eink-light theme selector missing from source partial"

@@ -97,6 +97,11 @@
   border: 1px solid black;
 }
 
+[data-theme="eink-light"] nav:not(header nav):has(> a:first-child + :is(h2, h3, h4, h5, h6) + a:last-child) {
+  background-color: white;
+  border: 1px solid black;
+}
+
 [data-theme="eink-light"] header nav ul li > a:hover,
 [data-theme="eink-light"] header nav ul li > details > summary:hover {
   box-shadow: none;
@@ -365,6 +370,11 @@
 
 [data-theme="eink-dark"] article {
   box-shadow: none;
+  border: 1px solid white;
+}
+
+[data-theme="eink-dark"] nav:not(header nav):has(> a:first-child + :is(h2, h3, h4, h5, h6) + a:last-child) {
+  background-color: black;
   border: 1px solid white;
 }
 

@@ -5,6 +5,7 @@ require "minitest/autorun"
 class ChangelogUpgradingTest < Minitest::Test
   BUTTONS = "2026-10-13".freeze
   MENU = "2026-10-19".freeze
+  BADGES = "2026-10-25".freeze
 
   def test_the_buttons_entry_tells_apps_how_to_upgrade
     upgrading = entry(BUTTONS)[/^### Upgrading.*?(?=^### |\z)/m]
@@ -36,10 +37,10 @@ class ChangelogUpgradingTest < Minitest::Test
     assert_equal [ "### Added", "### Changed", "### Upgrading" ], entry(MENU).scan(/^### .*/)
   end
 
-  def test_the_latest_entry_tells_apps_how_to_adopt_segmented_controls_and_badges
-    upgrading = latest_entry[/^### Upgrading.*?(?=^### |\z)/m]
+  def test_the_badges_entry_tells_apps_how_to_adopt_segmented_controls_and_badges
+    upgrading = entry(BADGES)[/^### Upgrading.*?(?=^### |\z)/m]
 
-    refute_nil upgrading, "the latest changelog entry has no ### Upgrading subsection"
+    refute_nil upgrading, "the badges changelog entry has no ### Upgrading subsection"
     [ "13_segmented_control.css", "14_count_badge.css", "<select>", "<menu>", "aria-current", "<label>", "<data value",
 "value=\"0\"", "main > header h1", "main > header nav" ].each do |text|
       assert_includes upgrading, text
@@ -47,9 +48,26 @@ class ChangelogUpgradingTest < Minitest::Test
     assert_equal 7, upgrading.scan(/^\d+\. /).size
   end
 
-  def test_the_latest_entry_lists_what_was_added_and_changed_and_ends_with_upgrading
-    assert_equal [ "### Added", "### Changed", "### Upgrading" ], latest_entry.scan(/^### .*/)
-    refute_equal entry(MENU), latest_entry
+  def test_the_badges_entry_lists_what_was_added_and_changed_and_ends_with_upgrading
+    assert_equal [ "### Added", "### Changed", "### Upgrading" ], entry(BADGES).scan(/^### .*/)
+    refute_equal entry(MENU), entry(BADGES)
+  end
+
+  def test_the_latest_entry_tells_apps_how_to_replace_their_week_navigation_class
+    upgrading = latest_entry[/^### Upgrading.*?(?=^### |\z)/m]
+
+    refute_nil upgrading, "the latest changelog entry has no ### Upgrading subsection"
+    [ 'class="week-navigation"', "<h2>", "<header>", "@media (max-width: 768px)", "@import",
+"Optional", "15_period_navigation.css" ].each do |text|
+      assert_includes upgrading, text
+    end
+    assert_match(/^1\. /, upgrading)
+    refute_match(/pin|bundle update/, upgrading, "every upgrade bumps the pin, so the steps leave it out")
+  end
+
+  def test_the_latest_entry_lists_what_was_added_and_ends_with_upgrading
+    assert_equal [ "### Added", "### Upgrading" ], latest_entry.scan(/^### .*/)
+    refute_equal entry(BADGES), latest_entry
   end
 
   private

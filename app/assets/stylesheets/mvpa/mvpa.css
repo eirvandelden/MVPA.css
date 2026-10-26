@@ -2205,6 +2205,66 @@ a data[value="0"] {
   display: none;
 }
 /*
+ * Period navigation
+ * A <nav> outside a <header> whose children are exactly a link, a heading and a
+ * link is one tinted bar: the previous link at the start, the period label
+ * centred, the next link at the end. A link inside the label, such as "Today",
+ * flows next to the label text. Below 768px the parts stack in one column.
+ */
+
+nav:not(header nav):has(> a:first-child + :is(h2, h3, h4, h5, h6) + a:last-child) {
+  display: grid;
+  grid-template-columns: minmax(min-content, 1fr) fit-content(50%) minmax(min-content, 1fr);
+  align-items: center;
+  column-gap: var(--inline-space-double);
+  margin-block-end: var(--block-space);
+  padding: var(--block-space);
+  border-radius: var(--radius-small);
+  background-color: var(--color-bg-lighter);
+  overflow-wrap: anywhere;
+}
+
+article nav:not(header nav):has(> a:first-child + :is(h2, h3, h4, h5, h6) + a:last-child) {
+  background-color: var(--color-bg);
+}
+
+/* A link wraps only between words, so a long label never squeezes it to one letter per line. */
+nav:not(header nav):has(> a:first-child + :is(h2, h3, h4, h5, h6) + a:last-child) > a {
+  overflow-wrap: normal;
+}
+
+nav:not(header nav):has(> a:first-child + :is(h2, h3, h4, h5, h6) + a:last-child) > a:first-child {
+  justify-self: start;
+}
+
+nav:not(header nav):has(> a:first-child + :is(h2, h3, h4, h5, h6) + a:last-child) > a:last-child {
+  justify-self: end;
+  text-align: end;
+}
+
+nav:not(header nav):has(> a:first-child + :is(h2, h3, h4, h5, h6) + a:last-child) > :is(h2, h3, h4, h5, h6) {
+  margin: 0;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  nav:not(header nav):has(> a:first-child + :is(h2, h3, h4, h5, h6) + a:last-child) {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    row-gap: var(--block-space-half);
+  }
+
+  nav:not(header nav):has(> a:first-child + :is(h2, h3, h4, h5, h6) + a:last-child) > a:first-child,
+  nav:not(header nav):has(> a:first-child + :is(h2, h3, h4, h5, h6) + a:last-child) > a:last-child {
+    justify-self: center;
+    text-align: center;
+  }
+
+  nav:not(header nav):has(> a:first-child + :is(h2, h3, h4, h5, h6) + a:last-child) > :is(h2, h3, h4) {
+    font-size: var(--text-medium);
+  }
+}
+/*
  * Solunized color definitions.
  *
  * Uses prefers-color-scheme for automatic light/dark switching.
@@ -2602,6 +2662,11 @@ html[data-color-scheme="system"] {
   border: 1px solid black;
 }
 
+[data-theme="eink-light"] nav:not(header nav):has(> a:first-child + :is(h2, h3, h4, h5, h6) + a:last-child) {
+  background-color: white;
+  border: 1px solid black;
+}
+
 [data-theme="eink-light"] header nav ul li > a:hover,
 [data-theme="eink-light"] header nav ul li > details > summary:hover {
   box-shadow: none;
@@ -2870,6 +2935,11 @@ html[data-color-scheme="system"] {
 
 [data-theme="eink-dark"] article {
   box-shadow: none;
+  border: 1px solid white;
+}
+
+[data-theme="eink-dark"] nav:not(header nav):has(> a:first-child + :is(h2, h3, h4, h5, h6) + a:last-child) {
+  background-color: black;
   border: 1px solid white;
 }
 

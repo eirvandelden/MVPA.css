@@ -214,6 +214,16 @@ Scroll-driven animations, anchor positioning and scroll-state queries would allo
 9. Run `bundle exec rake test`, `bundle exec rubocop`, `npm run lint:css`, `npm run lint:browsers` and `yamllint --strict .`. Fix every finding in production code.
 10. Check by hand in a desktop browser, with a scratch page outside the repository that links the worktree's partials and copies `demo.html`'s shell. Check four cases: three links; three links with a long main; 30 links with a short main; 30 links with a long main, scrolled down. Check one phone-width case. Check one dark and one eink theme. Run the four desktop cases in Chrome, Firefox and Safari. Navigate between two of the `demo/page-transitions/*.html` pages with a short and with a tall sidebar, and check that the card does not jump or lose its shadow during the transition. Record what each case shows as evidence for the review.
 
+Step 10 evidence, run by the coordinator on 2026-10-26 after the rebase on `890d132`, with a scratch probe page (theme, link count, main length and scroll position from the URL; it measures the nav card and the last link):
+
+- Chrome (headless), 1280×800, viewport 713px: 3 links, short main: card 309px, top at 10px. 3 links, long main, scrolled to the middle and to the end: top still at 10px. 30 links (card 1983px), short main, at page end: last link bottom at 679px. 30 links, long main: at the top the card starts at 10px; scrolled to the middle and to the end, the card bottom is at 703px and the last link bottom at 679px. The header never scrolls on its own and has no background or shadow; the nav carries the card.
+- Chrome, themes: solunized-dark shows a 1px hairline and no shadow on the nav; eink-light a 1px black border; eink-dark a 1px white border. Tall-nav geometry is the same in each theme.
+- Chrome, phone width (500px window, the headless minimum): every measurement is identical to `main`'s `mvpa.css`; the header is the fixed 56px bottom bar.
+- Firefox (headless, driven over WebDriver BiDi): all ten desktop and theme cases give the same numbers as Chrome. Firefox's `--screenshot` mode was not usable: it ignores the scroll and drops fixed elements.
+- WebKit (iPad Pro 13-inch Simulator, iOS 27 Safari, 1032px wide, so the desktop layout): 3 links, long main, mid-scroll: card top at 10px. 30 links, short main, at page end and with a long main at mid-scroll: card bottom at 1234px in a 1244px viewport, last link visible.
+- View transition (Chrome, demo pages served over local HTTP, transition frozen at 150ms): with 3 links and with 30 links, the card stays at (10, 10), 240px wide, with its shadow, while the main content slides; only the current-link highlight cross-fades.
+- Unverified: desktop Safari on macOS, because WebDriver needs "Allow remote automation", which is off on this machine.
+
 ## Risks
 
 - A header with more than the nav keeps the `565f728` behaviour, so a tall sidebar there shows its last links only at the page end. CSS cannot paint one card across arbitrary siblings inside the browser floor.

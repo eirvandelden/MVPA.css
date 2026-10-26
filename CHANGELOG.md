@@ -12,7 +12,7 @@
 - **Nav-only header is an invisible track** — on desktop a `body > header` that holds only its `<nav>` is a transparent, window-tall box that sticks by its bottom edge. The `<nav>` paints the card: background, radius, shadow and the dark and e-ink borders. A header with other children keeps the card on the header, and its tall sidebar shows its last links only at the page end.
 
 ### Upgrading
-1. If your `body > header` holds only its `<nav>` and your own stylesheet gives it a background, border, radius or shadow on desktop, move that paint to `body > header > nav:only-child`. That header is now transparent. A header with other children keeps its paint on the header.
+1. If your `body > header` holds only its `<nav>` and your own stylesheet gives it a background, border, radius or shadow on desktop, move that paint to `body > header > nav:only-child` inside `@media (min-width: 769px)`, so the phone bottom bar stays flat. That header is now transparent. A header with other children keeps its paint on the header.
 2. Remove every `min-block-size` your own stylesheet gives `body > header` on desktop.
 
 ## 2026-10-25

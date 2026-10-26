@@ -58,6 +58,7 @@ class ChangelogUpgradingTest < Minitest::Test
     refute_nil upgrading, "the latest changelog entry has no ### Upgrading subsection"
     assert_includes upgrading, "body > header > nav:only-child"
     assert_includes upgrading, "only its `<nav>`"
+    assert_includes upgrading, "@media (min-width: 769px)"
     assert_match(/^1\. /, upgrading)
   end
 

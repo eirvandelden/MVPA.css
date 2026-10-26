@@ -35,6 +35,7 @@ Not affected: two selectors join existing rule lists.
 
 - Link buttons and page-action links share the button hover (`filter: brightness(1.1)`) and press (`scale(var(--animation-scale-press))`) rules. Intent left the exact feedback open; the button values keep links and neighbouring buttons identical.
 - Departure from the first design: the link selectors sit in their own hover and press rules right after the button ones in `1_forms.css`, not in the shared lists. An existing test locates the button press rule by its exact selector list, and a bug fix does not touch existing tests.
+- Review round 1: the underline was the wiggle `::after` bar in `0_base/3_animations.css`, not `text-decoration`. Its three selectors now skip `main > header nav a` and `a[role="button"]`. The link hover and press rules use `:where()`, so `.button-danger:active` wins on a link as on a button. The e-ink themes also reset `filter` on `:active`. Tests that pin the wiggle selector string, and the two changelog tests, follow the selectors and entries they read.
 - The `transition` already lives on `a[role="button"]`. Page-action links gain the same `transition` so the hover animates.
 
 ## Integration points

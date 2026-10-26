@@ -86,8 +86,9 @@
   box-shadow: none;
 }
 
-/* A page-action link must not brighten on hover: e-ink has no brightness to give. */
-[data-theme="eink-light"] main > header nav a:hover {
+/* A page-action link must not brighten on hover or darken on press: e-ink has no brightness to give. */
+[data-theme="eink-light"] main > header nav a:hover,
+[data-theme="eink-light"] main > header nav a:active {
   filter: none;
 }
 
@@ -367,8 +368,9 @@
   box-shadow: none;
 }
 
-/* A page-action link must not brighten on hover: e-ink has no brightness to give. */
-[data-theme="eink-dark"] main > header nav a:hover {
+/* A page-action link must not brighten on hover or darken on press: e-ink has no brightness to give. */
+[data-theme="eink-dark"] main > header nav a:hover,
+[data-theme="eink-dark"] main > header nav a:active {
   filter: none;
 }
 

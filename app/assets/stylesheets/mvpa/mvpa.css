@@ -489,11 +489,11 @@ blockquote {
   /* Links: Underline wiggle on hover. Not sidebar nav links (they get their own
      pill-background + lift hover, see 2_modules/10_navigation.css), not view-switch
      segments, and not a link with a visible count badge (the underline would run under the pill). */
-  a:not([class]):not(body > header nav a, menu:has(> li > a):not(:has(> li > :not(a))) > li > a, a:has(data:not([value="0"]))) {
+  a:not([class]):not(main > header nav a, body > header nav a, a[role="button"], menu:has(> li > a):not(:has(> li > :not(a))) > li > a, a:has(data:not([value="0"]))) {
     position: relative;
   }
 
-  a:not([class]):not(body > header nav a, menu:has(> li > a):not(:has(> li > :not(a))) > li > a, a:has(data:not([value="0"])))::after {
+  a:not([class]):not(main > header nav a, body > header nav a, a[role="button"], menu:has(> li > a):not(:has(> li > :not(a))) > li > a, a:has(data:not([value="0"])))::after {
     content: "";
     position: absolute;
     bottom: -2px;
@@ -506,7 +506,7 @@ blockquote {
     transition: transform var(--animation-duration) ease-out;
   }
 
-  a:not([class]):not(body > header nav a, menu:has(> li > a):not(:has(> li > :not(a))) > li > a, a:has(data:not([value="0"]))):hover::after {
+  a:not([class]):not(main > header nav a, body > header nav a, a[role="button"], menu:has(> li > a):not(:has(> li > :not(a))) > li > a, a:has(data:not([value="0"]))):hover::after {
     animation: link-underline-wiggle var(--animation-duration) var(--animation-spring);
     transform: scaleX(1);
   }
@@ -1132,15 +1132,14 @@ input[type="reset"]:active {
   transform: scale(var(--animation-scale-press)) !important;
 }
 
-/* Links styled as buttons share the button's hover and press feedback. */
-a[role="button"]:hover,
-main > header nav a:hover {
+/* Links styled as buttons share the button's hover and press feedback. :where() keeps the
+   specificity at zero, so a variant such as .button-danger:active wins on a link as on a button. */
+:where(a[role="button"], main > header nav a):hover {
   filter: brightness(1.1);
   text-decoration: none;
 }
 
-a[role="button"]:active,
-main > header nav a:active {
+:where(a[role="button"], main > header nav a):active {
   filter: brightness(0.95);
   transform: scale(var(--animation-scale-press)) !important;
 }
@@ -2625,8 +2624,9 @@ html[data-color-scheme="system"] {
   box-shadow: none;
 }
 
-/* A page-action link must not brighten on hover: e-ink has no brightness to give. */
-[data-theme="eink-light"] main > header nav a:hover {
+/* A page-action link must not brighten on hover or darken on press: e-ink has no brightness to give. */
+[data-theme="eink-light"] main > header nav a:hover,
+[data-theme="eink-light"] main > header nav a:active {
   filter: none;
 }
 
@@ -2906,8 +2906,9 @@ html[data-color-scheme="system"] {
   box-shadow: none;
 }
 
-/* A page-action link must not brighten on hover: e-ink has no brightness to give. */
-[data-theme="eink-dark"] main > header nav a:hover {
+/* A page-action link must not brighten on hover or darken on press: e-ink has no brightness to give. */
+[data-theme="eink-dark"] main > header nav a:hover,
+[data-theme="eink-dark"] main > header nav a:active {
   filter: none;
 }
 

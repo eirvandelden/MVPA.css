@@ -6,7 +6,7 @@ class SegmentedControlTest < Minitest::Test
   include CssSourceHelper
 
   PARTIAL = "2_modules/13_segmented_control.css".freeze
-  WIGGLE = "a:not([class]):not(body > header nav a, " \
+  WIGGLE = "a:not([class]):not(main > header nav a, body > header nav a, a[role=\"button\"], " \
            "menu:has(> li > a):not(:has(> li > :not(a))) > li > a, a:has(data:not([value=\"0\"])))".freeze
   VIEW_SWITCH = "menu:has(> li > a):not(:has(> li > :not(a)))".freeze
   FORM_CHOICE = 'menu:has(> li > label > input[type="radio"]):not(:has(> li > :not(label)))' \

@@ -3,7 +3,7 @@ require "nokogiri"
 
 # demo.html shows a period navigation for a week, a month, a day and a year.
 class DemoPeriodNavigationTest < Minitest::Test
-  def test_the_demo_shows_a_week_navigation_with_a_today_link
+  def test_the_demo_shows_a_period_navigation_for_a_week_with_a_today_link
     nav = navigations.find { |candidate| candidate.at_css("> :nth-child(2)").text.include?("Week 43, 2026") }
 
     refute_nil nav

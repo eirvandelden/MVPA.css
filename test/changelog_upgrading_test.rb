@@ -40,7 +40,7 @@ class ChangelogUpgradingTest < Minitest::Test
   def test_the_segmented_control_entry_tells_apps_how_to_adopt_segmented_controls_and_badges
     upgrading = entry(SEGMENTED_CONTROL)[/^### Upgrading.*?(?=^### |\z)/m]
 
-    refute_nil upgrading, "the latest changelog entry has no ### Upgrading subsection"
+    refute_nil upgrading, "the #{SEGMENTED_CONTROL} changelog entry has no ### Upgrading subsection"
     [ "13_segmented_control.css", "14_count_badge.css", "<select>", "<menu>", "aria-current", "<label>", "<data value",
 "value=\"0\"", "main > header h1", "main > header nav" ].each do |text|
       assert_includes upgrading, text

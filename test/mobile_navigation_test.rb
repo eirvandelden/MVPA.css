@@ -10,6 +10,17 @@ class MobileNavigationTest < Minitest::Test
     assert_fixed_mobile_navigation(packaged_manifest)
   end
 
+  def test_a_tab_bar_badge_sits_in_the_item_corner
+    [ File.read(File.expand_path("../app/assets/stylesheets/mvpa/2_modules/10_navigation.css", __dir__)),
+      packaged_manifest ].each do |css|
+      block = mobile_media_blocks(css).find { |media| media.include?("header nav > ul > li > a > data") }
+
+      refute_nil block
+      assert_includes block, "header nav > ul > li > a {\n    position: relative;"
+      assert_match(/header nav > ul > li > a > data \{[^}]*position: absolute;[^}]*inset-inline-end: 0.25rem;/m, block)
+    end
+  end
+
   private
 
   def assert_fixed_mobile_navigation(stylesheet)

@@ -31,6 +31,8 @@
   <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/9_mark.css">
   <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/10_navigation.css">
   <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/12_dialog.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/13_segmented_control.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/14_count_badge.css">
 
   <!-- Themes -->
   <link rel="stylesheet" href="app/assets/stylesheets/mvpa/4_theme/1_theme-switching.css">
@@ -97,18 +99,20 @@
   <nav data-controller="nav" data-action="click->nav#click">
     <h1>MVPA.css</h1>
     <ul>
-      <li><a href="#introduction" aria-current="page">🏠 Introduction</a></li>
+      <li><a href="#introduction" aria-current="page">🏠 Introduction <data value="3">3</data></a></li>
       <li><a href="#typography">✍️ Typography</a></li>
       <li>
         <details>
           <summary>🧩 Components</summary>
           <ul>
             <li><a href="#messages">💬 Messages</a></li>
-            <li><a href="#forms">📋 Forms</a></li>
+            <li><a href="#forms">📋 Forms <data value="12">12</data></a></li>
             <li><a href="#buttons">🔘 Buttons</a></li>
             <li><a href="#page-header">🗂️ Page Header</a></li>
             <li><a href="#tables">📊 Tables</a></li>
-            <li><a href="#progress">📈 Progress</a></li>
+            <li><a href="#progress">📈 Progress <data value="0">0</data></a></li>
+            <li><a href="#segmented-control">🎛️ Segmented control</a></li>
+            <li><a href="#count-badges">🔢 Count badges</a></li>
           </ul>
         </details>
       </li>
@@ -156,7 +160,7 @@
 
   <!-- Page header: the real main > header, with a link, a PATCH form and a DELETE form -->
   <header>
-    <h1>MVPA.css</h1>
+    <h1>Hypotheekrenteaftrekberekening</h1>
     <nav>
       <a href="#buttons">Edit</a>
       <details>
@@ -733,6 +737,76 @@ console.log(greet('World'));</code></pre>
     </section>
   </article>
 
+  <!-- Segmented Control Section -->
+  <article id="segmented-control">
+    <h2>🎛️ Segmented control</h2>
+    <p>A <code>&lt;menu&gt;</code> of links is a view switch. A <code>&lt;menu&gt;</code> of radios is a form choice. Both look the same: joined segments on a track, the selected one raised. Below 45rem of content width the segments stack.</p>
+
+    <section>
+      <h3>View switch: period</h3>
+      <menu>
+        <li><a href="#segmented-control" aria-current="page">Deze maand</a></li>
+        <li><a href="#segmented-control">Vorige maand</a></li>
+        <li><a href="#segmented-control">Dit kwartaal</a></li>
+        <li><a href="#segmented-control">Dit jaar</a></li>
+        <li><a href="#segmented-control">Vorig jaar</a></li>
+      </menu>
+    </section>
+
+    <section>
+      <h3>View switch: no selection</h3>
+      <menu>
+        <li><a href="#segmented-control">Alle</a></li>
+        <li><a href="#segmented-control">Zonder categorie</a></li>
+      </menu>
+    </section>
+
+    <section>
+      <h3>Form choice</h3>
+      <form method="get">
+        <fieldset>
+          <legend>Rol</legend>
+          <menu>
+            <li><label><input type="radio" name="role" value="lid"> Lid</label></li>
+            <li><label><input type="radio" name="role" value="beheerder" checked> Beheerder</label></li>
+          </menu>
+        </fieldset>
+        <button>Opslaan</button>
+      </form>
+    </section>
+
+    <section>
+      <h3>Form choice: disabled segment</h3>
+      <form method="get">
+        <fieldset>
+          <legend>Vaste rol</legend>
+          <menu>
+            <li><label><input type="radio" name="locked_role" value="lid" checked> Lid</label></li>
+            <li><label><input type="radio" name="locked_role" value="beheerder" disabled> Beheerder</label></li>
+          </menu>
+        </fieldset>
+      </form>
+    </section>
+  </article>
+
+  <!-- Count Badges Section -->
+  <article id="count-badges">
+    <h2>🔢 Count badges</h2>
+    <p>A <code>&lt;data value&gt;</code> inside a link is a count pill. <code>value="0"</code> hides it. On the current page's link the pill inverts, as in the sidebar's "Introduction".</p>
+
+    <section>
+      <h3>Landing tile</h3>
+      <p><a href="#count-badges">Te beoordelen <data value="5">5</data></a></p>
+    </section>
+
+    <section>
+      <h3>Long number and zero</h3>
+      <p><a href="#count-badges">Transacties <data value="1234">1234</data></a></p>
+      <p><a href="#count-badges">Producten <data value="0">0</data></a> shows no pill.</p>
+      <p>A <code>&lt;data&gt;</code> in a table cell keeps its plain look: see <a href="#tables">Tables</a>.</p>
+    </section>
+  </article>
+
   <!-- Lists Section -->
   <article id="lists">
     <h2>📝 Definition Lists & Details</h2>
@@ -756,7 +830,7 @@ console.log(greet('World'));</code></pre>
         <dd>Chrome 111+, Firefox 113+, Safari 16.4+</dd>
 
         <dt>CSS Files</dt>
-        <dd>23 files organized in SMACSS structure</dd>
+        <dd>25 files organized in SMACSS structure</dd>
 
         <dt>Button Classes</dt>
         <dd>Only 4 classes: button-success, button-danger, button-warning, button-secondary</dd>
@@ -768,7 +842,7 @@ console.log(greet('World'));</code></pre>
 
       <details>
         <summary>Installation Instructions</summary>
-        <p>Import all 23 CSS files in the correct order, then set the data-theme attribute on the html element.</p>
+        <p>Import all 25 CSS files in the correct order, then set the data-theme attribute on the html element.</p>
         <pre><code>&lt;html data-color-scheme="system" data-theme="solunized-light"&gt;
   &lt;!-- Your content --&gt;
 &lt;/html&gt;</code></pre>

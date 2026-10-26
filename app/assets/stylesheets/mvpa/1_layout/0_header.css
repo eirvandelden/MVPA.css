@@ -81,3 +81,9 @@ main > header nav {
   align-items: center;
   gap: var(--inline-space-half);
 }
+
+/* A long single word wraps inside the title bar instead of widening the page. */
+main > header h1 {
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}

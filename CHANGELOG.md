@@ -2,6 +2,25 @@
 
 **Note:** This project uses git SHAs instead of semver. Pin to a specific SHA in your Gemfile (`ref: "e4179e9"`). Each GitHub release is tagged with its commit SHA.
 
+## 2026-10-25
+
+### Added
+- **Segmented control** — a `<menu>` of links (view switch) or of radios (form choice) shows joined segments on a tinted track, with the selected segment raised. The link with `aria-current` or the checked radio is selected. Below 45rem of content width the segments stack, one per line. The radio dot is hidden but stays focusable. A disabled radio dims its segment.
+- **Count badge** — a `<data value>` inside a link is a primary pill after the link text. On a link with `aria-current` it inverts. `value="0"` hides it. In the phone tab bar it sits in the corner of its item.
+
+### Changed
+- **Existing `<menu>` and `<data>`** — a `<menu>` that holds only links, or only radio labels, and a `<data>` inside a link get the new look.
+- **Title-bar heading wraps** — `main > header h1` has `min-inline-size: 0` and `overflow-wrap: anywhere`, so a long single word no longer widens the page.
+
+### Upgrading
+1. Add `13_segmented_control.css` and `14_count_badge.css` to your stylesheet links, after `12_dialog.css`. The gem and `mvpa.css` include them already.
+2. To show a period filter as a segmented control, replace the `<select>` and its submitting script with a `<menu>` of `<li><a href="…">` links, and put `aria-current="page"` on the current period's link.
+3. To show radios as a segmented control, wrap each radio as `<menu><li><label><input type="radio" name="…" value="…"> Label</label></li></menu>` inside a `<fieldset>` with a `<legend>`, with one shared `name`.
+4. Put a count beside a link as `<data value="12">12</data>` inside the `<a>`. Render it at zero too; `value="0"` hides it.
+5. Check every existing `<menu>` of links or radios, and every `<data>` inside a link, for the new look.
+6. Remove your own `main > header h1` rule that sets `min-inline-size` or `overflow-wrap`, such as in `title_bar.css`.
+7. Keep a view switch out of `main > header nav`; place it in the page content.
+
 ## 2026-10-19
 
 ### Added

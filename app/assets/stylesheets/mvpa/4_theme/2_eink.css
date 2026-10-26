@@ -543,3 +543,21 @@
   background-color: white;
   color: black;
 }
+
+/* Segmented control: flat. A ruled track, no shadow. */
+[data-theme="eink-light"] menu {
+  --segment-track: oklch(87% 0 0);
+  --segment-edge: black;
+  --segment-shadow: none;
+}
+
+[data-theme="eink-dark"] menu {
+  --segment-track: oklch(13% 0 0);
+  --segment-edge: white;
+  --segment-shadow: none;
+}
+
+/* Count badge: the primary is white here, so the pill's text turns black. */
+[data-theme="eink-dark"] a data {
+  --badge-contrast: black;
+}

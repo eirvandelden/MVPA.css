@@ -84,6 +84,8 @@ Add these imports to your HTML in the correct order:
 <link rel="stylesheet" href="mvpa/2_modules/9_mark.css">
 <link rel="stylesheet" href="mvpa/2_modules/10_navigation.css">
 <link rel="stylesheet" href="mvpa/2_modules/12_dialog.css">
+<link rel="stylesheet" href="mvpa/2_modules/13_segmented_control.css">
+<link rel="stylesheet" href="mvpa/2_modules/14_count_badge.css">
 
 <!-- Themes -->
 <link rel="stylesheet" href="mvpa/4_theme/1_theme-switching.css">
@@ -134,7 +136,9 @@ app/assets/stylesheets/mvpa/
 │   ├── 9_mark.css
 │   ├── 10_navigation.css
 │   ├── 11_turbo-transitions.css
-│   └── 12_dialog.css
+│   ├── 12_dialog.css
+│   ├── 13_segmented_control.css
+│   └── 14_count_badge.css
 └── 4_theme/             # Colors, theme switching, and e-ink support
     ├── 0_colors.css
     ├── 1_theme-switching.css
@@ -453,6 +457,42 @@ Add an importmap to your HTML `<head>` and bootstrap with a module script:
   application.register("nav", NavController)
 </script>
 ```
+
+### Segmented control
+
+A `<menu>` of links is a view switch. A `<menu>` of radios is a form choice. Both render as joined segments on a tinted track, with the selected segment raised. Below 45rem of content width the segments stack, one per line. No classes and no script.
+
+View switch: the link with `aria-current` is the selected segment. Every segment needs an `href`, so render the current one as a link too. With no `aria-current`, every segment is plain.
+
+```html
+<menu><li><a href="?period=month" aria-current="page">Deze maand</a></li>
+<li><a href="?period=year">Dit jaar</a></li></menu>
+```
+
+Form choice: wrap each radio as `<li><label><input type="radio"> Label</label></li>`, normally in a `<fieldset>` with a `<legend>`. Give the radios one shared `name`, distinct `value`s and one `checked`. The dot is hidden but stays focusable, so arrow keys and form submission work natively. A `disabled` radio dims its segment.
+
+```html
+<form method="get">
+  <fieldset>
+    <legend>Rol</legend>
+    <menu><li><label><input type="radio" name="role" value="lid"> Lid</label></li>
+    <li><label><input type="radio" name="role" value="beheerder" checked> Beheerder</label></li></menu>
+  </fieldset>
+  <button>Opslaan</button>
+</form>
+```
+
+A `<menu>` with any other content, such as a button, keeps its plain look. Place a view switch in the page content, not in `main > header nav`, where the title-bar link rules win.
+
+### Count badges
+
+A `<data value>` inside a link is a count pill after the link text. The pill is primary with light text. On the link with `aria-current` it inverts to a light pill with primary text. Inside a segmented control it keeps the normal pill. `value="0"` hides it, so render the badge at zero too. Format the number yourself, such as "99+". A `<data>` outside a link keeps its look.
+
+```html
+<a href="/categorise">Categoriseren <data value="12">12</data></a>
+```
+
+The title-bar heading `main > header h1` wraps a long single word (`min-inline-size: 0; overflow-wrap: anywhere`) instead of widening the page.
 
 ### Page Transitions
 

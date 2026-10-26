@@ -122,6 +122,19 @@ header nav details > ul {
 
   header nav::-webkit-scrollbar { display: none; }
 
+  /* A count badge sits in the corner of its tab-bar item instead of adding a line. */
+  header nav > ul > li > a {
+    position: relative;
+  }
+
+  header nav > ul > li > a > data {
+    position: absolute;
+    inset-block-start: 0.25rem;
+    inset-inline-end: 0.25rem;
+    margin: 0;
+    font-size: var(--text-xx-small);
+  }
+
   header nav h1,
   header nav h2 { display: none; }
 

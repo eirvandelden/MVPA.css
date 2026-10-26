@@ -112,7 +112,9 @@ class DetailsMenuTest < Minitest::Test
   def test_sidebar_details_are_not_styled_as_a_menu
     refute_includes partial(DETAILS), "body > header"
     refute_includes rule_body(partial(DETAILS), "details"), "position:"
-    refute_includes partial(NAVIGATION), "position: absolute", "the sidebar menu was changed"
+    without_badge_corner = partial(NAVIGATION).sub(/header nav > ul > li > a > data \{.*?\}/m, "")
+
+    refute_includes without_badge_corner, "position: absolute", "the sidebar menu was changed"
   end
 
   def test_every_menu_rule_is_scoped_to_the_page_header

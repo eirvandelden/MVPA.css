@@ -9,8 +9,12 @@ class SidebarTrackTest < Minitest::Test
   TRACK = "body > header:has(> nav:only-child)".freeze
   CARD = "body > header > nav:only-child".freeze
   FLOOR = "min-block-size: calc(100dvh - 2 * var(--shell-gutter));".freeze
-  CARD_PAINT = [ "border-radius: var(--radius-large);", "box-shadow: var(--shadow-3), var(--shadow-1);",
-"background-color: var(--color-bg-lighter);" ].freeze
+  HAIRLINE = "border: 1px solid color-mix(in oklch, var(--color-fg) 14%, transparent);".freeze
+  CARD_PAINT = [
+    "border-radius: var(--radius-large);",
+    "box-shadow: var(--shadow-3), var(--shadow-1);",
+    "background-color: var(--color-bg-lighter);"
+  ].freeze
 
   def test_a_nav_only_header_is_a_viewport_tall_track_that_sticks_by_its_bottom
     each_source("1_layout/0_header.css") do |name, css|
@@ -37,8 +41,9 @@ class SidebarTrackTest < Minitest::Test
   end
 
   def test_the_nav_card_is_only_as_tall_as_its_links
-    each_source("1_layout/0_header.css") { |name, css|
- assert_includes rule_body(css, CARD), "min-block-size: auto;", name }
+    each_source("1_layout/0_header.css") do |name, css|
+      assert_includes rule_body(css, CARD), "min-block-size: auto;", name
+    end
   end
 
   def test_the_nav_card_carries_the_card_paint
@@ -68,7 +73,7 @@ class SidebarTrackTest < Minitest::Test
 
   def test_dark_and_eink_themes_border_the_nav_card
     each_source("1_layout/0_header.css") do |name, css|
-      %w[ solunized-dark solunized-black ].each { |theme| assert_card_border(css, theme, name) }
+      %w[ solunized-dark solunized-black ].each { |theme| assert_card_border(css, theme, name, HAIRLINE) }
     end
     each_source("4_theme/2_eink.css") do |name, css|
       { "eink-light" => "black", "eink-dark" => "white" }.each do |theme, color|
@@ -104,7 +109,7 @@ class SidebarTrackTest < Minitest::Test
     end
   end
 
-  def assert_card_border(css, theme, name, border = "1px solid")
+  def assert_card_border(css, theme, name, border)
     body = rule_body(css, "[data-theme=\"#{theme}\"] #{CARD}")
 
     assert_includes body, "box-shadow: none;", "#{name} #{theme}"

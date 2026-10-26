@@ -2,6 +2,19 @@
 
 **Note:** This project uses git SHAs instead of semver. Pin to a specific SHA in your Gemfile (`ref: "e4179e9"`). Each GitHub release is tagged with its commit SHA.
 
+## 2026-10-26
+
+### Fixed
+- **Desktop sidebar fits its content** — the sidebar card is as tall as its nav, not as tall as the window. It has no `min-block-size` floor.
+- **Tall sidebar reaches its last link** — a sidebar taller than the window scrolls with the page until its last link shows, then stays. A short sidebar stays at the top of the window as before. The sidebar still has no scrollbar of its own.
+
+### Changed
+- **Nav-only header is an invisible track** — on desktop a `body > header` that holds only its `<nav>` is a transparent, window-tall box that sticks by its bottom edge. The `<nav>` paints the card: background, radius, shadow and the dark and e-ink borders. A header with other children keeps the card on the header, and its tall sidebar shows its last links only at the page end.
+
+### Upgrading
+1. If your own stylesheet gives `body > header` a background, border, radius or shadow on desktop, move it to `body > header > nav`. The header is now transparent.
+2. Check that no rule gives `body > header` a `min-block-size` or relies on it filling the window.
+
 ## 2026-10-25
 
 ### Added

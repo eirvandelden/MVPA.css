@@ -405,6 +405,7 @@ App-style navigation sidebar (desktop) and bottom tab bar (mobile), driven entir
 
 - `aria-current="page"` on the active link highlights it with the primary colour.
 - `<details>`/`<summary>` inside a `<li>` creates a collapsible subnavigation group — no JavaScript required for the basic disclosure behaviour.
+- On desktop a header that holds only its `<nav>` is an invisible track and the nav paints the card, so the card is as tall as its links. A sidebar taller than the window scrolls with the page until its last link shows. A header with other children keeps the card on the header, and its last links show only at the page end.
 
 #### Behaviour (Stimulus controller)
 

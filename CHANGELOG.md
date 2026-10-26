@@ -2,6 +2,19 @@
 
 **Note:** This project uses git SHAs instead of semver. Pin to a specific SHA in your Gemfile (`ref: "e4179e9"`). Each GitHub release is tagged with its commit SHA.
 
+## 2026-10-26
+
+### Added
+- **Period navigation** — a `<nav>` outside a `<header>` whose children are a link, a heading (`h2`–`h6`) and a link is one tinted bar. The previous link sits at the start, the period label is centred and the next link sits at the end. A link inside the heading, such as "Today", shows next to the label. Below 768px the parts stack in a column. The e-ink themes draw it as paper with an ink border.
+
+### Upgrading
+1. Remove `class="week-navigation"` from the `<nav>`.
+2. Keep exactly three direct children: the previous `<a>`, a heading `<h2>`–`<h6>` with the period label, and the next `<a>`.
+3. Put a secondary link such as `Today` inside the heading.
+4. Keep the `<nav>` outside any `<header>`.
+5. Delete your `.week-navigation` rules, including the ones in `@media (max-width: 768px)`.
+6. Standalone pages only: add `15_period_navigation.css` to your stylesheet links after `14_count_badge.css`. The gem and `mvpa.css` include it already.
+
 ## 2026-10-25
 
 ### Added

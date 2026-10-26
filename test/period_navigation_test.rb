@@ -77,9 +77,11 @@ class PeriodNavigationTest < Minitest::Test
 
   def test_no_period_navigation_rule_reaches_a_header_nav
     each_source(PARTIAL) do |name, css|
-      selectors = own_rules(css).gsub(%r{/\*.*?\*/}m, "").scan(/([^{};]+)\{/).flatten.map(&:strip)
+      rules = own_rules(css).sub(%r{\A.*?\*/}m, "").gsub(%r{/\*.*?\*/}m, "")
+      lists = rules.scan(/([^{};]+)\{/).flatten.map(&:strip)
+      selectors = lists.reject { |list| list.start_with?("@") }.flat_map { |list| top_level_selectors(list) }
 
-      selectors.reject { |selector| selector.start_with?("@") }.each do |selector|
+      selectors.each do |selector|
         assert_includes selector, ":not(header nav)", "#{name}: #{selector}"
       end
     end
@@ -106,5 +108,10 @@ class PeriodNavigationTest < Minitest::Test
   # The period navigation rules: the whole partial, or its section of the bundle.
   def own_rules(css)
     css[/ \* Period navigation\n.*?(?=\/\*\n \* Solunized color definitions|\z)/m]
+  end
+
+  # Splits a selector list on its own commas, not the ones inside :is() or :has().
+  def top_level_selectors(list)
+    list.split(/,(?![^()]*\))/).map(&:strip)
   end
 end

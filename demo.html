@@ -33,6 +33,7 @@
   <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/12_dialog.css">
   <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/13_segmented_control.css">
   <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/14_count_badge.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/15_period_navigation.css">
 
   <!-- Themes -->
   <link rel="stylesheet" href="app/assets/stylesheets/mvpa/4_theme/1_theme-switching.css">
@@ -113,6 +114,7 @@
             <li><a href="#progress">📈 Progress <data value="0">0</data></a></li>
             <li><a href="#segmented-control">🎛️ Segmented control</a></li>
             <li><a href="#count-badges">🔢 Count badges</a></li>
+            <li><a href="#period-navigation">🗓️ Period navigation</a></li>
           </ul>
         </details>
       </li>
@@ -807,6 +809,48 @@ console.log(greet('World'));</code></pre>
     </section>
   </article>
 
+  <!-- Period Navigation Section -->
+  <article id="period-navigation">
+    <h2>🗓️ Period navigation</h2>
+    <p>A <code>&lt;nav&gt;</code> outside a header, holding a link, a heading and a link, is one bar: previous at the start, the period label centred, next at the end. The label can hold a link back to the current period.</p>
+
+    <section>
+      <h3>Week</h3>
+      <nav>
+        <a href="#period-navigation">← Previous week</a>
+        <h4>Week 43, 2026 <a href="#period-navigation">Today</a></h4>
+        <a href="#period-navigation">Next week →</a>
+      </nav>
+    </section>
+
+    <section>
+      <h3>Month</h3>
+      <nav>
+        <a href="#period-navigation">← September</a>
+        <h4>October 2026</h4>
+        <a href="#period-navigation">November →</a>
+      </nav>
+    </section>
+
+    <section>
+      <h3>Day</h3>
+      <nav>
+        <a href="#period-navigation">← 25 Oct</a>
+        <h4>26 Oct 2026</h4>
+        <a href="#period-navigation">27 Oct →</a>
+      </nav>
+    </section>
+
+    <section>
+      <h3>Year</h3>
+      <nav>
+        <a href="#period-navigation">← 2025</a>
+        <h4>2026</h4>
+        <a href="#period-navigation">2027 →</a>
+      </nav>
+    </section>
+  </article>
+
   <!-- Lists Section -->
   <article id="lists">
     <h2>📝 Definition Lists & Details</h2>
@@ -830,7 +874,7 @@ console.log(greet('World'));</code></pre>
         <dd>Chrome 111+, Firefox 113+, Safari 16.4+</dd>
 
         <dt>CSS Files</dt>
-        <dd>25 files organized in SMACSS structure</dd>
+        <dd>26 files organized in SMACSS structure</dd>
 
         <dt>Button Classes</dt>
         <dd>Only 4 classes: button-success, button-danger, button-warning, button-secondary</dd>
@@ -842,7 +886,7 @@ console.log(greet('World'));</code></pre>
 
       <details>
         <summary>Installation Instructions</summary>
-        <p>Import all 25 CSS files in the correct order, then set the data-theme attribute on the html element.</p>
+        <p>Import all 26 CSS files in the correct order, then set the data-theme attribute on the html element.</p>
         <pre><code>&lt;html data-color-scheme="system" data-theme="solunized-light"&gt;
   &lt;!-- Your content --&gt;
 &lt;/html&gt;</code></pre>

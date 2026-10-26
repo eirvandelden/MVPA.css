@@ -13,7 +13,7 @@
 
 ### Upgrading
 1. If your own stylesheet gives `body > header` a background, border, radius or shadow on desktop, move it to `body > header > nav`. The header is now transparent.
-2. Check that no rule gives `body > header` a `min-block-size` or relies on it filling the window.
+2. Remove every `min-block-size` your own stylesheet gives `body > header` on desktop.
 
 ## 2026-10-25
 

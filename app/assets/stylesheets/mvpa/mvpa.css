@@ -2214,7 +2214,7 @@ a data[value="0"] {
 
 nav:not(header nav):has(> a:first-child + :is(h2, h3, h4, h5, h6) + a:last-child) {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-template-columns: minmax(min-content, 1fr) fit-content(50%) minmax(min-content, 1fr);
   align-items: center;
   column-gap: var(--inline-space-double);
   margin-block-end: var(--block-space);
@@ -2226,6 +2226,11 @@ nav:not(header nav):has(> a:first-child + :is(h2, h3, h4, h5, h6) + a:last-child
 
 article nav:not(header nav):has(> a:first-child + :is(h2, h3, h4, h5, h6) + a:last-child) {
   background-color: var(--color-bg);
+}
+
+/* A link wraps only between words, so a long label never squeezes it to one letter per line. */
+nav:not(header nav):has(> a:first-child + :is(h2, h3, h4, h5, h6) + a:last-child) > a {
+  overflow-wrap: normal;
 }
 
 nav:not(header nav):has(> a:first-child + :is(h2, h3, h4, h5, h6) + a:last-child) > a:first-child {

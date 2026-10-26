@@ -105,15 +105,6 @@ class SidebarTrackTest < Minitest::Test
     css.to_enum(:scan, /@media \(min-width: 769px\) \{/).map { balanced_block(css, Regexp.last_match.begin(0)) }
   end
 
-  def balanced_block(css, start)
-    depth = 0
-    css[start..].each_char.with_index do |char, index|
-      depth += 1 if char == "{"
-      depth -= 1 if char == "}"
-      return css[start, index + 1] if depth.zero? && char == "}"
-    end
-  end
-
   def assert_card_border(css, theme, name, border)
     body = rule_body(css, "[data-theme=\"#{theme}\"] #{CARD}")
 

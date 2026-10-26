@@ -1,7 +1,10 @@
 require "minitest/autorun"
+require_relative "css_source_helper"
 
 # Locks in the mobile app shell so the navigation remains visible on long pages.
 class MobileNavigationTest < Minitest::Test
+  include CssSourceHelper
+
   def test_source_keeps_mobile_navigation_fixed_at_the_viewport_bottom
     assert_fixed_mobile_navigation(source_header)
   end
@@ -47,19 +50,6 @@ class MobileNavigationTest < Minitest::Test
     stylesheet.to_enum(:scan, /@media \(max-width: 768px\) \{/).map do
       media_query = Regexp.last_match
       balanced_block(stylesheet, media_query.begin(0))
-    end
-  end
-
-  def balanced_block(stylesheet, start_index)
-    depth = 0
-    opening_brace = stylesheet.index("{", start_index)
-
-    stylesheet.each_char.with_index do |character, index|
-      next if index < opening_brace
-
-      depth += 1 if character == "{"
-      depth -= 1 if character == "}"
-      return stylesheet[start_index..index] if depth.zero?
     end
   end
 

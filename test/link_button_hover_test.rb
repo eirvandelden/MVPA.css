@@ -12,11 +12,8 @@ class LinkButtonHoverTest < Minitest::Test
   # Zero specificity, so a variant such as .button-danger:active wins on a link as it does on a button.
   LINKS = ":where(#{LINK_BUTTON}, #{PAGE_ACTION_LINK})".freeze
 
-  def test_a_hovered_page_action_link_brightens_and_never_underlines
-    assert_brightens_without_underline("#{LINKS}:hover")
-  end
-
-  def test_a_hovered_link_button_brightens_and_never_underlines
+  # One rule serves both links, so one test covers a page-action link and an a[role="button"] link.
+  def test_a_hovered_link_button_or_page_action_link_brightens_and_never_underlines
     assert_brightens_without_underline("#{LINKS}:hover")
   end
 

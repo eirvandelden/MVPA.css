@@ -44,12 +44,13 @@ Not affected: two selectors join existing rule lists.
 
 ## Files that change
 
-- `app/assets/stylesheets/mvpa/2_modules/1_forms.css` — add `a[role="button"]:hover`, `main > header nav a:hover` to the hover list and the `:active` variants to the press list.
+- `app/assets/stylesheets/mvpa/2_modules/1_forms.css` — add `:where(a[role="button"], main > header nav a)` hover and press rules after the button ones.
 - `app/assets/stylesheets/mvpa/2_modules/5_buttons.css` — add `transition` to `main > header nav a`; add `text-decoration: none` to the role="button" hover guard.
-- `app/assets/stylesheets/mvpa/4_theme/2_eink.css` — `filter: none` for page-action link hover in both eink themes, if the check in step 3 shows the brightness leaks.
+- `app/assets/stylesheets/mvpa/0_base/3_animations.css` — the wiggle underline's three selectors skip `main > header nav a` and `a[role="button"]`.
+- `app/assets/stylesheets/mvpa/4_theme/2_eink.css` — `filter: none` for page-action link hover and press in both eink themes.
 - `app/assets/stylesheets/mvpa/mvpa.css` — the same edits.
 - `test/link_button_hover_test.rb` — new.
-- `CHANGELOG.md` — new 2026-10-23 entry, `### Fixed`, no `### Upgrading`.
+- `CHANGELOG.md` — new 2026-10-26 entry, `### Fixed`, no `### Upgrading`.
 
 ## Order of work
 
@@ -69,15 +70,17 @@ Not affected: two selectors join existing rule lists.
 
 ## Proof
 
-- Hovering a page-action link brightens it and shows no underline → `test/link_button_hover_test.rb` `test_a_hovered_page_action_link_brightens_and_never_underlines`
+- Hovering a page-action link brightens it and shows no underline → `test/link_button_hover_test.rb` `test_a_hovered_link_button_or_page_action_link_brightens_and_never_underlines`
 - Pressing a page-action link scales it down like a button → `test/link_button_hover_test.rb` `test_a_pressed_page_action_link_scales_down`
-- Hovering an `a[role="button"]` link brightens it and shows no underline → `test/link_button_hover_test.rb` `test_a_hovered_link_button_brightens_and_never_underlines`
-- Invariant: eink themes do not brighten on hover, enforced by `2_eink.css` → `test/link_button_hover_test.rb` `test_eink_themes_keep_page_action_links_flat_on_hover`
+- Hovering an `a[role="button"]` link brightens it and shows no underline → the same test, because one `:where()` rule serves both links
+- Neither link draws the wiggle underline bar → `test/link_button_hover_test.rb` `test_the_hover_wiggle_underline_skips_page_action_links_and_link_buttons`
+- A page-action link animates its hover → `test/link_button_hover_test.rb` `test_a_page_action_link_animates_its_hover`
+- Invariant: eink themes do not filter a page-action link on hover or press, enforced by `2_eink.css` → `test/link_button_hover_test.rb` `test_eink_themes_keep_page_action_links_flat_on_hover_and_press`
 - Every assertion runs against both the partials and `mvpa.css` (`CssSourceHelper#each_source`).
 - Visual: → check: open `demo.html`, hover and press a page-action link and `Link as Button`.
 
 Per changed file, the unit tests expected:
-- `test/link_button_hover_test.rb`: the four tests named above.
+- `test/link_button_hover_test.rb`: the five tests named above.
 
 Test setup: Minitest reading CSS text through `test/css_source_helper.rb`; no fixtures.
 

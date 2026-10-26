@@ -54,10 +54,15 @@ class SidebarTrackTest < Minitest::Test
 
   def test_the_track_and_card_rules_apply_on_desktop_only
     each_source("1_layout/0_header.css") do |name, css|
-      outside = css_without_desktop_blocks(css)
-
-      refute_includes outside, ":only-child", name
+      refute_includes css_without_desktop_blocks(css), "> nav:only-child", name
       assert_includes desktop_blocks(css).join, TRACK, name
+      assert_includes desktop_blocks(css).join, CARD, name
+    end
+  end
+
+  def test_the_eink_card_rules_apply_on_desktop_only
+    each_source("4_theme/2_eink.css") do |name, css|
+      refute_includes css_without_desktop_blocks(css), "> nav:only-child", name
       assert_includes desktop_blocks(css).join, CARD, name
     end
   end

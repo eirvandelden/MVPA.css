@@ -14,7 +14,6 @@ class PeriodNavigationTest < Minitest::Test
       bar = rule_body(css, NAV)
 
       assert_includes bar, "display: grid;", name
-      assert_includes bar, "grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);", name
       assert_includes bar, "padding: var(--block-space);", name
       assert_includes bar, "border-radius: var(--radius-small);", name
       assert_includes bar, "background-color: var(--color-bg-lighter);", name
@@ -57,7 +56,15 @@ class PeriodNavigationTest < Minitest::Test
   def test_a_long_label_wraps_instead_of_scrolling
     each_source(PARTIAL) do |name, css|
       assert_includes rule_body(css, NAV), "overflow-wrap: anywhere;", name
-      assert_includes rule_body(css, NAV), "minmax(0, 1fr)", name
+    end
+  end
+
+  def test_a_long_label_cannot_squeeze_the_links_to_nothing
+    each_source(PARTIAL) do |name, css|
+      columns = rule_body(css, NAV)[/grid-template-columns: ([^;]+);/, 1]
+
+      assert_equal "minmax(min-content, 1fr) fit-content(50%) minmax(min-content, 1fr)", columns, name
+      assert_includes rule_body(css, "#{NAV} > a"), "overflow-wrap: normal;", name
     end
   end
 

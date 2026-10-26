@@ -8,11 +8,12 @@ class ChangelogUpgradingTest < Minitest::Test
   SEGMENTED_CONTROL = "2026-10-25".freeze
   SIDEBAR_TRACK = "2026-10-26".freeze
   CREAM = "2026-10-29".freeze
+  PERIOD_NAVIGATION = "2026-11-03".freeze
 
   def test_the_buttons_entry_tells_apps_how_to_upgrade
     upgrading = entry(BUTTONS)[/^### Upgrading.*?(?=^### |\z)/m]
 
-    refute_nil upgrading, "the latest changelog entry has no ### Upgrading subsection"
+    refute_nil upgrading, "the #{PERIOD_NAVIGATION} changelog entry has no ### Upgrading subsection"
     [ 'type="button"', 'type="reset"', "plain", '<form method="dialog">', "button-danger", "<footer>",
 "<dialog", "1px border" ].each do |text|
       assert_includes upgrading, text
@@ -26,7 +27,7 @@ class ChangelogUpgradingTest < Minitest::Test
   def test_the_menu_entry_tells_apps_how_to_adopt_the_menu_and_responsive_tables
     upgrading = entry(MENU)[/^### Upgrading.*?(?=^### |\z)/m]
 
-    refute_nil upgrading, "the latest changelog entry has no ### Upgrading subsection"
+    refute_nil upgrading, "the #{PERIOD_NAVIGATION} changelog entry has no ### Upgrading subsection"
     assert_includes upgrading, "as a direct child of the `<nav>`"
     [ "<details>", "data-mvpa-flashes", "outside `<main>`", "data-stack", "data-label", 'role="table"', "<caption>",
 "aria-labelledby", "<time datetime>", "<data value>", "overflow-x: auto" ].each do |text|
@@ -70,6 +71,22 @@ class ChangelogUpgradingTest < Minitest::Test
 
   def test_the_cream_entry_is_a_fix_with_no_upgrading_steps
     assert_equal [ "### Fixed" ], entry(CREAM).scan(/^### .*/)
+  end
+
+  def test_the_period_navigation_entry_tells_apps_how_to_replace_their_week_navigation_class
+    upgrading = entry(PERIOD_NAVIGATION)[/^### Upgrading.*?(?=^### |\z)/m]
+
+    refute_nil upgrading, "the #{PERIOD_NAVIGATION} changelog entry has no ### Upgrading subsection"
+    [ 'class="week-navigation"', "<h2>", "<header>", "@media (max-width: 768px)",
+"15_period_navigation.css" ].each do |text|
+      assert_includes upgrading, text
+    end
+    assert_match(/^1\. /, upgrading)
+  end
+
+  def test_the_period_navigation_entry_lists_what_was_added_and_ends_with_upgrading
+    assert_equal [ "### Added", "### Upgrading" ], entry(PERIOD_NAVIGATION).scan(/^### .*/)
+    refute_equal entry(SEGMENTED_CONTROL), entry(PERIOD_NAVIGATION)
   end
 
   private

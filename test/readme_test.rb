@@ -53,6 +53,20 @@ class ReadmeTest < Minitest::Test
     assert_includes readme, "main > header h1"
   end
 
+  def test_readme_shows_the_period_navigation_markup
+    assert_includes period_section, "<nav>"
+    assert_includes period_section, "<h2>Week 43, 2026 <a href="
+    refute_includes period_section[/```html.*?```/m], "class="
+  end
+
+  def test_readme_links_the_period_navigation_partial_right_after_the_count_badge
+    links = stylesheet_links
+
+    assert_equal %w[2_modules/14_count_badge.css 2_modules/15_period_navigation.css],
+links[links.index("2_modules/14_count_badge.css"), 2]
+    assert_includes readme, "│   ├── 14_count_badge.css\n│   └── 15_period_navigation.css"
+  end
+
   private
 
   def stylesheet_links
@@ -77,5 +91,9 @@ class ReadmeTest < Minitest::Test
 
   def badges_section
     readme[/^### Count badges.*?(?=^### )/m].to_s
+  end
+
+  def period_section
+    readme[/^### Period navigation.*?(?=^### )/m].to_s
   end
 end

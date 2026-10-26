@@ -86,6 +86,7 @@ Add these imports to your HTML in the correct order:
 <link rel="stylesheet" href="mvpa/2_modules/12_dialog.css">
 <link rel="stylesheet" href="mvpa/2_modules/13_segmented_control.css">
 <link rel="stylesheet" href="mvpa/2_modules/14_count_badge.css">
+<link rel="stylesheet" href="mvpa/2_modules/15_period_navigation.css">
 
 <!-- Themes -->
 <link rel="stylesheet" href="mvpa/4_theme/1_theme-switching.css">
@@ -138,7 +139,8 @@ app/assets/stylesheets/mvpa/
 │   ├── 11_turbo-transitions.css
 │   ├── 12_dialog.css
 │   ├── 13_segmented_control.css
-│   └── 14_count_badge.css
+│   ├── 14_count_badge.css
+│   └── 15_period_navigation.css
 └── 4_theme/             # Colors, theme switching, and e-ink support
     ├── 0_colors.css
     ├── 1_theme-switching.css
@@ -493,6 +495,22 @@ A `<data value>` inside a link is a count pill after the link text. The pill is 
 ```
 
 The title-bar heading `main > header h1` wraps a long single word (`min-inline-size: 0; overflow-wrap: anywhere`) instead of widening the page.
+
+### Period navigation
+
+A `<nav>` whose children are a link, a heading and a link is one tinted bar: the previous link at the start, the period label centred, the next link at the end. It works for any period. Below 768px the parts stack in a column. A link inside the heading, such as "Today", shows next to the label.
+
+```html
+<nav>
+  <a href="/weeks/2026-42">← Previous week</a>
+  <h2>Week 43, 2026 <a href="/weeks/2026-43">Today</a></h2>
+  <a href="/weeks/2026-44">Next week →</a>
+</nav>
+```
+
+- The heading is an `h2` to `h6`.
+- The `<nav>` has no other direct child, so the control is not recognised when a list or a fourth element is added.
+- Never place it inside a `<header>`; the sidebar nav and the title bar keep their own look there.
 
 ### Page Transitions
 

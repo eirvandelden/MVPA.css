@@ -162,3 +162,5 @@ Domain skills applied: software-design, rails-ui (contrast, theming), diagrams.
 - `dim-0` muted text is 2.37:1 on cream, below AA, and the plan accepts it without naming the conflict with "readable contrast" → fixed (a Design decisions entry records it; intent scopes foregrounds out and its criterion names body text; the follow-up is left to Etienne)
 - "Every CI linter" is wrong, because CI runs no RuboCop job → fixed (step 9 and the Proof line list the CI checks, add `gem build`, and name RuboCop as a project check outside CI)
 - The palette test does not prove that cards, sidebar and borders use the ordered tokens → fixed (new invariant and test `test_light_mapping_puts_cards_on_bg_0_and_borders_on_bg_2` assert the light scale mapping and `--color-border` in both files)
+
+Reproduction: committed

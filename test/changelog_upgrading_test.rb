@@ -57,8 +57,8 @@ class ChangelogUpgradingTest < Minitest::Test
     upgrading = latest_entry[/^### Upgrading.*?(?=^### |\z)/m]
 
     refute_nil upgrading, "the latest changelog entry has no ### Upgrading subsection"
-    [ 'class="week-navigation"', "<h2>", "<header>", "@media (max-width: 768px)",
-"15_period_navigation.css" ].each do |text|
+    [ 'class="week-navigation"', "<h2>", "<header>", "@media (max-width: 768px)", "@import",
+"bundle update mvpa-css", "Optional", "15_period_navigation.css" ].each do |text|
       assert_includes upgrading, text
     end
     assert_match(/^1\. /, upgrading)

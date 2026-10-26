@@ -8,12 +8,13 @@
 - **Period navigation** — a `<nav>` outside a `<header>` whose children are a link, a heading (`h2`–`h6`) and a link is one tinted bar. The previous link sits at the start, the period label is centred and the next link sits at the end. A link inside the heading, such as "Today", shows next to the label. Below 768px the parts stack in a column. The e-ink themes draw it as paper with an ink border.
 
 ### Upgrading
-1. Remove `class="week-navigation"` from the `<nav>`.
-2. Keep exactly three direct children: the previous `<a>`, a heading `<h2>`–`<h6>` with the period label, and the next `<a>`.
-3. Put a secondary link such as `Today` inside the heading.
-4. Keep the `<nav>` outside any `<header>`.
-5. Delete your `.week-navigation` rules, including the ones in `@media (max-width: 768px)`.
-6. Standalone pages only: add `15_period_navigation.css` to your stylesheet links after `14_count_badge.css`. The gem and `mvpa.css` include it already.
+1. Gem users: move the `mvpa-css` pin to this release's SHA, with `bundle update mvpa-css`.
+2. Remove `class="week-navigation"` from the `<nav>`.
+3. Keep exactly three direct children: the previous `<a>`, a heading `<h2>`–`<h6>` with the period label, and the next `<a>`.
+4. Optional: put a secondary link such as `Today` inside the heading, so it shows next to the label.
+5. Keep the `<nav>` outside any `<header>`.
+6. Delete your `.week-navigation` rules, including the ones in `@media (max-width: 768px)`, and the stylesheet file and `@import` that held them.
+7. Standalone pages only: add `15_period_navigation.css` to your stylesheet links after `14_count_badge.css`. The gem and `mvpa.css` include it already.
 
 ## 2026-10-25
 

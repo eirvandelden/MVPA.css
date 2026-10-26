@@ -100,16 +100,16 @@ class ElevationDepthSystemTest < Minitest::Test
     read("1_layout/0_header.css")
   end
 
+  def sidebar_rule(contents)
+    contents[/^body > header \{.*?\n\}/m]
+  end
+
   def article_css
     read("2_modules/8_article.css")
   end
 
   def article_rule(contents)
     contents[/article \{.*?\n\}/m]
-  end
-
-  def sidebar_rule(contents)
-    contents[/^body > header \{.*?\n\}/m]
   end
 
   def desktop_main_rule(contents)

@@ -685,6 +685,36 @@ body > header {
   border: 1px solid color-mix(in oklch, var(--color-fg) 14%, transparent);
 }
 
+/* Nav-only header: the header is an invisible track at least as tall as the
+   viewport and sticks by its bottom edge; the nav paints the card. A short nav
+   stays at the top. A tall nav scrolls with the page until its last link is in
+   view, then stays. Desktop only, so the mobile bar is untouched. */
+@media (min-width: 769px) {
+  body > header:has(> nav:only-child) {
+    align-self: end;
+    top: auto;
+    bottom: var(--shell-gutter);
+    min-block-size: calc(100dvh - 2 * var(--shell-gutter));
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background-color: transparent;
+  }
+
+  body > header > nav:only-child {
+    min-block-size: auto;
+    border-radius: var(--radius-large);
+    box-shadow: var(--shadow-3), var(--shadow-1);
+    background-color: var(--color-bg-lighter);
+  }
+
+  [data-theme="solunized-dark"] body > header > nav:only-child,
+  [data-theme="solunized-black"] body > header > nav:only-child {
+    box-shadow: none;
+    border: 1px solid color-mix(in oklch, var(--color-fg) 14%, transparent);
+  }
+}
+
 @media (max-width: 768px) {
   body {
     display: block;
@@ -2593,6 +2623,11 @@ html[data-color-scheme="system"] {
   [data-theme="eink-light"] body > header {
     border: 1px solid black;
   }
+
+  [data-theme="eink-light"] body > header > nav:only-child {
+    box-shadow: none;
+    border: 1px solid black;
+  }
 }
 
 [data-theme="eink-light"] article {
@@ -2862,6 +2897,11 @@ html[data-color-scheme="system"] {
 
 @media (min-width: 769px) {
   [data-theme="eink-dark"] body > header {
+    border: 1px solid white;
+  }
+
+  [data-theme="eink-dark"] body > header > nav:only-child {
+    box-shadow: none;
     border: 1px solid white;
   }
 }

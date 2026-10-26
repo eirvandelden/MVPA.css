@@ -52,6 +52,7 @@ main > header nav a {
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-1);
   min-block-size: var(--touch-target);
+  transition: filter var(--transition-fast), transform var(--transition-duration-fast) var(--animation-spring);
 }
 
 main > header nav a:not([role="button"]):hover,

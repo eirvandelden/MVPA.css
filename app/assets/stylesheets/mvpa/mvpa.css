@@ -1132,6 +1132,19 @@ input[type="reset"]:active {
   transform: scale(var(--animation-scale-press)) !important;
 }
 
+/* Links styled as buttons share the button's hover and press feedback. */
+a[role="button"]:hover,
+main > header nav a:hover {
+  filter: brightness(1.1);
+  text-decoration: none;
+}
+
+a[role="button"]:active,
+main > header nav a:active {
+  filter: brightness(0.95);
+  transform: scale(var(--animation-scale-press)) !important;
+}
+
 button:disabled,
 input[type="submit"]:disabled,
 input[type="button"]:disabled,
@@ -1527,6 +1540,7 @@ main > header nav a {
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-1);
   min-block-size: var(--touch-target);
+  transition: filter var(--transition-fast), transform var(--transition-duration-fast) var(--animation-spring);
 }
 
 main > header nav a:not([role="button"]):hover,
@@ -2611,6 +2625,11 @@ html[data-color-scheme="system"] {
   box-shadow: none;
 }
 
+/* A page-action link must not brighten on hover: e-ink has no brightness to give. */
+[data-theme="eink-light"] main > header nav a:hover {
+  filter: none;
+}
+
 @media (min-width: 769px) {
   [data-theme="eink-light"] body > header {
     border: 1px solid black;
@@ -2885,6 +2904,11 @@ html[data-color-scheme="system"] {
 [data-theme="eink-dark"] body > header,
 [data-theme="eink-dark"] main > header nav a {
   box-shadow: none;
+}
+
+/* A page-action link must not brighten on hover: e-ink has no brightness to give. */
+[data-theme="eink-dark"] main > header nav a:hover {
+  filter: none;
 }
 
 @media (min-width: 769px) {

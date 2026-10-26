@@ -86,6 +86,11 @@
   box-shadow: none;
 }
 
+/* A page-action link must not brighten on hover: e-ink has no brightness to give. */
+[data-theme="eink-light"] main > header nav a:hover {
+  filter: none;
+}
+
 @media (min-width: 769px) {
   [data-theme="eink-light"] body > header {
     border: 1px solid black;
@@ -360,6 +365,11 @@
 [data-theme="eink-dark"] body > header,
 [data-theme="eink-dark"] main > header nav a {
   box-shadow: none;
+}
+
+/* A page-action link must not brighten on hover: e-ink has no brightness to give. */
+[data-theme="eink-dark"] main > header nav a:hover {
+  filter: none;
 }
 
 @media (min-width: 769px) {

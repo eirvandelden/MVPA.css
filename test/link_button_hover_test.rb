@@ -36,7 +36,9 @@ class LinkButtonHoverTest < Minitest::Test
     each_source("4_theme/2_eink.css") do |name, css|
       %w[eink-light eink-dark].each do |theme|
         selector = "[data-theme=\"#{theme}\"] #{PAGE_ACTION_LINK}:hover"
-        assert_match(/filter:\s*none/, rule_body(css, selector), "#{name}: #{theme} page-action link brightens on hover")
+
+        assert_match(/filter:\s*none/, rule_body(css, selector),
+          "#{name}: #{theme} page-action link brightens on hover")
       end
     end
   end
@@ -46,6 +48,7 @@ class LinkButtonHoverTest < Minitest::Test
   def assert_brightens_without_underline(selector)
     each_source("2_modules/1_forms.css") do |name, css|
       body = rule_body(css, selector)
+
       assert_match(/filter:\s*brightness\(1\.\d+\)/, body, "#{name}: #{selector} does not brighten")
       assert_match(/text-decoration:\s*none/, body, "#{name}: #{selector} can underline")
     end

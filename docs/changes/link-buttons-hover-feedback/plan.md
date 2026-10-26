@@ -34,6 +34,7 @@ Not affected: two selectors join existing rule lists.
 ## Design decisions
 
 - Link buttons and page-action links share the button hover (`filter: brightness(1.1)`) and press (`scale(var(--animation-scale-press))`) rules. Intent left the exact feedback open; the button values keep links and neighbouring buttons identical.
+- Departure from the first design: the link selectors sit in their own hover and press rules right after the button ones in `1_forms.css`, not in the shared lists. An existing test locates the button press rule by its exact selector list, and a bug fix does not touch existing tests.
 - The `transition` already lives on `a[role="button"]`. Page-action links gain the same `transition` so the hover animates.
 
 ## Integration points

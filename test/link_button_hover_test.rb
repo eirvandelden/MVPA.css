@@ -9,18 +9,20 @@ class LinkButtonHoverTest < Minitest::Test
 
   PAGE_ACTION_LINK = "main > header nav a".freeze
   LINK_BUTTON = 'a[role="button"]'.freeze
+  # Zero specificity, so a variant such as .button-danger:active wins on a link as it does on a button.
+  LINKS = ":where(#{LINK_BUTTON}, #{PAGE_ACTION_LINK})".freeze
 
   def test_a_hovered_page_action_link_brightens_and_never_underlines
-    assert_brightens_without_underline("#{PAGE_ACTION_LINK}:hover")
+    assert_brightens_without_underline("#{LINKS}:hover")
   end
 
   def test_a_hovered_link_button_brightens_and_never_underlines
-    assert_brightens_without_underline("#{LINK_BUTTON}:hover")
+    assert_brightens_without_underline("#{LINKS}:hover")
   end
 
   def test_a_pressed_page_action_link_scales_down
     each_source("2_modules/1_forms.css") do |name, css|
-      assert_match(/scale\(var\(--animation-scale-press\)\)/, rule_body(css, "#{PAGE_ACTION_LINK}:active"),
+      assert_match(/scale\(var\(--animation-scale-press\)\)/, rule_body(css, "#{LINKS}:active"),
         "#{name}: pressing a page-action link does not scale it down")
     end
   end
@@ -32,13 +34,27 @@ class LinkButtonHoverTest < Minitest::Test
     end
   end
 
-  def test_eink_themes_keep_page_action_links_flat_on_hover
+  def test_eink_themes_keep_page_action_links_flat_on_hover_and_press
     each_source("4_theme/2_eink.css") do |name, css|
       %w[eink-light eink-dark].each do |theme|
-        selector = "[data-theme=\"#{theme}\"] #{PAGE_ACTION_LINK}:hover"
+        %w[hover active].each do |state|
+          selector = "[data-theme=\"#{theme}\"] #{PAGE_ACTION_LINK}:#{state}"
 
-        assert_match(/filter:\s*none/, rule_body(css, selector),
-          "#{name}: #{theme} page-action link brightens on hover")
+          assert_match(/filter:\s*none/, rule_body(css, selector),
+"#{name}: #{theme} page-action link filters on #{state}")
+        end
+      end
+    end
+  end
+
+  def test_the_hover_wiggle_underline_skips_page_action_links_and_link_buttons
+    each_source("0_base/3_animations.css") do |name, css|
+      selectors = css.scan(/^\s*(a:not\(\[class\]\):not\(.*?)\s*\{/).flatten
+
+      assert_equal 3, selectors.size, "#{name}: expected the wiggle underline's three selectors"
+      selectors.each do |selector|
+        assert_includes selector, PAGE_ACTION_LINK, "#{name}: the wiggle underline still draws under a page-action link"
+        assert_includes selector, LINK_BUTTON, "#{name}: the wiggle underline still draws under a link button"
       end
     end
   end

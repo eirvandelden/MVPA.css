@@ -50,7 +50,7 @@ class PeriodNavigationTest < Minitest::Test
       assert_includes rule_body(phone, NAV), "grid-template-columns: minmax(0, 1fr);", name
       assert_includes rule_body(phone, NAV), "justify-items: center;", name
       assert_includes rule_body(phone, "#{NAV} > a:first-child"), "justify-self: center;", name
-      assert_includes rule_body(phone, "#{NAV} > :is(h2, h3, h4, h5, h6)"), "font-size: var(--text-medium);", name
+      assert_includes rule_body(phone, "#{NAV} > :is(h2, h3, h4)"), "font-size: var(--text-medium);", name
     end
   end
 

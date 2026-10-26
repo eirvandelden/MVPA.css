@@ -222,7 +222,7 @@ Step 10 evidence, run by the coordinator on 2026-10-26 after the rebase on `890d
 - Firefox (headless, driven over WebDriver BiDi): all ten desktop and theme cases give the same numbers as Chrome. Firefox's `--screenshot` mode was not usable: it ignores the scroll and drops fixed elements.
 - WebKit (iPad Pro 13-inch Simulator, iOS 27 Safari, 1032px wide, so the desktop layout): 3 links, long main, mid-scroll: card top at 10px. 30 links, short main, at page end and with a long main at mid-scroll: card bottom at 1234px in a 1244px viewport, last link visible.
 - View transition (Chrome, demo pages served over local HTTP, transition frozen at 150ms): with 3 links and with 30 links, the card stays at (10, 10), 240px wide, with its shadow, while the main content slides; only the current-link highlight cross-fades.
-- Unverified: desktop Safari on macOS, because WebDriver needs "Allow remote automation", which is off on this machine.
+- Unverified: desktop Safari on macOS, because WebDriver needs "Allow remote automation", which is off on this machine. Etienne accepted the iPad Safari result as the WebKit check on 2026-10-26.
 
 ## Risks
 

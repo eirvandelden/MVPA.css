@@ -58,10 +58,11 @@ class ChangelogUpgradingTest < Minitest::Test
 
     refute_nil upgrading, "the latest changelog entry has no ### Upgrading subsection"
     [ 'class="week-navigation"', "<h2>", "<header>", "@media (max-width: 768px)", "@import",
-"bundle update mvpa-css", "Optional", "15_period_navigation.css" ].each do |text|
+"Optional", "15_period_navigation.css" ].each do |text|
       assert_includes upgrading, text
     end
     assert_match(/^1\. /, upgrading)
+    refute_match(/pin|bundle update/, upgrading, "every upgrade bumps the pin, so the steps leave it out")
   end
 
   def test_the_latest_entry_lists_what_was_added_and_ends_with_upgrading

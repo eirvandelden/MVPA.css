@@ -81,3 +81,5 @@ Test setup: Minitest reading CSS text through `test/css_source_helper.rb`; no fi
 
 ---
 Domain skills applied: rails-ui (CSS and HTML structure), ruby-style.
+
+Reproduction: committed

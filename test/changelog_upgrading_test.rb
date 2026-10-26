@@ -56,7 +56,8 @@ class ChangelogUpgradingTest < Minitest::Test
     upgrading = latest_entry[/^### Upgrading.*?(?=^### |\z)/m]
 
     refute_nil upgrading, "the latest changelog entry has no ### Upgrading subsection"
-    assert_includes upgrading, "body > header > nav"
+    assert_includes upgrading, "body > header > nav:only-child"
+    assert_includes upgrading, "only its `<nav>`"
     assert_match(/^1\. /, upgrading)
   end
 

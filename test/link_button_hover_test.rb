@@ -38,7 +38,7 @@ class LinkButtonHoverTest < Minitest::Test
           selector = "[data-theme=\"#{theme}\"] #{PAGE_ACTION_LINK}:#{state}"
 
           assert_match(/filter:\s*none/, rule_body(css, selector),
-"#{name}: #{theme} page-action link filters on #{state}")
+            "#{name}: #{theme} page-action link filters on #{state}")
         end
       end
     end

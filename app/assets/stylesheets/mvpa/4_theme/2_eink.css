@@ -90,6 +90,11 @@
   [data-theme="eink-light"] body > header {
     border: 1px solid black;
   }
+
+  [data-theme="eink-light"] body > header > nav:only-child {
+    box-shadow: none;
+    border: 1px solid black;
+  }
 }
 
 [data-theme="eink-light"] article {
@@ -359,6 +364,11 @@
 
 @media (min-width: 769px) {
   [data-theme="eink-dark"] body > header {
+    border: 1px solid white;
+  }
+
+  [data-theme="eink-dark"] body > header > nav:only-child {
+    box-shadow: none;
     border: 1px solid white;
   }
 }

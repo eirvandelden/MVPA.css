@@ -152,6 +152,18 @@ input[type="reset"]:active {
   transform: scale(var(--animation-scale-press)) !important;
 }
 
+/* Links styled as buttons share the button's hover and press feedback. :where() keeps the
+   specificity at zero, so a variant such as .button-danger:active wins on a link as on a button. */
+:where(a[role="button"], main > header nav a):hover {
+  filter: brightness(1.1);
+  text-decoration: none;
+}
+
+:where(a[role="button"], main > header nav a):active {
+  filter: brightness(0.95);
+  transform: scale(var(--animation-scale-press)) !important;
+}
+
 button:disabled,
 input[type="submit"]:disabled,
 input[type="button"]:disabled,

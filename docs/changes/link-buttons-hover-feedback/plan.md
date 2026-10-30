@@ -46,7 +46,7 @@ Not affected: two selectors join existing rule lists.
 ## Files that change
 
 - `app/assets/stylesheets/mvpa/2_modules/1_forms.css` — add `:where(a[role="button"], main > header nav a)` hover and press rules after the button ones.
-- `app/assets/stylesheets/mvpa/2_modules/5_buttons.css` — add `transition` to `main > header nav a`; add `text-decoration: none` to the role="button" hover guard.
+- `app/assets/stylesheets/mvpa/2_modules/5_buttons.css` — add `transition` to `main > header nav a`.
 - `app/assets/stylesheets/mvpa/0_base/3_animations.css` — the wiggle underline's three selectors skip `main > header nav a` and `a[role="button"]`.
 - `app/assets/stylesheets/mvpa/4_theme/2_eink.css` — `filter: none` for page-action link hover and press in both eink themes.
 - `app/assets/stylesheets/mvpa/mvpa.css` — the same edits.

@@ -51,7 +51,7 @@ Not affected: two selectors join existing rule lists.
 - `app/assets/stylesheets/mvpa/4_theme/2_eink.css` — `filter: none` for page-action link hover and press in both eink themes.
 - `app/assets/stylesheets/mvpa/mvpa.css` — the same edits.
 - `test/link_button_hover_test.rb` — new.
-- `CHANGELOG.md` — new 2026-10-26 entry, `### Fixed`, no `### Upgrading`.
+- `CHANGELOG.md` — one bullet at the end of the existing 2026-10-26 entry's `### Fixed` (the sidebar change owns that entry and its `### Upgrading`; this fix adds no upgrade step).
 
 ## Order of work
 

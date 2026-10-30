@@ -2,6 +2,11 @@
 
 **Note:** This project uses git SHAs instead of semver. Pin to a specific SHA in your Gemfile (`ref: "e4179e9"`). Each GitHub release is tagged with its commit SHA.
 
+## 2026-10-29
+
+### Fixed
+- **Solunized light is cream** — `solunized-light` and the default light palette now use the Solarized cream backgrounds, so they no longer look like the neutral `solunized-white`. Cards and the sidebar are the lightest cream, the page is a middle cream and borders are the darkest.
+
 ## 2026-10-26
 
 ### Fixed

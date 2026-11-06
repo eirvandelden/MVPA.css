@@ -8,7 +8,7 @@ In dark mode, mvpa.css paints the page with the darkest background (`bg_0`) and 
 
 ## Proposed outcome
 
-In every dark rendering of mvpa.css, a surface is darker than the layer behind it, as in Herdr and Nova. The default element colours give this without classes or overrides in the consuming app. Light and white themes stay as they are.
+In every dark rendering of mvpa.css, a surface is darker than the canvas behind it, as in Herdr and Nova. A part inset in a surface (a period navigation inside an article, the selected segment of a segmented control, a mobile tab item) may be lighter than that surface, because no step darker than `bg_0` exists. The default element colours give this without classes or overrides in the consuming app. Light and white themes stay as they are.
 
 ## Affected users and systems
 
@@ -28,6 +28,8 @@ In every dark rendering of mvpa.css, a surface is darker than the layer behind i
 - `[data-theme="solunized-dark"]` and `[data-theme="solunized-black"]`.
 - In the dark themes, link text on the canvas uses `--color-br-blue`, the one existing palette colour with the same hue that does better (4.496:1 against 3.78:1 for `--color-blue` on `bg_1` in solunized-dark).
 - The current-page sidebar link text uses `var(--color-bg-lightest)`, so it stays readable on the blue fill in the dark themes (3.78:1 becomes 4.69:1). This also changes it in the light and e-ink themes (4.48:1 becomes 5.09:1 in light).
+- In the dark themes, a visited link on the canvas uses `--color-br-violet` (4.94:1 against 4.18:1 for `--color-violet` on `bg_1` in solunized-dark). Light themes keep `--color-violet`.
+- The dark link colours resolve through variables (`var(--color-br-blue)`, `var(--color-br-violet)`). The system-dark `:root` fallback, which has no `data-theme`, declares each of those two palette values once, and a test pins them equal to the solunized-dark values.
 - A CHANGELOG entry with no `### Upgrading` subsection, because a colour fix needs no action in an app.
 
 ## Out of scope
@@ -56,6 +58,9 @@ Muted text (`--color-dim-0`) on the solunized-dark canvas drops from 4.04:1 to 3
 - Autonomous delivery, no Codex review — no permissions beyond the defaults are needed; Claude reviewer only.
 - Widen scope to a dark link colour, only from the existing palette — chosen over accepting 3.78:1; no new colour or palette change.
 - Switch the current-page sidebar link text to `var(--color-bg-lightest)` — chosen over keeping `var(--color-bg)`, even though light and e-ink output changes.
+- Visited links use `--color-br-violet` in the dark themes — chosen over keeping `--color-violet` at 4.18:1, so visited links stay readable on the new canvas.
+- Declare `--color-br-blue` and `--color-br-violet` once in the system-dark `:root` block and have the link tokens use the variables — chosen over a fallback that keeps `--color-blue`; Etienne wants variables, not copied values in the link rules.
+- Insets may be lighter than their surface in the dark themes — chosen over painting them flat on the surface; no darker palette step exists, and the CSS for these parts stays unchanged.
 - Defaults must be right with no per-app wiring — mvpa.css is mostly classless.
 
 ## Open questions

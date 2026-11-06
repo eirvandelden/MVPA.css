@@ -178,17 +178,17 @@ p {
 }
 
 a {
-  color: var(--color-primary);
+  color: var(--color-link);
   text-underline-offset: 0.2em;
   transition: color var(--transition-fast);
 }
 
 a:hover {
-  color: var(--color-blue);
+  color: var(--color-link);
 }
 
 a:visited {
-  color: var(--color-violet);
+  color: var(--color-link-visited);
 }
 
 *:focus-visible {
@@ -1689,7 +1689,7 @@ header nav ul li > details > summary:hover {
 
 header nav ul li > a[aria-current="page"] {
   background-color: var(--color-primary);
-  color: var(--color-bg);
+  color: var(--color-bg-lightest);
 }
 
 /* Subnavigation <details> (overrides base details.css) */
@@ -2080,7 +2080,7 @@ dialog > footer {
 /*
  * Segmented control
  * A <menu> of links (view switch) or of radios (form choice) is one row of joined
- * segments on a tinted track. The selected segment is raised on the page surface.
+ * segments on a tinted track. The selected segment stands out on the tinted track.
  * Two strict gates decide which <menu> qualifies: every item is a link, or every
  * item is a label holding only a radio. Any other <menu> keeps its plain look.
  * Place a view switch in the page content, not in "main > header nav".
@@ -2348,6 +2348,10 @@ nav:not(header nav):has(> a:first-child + :is(h2, h3, h4, h5, h6) + a:last-child
   --color-fg: var(--color-fg-0);
   --color-fg-lighter: var(--color-dim-0);
   --color-fg-lightest: var(--color-dim-0);
+
+  /* link: set per mapping block, never in the semantic block below, which would override every theme */
+  --color-link: var(--color-primary);
+  --color-link-visited: var(--color-violet);
 }
 
 /* Solunized Dark - default dark theme */
@@ -2370,12 +2374,15 @@ nav:not(header nav):has(> a:first-child + :is(h2, h3, h4, h5, h6) + a:last-child
     --color-orange: oklch(71.22% 0.1467 48.92);
     --color-violet: oklch(69.35% 0.1458 300.84);
 
-    /* bg scale: bg_0=darkest, bg_1=lighter panel, bg_2=lightest border */
-    --color-bg: var(--color-bg-0);
-    --color-bg-lighter: var(--color-bg-1);
-    --color-bg-lightest: var(--color-bg-2);
-    --color-bg-darker: var(--color-bg-0);
-    --color-bg-darkest: var(--color-bg-0);
+    --color-br-blue: oklch(69.99% 0.1547 255.01);
+    --color-br-violet: oklch(73.83% 0.1454 300.88);
+
+    /* bg scale: bg_0=darkest step, the surface (sidebar card, article), bg_1=canvas (page background), bg_2=lightest border */
+    --color-bg: var(--color-bg-1);
+    --color-bg-lighter: var(--color-bg-0);
+    --color-bg-lightest: var(--color-bg-0);
+    --color-bg-darker: var(--color-bg-1);
+    --color-bg-darkest: var(--color-bg-2);
 
     /* fg scale: fg_1=brightest, fg_0=normal, dim_0=subdued */
     --color-fg-darkest: var(--color-fg-1);
@@ -2383,6 +2390,9 @@ nav:not(header nav):has(> a:first-child + :is(h2, h3, h4, h5, h6) + a:last-child
     --color-fg: var(--color-fg-0);
     --color-fg-lighter: var(--color-dim-0);
     --color-fg-lightest: var(--color-dim-0);
+
+    --color-link: var(--color-br-blue);
+    --color-link-visited: var(--color-br-violet);
   }
 }
 
@@ -2510,17 +2520,20 @@ nav:not(header nav):has(> a:first-child + :is(h2, h3, h4, h5, h6) + a:last-child
 
 [data-theme="solunized-dark"],
 [data-theme="solunized-black"] {
-  --color-bg: var(--color-bg-0);
-  --color-bg-lighter: var(--color-bg-1);
-  --color-bg-lightest: var(--color-bg-2);
-  --color-bg-darker: var(--color-bg-0);
-  --color-bg-darkest: var(--color-bg-0);
+  --color-bg: var(--color-bg-1);
+  --color-bg-lighter: var(--color-bg-0);
+  --color-bg-lightest: var(--color-bg-0);
+  --color-bg-darker: var(--color-bg-1);
+  --color-bg-darkest: var(--color-bg-2);
 
   --color-fg-darkest: var(--color-fg-1);
   --color-fg-darker: var(--color-fg-1);
   --color-fg: var(--color-fg-0);
   --color-fg-lighter: var(--color-dim-0);
   --color-fg-lightest: var(--color-dim-0);
+
+  --color-link: var(--color-br-blue);
+  --color-link-visited: var(--color-br-violet);
 }
 
 [data-theme="solunized-light"],
@@ -2536,6 +2549,9 @@ nav:not(header nav):has(> a:first-child + :is(h2, h3, h4, h5, h6) + a:last-child
   --color-fg: var(--color-fg-0);
   --color-fg-lighter: var(--color-dim-0);
   --color-fg-lightest: var(--color-dim-0);
+
+  --color-link: var(--color-primary);
+  --color-link-visited: var(--color-violet);
 }
 
 /* Semantic color mappings */

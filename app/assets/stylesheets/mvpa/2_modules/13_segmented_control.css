@@ -1,7 +1,7 @@
 /*
  * Segmented control
  * A <menu> of links (view switch) or of radios (form choice) is one row of joined
- * segments on a tinted track. The selected segment is raised on the page surface.
+ * segments on a tinted track. The selected segment stands out on the tinted track.
  * Two strict gates decide which <menu> qualifies: every item is a link, or every
  * item is a label holding only a radio. Any other <menu> keeps its plain look.
  * Place a view switch in the page content, not in "main > header nav".

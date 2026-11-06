@@ -2,6 +2,38 @@
 module ColorContrastHelper
   private
 
+  # The three dark renderings and the default light one: the palette body and the scale mapping body of each.
+  def renderings(css)
+    system_dark = rule_bodies(css, ":root").find { |body| body.include?("--color-bg-0: oklch(26.88%") }
+    light = rule_bodies(css, ":root").find { |body| body.include?("--color-bg-0: oklch(97.35%") }
+    { "system dark" => { palette: system_dark, mapping: system_dark },
+      "solunized-dark" => theme(css, "solunized-dark"),
+      "solunized-black" => theme(css, "solunized-black"),
+      "system light" => { palette: light, mapping: light } }
+  end
+
+  def theme(css, name)
+    selector = %([data-theme="#{name}"])
+    { palette: rule_bodies(css, selector).find { |body| body.include?("--color-bg-0:") },
+      mapping: rule_bodies(css, selector).find { |body| body.include?("--color-bg:") } }
+  end
+
+  # The OKLCH color a scale or palette token resolves to, following var() references through the mapping.
+  def resolved(rendering, token)
+    name = token
+    3.times do
+      reference = rendering[:mapping][/--color-#{name}:\s*var\(--color-([\w-]+)\)/, 1]
+      break unless reference
+
+      name = reference
+    end
+    oklch(rendering[:palette], name)
+  end
+
+  def contrast_between(rendering, foreground, background)
+    contrast(luminance(*resolved(rendering, foreground)), luminance(*resolved(rendering, background)))
+  end
+
   def oklch(body, token)
     declared(body, token).match(/oklch\(([\d.]+)%\s+([\d.]+)\s+([\d.]+)\)/).captures.map(&:to_f).tap do |values|
       values[0] /= 100

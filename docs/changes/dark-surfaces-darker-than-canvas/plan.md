@@ -244,7 +244,7 @@ Visited link colour (two architects again, "smallest diff" and "clearest token m
 
 ## Files that change
 
-- `test/color_contrast_helper.rb` — new. Module `ColorContrastHelper` with `declared(body, token)`, `oklch(body, token)`, `contrast(first, second)` and `luminance(lightness, chroma, hue)`, moved unchanged from `SolunizedLightCreamTest`. The module declares them `private`, as the test did.
+- `test/color_contrast_helper.rb` — new (also holds `renderings`, `theme`, `resolved` and `contrast_between`, which the two new test files share). Module `ColorContrastHelper` with `declared(body, token)`, `oklch(body, token)`, `contrast(first, second)` and `luminance(lightness, chroma, hue)`, moved unchanged from `SolunizedLightCreamTest`. The module declares them `private`, as the test did.
 - `test/solunized_light_cream_test.rb` — add `require_relative "color_contrast_helper"`, include `ColorContrastHelper`, and delete the four private methods it now gets from the module. No test changes.
 - `test/dark_surface_layering_test.rb` — new, with `require_relative "css_source_helper"` and `require_relative "color_contrast_helper"`. The layering regression tests listed in `## Proof`.
 - `test/link_colour_test.rb` — new, same requires. The link and current-page regression tests listed in `## Proof`.
@@ -370,3 +370,5 @@ Domain skills applied: software-design, glossary, diagrams, rails-ui (CSS and ac
 - Step 3 expects the declaration-count test to pass already, and the partial glob matches `mvpa.css` and `0_colors.css` → fixed (the test is split in two, the count test fails first, and the glob skips both files by name)
 - The planned system-dark comment uses the glossary Avoid word "card" → fixed (the comment reads "the surface (sidebar card, article)")
 - The segmented control and the mobile tab bar visibly invert and are not in the browser check → fixed (both join step 10, the segmented-control header comment changes, and the risk lists them as accepted insets)
+
+Reproduction: committed

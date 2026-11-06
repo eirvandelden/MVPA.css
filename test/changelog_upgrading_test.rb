@@ -9,6 +9,7 @@ class ChangelogUpgradingTest < Minitest::Test
   SIDEBAR_TRACK = "2026-10-26".freeze
   CREAM = "2026-10-29".freeze
   PERIOD_NAVIGATION = "2026-11-03".freeze
+  DARK_SURFACES = "2026-11-06".freeze
 
   def test_the_buttons_entry_tells_apps_how_to_upgrade
     upgrading = entry(BUTTONS)[/^### Upgrading.*?(?=^### |\z)/m]
@@ -71,6 +72,10 @@ class ChangelogUpgradingTest < Minitest::Test
 
   def test_the_cream_entry_is_a_fix_with_no_upgrading_steps
     assert_equal [ "### Fixed" ], entry(CREAM).scan(/^### .*/)
+  end
+
+  def test_the_dark_surfaces_entry_only_lists_a_fix
+    assert_equal [ "### Fixed" ], entry(DARK_SURFACES).scan(/^### .*/)
   end
 
   def test_the_period_navigation_entry_tells_apps_how_to_replace_their_week_navigation_class

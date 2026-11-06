@@ -41,6 +41,10 @@
   --color-fg: var(--color-fg-0);
   --color-fg-lighter: var(--color-dim-0);
   --color-fg-lightest: var(--color-dim-0);
+
+  /* link: set per mapping block, never in the semantic block below, which would override every theme */
+  --color-link: var(--color-primary);
+  --color-link-visited: var(--color-violet);
 }
 
 /* Solunized Dark - default dark theme */
@@ -63,12 +67,15 @@
     --color-orange: oklch(71.22% 0.1467 48.92);
     --color-violet: oklch(69.35% 0.1458 300.84);
 
-    /* bg scale: bg_0=darkest, bg_1=lighter panel, bg_2=lightest border */
-    --color-bg: var(--color-bg-0);
-    --color-bg-lighter: var(--color-bg-1);
-    --color-bg-lightest: var(--color-bg-2);
-    --color-bg-darker: var(--color-bg-0);
-    --color-bg-darkest: var(--color-bg-0);
+    --color-br-blue: oklch(69.99% 0.1547 255.01);
+    --color-br-violet: oklch(73.83% 0.1454 300.88);
+
+    /* bg scale: bg_0=darkest step, the surface (sidebar card, article), bg_1=canvas (page background), bg_2=lightest border */
+    --color-bg: var(--color-bg-1);
+    --color-bg-lighter: var(--color-bg-0);
+    --color-bg-lightest: var(--color-bg-0);
+    --color-bg-darker: var(--color-bg-1);
+    --color-bg-darkest: var(--color-bg-2);
 
     /* fg scale: fg_1=brightest, fg_0=normal, dim_0=subdued */
     --color-fg-darkest: var(--color-fg-1);
@@ -76,6 +83,9 @@
     --color-fg: var(--color-fg-0);
     --color-fg-lighter: var(--color-dim-0);
     --color-fg-lightest: var(--color-dim-0);
+
+    --color-link: var(--color-br-blue);
+    --color-link-visited: var(--color-br-violet);
   }
 }
 
@@ -203,17 +213,20 @@
 
 [data-theme="solunized-dark"],
 [data-theme="solunized-black"] {
-  --color-bg: var(--color-bg-0);
-  --color-bg-lighter: var(--color-bg-1);
-  --color-bg-lightest: var(--color-bg-2);
-  --color-bg-darker: var(--color-bg-0);
-  --color-bg-darkest: var(--color-bg-0);
+  --color-bg: var(--color-bg-1);
+  --color-bg-lighter: var(--color-bg-0);
+  --color-bg-lightest: var(--color-bg-0);
+  --color-bg-darker: var(--color-bg-1);
+  --color-bg-darkest: var(--color-bg-2);
 
   --color-fg-darkest: var(--color-fg-1);
   --color-fg-darker: var(--color-fg-1);
   --color-fg: var(--color-fg-0);
   --color-fg-lighter: var(--color-dim-0);
   --color-fg-lightest: var(--color-dim-0);
+
+  --color-link: var(--color-br-blue);
+  --color-link-visited: var(--color-br-violet);
 }
 
 [data-theme="solunized-light"],
@@ -229,6 +242,9 @@
   --color-fg: var(--color-fg-0);
   --color-fg-lighter: var(--color-dim-0);
   --color-fg-lightest: var(--color-dim-0);
+
+  --color-link: var(--color-primary);
+  --color-link-visited: var(--color-violet);
 }
 
 /* Semantic color mappings */

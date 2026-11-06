@@ -106,8 +106,7 @@ Add these imports to your HTML in the correct order:
 ```
 
 - `data-color-scheme`: `"system"` (default), `"light"`, or `"dark"`
-- `data-theme`: `"solunized-light"` (default), `"solunized-dark"`, `"solunized-white"`,
-  or `"solunized-black"`
+- `data-theme`: `"solunized-light"` (default), `"solunized-dark"`, `"solunized-white"`, or `"solunized-black"`
 
 ## File Structure
 
@@ -201,7 +200,7 @@ All headings (`<h1>` through `<h6>`), paragraphs (`<p>`), and text elements are 
 
 - **Headings** – Sized from `--text-xx-large` (h1) to `--text-small` (h6)
 - **Paragraphs** – `1rem` line height, max-width constrained
-- **Links** – Blue primary color, underline on hover, violet when visited
+- **Links** – Blue, underline on hover, violet when visited; the brighter blue and violet in dark Solunized themes, ink in e-ink
 - **Code elements** – `<code>`, `<kbd>`, `<samp>` have dark background
 - **Pre blocks** – `<pre>` for code blocks with horizontal scroll
 - **Lists** – `<ul>` and `<ol>` with proper indentation
@@ -515,20 +514,11 @@ A `<nav>` whose children are a link, a heading and a link is one tinted bar: the
 
 ### Page Transitions
 
-Direction-aware page transitions for Turbo/View-Transitions navigation:
-sliding "down" when navigating to a sidebar item later in the list, "up"
-when navigating to one earlier — vertical on desktop, horizontal on mobile
-(matching the sidebar's own responsive behavior).
+Direction-aware page transitions for Turbo/View-Transitions navigation: sliding "down" when navigating to a sidebar item later in the list, "up" when navigating to one earlier — vertical on desktop, horizontal on mobile (matching the sidebar's own responsive behavior).
 
-The CSS (`2_modules/11_turbo-transitions.css`) and the direction-detection
-script are both part of the framework, but one small piece **must be
-copied into your own app's layout** — it can't be shipped as an external
-file, because it has to run synchronously before the page's first paint,
-and an external script always introduces a network round-trip that would
-risk a flash of the wrong direction (or no direction at all).
+The CSS (`2_modules/11_turbo-transitions.css`) and the direction-detection script are both part of the framework, but one small piece **must be copied into your own app's layout** — it can't be shipped as an external file, because it has to run synchronously before the page's first paint, and an external script always introduces a network round-trip that would risk a flash of the wrong direction (or no direction at all).
 
-Add this as the **very first thing inside `<head>`**, before any
-stylesheet or other script:
+Add this as the **very first thing inside `<head>`**, before any stylesheet or other script:
 
 ```html
 <script>
@@ -544,15 +534,13 @@ stylesheet or other script:
 
 #### Rails (importmap-rails)
 
-Turbo requires this meta tag on every page that should participate in a
-view transition. Add it to the shared layout's `<head>`:
+Turbo requires this meta tag on every page that should participate in a view transition. Add it to the shared layout's `<head>`:
 
 ```html
 <meta name="view-transition" content="same-origin">
 ```
 
-The gem pins `mvpa/page_transitions` automatically. Import it once in
-`app/javascript/application.js`:
+The gem pins `mvpa/page_transitions` automatically. Import it once in `app/javascript/application.js`:
 
 ```javascript
 import "mvpa/page_transitions"
@@ -582,7 +570,7 @@ All design values are defined as CSS custom properties for easy customization.
 
 ### Colors
 
-**Background shades** (light to dark):
+**Background shades** (they name roles; dark themes reverse the lightness):
 - `--color-bg-lightest`
 - `--color-bg-lighter`
 - `--color-bg`
@@ -597,7 +585,9 @@ All design values are defined as CSS custom properties for easy customization.
 - `--color-fg-lightest`
 
 **Semantic colors**:
-- `--color-primary` – Blue for links and focus
+- `--color-primary` – Blue for focus, buttons and the current-page fill
+- `--color-link` – Link text: the primary blue in light Solunized themes, the brighter blue in dark Solunized themes, ink in e-ink
+- `--color-link-visited` – Visited link text: violet in light Solunized themes, the brighter violet in dark Solunized themes, ink in e-ink
 - `--color-success` – Green for positive actions
 - `--color-danger` – Red for destructive actions
 - `--color-warning` – Yellow for caution

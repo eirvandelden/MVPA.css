@@ -13,15 +13,22 @@ class ElevationDepthSystemTest < Minitest::Test
   end
 
   def test_light_and_white_themes_remap_canvas_one_step_darker
-    assert_includes colors_css, "--color-bg: var(--color-bg-1);"
-    assert_includes packaged_manifest, "--color-bg: var(--color-bg-1);"
+    [ colors_css, packaged_manifest ].each do |css|
+      light_white_block = css[/\[data-theme="solunized-light"\],\n\[data-theme="solunized-white"\] \{.*?\}/m]
+
+      assert light_white_block, "expected to find the solunized-light/white mapping block"
+      assert_includes light_white_block, "--color-bg: var(--color-bg-1);"
+    end
   end
 
-  def test_dark_and_black_themes_are_unchanged
-    dark_black_block = colors_css[/\[data-theme="solunized-dark"\],\n\[data-theme="solunized-black"\] \{.*?\}/m]
+  def test_dark_and_black_themes_put_the_canvas_on_bg_1
+    [ colors_css, packaged_manifest ].each do |css|
+      dark_black_block = css[/\[data-theme="solunized-dark"\],\n\[data-theme="solunized-black"\] \{.*?\}/m]
 
-    assert dark_black_block, "expected to find the solunized-dark/black mapping block"
-    assert_includes dark_black_block, "--color-bg: var(--color-bg-0);"
+      assert dark_black_block, "expected to find the solunized-dark/black mapping block"
+      assert_includes dark_black_block, "--color-bg: var(--color-bg-1);"
+      assert_includes dark_black_block, "--color-bg-lighter: var(--color-bg-0);"
+    end
   end
 
   def test_sidebar_floats_with_gutter_and_no_internal_scrollbar

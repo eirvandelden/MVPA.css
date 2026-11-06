@@ -6,6 +6,9 @@ module ColorContrastHelper
   def renderings(css)
     system_dark = rule_bodies(css, ":root").find { |body| body.include?("--color-bg-0: oklch(26.88%") }
     light = rule_bodies(css, ":root").find { |body| body.include?("--color-bg-0: oklch(97.35%") }
+
+    assert system_dark, "no :root body holds the system-dark palette (--color-bg-0: oklch(26.88%)"
+    assert light, "no :root body holds the default light palette (--color-bg-0: oklch(97.35%)"
     { "system dark" => { palette: system_dark, mapping: system_dark },
       "solunized-dark" => theme(css, "solunized-dark"),
       "solunized-black" => theme(css, "solunized-black"),

@@ -124,7 +124,10 @@ class LinkColourTest < Minitest::Test
   private
 
   def semantic_root(css)
-    rule_bodies(css, ":root").find { |body| body.include?("--color-primary:") }.to_s
+    body = rule_bodies(css, ":root").find { |candidate| candidate.include?("--color-primary:") }
+
+    assert body, "no :root body declares --color-primary, so the semantic root was not found"
+    body
   end
 
   def other_partials

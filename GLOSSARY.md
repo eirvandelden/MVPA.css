@@ -3,7 +3,7 @@
 - **Canvas** — the page background behind every surface, the `--color-bg` token. Avoid: page colour, base.
 - **Count badge** — a `<data value>` inside a link, shown as a pill with the number of items that need attention; hidden at zero. Avoid: tag, counter.
 - **Form choice** — a segmented control built from a `<menu>` of radios, normally inside a `<fieldset>`, that picks one value for a form.
-- **Inset** — a part painted inside a surface: a period navigation inside an article, the selected segment of a segmented control, a mobile tab item. In the dark themes an inset may be lighter than its surface, because no palette step is darker than `bg-0`. Avoid: raised part.
+- **Inset** — a part painted inside a surface: a period navigation inside an article, the selected segment of a segmented control, a mobile tab item. In the dark themes a period navigation inside an article and a mobile tab item read lighter than their surface, because no palette step is darker than `bg-0`; the selected segment reads darker than its track. Avoid: raised part.
 - **Link colour** — the text colour of a plain link, the `--color-link` token. Each theme mapping sets it: the primary blue in the light Solunized themes, the brighter blue (`--color-br-blue`) in the dark Solunized themes; the e-ink themes resolve it to ink. Avoid: primary (for links).
 - **Nav-only header** — a `body > header` whose only element child is its `<nav>`, the sidebar markup that the README and the demo document.
 - **Next link** — the last child of a period navigation, an `<a>` to the following period.

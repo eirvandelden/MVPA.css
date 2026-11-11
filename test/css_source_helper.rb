@@ -31,6 +31,7 @@ module CssSourceHelper
   end
 
   # Every block of +css+ that opens with "@media <query> {", through its matching closing brace.
+  #: (String css, String query) -> Array[String]
   def media_blocks(css, query)
     opener = /@media #{Regexp.escape(query)} \{/
     css.to_enum(:scan, opener).map { balanced_block(css, Regexp.last_match.begin(0)) }

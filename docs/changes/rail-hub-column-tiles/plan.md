@@ -116,6 +116,8 @@ Landing tiles, prefix `T` = `body:has(> header > nav.rail) main nav:not(header n
 
 `app/assets/stylesheets/mvpa/0_base/0_variables.css`: `--rail-width: 5.5rem;` under `/* Navigation */`.
 
+`test/css_source_helper.rb` (test support, public): `#: (String css, String query) -> Array[String]` above `CssSourceHelper#media_blocks(css, query)`, every `@media <query> {` block of `css` through its matching closing brace. (Added after review round 1.)
+
 Not checked: mvpa.css has no Steepfile; the change adds CSS rules and Minitest tests only.
 
 ### Complexity

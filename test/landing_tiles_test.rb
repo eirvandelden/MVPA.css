@@ -57,6 +57,7 @@ class LandingTilesTest < Minitest::Test
 
       assert_includes rule_body(phone, TILES), "grid-template-columns: 1fr;", name
       assert_includes rule_body(phone, TILES), "background-color: var(--color-bg-lighter);", name
+      refute_includes rule_body(phone, TILES), "overflow: hidden;", "#{name}: the list must not clip a row's focus ring"
       assert_includes rule_body(phone, "#{TILES} > li + li"), "border-block-start: 1px solid var(--color-border);", name
       assert_includes rule_body(phone, TILE), "box-shadow: none;", name
       assert_includes rule_body(phone, "#{TILE}:hover"), "transform: none;", name

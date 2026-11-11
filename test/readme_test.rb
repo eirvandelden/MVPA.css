@@ -64,7 +64,36 @@ class ReadmeTest < Minitest::Test
 
     assert_equal %w[2_modules/14_count_badge.css 2_modules/15_period_navigation.css],
 links[links.index("2_modules/14_count_badge.css"), 2]
-    assert_includes readme, "│   ├── 14_count_badge.css\n│   └── 15_period_navigation.css"
+    assert_includes readme, "│   ├── 14_count_badge.css\n│   ├── 15_period_navigation.css\n│   └── 16_rail.css"
+  end
+
+  def test_readme_links_the_rail_partial_right_after_the_period_navigation
+    links = stylesheet_links
+
+    assert_equal %w[2_modules/15_period_navigation.css 2_modules/16_rail.css],
+links[links.index("2_modules/15_period_navigation.css"), 2]
+  end
+
+  def test_the_readme_shows_the_rail_shell_markup
+    markup = rail_section[/```html.*?```/m].to_s
+
+    [ '<nav class="rail">', "<search>", '<span aria-hidden="true">', 'aria-current="true"', 'aria-current="page"',
+"<details>", "<summary>", "<h2>" ].each do |text|
+      assert_includes markup, text
+    end
+    assert_equal [ 'class="rail"' ], markup.scan(/class="[^"]*"/)
+    assert_includes rail_section, "1024px"
+    assert_includes readme, "--rail-width"
+  end
+
+  def test_the_readme_shows_the_landing_tiles_markup
+    markup = tiles_section[/```html.*?```/m].to_s
+
+    assert_includes markup, "<nav>\n"
+    assert_includes markup, "<li><a href="
+    assert_includes markup, "0 rekeningen nog niet ingedeeld"
+    refute_includes markup, "class="
+    refute_includes markup, "<data"
   end
 
   private
@@ -95,5 +124,13 @@ links[links.index("2_modules/14_count_badge.css"), 2]
 
   def period_section
     readme[/^### Period navigation.*?(?=^### )/m].to_s
+  end
+
+  def rail_section
+    readme[/^### Rail and hub column.*?(?=^### )/m].to_s
+  end
+
+  def tiles_section
+    readme[/^### Landing tiles.*?(?=^### )/m].to_s
   end
 end

@@ -87,6 +87,7 @@ Add these imports to your HTML in the correct order:
 <link rel="stylesheet" href="mvpa/2_modules/13_segmented_control.css">
 <link rel="stylesheet" href="mvpa/2_modules/14_count_badge.css">
 <link rel="stylesheet" href="mvpa/2_modules/15_period_navigation.css">
+<link rel="stylesheet" href="mvpa/2_modules/16_rail.css">
 
 <!-- Themes -->
 <link rel="stylesheet" href="mvpa/4_theme/1_theme-switching.css">
@@ -139,7 +140,8 @@ app/assets/stylesheets/mvpa/
 │   ├── 12_dialog.css
 │   ├── 13_segmented_control.css
 │   ├── 14_count_badge.css
-│   └── 15_period_navigation.css
+│   ├── 15_period_navigation.css
+│   └── 16_rail.css
 └── 4_theme/             # Colors, theme switching, and e-ink support
     ├── 0_colors.css
     ├── 1_theme-switching.css
@@ -460,6 +462,66 @@ Add an importmap to your HTML `<head>` and bootstrap with a module script:
 </script>
 ```
 
+### Rail and hub column
+
+A task-hub shell: a rail of hubs, then the pages of the current hub in a second `<nav>`, the hub column. `class="rail"` is the one class; everything else comes from the elements.
+
+```html
+<header>
+  <nav class="rail">
+    <search>
+      <button type="button" aria-label="Zoeken"><span aria-hidden="true">🔍</span> Zoeken</button>
+    </search>
+    <ul>
+      <li><a href="/"><span aria-hidden="true">🏠</span> Overzicht</a></li>
+      <li><a href="/verwerken"><span aria-hidden="true">📥</span> Verwerken</a></li>
+      <li><a href="/administratie" aria-current="true"><span aria-hidden="true">🗄️</span> Administratie</a></li>
+      <li>
+        <details>
+          <summary>Account</summary>
+          <ul>
+            <li><a href="/profiel">Profiel</a></li>
+            <li><form method="post" action="/session"><button>Uitloggen</button></form></li>
+          </ul>
+        </details>
+      </li>
+    </ul>
+  </nav>
+  <nav>
+    <h2><a href="/administratie">Administratie</a></h2>
+    <ul>
+      <li><a href="/journaal" aria-current="page">Journaal</a></li>
+      <li><a href="/bezittingen">Bezittingen <data value="2">2</data></a></li>
+    </ul>
+  </nav>
+</header>
+```
+
+- The rail holds a `<search>` with the search control, then a `<ul>` of hubs, each an `aria-hidden` emoji `<span>` and a label. The last `<li>` holds the account `<details>`.
+- `aria-current="true"` marks the current hub; `aria-current="page"` marks the current page in the hub column. Both get the primary fill.
+- On a wide screen the rail and the hub column share one sidebar card, with a hairline between them. A page without a hub column (rail only) gets the rail alone on its card, in the same place.
+- Each hub shows its emoji above a small label. A long label shrinks and breaks at a syllable; set `lang` on `<html>` for that.
+- The account `<details>` opens as a pop-up beside the rail.
+- Between 769px and 1023px the hub column hides and the rail stays. From 1024px the hub column shows.
+- On a phone the tab bar holds only the hubs: the rail's `<search>`, the account entry and the hub column hide.
+- The title bar's copies hide on a wide screen beside a rail: a `<search>` that is a direct child of `main > header nav`, and a `<details>` whose `<summary>` has an `aria-label`. On a phone, or on a page without a rail, they show.
+
+### Landing tiles
+
+On a page with a rail, a `<ul>` of links in a `<nav>` in `main` is a grid of surface tiles, each at least 14rem wide. A tile lifts on hover and has no underline wiggle. On a phone the tiles are one list of rows, each ending in ›.
+
+```html
+<nav>
+  <ul>
+    <li><a href="/categoriseren">12 transacties zonder categorie</a></li>
+    <li><a href="/rekeningen">0 rekeningen nog niet ingedeeld</a></li>
+  </ul>
+</nav>
+```
+
+- Write a count as text in the link, not as a `<data>` badge.
+- A `<nav>` of bare links, a period navigation and a title-bar `<nav>` keep their own look. A page without a rail has no tiles.
+
 ### Segmented control
 
 A `<menu>` of links is a view switch. A `<menu>` of radios is a form choice. Both render as joined segments on a tinted track, with the selected segment raised. Below 45rem of content width the segments stack, one per line. No classes and no script.
@@ -655,6 +717,12 @@ All design values are defined as CSS custom properties for easy customization.
 - `--max-width-text: 65ch` – Single-column text content
 - `--max-width-content: 80ch` – Multi-column content
 - `--max-width-wide: 1200px` – Wide layouts
+
+### Navigation
+
+- `--nav-width: 240px` – The sidebar and the hub column
+- `--rail-width: 5.5rem` – The rail
+- `--nav-height-mobile: 4rem` – The phone tab bar
 
 ## Browser Compatibility
 

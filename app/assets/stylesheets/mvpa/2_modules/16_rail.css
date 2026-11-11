@@ -1,0 +1,290 @@
+/*
+ * Rail
+ * A <nav class="rail"> of hubs in body > header, optionally followed by a second <nav>:
+ * the hub column with the pages of the current hub. On a wide screen the two share one
+ * sidebar card, the hub column from 1024px. On a phone the rail's hubs are the tab bar.
+ * On a page with a rail, a <ul> of links in a <nav> in main is a grid of landing tiles.
+ * Every rule needs nav.rail, so a page with the single-nav sidebar matches none of them.
+ */
+
+/* A hub: its emoji above a small label. A long label shrinks and breaks at a syllable. */
+nav.rail > ul > li > a,
+nav.rail > ul > li > details > summary {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  padding-inline: var(--inline-space-half);
+  font-size: var(--text-x-small);
+  text-align: center;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  overflow-wrap: anywhere;
+}
+
+nav.rail > ul > li > a > span[aria-hidden="true"],
+nav.rail > search > button > span[aria-hidden="true"] {
+  font-size: var(--text-large);
+  line-height: 1;
+}
+
+/* The current hub has the current page's fill. */
+nav.rail > ul > li > a[aria-current="true"] {
+  background-color: var(--color-primary);
+  color: var(--color-bg-lightest);
+}
+
+/* The search entry looks like a hub, not a button. :root:root lifts it over the theme button rules. */
+:root:root nav.rail > search > button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  inline-size: 100%;
+  min-block-size: var(--touch-target);
+  margin: 0;
+  padding: var(--block-space-half) var(--inline-space-half);
+  border: none;
+  border-radius: var(--radius);
+  background-color: transparent;
+  box-shadow: none;
+  color: var(--color-fg);
+  font-size: var(--text-x-small);
+  animation: none;
+  filter: none;
+}
+
+:root:root nav.rail > search > button:hover {
+  background-color: color-mix(in oklch, var(--color-bg-lighter), var(--color-fg) 8%);
+  color: var(--color-fg-darker);
+  transform: scale(var(--animation-scale-small)) translateY(-2px);
+  animation: none;
+  filter: none;
+}
+
+/* The account menu: a pop-up beside the rail, opening upward from the account name. */
+nav.rail details > summary::after {
+  display: none;
+}
+
+nav.rail > ul > li > details {
+  position: relative;
+  margin-block: 0;
+}
+
+nav.rail details > ul {
+  position: absolute;
+  inset-inline-start: calc(100% + var(--block-space-half));
+  inset-block-end: 0;
+  inset-block-start: auto;
+  min-inline-size: max-content;
+  margin: 0;
+  padding: var(--block-space-half);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background-color: var(--color-bg-lighter);
+  box-shadow: var(--shadow-2);
+  z-index: var(--z-dropdown);
+}
+
+/* Pop-up items look like pull-down items (2_details.css), so Log out matches the links. */
+:root:root nav.rail details > ul li > a,
+:root:root nav.rail details > ul li > form > button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  inline-size: 100%;
+  min-block-size: var(--touch-target);
+  padding-block: 0;
+  padding-inline: var(--inline-space);
+  margin: 0;
+  border: none;
+  border-radius: var(--radius-small);
+  background-color: transparent;
+  box-shadow: none;
+  color: var(--color-fg);
+  font-size: var(--text-normal);
+  font-weight: 500;
+  text-align: start;
+}
+
+nav.rail details > ul li,
+nav.rail details > ul li > form {
+  margin: 0;
+}
+
+:root:root nav.rail details > ul li > a:hover,
+:root:root nav.rail details > ul li > form > button:hover {
+  background-color: var(--color-bg-darker);
+  box-shadow: none;
+  transform: none;
+  animation: none;
+  filter: none;
+}
+
+/* Landing tiles: surface tiles in a grid, with the nav-link lift and no underline wiggle. */
+body:has(> header > nav.rail) main nav:not(header nav) > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(14rem, 100%), 1fr));
+  gap: var(--block-space);
+}
+
+body:has(> header > nav.rail) main nav:not(header nav) > ul > li {
+  margin: 0;
+}
+
+body:has(> header > nav.rail) main nav:not(header nav) > ul > li > a {
+  display: flex;
+  align-items: center;
+  min-block-size: var(--touch-target);
+  padding: var(--block-space);
+  background-color: var(--color-bg-lighter);
+  border: 1px solid var(--color-bg-darker);
+  border-radius: var(--radius-large);
+  box-shadow: var(--shadow-1);
+  color: var(--color-fg);
+  text-decoration: none;
+  transition: background-color var(--transition-fast), color var(--transition-fast), transform 150ms ease-out, box-shadow 150ms ease-out;
+}
+
+body:has(> header > nav.rail) main nav:not(header nav) > ul > li > a:hover {
+  color: var(--color-fg);
+  text-decoration: none;
+  transform: scale(var(--animation-scale-small)) translateY(-2px);
+  box-shadow: var(--shadow-2);
+}
+
+/* :root:root lifts this over the underline wiggle (0_base/3_animations.css). */
+:root:root body:has(> header > nav.rail) main nav:not(header nav) > ul > li > a::after {
+  content: none;
+}
+
+/* Wide screen: the rail track holds the rail, then the hub column, on one card. */
+@media (min-width: 769px) {
+  body:has(> header > nav.rail) {
+    grid-template-columns: auto 1fr;
+  }
+
+  /* The sidebar track of 1_layout/0_header.css, as a grid: one row, as tall as the taller nav. */
+  body > header:has(> nav.rail) {
+    align-self: end;
+    top: auto;
+    bottom: var(--shell-gutter);
+    min-block-size: calc(100dvh - 2 * var(--shell-gutter));
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background-color: transparent;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto;
+    align-content: start;
+    justify-content: start;
+    z-index: var(--z-sticky);
+  }
+
+  body > header:has(> nav.rail) > nav {
+    grid-row: 1;
+    min-block-size: auto;
+  }
+
+  body > header > nav.rail {
+    grid-column: 1;
+    align-self: start;
+    inline-size: var(--rail-width);
+    padding: var(--block-space-half);
+  }
+
+  body > header > nav.rail + nav {
+    grid-column: 2;
+    inline-size: var(--nav-width);
+    border-inline-start: 1px solid var(--color-border);
+  }
+
+  /* One card behind both navs. A rail-only header gets the nav-only card of 0_header.css. */
+  body > header:has(> nav.rail + nav)::before {
+    content: "";
+    grid-row: 1;
+    grid-column: 1 / -1;
+    border-radius: var(--radius-large);
+    box-shadow: var(--shadow-3), var(--shadow-1);
+    background-color: var(--color-bg-lighter);
+  }
+
+  [data-theme="solunized-dark"] body > header:has(> nav.rail + nav)::before,
+  [data-theme="solunized-black"] body > header:has(> nav.rail + nav)::before {
+    box-shadow: none;
+    border: 1px solid color-mix(in oklch, var(--color-fg) 14%, transparent);
+  }
+
+  /* The rail shows search and the account menu, so the title bar hides its copies. */
+  body:has(> header > nav.rail) main > header nav > search,
+  body:has(> header > nav.rail) main > header nav > details:has(> summary[aria-label]) {
+    display: none;
+  }
+}
+
+/* Below 1024px the hub column hides and the rail stays. */
+@media (max-width: 1023px) {
+  body > header > nav.rail + nav {
+    display: none;
+  }
+}
+
+/* Phone: the tab bar holds only the hubs, and the tiles are one list of rows. */
+@media (max-width: 768px) {
+  nav.rail > search,
+  nav.rail > ul > li:has(> details) {
+    display: none;
+  }
+
+  nav.rail > ul > li {
+    flex: 1 1 0;
+    min-inline-size: 0;
+  }
+
+  nav.rail > ul > li > a {
+    gap: 0;
+    padding-block: 2px;
+    font-size: var(--text-xx-small);
+    line-height: var(--line-height-tight);
+  }
+
+  nav.rail > ul > li > a > span[aria-hidden="true"] {
+    font-size: var(--text-medium);
+    line-height: 1;
+  }
+
+  body:has(> header > nav.rail) main nav:not(header nav) > ul {
+    grid-template-columns: 1fr;
+    gap: 0;
+    background-color: var(--color-bg-lighter);
+    border: 1px solid var(--color-bg-darker);
+    border-radius: var(--radius-large);
+    box-shadow: var(--shadow-1);
+  }
+
+  body:has(> header > nav.rail) main nav:not(header nav) > ul > li + li {
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  body:has(> header > nav.rail) main nav:not(header nav) > ul > li > a,
+  body:has(> header > nav.rail) main nav:not(header nav) > ul > li > a:hover {
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    transform: none;
+  }
+
+  body:has(> header > nav.rail) main nav:not(header nav) > ul > li > a::before {
+    content: "›";
+    content: "›" / "";
+    order: 1;
+    margin-inline-start: auto;
+  }
+}

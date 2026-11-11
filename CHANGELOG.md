@@ -2,6 +2,26 @@
 
 **Note:** This project uses git SHAs instead of semver. Pin to a specific SHA in your Gemfile (`ref: "e4179e9"`). Each GitHub release is tagged with its commit SHA.
 
+## 2026-11-11
+
+### Added
+- **Rail and hub column** — a `<nav class="rail">` in `body > header` is a narrow rail of hubs: each hub is its emoji above a small label, and a long label shrinks and breaks at a syllable. A second `<nav>` after it is the hub column with the pages of the current hub. On a wide screen the two share one sidebar card with a hairline between them, on the sidebar track. A rail-only header keeps the rail in the same place, on its own card. The current hub (`aria-current="true"`) has the current page's fill. Between 769px and 1023px the hub column hides. On a phone the tab bar holds only the hubs. The e-ink themes draw the card with an ink border.
+- **Account pop-up** — the rail's last `<li>` holds the account `<details>`, which opens as a pop-up beside the rail, over the hub column.
+- **Title-bar copies** — beside a rail on a wide screen, the title bar hides its `<search>` and its account `<details>` with a labelled `<summary>`. On a phone they show.
+- **Landing tiles** — on a page with a rail, a `<ul>` of links in a `<nav>` in `main` is a grid of surface tiles with a hover lift and no underline wiggle. On a phone the tiles are one list of rows, each ending in ›.
+- **`--rail-width`** — a new token, `5.5rem`, beside `--nav-width`.
+
+### Upgrading
+1. Put `class="rail"` on the hubs `<nav>` in `body > header`, and remove `class="hub-column"` from the second `<nav>`.
+2. Wrap the rail's search control in `<search>`, as the rail's first child.
+3. Wrap the title bar's search control in `<search>`, as a direct child of `main > header nav`.
+4. Give the title-bar account `<summary>` an `aria-label`.
+5. Mark the current hub with `aria-current="true"` and the current page with `aria-current="page"`.
+6. Wrap the landing page's tiles `<ul>` in a `<nav>` inside `main`, remove `class="tiles"`, and write the count as text in the link, not in `<data>`.
+7. Set `lang` on `<html>`, so long hub labels break at a syllable.
+8. Delete your own rail, hub column and tile CSS.
+9. Standalone pages only: add `16_rail.css` to your stylesheet links after `15_period_navigation.css`. The gem and `mvpa.css` include it already.
+
 ## 2026-11-06
 
 ### Fixed

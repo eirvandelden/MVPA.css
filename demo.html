@@ -34,6 +34,7 @@
   <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/13_segmented_control.css">
   <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/14_count_badge.css">
   <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/15_period_navigation.css">
+  <link rel="stylesheet" href="app/assets/stylesheets/mvpa/2_modules/16_rail.css">
 
   <!-- Themes -->
   <link rel="stylesheet" href="app/assets/stylesheets/mvpa/4_theme/1_theme-switching.css">
@@ -97,37 +98,51 @@
 <body>
 
 <header>
-  <nav data-controller="nav" data-action="click->nav#click">
-    <h1>MVPA.css</h1>
+  <nav class="rail" data-controller="nav" data-action="click->nav#click">
+    <search>
+      <button type="button" aria-label="Search"><span aria-hidden="true">🔍</span> Search</button>
+    </search>
+    <ul>
+      <li><a href="#introduction" aria-current="true"><span aria-hidden="true">🏠</span> Introduction</a></li>
+      <li><a href="#messages"><span aria-hidden="true">🧩</span> Components</a></li>
+      <li><a href="#lists"><span aria-hidden="true">📚</span> Content</a></li>
+      <li><a href="#colors"><span aria-hidden="true">🎨</span> Colors</a></li>
+      <li><a href="#animations"><span aria-hidden="true">✨</span> Animations</a></li>
+      <li>
+        <details>
+          <summary>Account</summary>
+          <ul>
+            <li><a href="#forms">Profile</a></li>
+            <li><a href="#forms">Preferences</a></li>
+            <li><a href="#forms">Admin</a></li>
+            <li>
+              <form method="post" action="#">
+                <button>Log out</button>
+              </form>
+            </li>
+          </ul>
+        </details>
+      </li>
+    </ul>
+  </nav>
+  <nav>
+    <h2><a href="#introduction">MVPA.css</a></h2>
     <ul>
       <li><a href="#introduction" aria-current="page">🏠 Introduction <data value="3">3</data></a></li>
       <li><a href="#typography">✍️ Typography</a></li>
-      <li>
-        <details>
-          <summary>🧩 Components</summary>
-          <ul>
-            <li><a href="#messages">💬 Messages</a></li>
-            <li><a href="#forms">📋 Forms <data value="12">12</data></a></li>
-            <li><a href="#buttons">🔘 Buttons</a></li>
-            <li><a href="#page-header">🗂️ Page Header</a></li>
-            <li><a href="#tables">📊 Tables</a></li>
-            <li><a href="#progress">📈 Progress <data value="0">0</data></a></li>
-            <li><a href="#segmented-control">🎛️ Segmented control</a></li>
-            <li><a href="#count-badges">🔢 Count badges</a></li>
-            <li><a href="#period-navigation">🗓️ Period navigation</a></li>
-          </ul>
-        </details>
-      </li>
-      <li>
-        <details>
-          <summary>📚 Content</summary>
-          <ul>
-            <li><a href="#lists">📝 Lists</a></li>
-            <li><a href="#articles">📰 Articles</a></li>
-            <li><a href="#details">🔎 Details</a></li>
-          </ul>
-        </details>
-      </li>
+      <li><a href="#messages">💬 Messages</a></li>
+      <li><a href="#forms">📋 Forms <data value="12">12</data></a></li>
+      <li><a href="#buttons">🔘 Buttons</a></li>
+      <li><a href="#page-header">🗂️ Page Header</a></li>
+      <li><a href="#tables">📊 Tables</a></li>
+      <li><a href="#progress">📈 Progress <data value="0">0</data></a></li>
+      <li><a href="#segmented-control">🎛️ Segmented control</a></li>
+      <li><a href="#count-badges">🔢 Count badges</a></li>
+      <li><a href="#period-navigation">🗓️ Period navigation</a></li>
+      <li><a href="#landing-page">🧭 Landing page</a></li>
+      <li><a href="#lists">📝 Lists</a></li>
+      <li><a href="#articles">📰 Articles</a></li>
+      <li><a href="#details">🔎 Details</a></li>
       <li><a href="#colors">🎨 Colors</a></li>
       <li><a href="#animations">✨ Animations</a></li>
     </ul>
@@ -164,6 +179,9 @@
   <header>
     <h1>Hypotheekrenteaftrekberekening</h1>
     <nav>
+      <search>
+        <button type="button" aria-label="Search">🔍</button>
+      </search>
       <a href="#buttons">Edit</a>
       <details>
         <summary>Actions</summary>
@@ -797,11 +815,6 @@ console.log(greet('World'));</code></pre>
     <p>A <code>&lt;data value&gt;</code> inside a link is a count pill. <code>value="0"</code> hides it. On the current page's link the pill inverts, as in the sidebar's "Introduction".</p>
 
     <section>
-      <h3>Landing tile</h3>
-      <p><a href="#count-badges">Te beoordelen <data value="5">5</data></a></p>
-    </section>
-
-    <section>
       <h3>Long number and zero</h3>
       <p><a href="#count-badges">Transacties <data value="1234">1234</data></a></p>
       <p><a href="#count-badges">Producten <data value="0">0</data></a> shows no pill.</p>
@@ -851,6 +864,21 @@ console.log(greet('World'));</code></pre>
     </section>
   </article>
 
+  <!-- Landing Page Section -->
+  <article id="landing-page">
+    <h2>🧭 Landing page</h2>
+    <p>On a page with a rail, a <code>&lt;ul&gt;</code> of links in a <code>&lt;nav&gt;</code> in <code>main</code> is a grid of tiles. On a phone the tiles are one list of rows, each ending in ›. A count is text in the link.</p>
+
+    <nav>
+      <ul>
+        <li><a href="#tables">5 transacties te beoordelen</a></li>
+        <li><a href="#tables">0 rekeningen nog niet ingedeeld</a></li>
+        <li><a href="#tables">Journaal</a></li>
+        <li><a href="#tables">Rapportages</a></li>
+      </ul>
+    </nav>
+  </article>
+
   <!-- Lists Section -->
   <article id="lists">
     <h2>📝 Definition Lists & Details</h2>
@@ -874,7 +902,7 @@ console.log(greet('World'));</code></pre>
         <dd>Chrome 111+, Firefox 113+, Safari 16.4+</dd>
 
         <dt>CSS Files</dt>
-        <dd>26 files organized in SMACSS structure</dd>
+        <dd>27 files organized in SMACSS structure</dd>
 
         <dt>Button Classes</dt>
         <dd>Only 4 classes: button-success, button-danger, button-warning, button-secondary</dd>
@@ -886,7 +914,7 @@ console.log(greet('World'));</code></pre>
 
       <details>
         <summary>Installation Instructions</summary>
-        <p>Import all 26 CSS files in the correct order, then set the data-theme attribute on the html element.</p>
+        <p>Import all 27 CSS files in the correct order, then set the data-theme attribute on the html element.</p>
         <pre><code>&lt;html data-color-scheme="system" data-theme="solunized-light"&gt;
   &lt;!-- Your content --&gt;
 &lt;/html&gt;</code></pre>
@@ -1106,12 +1134,10 @@ console.log(greet('World'));</code></pre>
     <section>
       <h3>Navigation Example</h3>
       <nav>
-        <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
       </nav>
     </section>
   </article>

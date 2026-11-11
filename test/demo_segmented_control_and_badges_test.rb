@@ -3,6 +3,7 @@ require "nokogiri"
 
 # demo.html shows every segmented control and count badge case from the intent.
 class DemoSegmentedControlAndBadgesTest < Minitest::Test
+  HUB_COLUMN = "body > header > nav.rail + nav".freeze
   PERIODS = [ "Deze maand", "Vorige maand", "Dit kwartaal", "Dit jaar", "Vorig jaar" ].freeze
 
   def test_the_demo_period_view_switch_has_five_links_with_deze_maand_current
@@ -57,24 +58,20 @@ class DemoSegmentedControlAndBadgesTest < Minitest::Test
   end
 
   def test_the_sidebar_shows_badges_including_on_the_current_link
-    badges = document.css("body > header nav a > data").to_h { |data|
+    badges = document.css("#{HUB_COLUMN} a > data").to_h { |data|
  [ data.parent.text.gsub(data.text, "").strip, data["value"] ] }
 
     assert_equal "3", badges["🏠 Introduction"]
     assert_equal "12", badges["📋 Forms"]
-    assert_equal "page", document.at_css('body > header nav a[href="#introduction"]')["aria-current"]
+    assert_equal "page", document.at_css("#{HUB_COLUMN} li > a[href='#introduction']")["aria-current"]
   end
 
   def test_the_demo_has_a_zero_badge
-    assert_equal "0", document.at_css('body > header nav a[href="#progress"] > data')["value"]
+    assert_equal "0", document.at_css("#{HUB_COLUMN} a[href='#progress'] > data")["value"]
   end
 
   def test_the_demo_has_a_four_digit_badge
     assert_equal "1234", document.at_css("#count-badges a > data[value='1234']").text
-  end
-
-  def test_the_demo_has_a_landing_tile_link_with_a_badge
-    assert_equal "5", document.at_css("#count-badges a > data[value='5']").text
   end
 
   def test_the_demo_title_bar_heading_is_one_long_word

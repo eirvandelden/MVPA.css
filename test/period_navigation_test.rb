@@ -105,9 +105,9 @@ class PeriodNavigationTest < Minitest::Test
 
   private
 
-  # The period navigation rules: the whole partial, or its section of the bundle.
+  # The period navigation rules: the whole partial, or its section of the bundle up to the next section.
   def own_rules(css)
-    css[/ \* Period navigation\n.*?(?=\/\*\n \* Solunized color definitions|\z)/m]
+    css[/ \* Period navigation\n.*?(?=^\/\*\n \* |\z)/m]
   end
 
   # Splits a selector list on its own commas, not the ones inside :is() or :has().

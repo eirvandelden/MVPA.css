@@ -182,6 +182,7 @@ No queries: this is a stylesheet. About 35 rules in `16_rail.css` and 8 in `2_ei
 - `test/landing_tiles_test.rb` — new: tile CSS assertions.
 - `test/demo_rail_shell_test.rb` — new: demo.html markup assertions (Nokogiri).
 - `test/demo_segmented_control_and_badges_test.rb` — remove `test_the_demo_has_a_landing_tile_link_with_a_badge` (the intent removes that example); scope `test_the_sidebar_shows_badges_including_on_the_current_link` and `test_the_demo_has_a_zero_badge` to the hub column (`body > header > nav.rail + nav`), because the rail now also links `#introduction`.
+- `test/period_navigation_test.rb` — its private `own_rules` ended the bundle's Period navigation section at "Solunized color definitions"; the Rail section now follows it, so the section ends at the next section header instead. No assertion changes. (Found during implementation.)
 - `test/changelog_upgrading_test.rb` — a constant for the new entry's date and a test that its `### Upgrading` names `class="rail"`, `class="hub-column"`, `<search>`, `aria-label`, `aria-current="true"`, `class="tiles"`, `lang` and `16_rail.css`.
 
 Out of scope: appkit and journal markup; `nav_controller.js`; closing the pop-up on an outside click; a full-height rail; badges on rail hubs; more than five hubs on the phone; the title-bar back link and the actions pull-down look; any change to the single-nav sidebar rules.

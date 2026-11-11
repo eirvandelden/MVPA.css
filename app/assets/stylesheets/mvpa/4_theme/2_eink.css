@@ -101,6 +101,11 @@
     box-shadow: none;
     border: 1px solid black;
   }
+
+  [data-theme="eink-light"] body > header:has(> nav.rail + nav)::before {
+    box-shadow: none;
+    border: 1px solid black;
+  }
 }
 
 [data-theme="eink-light"] article {
@@ -121,6 +126,31 @@
 /* Submenu arrow still rotates to show open state — this is a state indicator, not motion */
 [data-theme="eink-light"] header nav details[open] > summary::after {
   transform: rotate(90deg) !important;
+}
+
+/* Rail account menu and landing tiles: an ink border instead of a shadow (2_modules/16_rail.css). */
+[data-theme="eink-light"] nav.rail details > ul {
+  box-shadow: none;
+  border: 1px solid black;
+}
+
+[data-theme="eink-light"] body:has(> header > nav.rail) main nav:not(header nav) > ul > li > a,
+[data-theme="eink-light"] body:has(> header > nav.rail) main nav:not(header nav) > ul > li > a:hover {
+  box-shadow: none;
+  border: 1px solid black;
+}
+
+/* Phone: the list is the surface, so the rows drop their own border. */
+@media (max-width: 768px) {
+  [data-theme="eink-light"] body:has(> header > nav.rail) main nav:not(header nav) > ul {
+    box-shadow: none;
+    border: 1px solid black;
+  }
+
+  [data-theme="eink-light"] body:has(> header > nav.rail) main nav:not(header nav) > ul > li > a,
+  [data-theme="eink-light"] body:has(> header > nav.rail) main nav:not(header nav) > ul > li > a:hover {
+    border: none;
+  }
 }
 
 /* Mobile nav scroll-hint gradient → flat fill */
@@ -388,6 +418,11 @@
     box-shadow: none;
     border: 1px solid white;
   }
+
+  [data-theme="eink-dark"] body > header:has(> nav.rail + nav)::before {
+    box-shadow: none;
+    border: 1px solid white;
+  }
 }
 
 [data-theme="eink-dark"] article {
@@ -408,6 +443,31 @@
 /* Submenu arrow still rotates to show open state — this is a state indicator, not motion */
 [data-theme="eink-dark"] header nav details[open] > summary::after {
   transform: rotate(90deg) !important;
+}
+
+/* Rail account menu and landing tiles: an ink border instead of a shadow (2_modules/16_rail.css). */
+[data-theme="eink-dark"] nav.rail details > ul {
+  box-shadow: none;
+  border: 1px solid white;
+}
+
+[data-theme="eink-dark"] body:has(> header > nav.rail) main nav:not(header nav) > ul > li > a,
+[data-theme="eink-dark"] body:has(> header > nav.rail) main nav:not(header nav) > ul > li > a:hover {
+  box-shadow: none;
+  border: 1px solid white;
+}
+
+/* Phone: the list is the surface, so the rows drop their own border. */
+@media (max-width: 768px) {
+  [data-theme="eink-dark"] body:has(> header > nav.rail) main nav:not(header nav) > ul {
+    box-shadow: none;
+    border: 1px solid white;
+  }
+
+  [data-theme="eink-dark"] body:has(> header > nav.rail) main nav:not(header nav) > ul > li > a,
+  [data-theme="eink-dark"] body:has(> header > nav.rail) main nav:not(header nav) > ul > li > a:hover {
+    border: none;
+  }
 }
 
 /* Mobile nav scroll-hint gradient → flat fill */

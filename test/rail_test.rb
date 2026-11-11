@@ -141,6 +141,8 @@ class RailTest < Minitest::Test
         assert_includes button, declaration, name
       end
       assert_includes rule_body(css, "#{SEARCH_BUTTON}:hover"), "animation: none;", name
+      assert_includes rule_body(css, "#{SEARCH_BUTTON}:hover"),
+"transform: scale(var(--animation-scale-small)) translateY(-2px);", name
     end
   end
 

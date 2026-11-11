@@ -58,6 +58,7 @@ nav.rail > ul > li > a[aria-current="true"] {
 :root:root nav.rail > search > button:hover {
   background-color: color-mix(in oklch, var(--color-bg-lighter), var(--color-fg) 8%);
   color: var(--color-fg-darker);
+  transform: scale(var(--animation-scale-small)) translateY(-2px);
   animation: none;
   filter: none;
 }

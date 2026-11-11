@@ -2440,6 +2440,10 @@ body:has(> header > nav.rail) main nav:not(header nav) > ul {
   gap: var(--block-space);
 }
 
+body:has(> header > nav.rail) main nav:not(header nav) > ul > li {
+  margin: 0;
+}
+
 body:has(> header > nav.rail) main nav:not(header nav) > ul > li > a {
   display: flex;
   align-items: center;

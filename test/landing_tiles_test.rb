@@ -25,6 +25,7 @@ class LandingTilesTest < Minitest::Test
       assert_includes rule_body(css, TILES),
 "grid-template-columns: repeat(auto-fill, minmax(min(14rem, 100%), 1fr));", name
       SURFACE.each { |paint| assert_includes rule_body(css, TILE), paint, name }
+      assert_includes rule_body(css, "#{TILES} > li"), "margin: 0;", name
     end
   end
 

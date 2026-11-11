@@ -102,6 +102,7 @@ Every width:
 Landing tiles, prefix `T` = `body:has(> header > nav.rail) main nav:not(header nav)`:
 
 - `T > ul` (0,1,8): `list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(14rem, 100%), 1fr)); gap: var(--block-space)`.
+- `T > ul > li` (0,1,9) vs `li` (0,0,1): `margin: 0`, so the typography list-item margin does not widen the grid gap or split the phone rows. (Found during implementation.)
 - `T > ul > li > a` (0,1,10) vs `a:visited` (0,1,1): `display: flex; align-items: center; min-block-size: var(--touch-target); padding: var(--block-space); background-color: var(--color-bg-lighter); border: 1px solid var(--color-bg-darker); border-radius: var(--radius-large); box-shadow: var(--shadow-1); color: var(--color-fg); text-decoration: none;` and the nav-link transition.
 - `T > ul > li > a:hover` (0,2,10): the nav-link lift (`transform: scale(var(--animation-scale-small)) translateY(-2px); box-shadow: var(--shadow-2)`).
 - `:root:root T > ul > li > a::after` (0,3,11) vs the wiggle `::after` (0,2,4) and its `:hover::after` (0,3,4): `content: none`. The wiggle exclusion list in `3_animations.css` stays untouched, because adding this (0,1,10) entry to its `:not()` would raise the wiggle rule's specificity everywhere.

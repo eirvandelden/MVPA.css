@@ -8,6 +8,7 @@ class SidebarTrackTest < Minitest::Test
 
   TRACK = "body > header:has(> nav:only-child)".freeze
   CARD = "body > header > nav:only-child".freeze
+  DESKTOP = "(min-width: 769px)".freeze
   FLOOR = "min-block-size: calc(100dvh - 2 * var(--shell-gutter));".freeze
   HAIRLINE = "border: 1px solid color-mix(in oklch, var(--color-fg) 14%, transparent);".freeze
   CARD_PAINT = [
@@ -55,15 +56,15 @@ class SidebarTrackTest < Minitest::Test
   def test_the_track_and_card_rules_apply_on_desktop_only
     each_source("1_layout/0_header.css") do |name, css|
       refute_includes css_without_desktop_blocks(css), "> nav:only-child", name
-      assert_includes desktop_blocks(css).join, TRACK, name
-      assert_includes desktop_blocks(css).join, CARD, name
+      assert_includes media_blocks(css, DESKTOP).join, TRACK, name
+      assert_includes media_blocks(css, DESKTOP).join, CARD, name
     end
   end
 
   def test_the_eink_card_rules_apply_on_desktop_only
     each_source("4_theme/2_eink.css") do |name, css|
       refute_includes css_without_desktop_blocks(css), "> nav:only-child", name
-      assert_includes desktop_blocks(css).join, CARD, name
+      assert_includes media_blocks(css, DESKTOP).join, CARD, name
     end
   end
 
@@ -98,11 +99,7 @@ class SidebarTrackTest < Minitest::Test
   private
 
   def css_without_desktop_blocks(css)
-    desktop_blocks(css).reduce(css) { |rest, block| rest.sub(block, "") }
-  end
-
-  def desktop_blocks(css)
-    css.to_enum(:scan, /@media \(min-width: 769px\) \{/).map { balanced_block(css, Regexp.last_match.begin(0)) }
+    media_blocks(css, DESKTOP).reduce(css) { |rest, block| rest.sub(block, "") }
   end
 
   def assert_card_border(css, theme, name, border)

@@ -30,6 +30,12 @@ module CssSourceHelper
     end
   end
 
+  # Every block of +css+ that opens with "@media <query> {", through its matching closing brace.
+  def media_blocks(css, query)
+    opener = /@media #{Regexp.escape(query)} \{/
+    css.to_enum(:scan, opener).map { balanced_block(css, Regexp.last_match.begin(0)) }
+  end
+
   # Yields [source name, css] for the partial and the bundle, so each assertion covers both.
   def each_source(path)
     yield path, partial(path)

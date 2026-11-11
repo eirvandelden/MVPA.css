@@ -10,6 +10,7 @@ class ChangelogUpgradingTest < Minitest::Test
   CREAM = "2026-10-29".freeze
   PERIOD_NAVIGATION = "2026-11-03".freeze
   DARK_SURFACES = "2026-11-06".freeze
+  RAIL = "2026-11-11".freeze
 
   def test_the_buttons_entry_tells_apps_how_to_upgrade
     upgrading = entry(BUTTONS)[/^### Upgrading.*?(?=^### |\z)/m]
@@ -93,6 +94,21 @@ class ChangelogUpgradingTest < Minitest::Test
   def test_the_period_navigation_entry_lists_what_was_added_and_ends_with_upgrading
     assert_equal [ "### Added", "### Upgrading" ], entry(PERIOD_NAVIGATION).scan(/^### .*/)
     refute_equal entry(SEGMENTED_CONTROL), entry(PERIOD_NAVIGATION)
+  end
+
+  def test_the_rail_entry_tells_apps_how_to_follow_the_markup_contract
+    upgrading = entry(RAIL)[/^### Upgrading.*?(?=^### |\z)/m]
+
+    refute_nil upgrading, "the #{RAIL} changelog entry has no ### Upgrading subsection"
+    [ 'class="rail"', 'class="hub-column"', "<search>", "aria-label", 'aria-current="true"', 'class="tiles"', "lang",
+"16_rail.css" ].each do |text|
+      assert_includes upgrading, text
+    end
+    assert_match(/^1\. /, upgrading)
+  end
+
+  def test_the_rail_entry_lists_what_was_added_and_ends_with_upgrading
+    assert_equal [ "### Added", "### Upgrading" ], entry(RAIL).scan(/^### .*/)
   end
 
   private

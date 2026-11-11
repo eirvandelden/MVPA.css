@@ -55,7 +55,7 @@ class DemoRailShellTest < Minitest::Test
     assert_equal 4, tiles.size
     assert_includes tiles.map { |tile| tile.text.strip }, "0 rekeningen nog niet ingedeeld"
     assert_empty document.css("#landing-page nav data")
-    assert_equal "#landing-page", hub_column.at_css('a[href="#landing-page"]')["href"]
+    refute_nil hub_column.at_css('a[href="#landing-page"]')
   end
 
   def test_the_demo_has_no_landing_tile_example

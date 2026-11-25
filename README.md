@@ -23,13 +23,15 @@ The framework follows **SMACSS (Scalable and Modular Architecture for CSS)** pri
 
 ### For Rails Applications (Ruby Gem)
 
-Install MVPA.css directly from GitHub using Bundler. This project uses git SHAs instead of semver — pin to a specific commit for reproducible builds. Check the [releases page](https://github.com/eirvandelden/MVPA.css/releases) for the latest SHA.
+Install MVPA.css directly from GitHub using Bundler. This project uses [semantic versioning](https://semver.org) — pin a release tag for reproducible builds. A major version means apps must change markup, classes, configuration or code, and the changelog entry lists the steps. A minor version adds an opt-in feature. A patch fixes something. Every merge to `main` releases at least a patch, and merges that land close together can share one release. Check the [releases page](https://github.com/eirvandelden/MVPA.css/releases) or `CHANGELOG.md` for the latest version.
 
 Add to your `Gemfile`:
 
 ```ruby
-gem "mvpa-css", github: "eirvandelden/mvpa.css", ref: "e4179e9"
+gem "mvpa-css", github: "eirvandelden/mvpa.css", tag: "v6.0.0"
 ```
+
+Tags up to `v6.0.0` were added retroactively for the dated changelog entries. They pin the code of that entry, and `Mvpa::Css::VERSION` inside them still reports the old value. Stamped versions start with the first release after that. A `ref:` SHA keeps working.
 
 Then run:
 

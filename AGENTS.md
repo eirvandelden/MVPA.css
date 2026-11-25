@@ -17,19 +17,25 @@ Styles are organized SMACSS-style under `app/assets/stylesheets/mvpa/`, in numbe
 
 ## Changelog
 
-Other apps pin mvpa.css to a git SHA. When a change requires an app to act, its `CHANGELOG.md` entry says how.
+Other apps pin mvpa.css to a release tag (`tag: "vX.Y.Z"`). A merge to `main` releases a version, so never write a version number, a date heading or an edit to `CHANGELOG.md` in a branch. Add one fragment file, `changelog.d/<branch-slug>.md`, with a `level` in its front matter. When a change requires an app to act, its fragment says how.
 
-- Add a `### Upgrading` subsection to the dated entry when an app must change markup, classes, configuration or code to follow the change.
-- Add no `### Upgrading` subsection when an app needs to do nothing, for example a colour fix.
-- Put `### Upgrading` last in the entry, after whichever change subsections the entry has. Never add an empty `### Changed` or `### Fixed` heading to reach it.
-- When the dated entry already has a `### Upgrading` subsection, append the new steps to it. Never add a second one.
+- Set `level: major` when an app must change markup, classes, configuration or code to follow the change. Removing or renaming a `--token`, a stylesheet or JS file, a class selector, a `data-` attribute selector or an importmap pin is a major change.
+- Changing an element-structure contract, such as `nav.rail`, `main > header nav` or the markup a segmented control needs, is a major change. No check catches it, so you must say it.
+- Set `level: minor` for an opt-in feature that apps can ignore. Set `level: patch` for a fix and for anything else, such as docs, tests or CI.
+- Add a `### Upgrading` section to a `major` fragment, and to no other. A fragment below major has no `### Upgrading` section, for example a colour fix.
+- Put `### Upgrading` last in the fragment, after whichever change sections it has. Never add an empty `### Added`, `### Changed` or `### Fixed` heading to reach it.
 - Write the steps as a numbered list. Each step is one concrete action, so a reader in another app can follow it without the mvpa.css diff.
-- Leave out the bump of the pinned `ref:`. Every upgrade needs it.
+- Leave out the bump of the pinned `tag:`. Every upgrade needs it.
+- Accept a removal of public surface below major only with an `overrides: {rule_id: "reason"}` front-matter key. The rule ids are `token`, `file`, `class`, `data_attribute` and `importmap_pin`, and the reason is required. The `surface` workflow prints each override.
+- A fragment that already exists on `main` is never edited. A new change adds a new fragment.
+- The release workflow reads every fragment on `main`, takes the highest level, stamps `lib/mvpa/css/version.rb` and `CHANGELOG.md`, deletes the fragments and tags `vX.Y.Z`. A merge with no fragment releases a patch. Merges that land close together can share one release.
 
-Example, with placeholder class names:
+Example fragment, with placeholder class names:
 
 ```markdown
-## 2026-01-15
+---
+level: major
+---
 
 ### Changed
 - **Button class rename** — the secondary action button has a new class.

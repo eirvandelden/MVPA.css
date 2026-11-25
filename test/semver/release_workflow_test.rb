@@ -27,6 +27,20 @@ class ReleaseWorkflowTest < Minitest::Test
     assert_equal({ "contents" => "write" }, workflow["jobs"]["release"]["permissions"])
   end
 
+  def test_the_token_reaches_only_the_release_step
+    refute workflow["jobs"]["release"].key?("env"), "a job-level env gives every step the write token"
+    step = steps.find { |candidate| candidate["run"].to_s.include?("script/semver/release") }
+
+    assert_equal "${{ secrets.GITHUB_TOKEN }}", step["env"]["GH_TOKEN"]
+  end
+
+  def test_every_third_party_action_is_pinned_to_a_commit
+    third_party = steps.filter_map { |step| step["uses"] }.reject { |uses| uses.start_with?("actions/") }
+
+    refute_empty third_party
+    third_party.each { |uses| assert_match(/@\h{40}\z/, uses, "#{uses} is a mutable reference") }
+  end
+
   def test_the_release_runs_the_script_on_a_push_to_main
     assert_equal [ "main" ], workflow["on"]["push"]["branches"]
     assert(steps.any? { |step| step["run"].to_s.include?("script/semver/release") })

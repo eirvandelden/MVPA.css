@@ -16,15 +16,13 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    env:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v7.0.1
         with:
           ref: main
           fetch-depth: 0
           fetch-tags: true
-      - uses: spinel-coop/setup-rv@main
+      - uses: spinel-coop/setup-rv@789f43073788bc826ed91610498297012e8e6438 # main on 2026-11-25
         with:
           ruby-version: current
           install-gems: true
@@ -33,4 +31,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - name: Release what merged
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: script/semver/release

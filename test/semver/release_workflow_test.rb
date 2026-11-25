@@ -34,6 +34,15 @@ class ReleaseWorkflowTest < Minitest::Test
     assert_equal "${{ secrets.GITHUB_TOKEN }}", step["env"]["GH_TOKEN"]
   end
 
+  def test_the_checkout_keeps_no_credentials_for_later_steps
+    checkout = steps.find { |step| step["uses"].to_s.start_with?("actions/checkout") }
+    release = steps.find { |step| step["run"].to_s.include?("script/semver/release") }
+
+    assert_equal false, checkout["with"]["persist-credentials"]
+    assert_includes release["run"], "git remote set-url origin"
+    assert_includes release["run"], "${GH_TOKEN}"
+  end
+
   def test_every_third_party_action_is_pinned_to_a_commit
     third_party = steps.filter_map { |step| step["uses"] }.reject { |uses| uses.start_with?("actions/") }
 

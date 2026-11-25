@@ -22,6 +22,7 @@ jobs:
           ref: main
           fetch-depth: 0
           fetch-tags: true
+          persist-credentials: false
       - uses: spinel-coop/setup-rv@789f43073788bc826ed91610498297012e8e6438 # main on 2026-11-25
         with:
           ruby-version: current
@@ -33,4 +34,6 @@ jobs:
       - name: Release what merged
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: script/semver/release
+        run: |
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          script/semver/release

@@ -11,3 +11,7 @@ Layout/LineLength:
   Exclude:
     - "test/button_shadow_spacing_spring_test.rb"
     - "test/eink_theme_test.rb"
+
+# The inline RBS signatures (`#: (String) -> String`) are the house style for personal projects.
+Layout/LeadingCommentSpace:
+  AllowRBSInlineAnnotation: true

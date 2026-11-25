@@ -22,6 +22,13 @@ class RepositoryTest < Minitest::Test
     assert_equal calls + 1, @runner.gh_calls.size, "only the release list runs"
   end
 
+  def test_publish_returns_the_released_version_and_nil_when_nothing_is_released
+    merge("minor")
+
+    assert_equal "1.1.0", repository.publish.to_s
+    assert_nil repository.publish
+  end
+
   def test_latest_version_is_the_max_of_the_file_and_the_tags
     assert_equal "1.0.0", repository.latest_version.to_s
     sh(@work, "git", "update-ref", "refs/tags/v1.4.0", "HEAD")

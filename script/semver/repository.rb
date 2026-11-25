@@ -33,7 +33,7 @@ module Semver
       fragment_paths.map { |path| Fragment.read(File.join(@root, path)) }
     end
 
-    #: () -> void
+    #: () -> Version?   the released version, or nil when nothing needed a release
     def publish
       ATTEMPTS.times do
         refresh
@@ -41,7 +41,7 @@ module Semver
         return unless unreleased?
 
         version = attempt
-        return create_release("v#{version}", git("rev-parse", "HEAD").strip) if version
+        return released(version) if version
       end
       raise Shell::Failed, "the release push was rejected #{ATTEMPTS} times"
     end
@@ -161,6 +161,11 @@ module Semver
       end
       git("reset", "--hard", "origin/#{@branch}")
       nil
+    end
+
+    def released(version)
+      create_release("v#{version}", git("rev-parse", "HEAD").strip)
+      version
     end
   end
 end

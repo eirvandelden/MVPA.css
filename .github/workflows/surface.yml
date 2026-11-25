@@ -1,0 +1,27 @@
+---
+name: Surface
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: surface-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  surface:
+    name: Public surface
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - uses: spinel-coop/setup-rv@main
+        with:
+          ruby-version: current
+      - name: Fail when public surface is removed below a major level
+        run: script/semver/surface "origin/${{ github.base_ref }}" HEAD

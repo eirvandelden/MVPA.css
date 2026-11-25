@@ -38,7 +38,7 @@ module Semver
     end
 
     def upgrading
-      steps = @fragments.flat_map { |fragment| fragment.sections.fetch("Upgrading", "").scan(/^\d+\. (.+)$/).flatten }
+      steps = @fragments.flat_map(&:upgrading_steps)
       return if steps.empty?
 
       "### Upgrading\n" + steps.each_with_index.map { |step, index| "#{index + 1}. #{step}" }.join("\n")

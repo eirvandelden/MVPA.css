@@ -40,6 +40,37 @@ class FragmentTest < Minitest::Test
     assert_equal({ "token" => "app does not use it" }, fragment.overrides)
   end
 
+  def test_an_upgrading_line_that_is_not_a_step_is_invalid
+    assert_invalid "---\nlevel: major\n---\n### Upgrading\n1. Do it.\nstray text\n"
+  end
+
+  def test_an_indented_continuation_belongs_to_its_step
+    fragment = read("---\nlevel: major\n---\n### Upgrading\n1. Do it:\n   ```html\n   <x>\n   ```\n2. Then this.\n")
+
+    assert_equal [ "Do it:\n   ```html\n   <x>\n   ```", "Then this." ], fragment.upgrading_steps
+  end
+
+  def test_an_overrides_value_that_is_not_a_mapping_is_invalid
+    assert_invalid "---\nlevel: minor\noverrides: token\n---\n### Added\n- x\n"
+    assert_invalid "---\nlevel: minor\noverrides: [token]\n---\n### Added\n- x\n"
+  end
+
+  def test_front_matter_that_is_a_list_is_invalid
+    assert_invalid "---\n- level\n---\n### Added\n- x\n"
+  end
+
+  def test_text_before_the_first_heading_is_invalid
+    assert_invalid "---\nlevel: minor\n---\nstray\n### Added\n- x\n"
+  end
+
+  def test_a_repeated_heading_is_invalid
+    assert_invalid "---\nlevel: minor\n---\n### Added\n- x\n### Added\n- y\n"
+  end
+
+  def test_a_fragment_without_a_section_is_invalid
+    assert_invalid "---\nlevel: patch\n---\n"
+  end
+
   def test_an_unknown_rule_id_is_invalid
     assert_invalid "---\nlevel: minor\noverrides:\n  nope: why\n---\n### Added\n- x\n"
   end

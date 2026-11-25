@@ -11,6 +11,6 @@ level: minor
 - **Name** — what an app gets.
 ```
 
-`level` is `patch`, `minor` or `major`. A `major` fragment needs a numbered `### Upgrading` section; a lower level must not have one. Sections are `### Added`, `### Changed`, `### Fixed` and `### Upgrading`.
+`level` is `patch`, `minor` or `major`. A `major` fragment needs a numbered `### Upgrading` section; a lower level must not have one. A step may continue on lines indented by at least two spaces, such as a fenced snippet; blank lines inside the section are dropped, and any other line there is refused. Sections are `### Added`, `### Changed`, `### Fixed` and `### Upgrading`.
 
 An optional `overrides` key accepts a removal of public surface below `major`: `overrides: {token: "reason"}`. The key is a rule id (`token`, `file`, `class`, `data_attribute`, `importmap_pin`) and the reason is required.

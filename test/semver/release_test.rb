@@ -29,6 +29,14 @@ date: Date.new(2026, 2, 3)).notes
     assert_equal [ "### Added", "### Upgrading" ], notes.scan(/^### \w+/)
   end
 
+  def test_notes_keep_the_continuation_lines_of_a_step
+    fragment("major", name: "a", upgrading: "\n### Upgrading\n1. First:\n   ```html\n   <x>\n   ```\n2. Second.\n")
+    notes = Semver::Release.plan(latest: Semver::Version.parse("1.0.0"), fragments: read(%w[a]),
+date: Date.new(2026, 2, 3)).notes
+
+    assert_includes notes, "1. First:\n   ```html\n   <x>\n   ```\n2. Second."
+  end
+
   def test_consumed_lists_the_fragment_paths
     release = plan("minor")
 

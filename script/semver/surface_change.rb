@@ -34,6 +34,8 @@ module Semver
       Rules.all.flat_map { |rule| rule.extract.call(snapshot).map { |name| "#{rule.id}:#{name}" } }.to_set
     end
 
+    private_class_method :surface
+
     #: (Set[String], Set[String], Set[String]) -> void
     def initialize(fork_surface, head_surface, base_surface)
       @removed = ((fork_surface - head_surface) & base_surface).to_a.sort

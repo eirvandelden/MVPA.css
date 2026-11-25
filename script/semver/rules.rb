@@ -65,5 +65,7 @@ module Semver
       texts = css.gsub(%r{/\*.*?\*/}m, "").scan(PRELUDE).map { |text| text.gsub(/"[^"]*"|'[^']*'/, "").strip }
       texts.reject { |text| text.start_with?("@") }
     end
+
+    private_class_method :tokens, :files, :selectors, :pins, :stylesheets, :preludes
   end
 end

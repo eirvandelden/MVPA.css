@@ -31,7 +31,7 @@ Add to your `Gemfile`:
 gem "mvpa-css", github: "eirvandelden/mvpa.css", tag: "6.0.0"
 ```
 
-Tags up to `v6.0.0` were added retroactively for the dated changelog entries. They pin the code of that entry, and `Mvpa::Css::VERSION` inside them still reports the old value. Stamped versions start with the first release after that. A `ref:` SHA keeps working.
+Tags up to `6.0.0` were added retroactively for the dated changelog entries. They pin the code of that entry, and `Mvpa::Css::VERSION` inside them still reports the old value. Stamped versions start with the first release after that. A `ref:` SHA keeps working.
 
 Then run:
 

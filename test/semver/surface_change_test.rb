@@ -65,6 +65,17 @@ class SurfaceChangeTest < Minitest::Test
     assert_equal [ "data_attribute:data-theme=black" ], surface_change.removed
   end
 
+  def test_a_space_inside_a_data_attribute_value_is_part_of_its_name
+    base = "nav.rail a { color: var(--color-link); }\n[data-theme=\"dark\"] .hub { margin: var(--gap); }\n"
+    sh(@work, "git", "checkout", "-q", "main")
+    change(CSS, "#{base}[data-x=\"a b\"] a { margin: 0; }\n")
+    sh(@work, "git", "checkout", "-q", "feature")
+    sh(@work, "git", "rebase", "-q", "main")
+    change(CSS, "#{base}[data-x=\"ab\"] a { margin: 0; }\n")
+
+    assert_equal [ "data_attribute:data-x=a b" ], surface_change.removed
+  end
+
   def test_a_quote_change_in_a_data_attribute_is_not_a_removal
     change(CSS, "nav.rail a { color: var(--color-link); }\n[data-theme=dark] .hub { margin: var(--gap); }\n")
 

@@ -50,7 +50,13 @@ module Semver
     #: (Snapshot) -> Set[String]
     def self.data_attributes(snapshot)
       preludes = stylesheets(snapshot).flat_map { |css| preludes(css, strings: true) }
-      preludes.flat_map { |text| text.scan(DATA_ATTRIBUTE).flatten }.map { |name| name.delete("\"' ") }.to_set
+      preludes.flat_map { |text| text.scan(DATA_ATTRIBUTE).flatten }.map { |name| attribute_name(name) }.to_set
+    end
+
+    # Quotes and the space around the operator do not make a different selector; a space inside the value does.
+    #: (String) -> String
+    def self.attribute_name(text)
+      text.gsub(/\s*([~|^$*]?=)\s*/, "\\1").delete("\"'")
     end
 
     #: (Snapshot) -> Set[String]
@@ -80,6 +86,7 @@ module Semver
       css.gsub(%r{/\*.*?\*/}m, "")
     end
 
-    private_class_method :tokens, :files, :selectors, :data_attributes, :pins, :stylesheets, :preludes, :uncommented
+    private_class_method :tokens, :files, :selectors, :data_attributes, :attribute_name, :pins
+    private_class_method :stylesheets, :preludes, :uncommented
   end
 end

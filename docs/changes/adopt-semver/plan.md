@@ -34,9 +34,9 @@ Every release has a semver version: major for a breaking change, minor for an op
 
 ## In scope
 
-- Retroactive versions for every dated changelog entry, starting at 0.1.0 for the first entry, each entry with `### Upgrading` raising the major, and git tags `vX.Y.Z` on the matching commits, after Etienne approves the table.
+- Retroactive versions for every dated changelog entry, starting at 0.1.0 for the first entry, each entry with `### Upgrading` raising the major, and git tags `X.Y.Z` on the matching commits, after Etienne approves the table.
 - One fragment file per pull request, `changelog.d/<branch-slug>.md`, with front matter `level: major|minor|patch` and an optional `overrides: {rule_id: reason}`, the Added/Changed/Fixed text and optional Upgrading steps. A pull request never edits `CHANGELOG.md`.
-- `release.yml`: on push to `main`, one run at a time, it reads state from the tip of `main`, stamps `version.rb` and a `## X.Y.Z - YYYY-MM-DD` heading in `CHANGELOG.md`, deletes the consumed fragments, tests, commits, tags `vX.Y.Z` and creates the GitHub release.
+- `release.yml`: on push to `main`, one run at a time, it reads state from the tip of `main`, stamps `version.rb` and a `## X.Y.Z - YYYY-MM-DD` heading in `CHANGELOG.md`, deletes the consumed fragments, tests, commits, tags `X.Y.Z` and creates the GitHub release.
 - `surface.yml`: on a pull request, fails when the diff from the merge base removes or renames public surface while the fragment level is below major. Public surface is `--token` names in `0_base/0_variables.css`, stylesheet and JS files, class selectors, `data-` attribute selectors, importmap pins and files in `app/javascript`. Element-structure contracts such as `nav.rail` have no automatic check; `AGENTS.md` says changing one needs `level: major`.
 - Agent rules in `AGENTS.md` on versioning and breaking changes. README and CHANGELOG header change from "git SHAs" to semver pins.
 - `version.rb` stops reading the git SHA.
@@ -68,7 +68,7 @@ Every release has a semver version: major for a breaking change, minor for an op
 - A fragment with a missing or unknown level, a `major` fragment without numbered `### Upgrading` steps, or a fragment below major that has an `### Upgrading` section is invalid, and CI fails the pull request that adds it.
 - `Mvpa::Css::VERSION` returns the released `X.Y.Z`, not a SHA, and `gem build` produces `mvpa-css-X.Y.Z.gem`.
 - The changelog shows a version in the heading of each of the 15 dated entries, each Upgrading entry as a major, after Etienne approves the table.
-- An app can pin `tag: "vX.Y.Z"` for any entry, and the README says how.
+- An app can pin `tag: "X.Y.Z"` for any entry, and the README says how.
 - `AGENTS.md` tells an agent when a change is breaking, where its fragment goes and that it never writes a version number.
 
 ## Decisions
@@ -81,6 +81,7 @@ Every release has a semver version: major for a breaking change, minor for an op
 - Fragment files, one per PR, as appkit designs them — Etienne wants the two repositories aligned.
 - Share one design with appkit, copy the script per repo — avoids a new shared dependency.
 - Public surface for CI is custom properties, files, class and data selectors, importmap pins and controllers; markup contracts stay a manual agent rule — Etienne selected all four.
+- Tags and release commit subjects carry no `v` prefix (`6.0.0`, `Release 6.0.0`) — Etienne finds the prefix ugly; changed after delivery, so the tag-name rule and the 14 retroactive tags follow it.
 - Changelog headings read `## X.Y.Z - YYYY-MM-DD` with a hyphen — Etienne wants appkit and mvpa.css to use the same format; this replaces the earlier em dash.
 - A fragment may carry an optional `overrides: {rule_id: reason}` front-matter key; a rule id must name a known rule and the reason must be a non-empty string; the PR check prints each override; fragments without the key stay valid — Etienne asked for the same fragment format as appkit, overriding his earlier pick to leave it out.
 - Repo-specific code lives in two files, `rules.rb` (the public-surface rules) and `stamp.rb` (the stamped files), and the rest of `script/semver/` is generic and identical in both repositories — Etienne asked for the same layout as appkit so the copies stay diffable.
@@ -99,7 +100,7 @@ None.
 - **Fragment**: one `changelog.d/<slug>.md` file with a Level in front matter and `### Added|Changed|Fixed|Upgrading` sections.
 - **Level**: patch, minor or major, ordered; the highest wins. Avoid: bump type, label.
 - **Release**: the plan for one version: the next Version, the changelog text and the fragments it consumes.
-- **Release commit**: a commit on `main` with subject `Release vX.Y.Z`. It changes only `version.rb`, `CHANGELOG.md` and `changelog.d/`.
+- **Release commit**: a commit on `main` with subject `Release X.Y.Z`. It changes only `version.rb`, `CHANGELOG.md` and `changelog.d/`.
 - **Unreleased**: `main` has a commit after the latest release commit. It is the only trigger for a release.
 - **Public surface**: the names an app can depend on, as listed in scope.
 
@@ -272,10 +273,10 @@ module Semver
     #: (runner: ^(Array[String]) -> String) -> void
     def initialize(runner: Shell.new); end
 
-    #: () -> bool   true when commits exist after the latest "Release v" commit
+    #: () -> bool   true when commits exist after the latest "Release" commit
     def unreleased?; end
 
-    #: () -> Version   max of version.rb and the highest vX.Y.Z tag
+    #: () -> Version   max of version.rb and the highest X.Y.Z tag
     def latest_version; end
 
     #: () -> Array[Fragment]
@@ -377,7 +378,7 @@ Not checked: the repository has no Steepfile.
 
 1. At most one release run executes at once. Enforced by `concurrency: release` with `cancel-in-progress: false`. Test: `release_workflow_test.rb`.
 2. A release consumes every fragment in the tree at its own commit, and a fragment is deleted only in the commit that releases it. Enforced by `Release#consumed` and `git rm` in one commit. Test: `repository_test.rb` with a real temporary repository.
-3. The released version is strictly greater than every `vX.Y.Z` tag and the `version.rb` value. Enforced by `Repository#latest_version` and `Version#bump`. Test: `version_test.rb`, `repository_test.rb`.
+3. The released version is strictly greater than every `X.Y.Z` tag and the `version.rb` value. Enforced by `Repository#latest_version` and `Version#bump`. Test: `version_test.rb`, `repository_test.rb`.
 4. Branch tip and tag move together or not at all. Enforced by `git push --atomic`. Test: `repository_test.rb` with a rejecting remote.
 5. A tag is never moved, deleted or forced. Enforced by `Repository#publish`, which fails when the tag exists on another commit. Test: `repository_test.rb`.
 6. A tip that is a release commit starts no release. Enforced by `Repository#unreleased?`. Test: `repository_test.rb`.
@@ -406,7 +407,7 @@ Not checked: the repository has no Steepfile.
 - The release commit message carries `[skip ci]` as a second loop guard; the structural guard is `Repository#unreleased?`.
 - A burst of merges can share one release, and one that lands mid-run gets the next. The README and `AGENTS.md` say so. The guarantee is "no lost change", not "one release per merge".
 - The retroactive table is a one-off throwaway script kept in the scratchpad, not in the repository. Its rule: an entry with `### Upgrading` is a major; an entry with `### Added` and no Upgrading is a minor; otherwise a patch. Provisional result: 0.1.0 (02-13), 0.2.0 (03-04), 0.2.1 (07-14), 0.3.0 (07-15), 0.4.0 (08-14), 0.5.0 (09-04), 1.0.0 (10-13), 2.0.0 (10-19), 3.0.0 (10-25), 4.0.0 (10-26), 4.0.1 (10-29), 4.0.2 (10-30), 5.0.0 (11-03), 5.0.1 (11-06), 6.0.0 (11-11). Current version: 6.0.0. The commit for each entry is found at implement time and shown with the table for approval.
-- Historical tags are aliases that pin old code, not stamped gem versions. A Gemfile pins code with `tag:`, so `tag: "v3.0.0"` resolves the old commit; `Mvpa::Css::VERSION` inside it still reports the old value. Stamped versions start at the first release after the adoption. The README says so. No consumer test uses a historical tag.
+- Historical tags are aliases that pin old code, not stamped gem versions. A Gemfile pins code with `tag:`, so `tag: "3.0.0"` resolves the old commit; `Mvpa::Css::VERSION` inside it still reports the old value. Stamped versions start at the first release after the adoption. The README says so. No consumer test uses a historical tag.
 - This change's own fragment is `level: major`, chosen by Etienne over the plan's `minor` default: apps must change their pin from a SHA to a tag and stop expecting a `.pre.git.` suffix in `Mvpa::Css::VERSION`. The first real release is therefore 7.0.0.
 - The release job gives `GH_TOKEN` only to the step that runs the release script, the checkout persists no credentials, and that step sets the authenticated `origin` itself, so no earlier step can read the write token; the job also pins `spinel-coop/setup-rv` to a commit SHA in the two new workflows, so a change to that action's `main` branch cannot run with write access. `ci.yml` is not touched.
 - A fragment's Upgrading steps may continue on indented lines; any other line in the section is refused, because a dropped line would remove upgrade instructions without a warning.
@@ -416,7 +417,7 @@ Not checked: the repository has no Steepfile.
 
 - GitHub Actions: `release.yml` (`push` to `main`, `workflow_dispatch`) and `surface.yml` (`pull_request`). `GITHUB_TOKEN` with `contents: write` for the release job, `contents: read` for the surface job.
 - `gh` CLI on the runner for `gh release create` and `gh release view`.
-- Consuming apps pin `tag: "vX.Y.Z"` in their Gemfile; appkit runs the same design.
+- Consuming apps pin `tag: "X.Y.Z"` in their Gemfile; appkit runs the same design.
 - Dependabot already watches `github-actions`; no change.
 
 ## Files that change
@@ -490,7 +491,7 @@ Not checked: the repository has no Steepfile.
 - Invariant: release commit holds only three paths → `test/semver/repository_test.rb` `test_the_release_commit_holds_only_the_stamped_paths`
 - Query count: not applicable, the change has no database.
 - Retroactive table approved by Etienne → check: Etienne approves the printed table before `delivery-evidence record --kind check --name retroactive-table`
-- First real release → check: after merge, read the computed version from the release commit subject, then `git ls-remote --tags origin vX.Y.Z` shows it on that commit, `gh release view vX.Y.Z` shows its notes, `changelog.d/` holds only `README.md` and `lib/mvpa/css/version.rb` reports `X.Y.Z`
+- First real release → check: after merge, read the computed version from the release commit subject, then `git ls-remote --tags origin X.Y.Z` shows it on that commit, `gh release view X.Y.Z` shows its notes, `changelog.d/` holds only `README.md` and `lib/mvpa/css/version.rb` reports `X.Y.Z`
 
 Per changed file, the unit tests expected, named as behaviour:
 - `script/semver/level.rb`: `Level.parse names the three levels`, `Level.parse refuses an unknown name`, `Level orders patch below minor below major`

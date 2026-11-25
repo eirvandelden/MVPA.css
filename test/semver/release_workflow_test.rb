@@ -38,7 +38,7 @@ class ReleaseWorkflowTest < Minitest::Test
     checkout = steps.find { |step| step["uses"].to_s.start_with?("actions/checkout") }
     release = steps.find { |step| step["run"].to_s.include?("script/semver/release") }
 
-    assert_equal false, checkout["with"]["persist-credentials"]
+    assert_same false, checkout["with"]["persist-credentials"]
     assert_includes release["run"], "git remote set-url origin"
     assert_includes release["run"], "${GH_TOKEN}"
   end

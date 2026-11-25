@@ -408,7 +408,7 @@ Not checked: the repository has no Steepfile.
 - The retroactive table is a one-off throwaway script kept in the scratchpad, not in the repository. Its rule: an entry with `### Upgrading` is a major; an entry with `### Added` and no Upgrading is a minor; otherwise a patch. Provisional result: 0.1.0 (02-13), 0.2.0 (03-04), 0.2.1 (07-14), 0.3.0 (07-15), 0.4.0 (08-14), 0.5.0 (09-04), 1.0.0 (10-13), 2.0.0 (10-19), 3.0.0 (10-25), 4.0.0 (10-26), 4.0.1 (10-29), 4.0.2 (10-30), 5.0.0 (11-03), 5.0.1 (11-06), 6.0.0 (11-11). Current version: 6.0.0. The commit for each entry is found at implement time and shown with the table for approval.
 - Historical tags are aliases that pin old code, not stamped gem versions. A Gemfile pins code with `tag:`, so `tag: "v3.0.0"` resolves the old commit; `Mvpa::Css::VERSION` inside it still reports the old value. Stamped versions start at the first release after the adoption. The README says so. No consumer test uses a historical tag.
 - This change's own fragment is `level: major`, chosen by Etienne over the plan's `minor` default: apps must change their pin from a SHA to a tag and stop expecting a `.pre.git.` suffix in `Mvpa::Css::VERSION`. The first real release is therefore 7.0.0.
-- The release job gives `GH_TOKEN` only to the step that runs the release script, and pins `spinel-coop/setup-rv` to a commit SHA in the two new workflows, so a change to that action's `main` branch cannot run with write access. `ci.yml` is not touched.
+- The release job gives `GH_TOKEN` only to the step that runs the release script, the checkout persists no credentials, and that step sets the authenticated `origin` itself, so no earlier step can read the write token; the job also pins `spinel-coop/setup-rv` to a commit SHA in the two new workflows, so a change to that action's `main` branch cannot run with write access. `ci.yml` is not touched.
 - A fragment's Upgrading steps may continue on indented lines; any other line in the section is refused, because a dropped line would remove upgrade instructions without a warning.
 - `AGENTS.md` carries the agent rules. `CLAUDE.md` is a symlink to it, so there is one edit.
 
@@ -455,6 +455,7 @@ Not checked: the repository has no Steepfile.
 - The first run after merge is the first real test of `release.yml`; `workflow_dispatch` allows a manual repair.
 - Pushing to `main` from the workflow stops working if branch protection is added later; `AGENTS.md` records that the bot then needs a bypass.
 - A release job that re-runs tests is slower than a plain stamp-and-push.
+- A release commit does not stamp `Gemfile.lock`, so its `mvpa-css` line goes stale on `main` after each release and the next local `bi` rewrites it. Stamping it would add a fourth path to the release commit and a risk of committing bundler's other rewrites; consumers do not read this repository's lockfile.
 
 ## Proof
 
@@ -482,7 +483,8 @@ Not checked: the repository has no Steepfile.
 - Upgrading steps keep their continuation lines → `test/semver/release_test.rb` `test_notes_keep_the_continuation_lines_of_a_step`, `test/semver/fragment_test.rb` `test_an_indented_continuation_belongs_to_its_step`, `test_an_upgrading_line_that_is_not_a_step_is_invalid`
 - Malformed fragments are refused with a reason → `test/semver/fragment_test.rb` `test_an_overrides_value_that_is_not_a_mapping_is_invalid`, `test_front_matter_that_is_a_list_is_invalid`, `test_text_before_the_first_heading_is_invalid`, `test_a_repeated_heading_is_invalid`, `test_a_fragment_without_a_section_is_invalid`
 - A no-op rerun says so → `test/semver/repository_test.rb` `test_publish_returns_the_released_version_and_nil_when_nothing_is_released`
-- The write token reaches one step, and third-party actions are pinned → `test/semver/release_workflow_test.rb` `test_the_token_reaches_only_the_release_step`, `test_every_third_party_action_is_pinned_to_a_commit`
+- The write token reaches one step, the checkout keeps no credentials, and third-party actions are pinned → `test/semver/release_workflow_test.rb` `test_the_token_reaches_only_the_release_step`, `test_the_checkout_keeps_no_credentials_for_later_steps`, `test_every_third_party_action_is_pinned_to_a_commit`
+- A new release does not break the changelog tests the release job runs on the stamped tree → `test/semver/stamped_changelog_test.rb` `test_the_changelog_assertions_hold_after_each_kind_of_release`
 - Invariant: tag never moved → `test/semver/repository_test.rb` `test_a_tag_on_another_commit_stops_the_release`
 - A release whose GitHub release failed after the push is repaired before a later merge advances the version → `test/semver/repository_test.rb` `test_a_missing_release_is_repaired_before_the_next_release`
 - Invariant: release commit holds only three paths → `test/semver/repository_test.rb` `test_the_release_commit_holds_only_the_stamped_paths`

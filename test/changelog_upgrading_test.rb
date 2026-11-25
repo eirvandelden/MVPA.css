@@ -114,7 +114,9 @@ class ChangelogUpgradingTest < Minitest::Test
   def test_every_entry_heading_starts_with_a_version
     headings = File.read(changelog).scan(/^## .*$/)
 
-    assert_equal 15, headings.size
+    retroactive = headings.last(15)
+
+    assert_equal [ "## 6.0.0 - 2026-11-11", "## 0.1.0 - 2026-02-13" ], [ retroactive.first, retroactive.last ]
     headings.each { |heading| assert_match(/\A## \d+\.\d+\.\d+ - \d{4}-\d{2}-\d{2}\z/, heading) }
   end
 
@@ -140,6 +142,6 @@ class ChangelogUpgradingTest < Minitest::Test
   end
 
   def changelog
-    File.expand_path("../CHANGELOG.md", __dir__)
+    ENV.fetch("MVPA_CHANGELOG") { File.expand_path("../CHANGELOG.md", __dir__) }
   end
 end

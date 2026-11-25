@@ -59,7 +59,7 @@ The history gets versions once, retroactively, so apps can pin any past state.
 - A pull request that removes a public CSS custom property with `level: minor` fails CI; the same pull request with `level: major` passes.
 - `Mvpa::Css::VERSION` returns the released version, not a SHA, and `gem build` produces `mvpa-css-X.Y.Z.gem`.
 - The changelog shows a version for each of the 15 dated entries, with each Upgrading entry as a major, after Etienne approves the table.
-- An app can pin `tag: "vX.Y.Z"` for any entry, and the README says how.
+- An app can pin `tag: "X.Y.Z"` for any entry, and the README says how.
 - `AGENTS.md` tells an agent when a change is breaking, where its entry goes and that it never writes a version number.
 
 ## Flagged concerns

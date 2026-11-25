@@ -35,7 +35,7 @@ Every release has a semver version: major for a breaking change, minor for an op
 ## In scope
 
 - Retroactive versions for every dated changelog entry, starting at 0.1.0 for the first entry, each entry with `### Upgrading` raising the major, and git tags `vX.Y.Z` on the matching commits, after Etienne approves the table.
-- One fragment file per pull request, `changelog.d/<branch-slug>.md`, with front matter `level: major|minor|patch`, the Added/Changed/Fixed text and optional Upgrading steps. A pull request never edits `CHANGELOG.md`.
+- One fragment file per pull request, `changelog.d/<branch-slug>.md`, with front matter `level: major|minor|patch` and an optional `overrides: {rule_id: reason}`, the Added/Changed/Fixed text and optional Upgrading steps. A pull request never edits `CHANGELOG.md`.
 - `release.yml`: on push to `main`, one run at a time, it reads state from the tip of `main`, stamps `version.rb` and a `## X.Y.Z - YYYY-MM-DD` heading in `CHANGELOG.md`, deletes the consumed fragments, tests, commits, tags `vX.Y.Z` and creates the GitHub release.
 - `surface.yml`: on a pull request, fails when the diff from the merge base removes or renames public surface while the fragment level is below major. Public surface is `--token` names in `0_base/0_variables.css`, stylesheet and JS files, class selectors, `data-` attribute selectors, importmap pins and files in `app/javascript`. Element-structure contracts such as `nav.rail` have no automatic check; `AGENTS.md` says changing one needs `level: major`.
 - Agent rules in `AGENTS.md` on versioning and breaking changes. README and CHANGELOG header change from "git SHAs" to semver pins.
@@ -61,6 +61,8 @@ Every release has a semver version: major for a breaking change, minor for an op
 - A release whose tests fail pushes no commit and no tag, and its fragments stay for the next run.
 - A release whose commit and tag cannot both be pushed pushes neither.
 - A pull request that removes a public CSS custom property with `level: minor` fails CI; the same pull request with `level: major` passes.
+- A pull request that removes a public CSS custom property with `level: minor` and `overrides: {token: "reason"}` passes, and the check prints the override and its reason.
+- A fragment whose `overrides` names an unknown rule id, or gives an empty reason, is invalid.
 - A pull request that renames a class selector, deletes a stylesheet, removes a `data-` attribute selector or removes an importmap pin, with a level below major, fails CI.
 - A pull request that removes something that `main` already lost, including a token that both branches removed independently, is not blamed for it.
 - A fragment with a missing or unknown level, a `major` fragment without numbered `### Upgrading` steps, or a fragment below major that has an `### Upgrading` section is invalid, and CI fails the pull request that adds it.
@@ -80,7 +82,8 @@ Every release has a semver version: major for a breaking change, minor for an op
 - Share one design with appkit, copy the script per repo — avoids a new shared dependency.
 - Public surface for CI is custom properties, files, class and data selectors, importmap pins and controllers; markup contracts stay a manual agent rule — Etienne selected all four.
 - Changelog headings read `## X.Y.Z - YYYY-MM-DD` with a hyphen — Etienne wants appkit and mvpa.css to use the same format; this replaces the earlier em dash.
-- Fragments carry only `level` in front matter; no `overrides` key — nothing needs an escape hatch yet, and the key can be added later.
+- A fragment may carry an optional `overrides: {rule_id: reason}` front-matter key; a rule id must name a known rule and the reason must be a non-empty string; the PR check prints each override; fragments without the key stay valid — Etienne asked for the same fragment format as appkit, overriding his earlier pick to leave it out.
+- Repo-specific code lives in two files, `rules.rb` (the public-surface rules) and `stamp.rb` (the stamped files), and the rest of `script/semver/` is generic and identical in both repositories — Etienne asked for the same layout as appkit so the copies stay diffable.
 - Start retroactive numbering at 0.1.0 like appkit — Etienne chose it to match appkit.
 - Deliver autonomously, no Codex implementation review — Etienne chose it; the plan critique is the second-model read.
 - Record the tip-derived robust design — it survives the cancellation of a pending run; Etienne agreed it, accepting that a burst of merges can share one release.
@@ -132,8 +135,6 @@ classDiagram
     +plan(latest, fragments, date)
     +version
     +notes
-    +stamp_changelog(text)
-    +stamp_version(source)
     +consumed
   }
   class Repository {
@@ -146,7 +147,7 @@ classDiagram
   class SurfaceChange {
     +between(base, head)
     +removed
-    +violation(level)
+    +check(level, overrides)
   }
   Fragment --> Level
   Release --> Version
@@ -187,7 +188,7 @@ stateDiagram-v2
 
 ### Signatures
 
-All code is stdlib Ruby in `script/semver/`, module `Semver`. It sits outside `lib/`, so `spec.files` does not ship it. Each executable is about six lines: build the objects, send one message, print.
+All code is stdlib Ruby in `script/semver/`, module `Semver`. Generic files, identical in appkit: `level.rb`, `version.rb`, `fragment.rb`, `release.rb`, `repository.rb`, `surface_change.rb` and the two executables. Repo-specific files: `rules.rb` (the public-surface rules, with the extraction rules below) and `stamp.rb` (the stamped files and how each is rewritten). It sits outside `lib/`, so `spec.files` does not ship it. Each executable is about six lines: build the objects, send one message, print.
 
 ```ruby
 module Semver
@@ -229,8 +230,11 @@ module Semver
   class Fragment
     class Invalid < StandardError; end
 
-    #: (String) -> Fragment   raises Invalid on a missing or unknown level, a major without non-empty numbered ### Upgrading steps, or an ### Upgrading section below major
+    #: (String) -> Fragment   raises Invalid on a missing or unknown level, a major without non-empty numbered ### Upgrading steps, an ### Upgrading section below major, an override naming a rule id that Rules lacks, or an override with an empty reason
     def self.read(path); end
+
+    #: () -> Hash[String, String]   rule id => reason; empty when the fragment has no overrides key
+    def overrides; end
 
     #: () -> Level
     def level; end
@@ -242,7 +246,7 @@ module Semver
     def path; end
   end
 
-  # The next version, its notes, and how it rewrites the two stamped files. Pure: no git, no clock.
+  # The next version and its notes. Pure: no git, no clock.
   class Release
     #: (latest: Version, fragments: Array[Fragment], date: Date) -> Release   no fragments means a patch
     def self.plan(latest:, fragments:, date:); end
@@ -252,12 +256,6 @@ module Semver
 
     #: () -> String   "## X.Y.Z - YYYY-MM-DD" plus merged sections in the order Added, Changed, Fixed, Upgrading; an empty section is omitted; Upgrading steps of all fragments form one continuous numbered list, in the order the fragments were added
     def notes; end
-
-    #: (String) -> String   inserts notes above the first release heading; raises if the heading exists
-    def stamp_changelog(text); end
-
-    #: (String) -> String   rewrites the VERSION literal in version.rb
-    def stamp_version(source); end
 
     #: () -> Array[String]   fragment paths to delete
     def consumed; end
@@ -284,7 +282,19 @@ module Semver
     def reconcile; end
   end
 
-  # What a PR removed from the public surface, measured from the merge base.
+  # A read-only view of the tree at one git ref: the generic input of every rule.
+  class Snapshot
+    #: (String) -> Snapshot   the tree at the git ref
+    def self.at(ref); end
+
+    #: () -> Array[String]   all tracked paths
+    def paths; end
+
+    #: (String) -> String   file content, or an empty string when the path is absent
+    def read(path); end
+  end
+
+  # What a PR removed from the public surface. Generic: it only asks each rule in `Rules.all` to extract names from a Snapshot.
   class SurfaceChange
     #: (base: String, head: String) -> SurfaceChange   base is the base branch tip
     def self.between(base:, head:); end
@@ -292,15 +302,46 @@ module Semver
     #: () -> Array[String]   (surface at `git merge-base base head` minus surface at head) intersected with surface at base, so a removal that main already made is not blamed
     def removed; end
 
-    #: (Level) -> String?   a message when removed is non-empty and the level is below major
-    def violation(level); end
+    #: (Level, overrides: Hash[String, String]) -> Verdict   fails when a removed item is neither covered by an override for its rule id nor allowed by a major level; the verdict also lists every override used
+    def check(level, overrides: {}); end
+  end
+
+  # The outcome of the check: whether it passed and the lines to print, failures first, then each override with its rule id and reason.
+  class Verdict
+    #: () -> bool
+    def passed?; end
+
+    #: () -> Array[String]
+    def lines; end
+  end
+
+  # Repo-specific, in rules.rb: the public-surface rules for this repository.
+  module Rules
+    Rule = Data.define(:id, :extract)   # extract: ^(Snapshot) -> Set[String]
+
+    #: () -> Array[Rule]   ids: token, file, class, data_attribute, importmap_pin; each rule owns the paths and patterns it reads
+    def self.all; end
+
+    #: () -> Array[String]
+    def self.ids; end
+  end
+
+  # Repo-specific, in stamp.rb: the files a release stamps and how.
+  module Stamp
+    PATHS = %w[lib/mvpa/css/version.rb CHANGELOG.md].freeze
+
+    #: (String, Version) -> String   rewrites the VERSION literal in version.rb
+    def self.version_source(source, version); end
+
+    #: (String, Release) -> String   inserts the release notes above the first release heading; raises if the heading exists
+    def self.changelog_text(text, release); end
   end
 end
 ```
 
 `lib/mvpa/css/version.rb` becomes a plain `VERSION = "X.Y.Z"` literal, which Bundler git sources and `gem build` both load.
 
-Surface extraction lives in `SurfaceChange`, reading files with `git show <ref>:<path>` and `git ls-tree -r --name-only <ref> -- app config/importmap.rb`. Files: every path listed under `app/` and `config/importmap.rb`. Tokens: declarations `--name:` at the start of a line in `0_base/0_variables.css` only, so a `var(--name)` reference is not a token. Classes and `data-` attribute selectors: taken from selector preludes, the text before each `{` in every stylesheet under `app/assets/stylesheets/`, with `/* */` comments removed and at-rule preludes skipped, so a class in a comment or a declaration value does not count. Importmap pins: the logical name of each `pin "name"` and each `pin_all_from "dir", under: "name"`, found by scanning the whole file, so a formatting change or a multi-line call is not a removal. The flattened `mvpa.css` repeats partial selectors; items are a Set, so repeats collapse. A rename is the removal of the old name. The extraction is heuristic: the fixtures pin its known cases, and a missed case is a bug to fix, not a reason to raise a level.
+The extraction rules below live in `rules.rb`, one `Rule` per kind, each reading a `Snapshot` (built from `git show <ref>:<path>` and `git ls-tree -r --name-only <ref>`); `SurfaceChange` holds no path or pattern. Files: every path listed under `app/` and `config/importmap.rb`. Tokens: declarations `--name:` at the start of a line in `0_base/0_variables.css` only, so a `var(--name)` reference is not a token. Classes and `data-` attribute selectors: taken from selector preludes, the text before each `{` in every stylesheet under `app/assets/stylesheets/`, with `/* */` comments removed and at-rule preludes skipped, so a class in a comment or a declaration value does not count. Importmap pins: the logical name of each `pin "name"` and each `pin_all_from "dir", under: "name"`, found by scanning the whole file, so a formatting change or a multi-line call is not a removal. The flattened `mvpa.css` repeats partial selectors; items are a Set, so repeats collapse. A rename is the removal of the old name. The extraction is heuristic: the fixtures pin its known cases, and a missed case is a bug to fix, not a reason to raise a level.
 
 Not checked: the repository has no Steepfile.
 
@@ -323,10 +364,11 @@ Not checked: the repository has no Steepfile.
 6. A tip that is a release commit starts no release. Enforced by `Repository#unreleased?`. Test: `repository_test.rb`.
 7. The release level is the highest fragment level, patch with none. Enforced by `Release.plan`. Test: `release_test.rb`.
 8. A fragment with a missing or unknown level, a major without numbered `### Upgrading` steps, or an Upgrading section below major is invalid. Enforced by `Fragment.read`. Test: `fragment_test.rb`.
-9. A PR with removed public surface and a level below major fails. Enforced by `SurfaceChange#violation`. Test: `surface_change_test.rb`.
+9. A PR with removed public surface and a level below major fails, unless a valid override covers the removed item's rule id; an override covers only its own rule id. Enforced by `SurfaceChange#check`. Test: `surface_change_test.rb`.
 10. A release commit holds only `version.rb`, `CHANGELOG.md` and `changelog.d/`. Enforced by `Repository#publish`. Test: `repository_test.rb`.
 11. No workflow step uses a token other than `GITHUB_TOKEN`. Enforced and tested by `release_workflow_test.rb`.
 12. `Mvpa::Css::VERSION` is a plain literal equal to the gemspec version. Enforced by `version.rb`. Test: `version_file_test.rb`.
+13. An override names a known rule id and carries a non-empty reason, and the PR check prints each override it used. Enforced by `Fragment.read` and `SurfaceChange#check`. Test: `fragment_test.rb`, `surface_change_test.rb`.
 
 ### Alternatives
 
@@ -358,7 +400,8 @@ Not checked: the repository has no Steepfile.
 
 ## Files that change
 
-- `script/semver/level.rb`, `version.rb`, `fragment.rb`, `release.rb`, `repository.rb`, `surface_change.rb` — new, the logic.
+- `script/semver/level.rb`, `version.rb`, `fragment.rb`, `release.rb`, `repository.rb`, `surface_change.rb` — new, the generic logic.
+- `script/semver/rules.rb`, `script/semver/stamp.rb` — new, the repo-specific rules and stamped files.
 - `script/semver/release`, `script/semver/surface` — new executables, each about six lines.
 - `.github/workflows/release.yml`, `.github/workflows/surface.yml` — new.
 - `changelog.d/README.md` — new, how to write a fragment; `changelog.d/adopt-semver.md` — this change's fragment.
@@ -374,7 +417,7 @@ Not checked: the repository has no Steepfile.
 ## Order of work
 
 1. Write the acceptance test for the first criterion (two fragments, one major release): `test/semver/release_acceptance_test.rb`, run it, watch it fail.
-2. `Level`, `Version`, `Fragment` with their unit tests, then `Release.plan` and its stamps until the acceptance test passes.
+2. `Level`, `Version`, `Rules`, `Fragment` with their unit tests, then `Release.plan` and `Stamp` until the acceptance test passes.
 3. `SurfaceChange` with a temporary git repository per case.
 4. `Repository` against real temporary repositories, including a rejecting remote and a stale tip.
 5. The two executables, then `lib/mvpa/css/version.rb` as a literal with its test.
@@ -403,15 +446,17 @@ Not checked: the repository has no Steepfile.
 - Rerun on a release commit releases nothing → `test/semver/repository_test.rb` `test_a_release_commit_tip_releases_nothing`
 - Failing tests push nothing → `test/semver/repository_test.rb` `test_failing_tests_push_no_commit_and_no_tag`
 - Commit and tag go together or not at all, and a retry replans → `test/semver/repository_test.rb` `test_a_rejected_push_leaves_the_branch_and_the_tag_unchanged`, `test_a_major_fragment_arriving_mid_run_is_in_the_retried_release`, `test_the_push_command_is_atomic`
-- Removed token at minor fails, at major passes → `test/semver/surface_change_test.rb` `test_a_removed_token_fails_below_major`, `test_a_removed_token_passes_at_major`
+- Removed token at minor fails, at major passes → `test/semver/surface_change_test.rb` `test_a_removed_token_fails_below_major`, `test_a_removed_token_passes_at_major`, `test_a_token_override_does_not_hide_a_class_removal`
 - Renamed class, deleted stylesheet, removed data attribute and removed importmap pin fail below major → `test/semver/surface_change_test.rb` `test_each_kind_of_removed_surface_fails_below_major`, `test_a_class_in_a_comment_is_not_surface`, `test_a_token_reference_is_not_a_token`, `test_an_importmap_reformat_is_not_a_removal`, `test_a_selector_repeated_in_the_manifest_counts_once`
 - A removal already on main is not blamed → `test/semver/surface_change_test.rb` `test_removals_merged_to_main_are_not_blamed`, `test_a_token_removed_on_both_branches_is_not_blamed`
+- An override passes the check and is printed; an invalid override is refused → `test/semver/surface_change_test.rb` `test_an_override_passes_and_is_listed`, `test_an_override_does_not_cover_another_rule`, `test/semver/surface_executable_test.rb` `test_the_check_exits_zero_and_prints_the_rule_id_and_reason`, `test/semver/fragment_test.rb` `test_an_unknown_rule_id_is_invalid`, `test_an_empty_reason_is_invalid`
 - Invalid fragments → `test/semver/fragment_test.rb` `test_a_missing_level_is_invalid`, `test_an_unknown_level_is_invalid`, `test_a_major_without_upgrading_is_invalid`, `test_upgrading_below_major_is_invalid`, `test_the_readme_in_changelog_d_is_not_a_fragment`
 - `VERSION` is a literal and matches the gem → `test/semver/version_file_test.rb` `test_the_gem_version_is_the_plain_version_literal`
 - Every changelog entry has a version → `test/changelog_upgrading_test.rb` `test_every_entry_heading_starts_with_a_version`, `test_each_entry_holds_exactly_one_release_heading`
 - README says how to pin a tag → `test/readme_test.rb` `test_the_readme_pins_by_tag`
 - `AGENTS.md` says when a change is breaking → `test/agents_md_test.rb` `test_the_changelog_rule_says_a_fragment_states_the_level`
 - Invariant: at most one release run, minimal permissions, `--atomic`, `ref: main`, no PAT, enforced by `release.yml` → `test/semver/release_workflow_test.rb` `test_the_release_runs_one_at_a_time`, `test_the_release_pushes_atomically_from_main`, `test_the_release_uses_only_the_github_token`
+- Invariant: generic files hold nothing repository-specific → `test/semver/generic_files_test.rb` `test_generic_files_name_no_repository_paths`
 - Invariant: tag never moved → `test/semver/repository_test.rb` `test_a_tag_on_another_commit_stops_the_release`
 - A release whose GitHub release failed after the push is repaired before a later merge advances the version → `test/semver/repository_test.rb` `test_a_missing_release_is_repaired_before_the_next_release`
 - Invariant: release commit holds only three paths → `test/semver/repository_test.rb` `test_the_release_commit_holds_only_the_stamped_paths`
@@ -422,10 +467,12 @@ Not checked: the repository has no Steepfile.
 Per changed file, the unit tests expected, named as behaviour:
 - `script/semver/level.rb`: `Level.parse names the three levels`, `Level.parse refuses an unknown name`, `Level orders patch below minor below major`
 - `script/semver/version.rb`: `Version.parse reads X.Y.Z`, `Version.parse refuses text that is not X.Y.Z`, `Version#bump resets lower parts`
-- `script/semver/fragment.rb`: `Fragment.read reads the level and the sections`, `Fragment.read refuses a missing level`
-- `script/semver/release.rb`: `Release.plan takes the highest level`, `Release#notes lists Upgrading last`, `Release#stamp_changelog inserts above the first release heading`, `Release#stamp_changelog refuses a heading that exists`, `Release#stamp_version rewrites the literal`
+- `script/semver/fragment.rb`: `Fragment.read reads the level and the sections`, `Fragment.read refuses a missing level`, `Fragment.read reads overrides`, `Fragment.read refuses an unknown rule id`, `Fragment.read refuses an empty reason`
+- `script/semver/rules.rb`: `Rules.ids names token, file, class, data_attribute and importmap_pin`
+- `script/semver/stamp.rb`: `Stamp.version_source rewrites the literal`, `Stamp.changelog_text inserts above the first release heading`, `Stamp.changelog_text refuses a heading that exists`
+- `script/semver/release.rb`: `Release.plan takes the highest level`, `Release#notes numbers the Upgrading steps continuously`
 - `script/semver/repository.rb`: `Repository#unreleased? is false at a release commit`, `Repository#latest_version is the max of version.rb and tags`, `Repository#publish replans from scratch after a rejected push`, `Repository#reconcile repairs every release commit without a tag or release, oldest first`, `Repository#reconcile fails closed on a gh error`
-- `script/semver/surface_change.rb`: `SurfaceChange#removed lists removed tokens, files, classes, data attributes and pins`, `SurfaceChange#violation is nil at major`
+- `script/semver/surface_change.rb`: `SurfaceChange#removed lists removed tokens, files, classes, data attributes and pins`, `SurfaceChange#check passes at major`, `SurfaceChange#check passes when an override covers the removed rule and lists it`, `SurfaceChange#check fails for a removal that no override covers`, `Verdict#lines puts failures first and then each override`
 
 Test setup: Minitest. Each `Repository` and `SurfaceChange` case builds a temporary git repository with a bare repository as `origin`; `Release`, `Version`, `Level` and `Fragment` tests use strings and temporary files. The runner for `gh` is a recording fake. No network.
 
@@ -447,3 +494,10 @@ Domain skills applied: software-design, glossary, diagrams, object-oriented-desi
 - The Proof lines do not prove several stated outcomes → fixed (explicit patch-fragment test, both-refs-unchanged test, push-command test through the recording runner)
 - The final release check can pass without verifying the release → fixed (the check reads the computed tag from the remote, the release notes, the consumed fragments and the reported version, and the checkout settings are stated)
   - The consumer-installation test the critique also asked for is not added: it needs the network and adds nothing the remote checks do not show.
+
+### Round 2 (Codex)
+
+- Successful overrides have no defined reporting path → fixed (`SurfaceChange#check` returns a `Verdict` with `passed?` and `lines`, which lists the overrides used; a new executable test checks exit status zero and stdout with the rule id and reason)
+- The generic-file promise does not match the design → fixed (path and pattern knowledge moves into `rules.rb`; `SurfaceChange` asks each `Rule` to extract from a generic `Snapshot`; a test checks that generic files name no repository path)
+  - A file-by-file comparison with appkit's copy is not a test in this repository: the two repositories' interfaces (`Rule` and `Snapshot` here, appkit's own names) are agreed between the two sessions, and Etienne decides any difference.
+- Invariant 9 still prohibits the newly accepted override behavior → fixed (invariant 9 now says "unless a valid override covers the removed item's rule id"; a mixed-removal test proves an override does not hide another rule)

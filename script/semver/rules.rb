@@ -12,6 +12,8 @@ module Semver
     VARIABLES = "app/assets/stylesheets/mvpa/0_base/0_variables.css"
     IMPORTMAP = "config/importmap.rb"
     PRELUDE = /[^{};]*(?=\{)/
+    QUOTED = /"[^"]*"|'[^']*'/
+    DATA_ATTRIBUTE = /\[\s*(data-[\w-]+(?:\s*[~|^$*]?=\s*(?:"[^"]*"|'[^']*'|[^\]\s]+))?)/
 
     #: () -> Array[Rule]
     def self.all
@@ -19,7 +21,7 @@ module Semver
         Rule.new("token", ->(snapshot) { tokens(snapshot) }),
         Rule.new("file", ->(snapshot) { files(snapshot) }),
         Rule.new("class", ->(snapshot) { selectors(snapshot, /\.(-?[_a-zA-Z][\w-]*)/) }),
-        Rule.new("data_attribute", ->(snapshot) { selectors(snapshot, /\[\s*(data-[\w-]+)/) }),
+        Rule.new("data_attribute", ->(snapshot) { data_attributes(snapshot) }),
         Rule.new("importmap_pin", ->(snapshot) { pins(snapshot) })
       ]
     end
@@ -31,7 +33,7 @@ module Semver
 
     #: (Snapshot) -> Set[String]
     def self.tokens(snapshot)
-      snapshot.read(VARIABLES).scan(/^\s*(--[\w-]+)\s*:/).flatten.to_set
+      uncommented(snapshot.read(VARIABLES)).scan(/^\s*(--[\w-]+)\s*:/).flatten.to_set
     end
 
     #: (Snapshot) -> Set[String]
@@ -44,9 +46,16 @@ module Semver
       stylesheets(snapshot).flat_map { |css| preludes(css).flat_map { |prelude| prelude.scan(pattern).flatten } }.to_set
     end
 
+    # `data-theme="dark"` and `data-theme=dark` are one name: removing a value removes a theme.
+    #: (Snapshot) -> Set[String]
+    def self.data_attributes(snapshot)
+      preludes = stylesheets(snapshot).flat_map { |css| preludes(css, strings: true) }
+      preludes.flat_map { |text| text.scan(DATA_ATTRIBUTE).flatten }.map { |name| name.delete("\"' ") }.to_set
+    end
+
     #: (Snapshot) -> Set[String]
     def self.pins(snapshot)
-      source = snapshot.read(IMPORTMAP)
+      source = snapshot.read(IMPORTMAP).lines.map { |line| line.sub(/(?:\A|\s)#.*\z/m, "") }.join
       names = source.scan(/\bpin\s+["']([^"']+)["']/)
       names += source.scan(/\bpin_all_from\b(?:(?!\bpin(?:_all_from)?\b).)*?under:\s*["']([^"']+)["']/m)
       names.flatten.to_set
@@ -60,12 +69,17 @@ module Semver
     end
 
     # The text before each `{`, without comments, strings and at-rule preludes.
-    #: (String) -> Array[String]
-    def self.preludes(css)
-      texts = css.gsub(%r{/\*.*?\*/}m, "").scan(PRELUDE).map { |text| text.gsub(/"[^"]*"|'[^']*'/, "").strip }
+    #: (String, ?strings: bool) -> Array[String]
+    def self.preludes(css, strings: false)
+      texts = uncommented(css).scan(PRELUDE).map { |text| (strings ? text : text.gsub(QUOTED, "")).strip }
       texts.reject { |text| text.start_with?("@") }
     end
 
-    private_class_method :tokens, :files, :selectors, :pins, :stylesheets, :preludes
+    #: (String) -> String
+    def self.uncommented(css)
+      css.gsub(%r{/\*.*?\*/}m, "")
+    end
+
+    private_class_method :tokens, :files, :selectors, :data_attributes, :pins, :stylesheets, :preludes, :uncommented
   end
 end

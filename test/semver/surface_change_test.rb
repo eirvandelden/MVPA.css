@@ -54,6 +54,35 @@ class SurfaceChangeTest < Minitest::Test
     assert_empty surface_change.removed
   end
 
+  def test_removing_one_value_of_a_data_attribute_is_a_removal
+    themes = "[data-theme=\"dark\"] .hub { margin: var(--gap); }\n"
+    sh(@work, "git", "checkout", "-q", "main")
+    change(CSS, "nav.rail a { color: var(--color-link); }\n#{themes}[data-theme=\"black\"] .hub { margin: 0; }\n")
+    sh(@work, "git", "checkout", "-q", "feature")
+    sh(@work, "git", "rebase", "-q", "main")
+    change(CSS, "nav.rail a { color: var(--color-link); }\n#{themes}")
+
+    assert_equal [ "data_attribute:data-theme=black" ], surface_change.removed
+  end
+
+  def test_a_quote_change_in_a_data_attribute_is_not_a_removal
+    change(CSS, "nav.rail a { color: var(--color-link); }\n[data-theme=dark] .hub { margin: var(--gap); }\n")
+
+    assert_empty surface_change.removed
+  end
+
+  def test_a_commented_out_token_is_a_removal
+    change(VARIABLES, ":root {\n  /*\n  --gap: 1rem;\n  */\n  --color-link: blue;\n}\n")
+
+    assert_equal [ "token:--gap" ], surface_change.removed
+  end
+
+  def test_a_commented_out_importmap_pin_is_a_removal
+    change(IMPORTMAP, "# pin \"app\", to: \"app.js\"\npin_all_from \"x\",\n  under: \"controllers\"\n")
+
+    assert_equal [ "importmap_pin:app" ], surface_change.removed
+  end
+
   def test_a_token_reference_is_not_a_token
     change(VARIABLES, ":root {\n  --gap: 1rem;\n  --color-link: blue;\n  --other: var(--removed);\n}\n")
     change(VARIABLES, ":root {\n  --gap: 1rem;\n  --color-link: blue;\n}\n")
@@ -103,7 +132,7 @@ class SurfaceChangeTest < Minitest::Test
 
     assert_equal %w[class data_attribute importmap_pin token], removed.map { |item| item.split(":").first }.uniq.sort
     assert_includes removed, "token:--gap"
-    assert_includes removed, "data_attribute:data-theme"
+    assert_includes removed, "data_attribute:data-theme=dark"
     assert_includes removed, "importmap_pin:app"
     assert_includes removed, "importmap_pin:controllers"
   end

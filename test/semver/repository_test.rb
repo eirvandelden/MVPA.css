@@ -31,8 +31,8 @@ class RepositoryTest < Minitest::Test
 
   def test_latest_version_is_the_max_of_the_file_and_the_tags
     assert_equal "1.0.0", repository.latest_version.to_s
-    sh(@work, "git", "update-ref", "refs/tags/v1.4.0", "HEAD")
-    sh(@work, "git", "update-ref", "refs/tags/v0.9.0", "HEAD")
+    sh(@work, "git", "update-ref", "refs/tags/1.4.0", "HEAD")
+    sh(@work, "git", "update-ref", "refs/tags/0.9.0", "HEAD")
     sh(@work, "git", "update-ref", "refs/tags/not-a-version", "HEAD")
 
     assert_equal "1.4.0", repository.latest_version.to_s
@@ -42,13 +42,13 @@ class RepositoryTest < Minitest::Test
     merge("minor")
     repository.publish
 
-    assert_equal "Release v1.1.0", origin_log.first
-    assert_includes origin_tags, "v1.1.0"
+    assert_equal "Release 1.1.0", origin_log.first
+    assert_includes origin_tags, "1.1.0"
     assert_includes sh(@origin, "git", "show", "main:CHANGELOG.md"), "## 1.1.0 - 2026-02-03"
     assert_includes sh(@origin, "git", "show", "main:lib/mvpa/css/version.rb"), 'VERSION = "1.1.0"'
     assert_equal "changelog.d/README.md",
 sh(@origin, "git", "ls-tree", "-r", "--name-only", "main", "changelog.d").strip
-    assert(@runner.gh_calls.any? { |call| call[1..3] == %w[release create v1.1.0] })
+    assert(@runner.gh_calls.any? { |call| call[1..3] == %w[release create 1.1.0] })
   end
 
   def test_a_merge_without_a_fragment_releases_a_patch
@@ -57,7 +57,7 @@ sh(@origin, "git", "ls-tree", "-r", "--name-only", "main", "changelog.d").strip
     sh(@work, "git", "push", "-q", "origin", "HEAD:main")
     repository.publish
 
-    assert_includes origin_tags, "v1.0.1"
+    assert_includes origin_tags, "1.0.1"
   end
 
   def test_a_second_merge_after_a_release_makes_a_second_release
@@ -66,7 +66,7 @@ sh(@origin, "git", "ls-tree", "-r", "--name-only", "main", "changelog.d").strip
     merge("patch", name: "second")
     repository.publish
 
-    assert_equal %w[v1.1.0 v1.1.1], origin_tags.sort
+    assert_equal %w[1.1.0 1.1.1], origin_tags.sort
   end
 
   def test_fragments_from_several_merges_share_one_release
@@ -76,7 +76,7 @@ sh(@origin, "git", "ls-tree", "-r", "--name-only", "main", "changelog.d").strip
     repository.publish
     notes = sh(@origin, "git", "show", "main:CHANGELOG.md")
 
-    assert_equal %w[v2.0.0], origin_tags
+    assert_equal %w[2.0.0], origin_tags
     assert_equal 1, origin_log.count { |subject| subject.start_with?("Release") }
     %w[one two three].each { |name| assert_includes notes, "**#{name}**" }
   end
@@ -119,7 +119,7 @@ sh(@origin, "git", "ls-tree", "-r", "--name-only", "main", "changelog.d").strip
     end
     repository.publish
 
-    assert_equal %w[v2.0.0], origin_tags
+    assert_equal %w[2.0.0], origin_tags
     assert_includes sh(@origin, "git", "show", "main:CHANGELOG.md"), "**late**"
   end
 
@@ -135,34 +135,34 @@ sh(@origin, "git", "ls-tree", "-r", "--name-only", "main", "changelog.d").strip
     merge("minor")
     Semver::Repository.new(root: @work, runner: recorder, clock: -> { Date.new(2026, 2, 3) }).publish
 
-    assert_equal [ %w[git push --atomic origin HEAD:refs/heads/main refs/tags/v1.1.0] ], pushes.select { |command|
+    assert_equal [ %w[git push --atomic origin HEAD:refs/heads/main refs/tags/1.1.0] ], pushes.select { |command|
  command.include?("--atomic") }
   end
 
   def test_a_tag_on_another_commit_stops_the_release
     merge("minor")
     repository.publish
-    sh(@work, "git", "tag", "-d", "v1.1.0")
-    sh(@origin, "git", "tag", "-d", "v1.1.0")
-    sh(@origin, "git", "update-ref", "refs/tags/v1.1.0", sh(@origin, "git", "rev-parse", "main~1").strip)
+    sh(@work, "git", "tag", "-d", "1.1.0")
+    sh(@origin, "git", "tag", "-d", "1.1.0")
+    sh(@origin, "git", "update-ref", "refs/tags/1.1.0", sh(@origin, "git", "rev-parse", "main~1").strip)
     @runner.releases
 
     assert_raises(Semver::Shell::Failed) { repository.reconcile }
-    assert_equal sh(@origin, "git", "rev-parse", "main~1").strip, sh(@origin, "git", "rev-parse", "v1.1.0").strip
+    assert_equal sh(@origin, "git", "rev-parse", "main~1").strip, sh(@origin, "git", "rev-parse", "1.1.0").strip
   end
 
   def test_a_missing_release_is_repaired_before_the_next_release
     merge("minor", name: "first")
     @runner.create_fails = true
     assert_raises(Semver::Shell::Failed) { repository.publish }
-    assert_equal %w[v1.1.0], origin_tags
+    assert_equal %w[1.1.0], origin_tags
 
     @runner.create_fails = false
     merge("patch", name: "second")
     repository.publish
     created = @runner.gh_calls.select { |call| call[1..2] == %w[release create] }.map { |call| call[3] }
 
-    assert_equal %w[v1.1.0 v1.1.1], created.last(2)
+    assert_equal %w[1.1.0 1.1.1], created.last(2)
   end
 
   def test_reconcile_repairs_every_release_commit_without_a_tag_or_release_oldest_first
@@ -170,18 +170,18 @@ sh(@origin, "git", "ls-tree", "-r", "--name-only", "main", "changelog.d").strip
     repository.publish
     merge("patch", name: "second")
     repository.publish
-    sh(@origin, "git", "tag", "-d", "v1.1.0")
-    sh(@origin, "git", "tag", "-d", "v1.1.1")
-    sh(@work, "git", "tag", "-d", "v1.1.0")
-    sh(@work, "git", "tag", "-d", "v1.1.1")
+    sh(@origin, "git", "tag", "-d", "1.1.0")
+    sh(@origin, "git", "tag", "-d", "1.1.1")
+    sh(@work, "git", "tag", "-d", "1.1.0")
+    sh(@work, "git", "tag", "-d", "1.1.1")
     @runner.gh_calls.clear
     @runner.releases
     repository.reconcile
 
     created = @runner.gh_calls.select { |call| call[1..2] == %w[release create] }.map { |call| call[3] }
 
-    assert_equal %w[v1.1.0 v1.1.1], created
-    assert_equal %w[v1.1.0 v1.1.1], origin_tags.sort
+    assert_equal %w[1.1.0 1.1.1], created
+    assert_equal %w[1.1.0 1.1.1], origin_tags.sort
   end
 
   def test_reconcile_fails_closed_on_a_gh_error

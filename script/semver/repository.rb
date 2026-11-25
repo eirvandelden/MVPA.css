@@ -4,7 +4,8 @@ module Semver
   # The checkout the run works in. Owns every git and gh call.
   class Repository
     ATTEMPTS = 3
-    RELEASE_SUBJECT = /\ARelease v(\d+\.\d+\.\d+)\z/
+    TAGS = "[0-9]*.[0-9]*.[0-9]*".freeze
+    RELEASE_SUBJECT = /\ARelease (\d+\.\d+\.\d+)\z/
     FRAGMENTS = "changelog.d"
 
     #: (?root: String, ?branch: String, ?runner: untyped, ?clock: untyped) -> void
@@ -23,7 +24,7 @@ module Semver
 
     #: () -> Version
     def latest_version
-      tagged = git("tag", "--list", "v*").lines.map { |tag| tag.strip.delete_prefix("v") }
+      tagged = git("tag", "--list", TAGS).lines.map(&:strip)
       current = Stamp.version_in(File.read(File.join(@root, Stamp::VERSION_PATH)))
       [ current, *tagged ].filter_map { |text| parse(text) }.max
     end
@@ -50,7 +51,7 @@ module Semver
     def reconcile
       commits = release_commits
       released = published
-      newest = commits.rindex { |_sha, version| released.include?("v#{version}") }
+      newest = commits.rindex { |_sha, version| released.include?(version.to_s) }
       commits.drop(newest ? newest + 1 : 0).each { |sha, version| repair(sha, version) }
     end
 
@@ -94,7 +95,7 @@ module Semver
     end
 
     def repair(sha, version)
-      tag = "v#{version}"
+      tag = version.to_s
       remote = git("ls-remote", "--tags", "origin", "refs/tags/#{tag}").split.first
       raise Shell::Failed, "tag #{tag} points at #{remote}, not #{sha}" if remote && remote != sha
 
@@ -106,7 +107,7 @@ module Semver
     end
 
     def create_release(tag, sha)
-      notes = section(git("show", "#{sha}:#{Stamp::CHANGELOG_PATH}"), tag.delete_prefix("v"))
+      notes = section(git("show", "#{sha}:#{Stamp::CHANGELOG_PATH}"), tag)
       @runner.call([ "gh", "release", "create", tag, "--verify-tag", "--title", tag, "--notes", notes ])
     end
 
@@ -124,7 +125,7 @@ module Semver
     end
 
     def commit(release)
-      tag = "v#{release.version}"
+      tag = release.version.to_s
       raise Shell::Failed, "tag #{tag} already exists" unless git("tag", "--list", tag).strip.empty?
 
       git("rm", "-q", "--", *release.consumed) if release.consumed.any?
@@ -148,15 +149,15 @@ module Semver
     end
 
     def pushed?(version)
-      git("update-ref", "refs/tags/v#{version}", "HEAD")
-      git("push", "--atomic", "origin", "HEAD:refs/heads/#{@branch}", "refs/tags/v#{version}")
+      git("update-ref", "refs/tags/#{version}", "HEAD")
+      git("push", "--atomic", "origin", "HEAD:refs/heads/#{@branch}", "refs/tags/#{version}")
       true
     rescue Shell::Failed
       false
     end
 
     def rollback
-      git("tag", "--list", "v*").lines.map(&:strip).each do |tag|
+      git("tag", "--list", TAGS).lines.map(&:strip).each do |tag|
         git("tag", "-d", tag) if git("ls-remote", "--tags", "origin", "refs/tags/#{tag}").strip.empty?
       end
       git("reset", "--hard", "origin/#{@branch}")
@@ -164,7 +165,7 @@ module Semver
     end
 
     def released(version)
-      create_release("v#{version}", git("rev-parse", "HEAD").strip)
+      create_release(version.to_s, git("rev-parse", "HEAD").strip)
       version
     end
   end

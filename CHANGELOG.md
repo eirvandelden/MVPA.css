@@ -1,6 +1,6 @@
 # Changelog
 
-**Note:** This project uses [semantic versioning](https://semver.org). Pin a tag in your Gemfile (`tag: "v6.0.0"`). Entries up to 6.0.0 were versioned retroactively: those tags pin the code of that date, and `Mvpa::Css::VERSION` inside them still reports the old value.
+**Note:** This project uses [semantic versioning](https://semver.org). Pin a tag in your Gemfile (`tag: "6.0.0"`). Entries up to 6.0.0 were versioned retroactively: those tags pin the code of that date, and `Mvpa::Css::VERSION` inside them still reports the old value.
 
 ## 6.0.0 - 2026-11-11
 

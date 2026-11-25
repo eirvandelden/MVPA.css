@@ -28,7 +28,7 @@ Install MVPA.css directly from GitHub using Bundler. This project uses [semantic
 Add to your `Gemfile`:
 
 ```ruby
-gem "mvpa-css", github: "eirvandelden/mvpa.css", tag: "v6.0.0"
+gem "mvpa-css", github: "eirvandelden/mvpa.css", tag: "6.0.0"
 ```
 
 Tags up to `v6.0.0` were added retroactively for the dated changelog entries. They pin the code of that entry, and `Mvpa::Css::VERSION` inside them still reports the old value. Stamped versions start with the first release after that. A `ref:` SHA keeps working.

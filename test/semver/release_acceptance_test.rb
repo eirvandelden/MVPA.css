@@ -12,9 +12,9 @@ class ReleaseAcceptanceTest < Minitest::Test
     merge("major", name: "break")
     repository.publish
 
-    assert_equal "Release v2.0.0", origin_log.first
-    assert_equal [ "v2.0.0" ], origin_tags
+    assert_equal "Release 2.0.0", origin_log.first
+    assert_equal [ "2.0.0" ], origin_tags
     assert_includes sh(@origin, "git", "show", "main:CHANGELOG.md"), "## 2.0.0 - 2026-02-03"
-    assert(@runner.gh_calls.any? { |call| call[1..3] == %w[release create v2.0.0] })
+    assert(@runner.gh_calls.any? { |call| call[1..3] == %w[release create 2.0.0] })
   end
 end

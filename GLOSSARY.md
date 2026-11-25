@@ -16,7 +16,7 @@
 - **Previous link** — the first child of a period navigation, an `<a>` to the preceding period.
 - **Public surface** — the names an app can depend on: `--token` names, stylesheet and JS files, class selectors, `data-` attribute selectors and importmap pins. Removing or renaming one needs `level: major`. Avoid: API, contract (for the CSS names).
 - **Rail** — the narrow `nav.rail` in `body > header`: a search entry, the hubs as emoji above a label, and the account menu last. On a phone it is the tab bar of hubs. Avoid: sidebar (for the rail), menu.
-- **Release commit** — a commit on `main` with the subject `Release vX.Y.Z` that changes only `version.rb`, `CHANGELOG.md` and `changelog.d/`. A tip that is a release commit starts no release. Avoid: version bump commit.
+- **Release commit** — a commit on `main` with the subject `Release X.Y.Z` that changes only `version.rb`, `CHANGELOG.md` and `changelog.d/`. A tip that is a release commit starts no release. Avoid: version bump commit.
 - **Segmented control** — a `<menu>` whose items render as joined segments with one selected segment, either a view switch or a form choice. Avoid: tabs, toggle.
 - **Sidebar card** — the painted sidebar surface: background, radius, shadow and the theme borders; the `<nav>` paints it in a nav-only header, the header paints it otherwise.
 - **Sidebar track** — on desktop, a nav-only header as an invisible box at least the window height minus two shell gutters, which sticks by its bottom edge and holds the sidebar card at its top.

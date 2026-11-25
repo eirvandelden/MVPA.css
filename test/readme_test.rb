@@ -9,7 +9,7 @@ class ReadmeTest < Minitest::Test
   end
 
   def test_the_readme_pins_by_tag
-    assert_match(/gem "mvpa-css", github: "eirvandelden\/mvpa\.css", tag: "v\d+\.\d+\.\d+"/, readme)
+    assert_match(/gem "mvpa-css", github: "eirvandelden\/mvpa\.css", tag: "\d+\.\d+\.\d+"/, readme)
     assert_includes readme, "semantic versioning"
     refute_includes readme, "git SHAs instead of semver"
   end

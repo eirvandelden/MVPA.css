@@ -230,11 +230,17 @@ module Semver
   class Fragment
     class Invalid < StandardError; end
 
-    #: (String) -> Fragment   raises Invalid on a missing or unknown level, a major without non-empty numbered ### Upgrading steps, an ### Upgrading section below major, an override naming a rule id that Rules lacks, or an override with an empty reason
+    #: (String) -> Fragment   raises Invalid on front matter that is not a mapping, text before the first ### heading, a repeated or unknown heading, no section at all, a missing or unknown level, a major without non-empty numbered ### Upgrading steps, an ### Upgrading section below major, an override naming a rule id that Rules lacks, or an override with an empty reason
     def self.read(path); end
 
-    #: () -> Hash[String, String]   rule id => reason; empty when the fragment has no overrides key
+    #: () -> Hash[String, String]   rule id => reason; empty when the fragment has no overrides key; raises Invalid when the value is not a mapping
     def overrides; end
+
+    #: () -> Array[String]   each numbered Upgrading step with its indented continuation lines; raises Invalid on any other line
+    def upgrading_steps; end
+
+    #: () -> void   checks the level, the Upgrading rule and the overrides
+    def validate; end
 
     #: () -> Level
     def level; end
@@ -275,7 +281,7 @@ module Semver
     #: () -> Array[Fragment]
     def fragments; end
 
-    #: () -> void   up to 3 attempts; each attempt fetches, plans a fresh Release from the tip's fragments, stamps, tests, commits and pushes atomically; then gh release
+    #: () -> Version?   the released version, or nil when nothing needed a release; up to 3 attempts; each attempt fetches, plans a fresh Release from the tip's fragments, stamps, tests, commits and pushes atomically; then gh release
     def publish; end
 
     #: () -> void   for every release commit newer than the newest GitHub release, creates a missing tag and release; checks the remote tag points at that commit; fails closed on API errors
@@ -306,6 +312,15 @@ module Semver
     def check(level, overrides: {}); end
   end
 
+  # What a pull request declares: the fragments it adds, read from the merge base, and the verdict that follows.
+  class PullRequest
+    #: (base: String, head: String, ?root: String) -> void
+    def initialize(base:, head:, root: Dir.pwd); end
+
+    #: () -> Verdict   fails on a fragment the PR edits or deletes, on an invalid fragment, and on removed surface below its highest added level
+    def verdict; end
+  end
+
   # The outcome of the check: whether it passed and the lines to print, failures first, then each override with its rule id and reason.
   class Verdict
     #: () -> bool
@@ -329,6 +344,10 @@ module Semver
   # Repo-specific, in stamp.rb: the files a release stamps and how.
   module Stamp
     PATHS = %w[lib/mvpa/css/version.rb CHANGELOG.md].freeze
+    CHECKS = [ %w[bundle exec rake test], %w[gem build mvpa-css.gemspec --output /dev/null] ].freeze   # run on the stamped tree before the push
+
+    #: (String) -> String   reads the VERSION literal of version.rb
+    def self.version_in(source); end
 
     #: (String, Version) -> String   rewrites the VERSION literal in version.rb
     def self.version_source(source, version); end
@@ -388,7 +407,9 @@ Not checked: the repository has no Steepfile.
 - A burst of merges can share one release, and one that lands mid-run gets the next. The README and `AGENTS.md` say so. The guarantee is "no lost change", not "one release per merge".
 - The retroactive table is a one-off throwaway script kept in the scratchpad, not in the repository. Its rule: an entry with `### Upgrading` is a major; an entry with `### Added` and no Upgrading is a minor; otherwise a patch. Provisional result: 0.1.0 (02-13), 0.2.0 (03-04), 0.2.1 (07-14), 0.3.0 (07-15), 0.4.0 (08-14), 0.5.0 (09-04), 1.0.0 (10-13), 2.0.0 (10-19), 3.0.0 (10-25), 4.0.0 (10-26), 4.0.1 (10-29), 4.0.2 (10-30), 5.0.0 (11-03), 5.0.1 (11-06), 6.0.0 (11-11). Current version: 6.0.0. The commit for each entry is found at implement time and shown with the table for approval.
 - Historical tags are aliases that pin old code, not stamped gem versions. A Gemfile pins code with `tag:`, so `tag: "v3.0.0"` resolves the old commit; `Mvpa::Css::VERSION` inside it still reports the old value. Stamped versions start at the first release after the adoption. The README says so. No consumer test uses a historical tag.
-- This change's own fragment is `level: minor`: apps change their pin from a SHA to a tag but no markup or code. Etienne can raise it.
+- This change's own fragment is `level: major`, chosen by Etienne over the plan's `minor` default: apps must change their pin from a SHA to a tag and stop expecting a `.pre.git.` suffix in `Mvpa::Css::VERSION`. The first real release is therefore 7.0.0.
+- The release job gives `GH_TOKEN` only to the step that runs the release script, and pins `spinel-coop/setup-rv` to a commit SHA in the two new workflows, so a change to that action's `main` branch cannot run with write access. `ci.yml` is not touched.
+- A fragment's Upgrading steps may continue on indented lines; any other line in the section is refused, because a dropped line would remove upgrade instructions without a warning.
 - `AGENTS.md` carries the agent rules. `CLAUDE.md` is a symlink to it, so there is one edit.
 
 ## Integration points
@@ -457,6 +478,11 @@ Not checked: the repository has no Steepfile.
 - `AGENTS.md` says when a change is breaking → `test/agents_md_test.rb` `test_the_changelog_rule_says_a_fragment_states_the_level`
 - Invariant: at most one release run, minimal permissions, `--atomic`, `ref: main`, no PAT, enforced by `release.yml` → `test/semver/release_workflow_test.rb` `test_the_release_runs_one_at_a_time`, `test_the_release_pushes_atomically_from_main`, `test_the_release_uses_only_the_github_token`
 - Invariant: generic files hold nothing repository-specific → `test/semver/generic_files_test.rb` `test_generic_files_name_no_repository_paths`
+- The walking skeleton: two fragments end as one release on the remote → `test/semver/release_acceptance_test.rb` `test_two_fragments_release_one_major_version`
+- Upgrading steps keep their continuation lines → `test/semver/release_test.rb` `test_notes_keep_the_continuation_lines_of_a_step`, `test/semver/fragment_test.rb` `test_an_indented_continuation_belongs_to_its_step`, `test_an_upgrading_line_that_is_not_a_step_is_invalid`
+- Malformed fragments are refused with a reason → `test/semver/fragment_test.rb` `test_an_overrides_value_that_is_not_a_mapping_is_invalid`, `test_front_matter_that_is_a_list_is_invalid`, `test_text_before_the_first_heading_is_invalid`, `test_a_repeated_heading_is_invalid`, `test_a_fragment_without_a_section_is_invalid`
+- A no-op rerun says so → `test/semver/repository_test.rb` `test_publish_returns_the_released_version_and_nil_when_nothing_is_released`
+- The write token reaches one step, and third-party actions are pinned → `test/semver/release_workflow_test.rb` `test_the_token_reaches_only_the_release_step`, `test_every_third_party_action_is_pinned_to_a_commit`
 - Invariant: tag never moved → `test/semver/repository_test.rb` `test_a_tag_on_another_commit_stops_the_release`
 - A release whose GitHub release failed after the push is repaired before a later merge advances the version → `test/semver/repository_test.rb` `test_a_missing_release_is_repaired_before_the_next_release`
 - Invariant: release commit holds only three paths → `test/semver/repository_test.rb` `test_the_release_commit_holds_only_the_stamped_paths`

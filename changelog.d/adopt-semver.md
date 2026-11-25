@@ -1,5 +1,5 @@
 ---
-level: minor
+level: major
 ---
 
 ### Added
@@ -9,3 +9,7 @@ level: minor
 
 ### Changed
 - **`Mvpa::Css::VERSION`** — the gem version is the released `X.Y.Z`, no longer `0.1.0.pre.git.<sha>`.
+
+### Upgrading
+1. Replace `ref: "<sha>"` with `tag: "vX.Y.Z"` on the `gem "mvpa-css"` line of your `Gemfile`, using the tag of this release.
+2. Remove any code that reads `Mvpa::Css::VERSION` and expects a `.pre.git.` suffix; it is now a plain `X.Y.Z`.

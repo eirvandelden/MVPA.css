@@ -111,13 +111,37 @@ class ChangelogUpgradingTest < Minitest::Test
     assert_equal [ "### Added", "### Upgrading" ], entry(RAIL).scan(/^### .*/)
   end
 
+  def test_every_entry_heading_starts_with_a_version
+    headings = File.read(changelog).scan(/^## .*$/)
+
+    retroactive = headings.last(15)
+
+    assert_equal [ "## 6.0.0 - 2026-11-11", "## 0.1.0 - 2026-02-13" ], [ retroactive.first, retroactive.last ]
+    headings.each { |heading| assert_match(/\A## \d+\.\d+\.\d+ - \d{4}-\d{2}-\d{2}\z/, heading) }
+  end
+
+  def test_each_entry_holds_exactly_one_release_heading
+    File.read(changelog).split(/^(?=## \d)/).drop(1).each do |entry|
+      assert_equal 1, entry.scan(/^## /).size
+    end
+  end
+
+  def test_an_entry_with_upgrading_steps_is_a_major_version
+    File.read(changelog).split(/^(?=## \d)/).drop(1).each do |entry|
+      version = entry[/\A## (\d+\.\d+\.\d+)/, 1]
+      next unless entry.include?("### Upgrading") && version != "0.1.0"
+
+      assert_match(/\.0\.0\z/, version, "an entry with Upgrading is a major release")
+    end
+  end
+
   private
 
   def entry(date)
-    File.read(changelog)[/^## #{date}.*?(?=^## \d{4}|\z)/m]
+    File.read(changelog)[/^## \d+\.\d+\.\d+ - #{date}.*?(?=^## \d|\z)/m]
   end
 
   def changelog
-    File.expand_path("../CHANGELOG.md", __dir__)
+    ENV.fetch("MVPA_CHANGELOG") { File.expand_path("../CHANGELOG.md", __dir__) }
   end
 end

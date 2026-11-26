@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+require_relative "semver"
+
+released = Semver::Repository.new.publish
+puts(released ? "released #{released}" : "nothing to release")

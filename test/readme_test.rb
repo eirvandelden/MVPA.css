@@ -8,6 +8,12 @@ class ReadmeTest < Minitest::Test
     end
   end
 
+  def test_the_readme_pins_by_tag
+    assert_match(/gem "mvpa-css", github: "eirvandelden\/mvpa\.css", tag: "\d+\.\d+\.\d+"/, readme)
+    assert_includes readme, "semantic versioning"
+    refute_includes readme, "git SHAs instead of semver"
+  end
+
   def test_readme_flash_example_matches_flash_selector
     assert_includes readme, '<section aria-label="Notifications" data-mvpa-flashes>'
     assert_includes readme, '<aside role="status">'

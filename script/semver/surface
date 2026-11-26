@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+require_relative "semver"
+
+base, head = ARGV
+verdict = Semver::PullRequest.new(base: base, head: head).verdict
+puts verdict.lines
+exit(verdict.passed? ? 0 : 1)

@@ -1,8 +1,8 @@
 # Changelog
 
-**Note:** This project uses git SHAs instead of semver. Pin to a specific SHA in your Gemfile (`ref: "e4179e9"`). Each GitHub release is tagged with its commit SHA.
+**Note:** This project uses [semantic versioning](https://semver.org). Pin a tag in your Gemfile (`tag: "6.0.0"`). Entries up to 6.0.0 were versioned retroactively: those tags pin the code of that date, and `Mvpa::Css::VERSION` inside them still reports the old value.
 
-## 2026-11-11
+## 6.0.0 - 2026-11-11
 
 ### Added
 - **Rail and hub column** — a `<nav class="rail">` in `body > header` is a narrow rail of hubs: each hub is its emoji above a small label, and a long label shrinks and breaks at a syllable. A second `<nav>` after it is the hub column with the pages of the current hub. On a wide screen the two share one sidebar card with a hairline between them, on the sidebar track. A rail-only header keeps the rail in the same place, on its own card. The current hub (`aria-current="true"`) has the current page's fill. Between 769px and 1023px the hub column hides. On a phone the tab bar holds only the hubs. The e-ink themes draw the card with an ink border.
@@ -22,12 +22,12 @@
 8. Delete your own rail, hub column and tile CSS.
 9. Standalone pages only: add `16_rail.css` to your stylesheet links after `15_period_navigation.css`. The gem and `mvpa.css` include it already.
 
-## 2026-11-06
+## 5.0.1 - 2026-11-06
 
 ### Fixed
 - **Dark surfaces sit below the page** — in dark mode, `solunized-dark` and `solunized-black`, the sidebar card, articles, tables, dialogs, details and a period navigation outside an article are darker than the page behind them, as in Herdr and Nova. Borders show on both, inputs are darker with brighter text, and text on accent buttons and flashes is dark. Links in these dark renderings use the brighter blue (`--color-br-blue`, 4.495:1 on the solunized-dark page) through a new `--color-link` token, and visited links use the brighter violet (`--color-br-violet`, 4.94:1) through a new `--color-link-visited` token. The current-page sidebar link text uses `--color-bg-lightest` in every theme, so it reads on the blue fill. Muted text on the solunized-dark page drops from 4.04:1 to 3.25:1, by design. A period navigation inside an article and a mobile tab item stay on their current colours, so in dark mode they read lighter than the surface they sit in. The selected segment of a segmented control now reads darker than its track, because it moves from `bg_2` to `bg_0`. Light, white and e-ink page and surface colours are unchanged.
 
-## 2026-11-03
+## 5.0.0 - 2026-11-03
 
 ### Added
 - **Period navigation** — a `<nav>` outside a `<header>` whose children are a link, a heading (`h2`–`h6`) and a link is one tinted bar. The previous link sits at the start, the period label is centred and the next link sits at the end. A link inside the heading, such as "Today", shows next to the label. Below 768px the parts stack in a column. The e-ink themes draw it as paper with an ink border.
@@ -40,17 +40,17 @@
 5. Delete your `.week-navigation` rules, including the ones in `@media (max-width: 768px)`, and the stylesheet file and `@import` that held them.
 6. Standalone pages only: add `15_period_navigation.css` to your stylesheet links after `14_count_badge.css`. The gem and `mvpa.css` include it already.
 
-## 2026-10-30
+## 4.0.2 - 2026-10-30
 
 ### Fixed
 - **Link buttons feel like buttons** — a page-action link in `main > header nav` and an `a[role="button"]` link brighten on hover, scale down on press and never underline, like a button does. A link item in a pull-down menu is such a link too, so it brightens and presses the same way and draws no wiggle underline. The e-ink themes keep the page-action link flat on hover and press.
 
-## 2026-10-29
+## 4.0.1 - 2026-10-29
 
 ### Fixed
 - **Solunized light is cream** — `solunized-light` and the default light palette now use the Solarized cream backgrounds, so they no longer look like the neutral `solunized-white`. Cards and the sidebar are the lightest cream, the page is a middle cream and borders are the darkest.
 
-## 2026-10-26
+## 4.0.0 - 2026-10-26
 
 ### Fixed
 - **Desktop sidebar fits its content** — the sidebar card is as tall as its nav, not as tall as the window. It has no `min-block-size` floor.
@@ -63,7 +63,7 @@
 1. If your `body > header` holds only its `<nav>` and your own stylesheet gives it a background, border, radius or shadow on desktop, move that paint to `body > header > nav:only-child` inside `@media (min-width: 769px)`, so the phone bottom bar stays flat. That header is now transparent. A header with other children keeps its paint on the header.
 2. Remove every `min-block-size` your own stylesheet gives `body > header` on desktop.
 
-## 2026-10-25
+## 3.0.0 - 2026-10-25
 
 ### Added
 - **Segmented control** — a `<menu>` of links (view switch) or of radios (form choice) shows joined segments on a tinted track, with the selected segment raised. The link with `aria-current` or the checked radio is selected. Below 45rem of content width the segments stack, one per line. The radio dot is hidden but stays focusable. A disabled radio dims its segment.
@@ -82,7 +82,7 @@
 6. Remove your own `main > header h1` rule that sets `min-inline-size` or `overflow-wrap`, such as in `title_bar.css`.
 7. Keep a view switch out of `main > header nav`; place it in the page content.
 
-## 2026-10-19
+## 2.0.0 - 2026-10-19
 
 ### Added
 - **Pull-down menu** — a `<details>` in `main > header nav` is a plain header button with a `▾` and opens its list as a surface under it. Each `li > a` and `li > form > button` fills the menu's width. The menu closes when you click the summary again or load a page, not on an outside click.
@@ -105,7 +105,7 @@
 9. Move your `[data-mvpa-flashes]` notifications container outside `<main>`, as a direct child of `<body>`. `main` is now a size container, and on Safari before 18.4 a fixed child inside it scrolls with the content instead of staying at the viewport corner.
 10. Remove your own `flex-direction: row` or `flex-wrap` rule for `main > header nav`, and check that the title-bar controls read left to right.
 
-## 2026-10-13
+## 1.0.0 - 2026-10-13
 
 ### Changed
 - **Button hierarchy from semantic HTML** — a submit (`<button>`, `type="submit"`, `<input type="submit">`) and `a[role="button"]` stay the filled default. `type="button"` and `type="reset"` buttons are now plain buttons: page-surface background, thin border, normal text colour. `.button-secondary` takes the same look. A `DELETE` form's button stays red.
@@ -133,7 +133,7 @@
 - Every button now has a 1px border, transparent on filled buttons, so each button is 2px taller and wider than before. Check tight layouts.
 - Add `12_dialog.css` to your stylesheet links, after `10_navigation.css`. The gem and `mvpa.css` include it already.
 
-## 2026-09-04
+## 0.5.0 - 2026-09-04
 
 ### Added
 - **Button elevation and press feedback** — buttons and `a[role="button"]` now cast a subtle shadow (`--shadow-1`) and squash slightly (`--animation-scale-press`) on press, with a spring-back release. `main > header nav a` (the page header's primary action link) gets the same shadow and 44px touch-target floor as the button next to it, on every theme: a hairline border instead of the shadow on dark themes (explicit `data-theme` and the default system dark scheme both), and fully flat on the e-ink theme. The squash is suppressed under `prefers-reduced-motion: reduce`, and never masks or replays the existing hover "boop" animation. Disabled buttons drop the shadow.
@@ -143,25 +143,25 @@
 - **Touch target token** — `a[role="button"]` had its own hardcoded `min-block-size: 2.75rem` that silently overrode the shared `var(--touch-target)` rule below it in source order. Folded into the token-based rule instead, so retuning `--touch-target` moves buttons again.
 - **Packaged `mvpa.css`** was missing three button-variant rules that only existed in the source partial (touch-target sizing, the destructive `button_to` color override, the page header action link styling).
 
-## 2026-08-14
+## 0.4.0 - 2026-08-14
 
 ### Added
 - **E-ink theme** (`data-theme="eink-light"` / `"eink-dark"`) — paper white, ink black, nothing moves; `eink-dark` inverts every step for e-ink devices in dark mode. Four-step ink ramp, all animations and transitions suppressed, box-shadows replaced by 1px ink borders, gradients replaced by flat fills. Buttons use a fill/outline ladder so action weight is readable without colour. Invalid fields use a 2px border instead of a red colour. Flash and error blocks use fill contrast instead of hue. Auto-detection via `@media (monochrome)` is unreliable on Android e-ink devices; the theme can be auto-applied via `matchMedia('(update: slow)')` or selected explicitly. Replaces the previous `2_monochrome.css` partial (which was inside a `@media (monochrome)` query that never matched on Android e-ink).
 - **44px touch target minimum** (all themes) — buttons and navigation links now have `min-height: var(--touch-target)` (44px). Buttons use `inline-flex` so single-line labels stay vertically centred. Applies on every theme, not just e-ink.
 - **`demo/eink-probe.html`** — standalone on-device probe page that prints media-feature results and grey/colour ladders for photographing. No framework dependencies; open from the filesystem or over Wi-Fi.
 
-## 2026-07-15
+## 0.3.0 - 2026-07-15
 
 ### Added
 - **Direction-aware page transitions** — `main` content now slides down when navigating to a sidebar item later in the list, up when navigating to one earlier (vertical on desktop, horizontal on mobile, matching the sidebar's own responsive breakpoint). Requires one small inline snippet copied into your app's layout `<head>` — see README "Page Transitions". Deliberately built on sessionStorage + a plain data-attribute rather than the View Transitions types API/named-type pseudo-class mechanism, which was confirmed during development to not reliably take effect in real-world browser testing despite reporting API support.
 
-## 2026-07-14
+## 0.2.1 - 2026-07-14
 
 ### Changed
 - **Elevation/depth system** — sidebar and `<article>` cards now read as elevated surfaces on a recessed page background. In the light/white themes, `--color-bg` (page canvas) now sits one step darker than `--color-bg-lighter` (sidebar/card surface); dark/black themes already had this relationship. The sidebar floats with a `--shell-gutter` margin, rounded corners, and a shadow (border on dark/black themes instead, since shadows don't read well there), and no longer gets an internal scrollbar — it grows with its content instead of clipping to viewport height. `<article>` gained a subtle elevation shadow.
 - **Sidebar nav link hover** — links no longer inherit the generic underline-wiggle hover animation; they now get a small scale+lift (`--animation-scale-small` + `translateY(-2px)`) with a matching shadow, reusing the existing scale token rather than a new magic number.
 
-## 2026-03-04
+## 0.2.0 - 2026-03-04
 
 ### Added
 - **App-style navigation** — desktop vertical sidebar, mobile horizontal bottom tab bar
@@ -178,7 +178,7 @@
 ### Fixed
 - Mobile tab bar being hidden by `main > header` page header elements (scoped app-shell header rules to `body > header`)
 
-## 2026-02-13
+## 0.1.0 - 2026-02-13
 
 ### Added
 - Initial release as Ruby gem
